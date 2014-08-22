@@ -5,7 +5,7 @@ var igeClientConfig = {
 		'./gameClasses/ui/Dialog.js',
 		'./gameClasses/ui/MarketDialog.js',
 		'./gameClasses/ui/CoinParticle.js',
-		
+
 		// Game objects
 		'./gameClasses/base/GameObject.js',
 		'./gameClasses/objects/OakTree.js',
@@ -15,14 +15,16 @@ var igeClientConfig = {
 		'./gameClasses/objects/WoodSmall.js',
 		'./gameClasses/objects/WoodLarge.js',
 		'./gameClasses/base/Villager.js',
-		
+
 		// Graphs
 		'./graphs/GraphLevel1.js',
 		'./graphs/GraphUi.js',
-		
+
 		/* Standard game scripts */
+        './clientApiSupport.js',
+        './clientHelpers.js',
 		'./client.js',
-		'./index.js'
+		'./index.js',
 	]
 };
 
