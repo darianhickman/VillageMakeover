@@ -13,5 +13,14 @@ var ClientHelpers = {
             data.x, data.y, data.w, data.h
 		)
         obj.place()
+        ClientHelpers.moveOutPlayer()
+    },
+    moveOutPlayer: function() {
+        var player = ige.$('bob')
+        var playerTile = player.currentTile()
+        if (ige.$('tileMap1').isTileOccupied(playerTile.x, playerTile.y, 1, 1)) {
+			// Move our player away from the tile
+			ige.$('bob').walkToTile(playerTile.x + 1, playerTile.y - 1);
+		}
     }
 }
