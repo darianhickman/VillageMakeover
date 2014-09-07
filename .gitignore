@@ -1,3 +1,4 @@
 *.pyc
 /ige
 /libs
+/config.yaml
