@@ -8,7 +8,7 @@ var GraphUi = IgeSceneGraph.extend({
 	addGraph: function (options) {
 		var self = ige.client,
 			uiScene = ige.$('uiScene');
-		
+
 		// Build menu
 		var buildMenu = new IgeUiElement()
 			.id('buildMenu')
@@ -19,7 +19,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.center(0)
 			.mouseEventsActive(false)
 			.mount(uiScene);
-		
+
 		var buildButton = new IgeUiElement()
 			.id('buildButton')
 			.addGroup('uiButton')
@@ -27,7 +27,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
 			.translateTo(436, 47, 0)
 			.mount(buildMenu);
-		
+
 		var giftButton = new IgeUiElement()
 			.id('giftButton')
 			.addGroup('uiButton')
@@ -35,7 +35,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
 			.translateTo(352, 66, 0)
 			.mount(buildMenu);
-		
+
 		var actionButton = new IgeUiElement()
 			.id('actionButton')
 			.addGroup('uiButton')
@@ -43,14 +43,14 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
 			.translateTo(274, 80, 0)
 			.mount(buildMenu);
-		
+
 		var townName = new IgeEntity()
 			.id('townName')
 			.texture(self.textures.townName)
 			.dimensionsFromTexture()
 			.translateTo(-372, -8, 0)
 			.mount(buildMenu);
-		
+
 		for (var i = 0; i < 9; i++) {
 			new IgeEntity()
 				.id('friendTile' + (i + 1))
@@ -60,7 +60,7 @@ var GraphUi = IgeSceneGraph.extend({
 				.translateTo(-404 + (i * 70), 69, 0)
 				.mount(buildMenu);
 		}
-		
+
 		var rightButtonGroup = new IgeEntity()
 			.id('rightButtonGroup')
 			.addGroup('uiButton')
@@ -68,7 +68,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.width(40)
 			.height(90)
 			.mount(buildMenu);
-		
+
 		var rightButton1 = new IgeEntity()
 			.id('rightButton1')
 			.addGroup('uiButton')
@@ -76,7 +76,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
 			.translateTo(0, -28, 0)
 			.mount(rightButtonGroup);
-		
+
 		var rightButton2 = new IgeEntity()
 			.id('rightButton2')
 			.addGroup('uiButton')
@@ -84,7 +84,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
 			.translateTo(0, 0, 0)
 			.mount(rightButtonGroup);
-		
+
 		var rightButton3 = new IgeEntity()
 			.id('rightButton3')
 			.addGroup('uiButton')
@@ -92,7 +92,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
 			.translateTo(0, 28, 0)
 			.mount(rightButtonGroup);
-		
+
 		var leftButtonGroup = new IgeEntity()
 			.id('leftButtonGroup')
 			.addGroup('uiButton')
@@ -100,7 +100,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.width(40)
 			.height(90)
 			.mount(buildMenu);
-		
+
 		var leftButton1 = new IgeEntity()
 			.id('leftButton1')
 			.addGroup('uiButton')
@@ -108,7 +108,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
 			.translateTo(0, -28, 0)
 			.mount(leftButtonGroup);
-		
+
 		var leftButton2 = new IgeEntity()
 			.id('leftButton2')
 			.addGroup('uiButton')
@@ -116,7 +116,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
 			.translateTo(0, 0, 0)
 			.mount(leftButtonGroup);
-		
+
 		var leftButton3 = new IgeEntity()
 			.id('leftButton3')
 			.addGroup('uiButton')
@@ -124,79 +124,15 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
 			.translateTo(0, 28, 0)
 			.mount(leftButtonGroup);
-		
+
 		var marketDialog = new MarketDialog()
 			.id('marketDialog')
 			.layer(1)
 			.hide()
 			.mount(uiScene);
-		
-		marketDialog.addItem({
-			'id': 'oakTree',
-			'classId': 'OakTree',
-			'title': 'Oak Tree',
-			'texture': ige.client.textures.oakTree,
-			'coins': 3,
-			'cash': 0,
-			'cell': 1,
-			'scale': true
-		});
-		
-		marketDialog.addItem({
-			'id': 'smokeyHut',
-			'classId': 'SmokeyHut',
-			'title': 'Smokey Hut',
-			'texture': ige.client.textures.smokeyHut,
-			'coins': 5,
-			'cash': 0,
-			'cell': 1,
-			'scale': true
-		});
-		
-		marketDialog.addItem({
-			'id': 'hut1',
-			'classId': 'Hut1',
-			'title': 'Hut 1',
-			'texture': ige.client.textures.hut1,
-			'coins': 8,
-			'cash': 0,
-			'cell': 2,
-			'scale': true
-		});
-		
-		marketDialog.addItem({
-			'id': 'hut2',
-			'classId': 'Hut2',
-			'title': 'Hut 2',
-			'texture': ige.client.textures.hut2,
-			'coins': 10,
-			'cash': 0,
-			'cell': 3,
-			'scale': true
-		});
-		
-		marketDialog.addItem({
-			'id': 'woodLarge',
-			'classId': 'WoodLarge',
-			'title': 'Wood Large',
-			'texture': ige.client.textures.woodLarge,
-			'coins': 4,
-			'cash': 0,
-			'cell': 1,
-			'scale': false
-		});
-		
-		marketDialog.addItem({
-			'id': 'woodSmall',
-			'classId': 'WoodSmall',
-			'title': 'Wood Small',
-			'texture': ige.client.textures.woodSmall,
-			'coins': 2,
-			'cash': 0,
-			'cell': 1,
-			'scale': false
-		});
-		
+
+        GameObjects.setupMarket(marketDialog)
+
 		new IgeUiElement()
 			.id('cashBar')
 			.texture(ige.client.textures.cashBar)
@@ -204,7 +140,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.top(10)
 			.center(-300)
 			.mount(uiScene);
-		
+
 		var coinsBar = new IgeUiElement()
 			.id('coinsBar')
 			.texture(ige.client.textures.coinsBar)
@@ -212,7 +148,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.top(10)
 			.center(-100)
 			.mount(uiScene);
-		
+
 		new IgeUiProgressBar()
 			.id('coinsProgress')
 			//.barBackColor('#f2b982')
@@ -225,7 +161,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.height(18)
 			.right(17)
 			.mount(coinsBar);
-		
+
 		new IgeUiElement()
 			.id('xpBar')
 			.texture(ige.client.textures.xpBar)
@@ -233,7 +169,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.top(10)
 			.center(100)
 			.mount(uiScene);
-		
+
 		new IgeUiElement()
 			.id('energyBar')
 			.texture(ige.client.textures.energyBar)
@@ -241,7 +177,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.top(10)
 			.center(300)
 			.mount(uiScene);
-		
+
 		new IgeParticleEmitter()
 			.id('coinEmitter')
 			.layer(10)
@@ -261,10 +197,10 @@ var GraphUi = IgeSceneGraph.extend({
 			.mount(uiScene)
 			.top(20)
 			.center(-146);
-		
+
 		this.addActions();
 	},
-	
+
 	addActions: function () {
 		ige.$('buildButton')
 			.mouseUp(function () {

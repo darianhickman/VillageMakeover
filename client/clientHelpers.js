@@ -6,6 +6,7 @@ var ClientHelpers = {
     addObject: function(data) {
         var obj = new ige.newClassInstance(data.name)
 	    obj.mount(ige.$('tileMap1'))
+        console.log("create", data, obj)
         obj.translateToTile(
             data.x, data.y
         )

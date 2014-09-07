@@ -9,6 +9,7 @@ from google.appengine.api import users
 from . import models
 
 root = flask.Flask(__name__)
+#root.config['DEBUG'] = True
 
 def verify_csrf():
     found = flask.request.form.get('csrf')
@@ -20,8 +21,8 @@ def verify_csrf():
 def get_user():
     user = users.get_current_user()
     if not user:
-        return {'status': 'fail',
-                'login_url': users.create_login_url()}
+        return JSONResponse({'status': 'fail',
+                             'login_url': users.create_login_url()})
     else:
         csrf = flask.request.cookies.get('csrf')
         if not csrf:

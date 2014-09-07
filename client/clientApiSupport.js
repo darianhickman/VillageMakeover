@@ -20,7 +20,7 @@ var API = {
             dataType: 'json',
             success: function(result) {
                 console.log('loaded state', result)
-                var first = (API.state == null)
+                var first = !API.state.objects
                 API.state = result
                 if(first)
                     API.firstReloadState()
@@ -58,6 +58,6 @@ var API = {
         API.state.objects.push(obj)
         API.saveState()
     },
-    state: null,
+    state: {},
     user: null,
 }

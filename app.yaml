@@ -23,3 +23,7 @@ handlers:
 
 - url: /.*
   script: village.main.root
+
+libraries:
+- name: pycrypto
+  version: latest

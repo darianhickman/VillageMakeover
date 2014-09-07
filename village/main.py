@@ -1,16 +1,16 @@
 # -*- mode: python; eval: (elpy-mode 0) -*-
 import load_libs; load_libs.do()
-import bottle
+import flask
 import jwt
 import time
 
 from .app_common import config
 
-root = bottle.Bottle()
+root = flask.Flask(__name__)
 
 @root.route('/')
 def index():
-    return bottle.redirect('/client/')
+    return flask.redirect('/client/')
 
 @root.route('/api/buy')
 def api_buy():

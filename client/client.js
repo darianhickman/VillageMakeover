@@ -241,13 +241,12 @@ var Client = IgeClass.extend({
 		this.textures.rightButton2 = new IgeTexture('./assets/textures/ui/rightButton2.png');
 		this.textures.rightButton3 = new IgeTexture('./assets/textures/ui/rightButton3.png');
 
+        for(var key in GameObjects.gameObjectTextures) {
+            var tex = GameObjects.gameObjectTextures[key]
+            this.textures[key] = new IgeCellSheet(tex[0], tex[1], 1)
+        }
+
 		this.textures.villager1 = new IgeCellSheet('./assets/textures/sprites/villager.png', 3, 2);
-		this.textures.oakTree = new IgeTexture('./assets/textures/sprites/oakTree.png');
-		this.textures.smokeyHut = new IgeTexture('./assets/textures/sprites/smokeyHut.png');
-		this.textures.hut1 = new IgeCellSheet('./assets/textures/sprites/hut1.png', 2, 1);
-		this.textures.hut2 = new IgeCellSheet('./assets/textures/sprites/hut2.png', 3, 1);
-		this.textures.woodSmall = new IgeTexture('./assets/textures/sprites/woodSmall.png');
-		this.textures.woodLarge = new IgeTexture('./assets/textures/sprites/woodLarge.png');
 		this.textures.flowerPot1 = new IgeTexture('./assets/textures/sprites/flowerPot1.png');
 		this.textures.fenceSW = new IgeTexture('./assets/textures/sprites/fenceSW.png');
 		this.textures.clothingLine = new IgeTexture('./assets/textures/sprites/clothingLine.png');

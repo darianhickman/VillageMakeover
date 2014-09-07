@@ -8,12 +8,12 @@ var igeClientConfig = {
 
 		// Game objects
 		'./gameClasses/base/GameObject.js',
-		'./gameClasses/objects/OakTree.js',
+		/*'./gameClasses/objects/OakTree.js',
 		'./gameClasses/objects/SmokeyHut.js',
 		'./gameClasses/objects/Hut1.js',
 		'./gameClasses/objects/Hut2.js',
 		'./gameClasses/objects/WoodSmall.js',
-		'./gameClasses/objects/WoodLarge.js',
+		'./gameClasses/objects/WoodLarge.js',*/
 		'./gameClasses/base/Villager.js',
 
 		// Graphs
@@ -23,6 +23,7 @@ var igeClientConfig = {
 		/* Standard game scripts */
         './clientApiSupport.js',
         './clientHelpers.js',
+        './gameObjects.js',
 		'./client.js',
 		'./index.js',
 	]
