@@ -7,6 +7,7 @@ import json
 import urllib
 
 from .app_common import config
+from .config import get_config
 
 from google.appengine.api import users
 
@@ -15,6 +16,13 @@ root = flask.Flask(__name__)
 @root.route('/')
 def index():
     return flask.redirect('/client/')
+
+@root.route('/config')
+def config_route():
+    return flask.Response(
+        json.dumps(get_config(),
+                   indent=4),
+        content_type='application/json')
 
 @root.route('/buy')
 def api_buy():
