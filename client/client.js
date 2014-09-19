@@ -65,6 +65,19 @@ var Client = IgeClass.extend({
 				});
 
 				self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+
+                    // Reduce the coins progress bar by the cost
+                    if(!API.reduceCoins(
+                        parseInt(ige.client.cursorObjectData.coins, 10))) {
+                        // Not enough money?
+                        ige.client.cursorObject.destroy();
+                        ige.client.cursorObject = null;
+					    ige.client.cursorObjectData = null;
+
+                        alert("open coin dialog");
+                        return;
+                    }
+
 					var objectTileWidth = ige.client.cursorObject._bounds3d.x / tileMap._tileWidth,
 						objectTileHeight = ige.client.cursorObject._bounds3d.y / tileMap._tileHeight,
 						player = ige.$('bob'),
@@ -106,10 +119,6 @@ var Client = IgeClass.extend({
 
 					// Set initial state of object by calling the place() method
 					ige.client.cursorObject.place();
-
-					// Reduce the coins progress bar by the cost
-                    API.reduceCoins(
-                        parseInt(ige.client.cursorObjectData.coins, 10))
 
 					// Create a cash value rising from placement that fades out
 					var coinAnim;

@@ -28,11 +28,23 @@ var API = {
             }
         })
     },
+
     reduceCoins: function(by) {
+        if(by > API.state.coins)
+            return false
         API.state.coins -= by
         API.reloadState()
         API.saveState()
+        return true
     },
+
+    addCoins: function(by) {
+        API.state.coins += by
+        API.reloadState()
+        API.saveState()
+        return true
+    },
+
     saveState: function() {
         $.ajax({
             url: '/api/save_state',

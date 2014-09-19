@@ -124,7 +124,7 @@ var GameObjects = {
     })
     createGameObjectClass("Hut2", {
         textureUrl: "assets/textures/sprites/hut2.png",
-        coins: 3,
+        coins: 30,
         cash: 0,
         cell: 3,
         cellCount: 3,

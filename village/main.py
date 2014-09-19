@@ -3,8 +3,12 @@ import load_libs; load_libs.do()
 import flask
 import jwt
 import time
+import json
+import urllib
 
 from .app_common import config
+
+from google.appengine.api import users
 
 root = flask.Flask(__name__)
 
@@ -12,8 +16,10 @@ root = flask.Flask(__name__)
 def index():
     return flask.redirect('/client/')
 
-@root.route('/api/buy')
+@root.route('/buy')
 def api_buy():
+    user = users.get_current_user()
+    coins = int(flask.request.args['coins'])
     token = jwt.encode(
         {
             "iss" : config['wallet']['ident'],
@@ -22,12 +28,14 @@ def api_buy():
             "exp" : int(time.time() + 3600),
             "iat" : int(time.time()),
             "request" :{
-                "name" : "Piece of Cake",
-                "description" : "Virtual chocolate cake to fill your virtual tummy",
-                "price" : "10.50",
+                "name" : "%d coins" % coins,
+                "description" : "SOHIP coins",
+                "price" : '%.2f' % (coins * 0.01),
                 "currencyCode" : "USD",
-                "sellerData" : "user_id:1224245,offer_code:3098576987,affiliate:aksdfbovu9j"
+                "sellerData" : urllib.urlencode({'mail': user.email(), 'coins': coins})
             }
         },
         config['wallet']['secret'])
-    return {'token': token}
+    return flask.Response(
+        json.dumps({'token': token}),
+        content_type='application/json')
