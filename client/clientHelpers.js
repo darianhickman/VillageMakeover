@@ -13,7 +13,7 @@ var ClientHelpers = {
         obj.occupyTile(
             data.x, data.y, data.w, data.h
 		)
-        obj.place()
+        obj.place(true)
         ClientHelpers.moveOutPlayer()
     },
     moveOutPlayer: function() {
