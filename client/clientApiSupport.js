@@ -14,6 +14,7 @@ var API = {
             }
         })
     },
+
     loadState: function() {
         $.ajax({
             url: '/api/get_state',

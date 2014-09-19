@@ -4,7 +4,7 @@ import os
 
 local_config = yaml.load(open(os.path.join(os.path.dirname(__file__), '../config.yaml')))
 
-innovations_name = 'Innovations Catalog Village Social OPERATIONAL DATA Devel'
+catalog_name = 'Innovations Catalog Village Social OPERATIONAL DATA Devel'
 config_name = 'Village MakeOver Settings OPERATIONAL'
 cash_bundle_name = 'Virtual Currency Cash Bundle Catalog Operational'
 
@@ -20,9 +20,21 @@ def get_session():
         session = login()
     return session
 
+def get_sheet(name):
+    return get_session().open(name).sheet1.get_all_values()
+
 def get_config():
-    data = get_session().open(config_name).sheet1.get_all_values()
+    data = get_sheet(config_name)
     d = {}
     for row in data[1:]:
         d[row[0]] = row[1]
     return d
+
+def get_catalog():
+    data = get_sheet(catalog_name)
+    headers = data[0]
+    items = []
+    for row in data[2:]:
+        if row and row[0]:
+            items.append(dict(zip(headers, row)))
+    return items

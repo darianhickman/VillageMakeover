@@ -4,6 +4,7 @@ var ClientHelpers = {
         ige.$('coinsProgress').progress(value);
     },
     addObject: function(data) {
+        console.log("add object", data.name)
         var obj = new ige.newClassInstance(data.name)
 	    obj.mount(ige.$('tileMap1'))
         console.log("create", data, obj)

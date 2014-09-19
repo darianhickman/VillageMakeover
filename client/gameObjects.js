@@ -7,17 +7,20 @@ var GameObjects = {
         }
     },
     _marketCallbacks: [],
-};
-
-(function() {
-    function createGameObjectClass(classId, options) {
+    loadCatalog: function(catalog) {
+        for(var i in catalog) {
+            var item = catalog[i]
+            GameObjects.createGameObjectClass(item.id, item)
+        }
+    },
+    createGameObjectClass: function(classId, options) {
         GameObjects.gameObjectTextures[classId] = [options.textureUrl, options.cellCount || 1]
 
         GameObjects._marketCallbacks.push(function(marketDialog) {
             marketDialog.addItem({
 			    'id': classId,
 			    'classId': classId,
-			    'title': classId,
+			    'title': options.name,
 			    'texture': ige.client.textures[classId],
 			    'coins': options.coins,
 			    'cash': options.cash,
@@ -84,52 +87,4 @@ var GameObjects = {
             }
         });
     }
-
-    createGameObjectClass("WoodLarge", {
-        textureUrl: "assets/textures/sprites/woodLarge.png",
-        coins: 3,
-        cash: 0,
-        cell: 1,
-        scale: false,
-        bounds3d: [38, 38, 30],
-        anchor: [-5, 8],
-    })
-    createGameObjectClass("WoodSmall", {
-        textureUrl: "assets/textures/sprites/woodSmall.png",
-        coins: 3,
-        cash: 0,
-        cell: 1,
-        scale: false,
-        bounds3d: [38, 38, 30],
-        anchor: [-3, 13],
-    })
-    createGameObjectClass("SmokeyHut", {
-        textureUrl: "assets/textures/sprites/smokeyHut.png",
-        coins: 3,
-        cash: 0,
-        cell: 1,
-        scale: true,
-        bounds3d: [76, 76, 50],
-        anchor: [-12, 4],
-    })
-    createGameObjectClass("Hut1", {
-        textureUrl: "assets/textures/sprites/hut1.png",
-        coins: 3,
-        cash: 0,
-        cell: 2,
-        cellCount: 2,
-        scale: true,
-        bounds3d: [76, 76, 50],
-        anchor: [-2, -1],
-    })
-    createGameObjectClass("Hut2", {
-        textureUrl: "assets/textures/sprites/hut2.png",
-        coins: 30,
-        cash: 0,
-        cell: 3,
-        cellCount: 3,
-        scale: true,
-        bounds3d: [76, 76, 50],
-        anchor: [-2, 4],
-    })
-})()
+}
