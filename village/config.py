@@ -1,3 +1,6 @@
+from google.appengine.api import memcache
+
+import json
 import gspread
 import yaml
 import os
@@ -9,6 +12,20 @@ config_name = 'Village MakeOver Settings OPERATIONAL'
 cash_bundle_name = 'Virtual Currency Cash Bundle Catalog Operational'
 
 session = None
+
+def memcached(name):
+    def wrapper(func):
+        def cacher():
+            ret = memcache.get(name)
+            if ret:
+                return json.loads(ret)
+            else:
+                ret = func()
+                memcache.set(name, json.dumps(ret))
+                return ret
+
+        return cacher
+    return wrapper
 
 def login():
     conf = local_config['spreadsheet']
@@ -30,6 +47,7 @@ def get_config():
         d[row[0]] = row[1]
     return d
 
+@memcached('catalog')
 def get_catalog():
     data = get_sheet(catalog_name)
     headers = data[0]

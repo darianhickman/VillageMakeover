@@ -133,6 +133,12 @@ var GraphUi = IgeSceneGraph.extend({
 
         GameObjects.setupMarket(marketDialog)
 
+        var coinDialog = new CoinDialog()
+			.id('coinDialog')
+			.layer(1)
+			.hide()
+			.mount(uiScene);
+
 		new IgeUiElement()
 			.id('cashBar')
 			.texture(ige.client.textures.cashBar)
@@ -207,6 +213,10 @@ var GraphUi = IgeSceneGraph.extend({
 				// Open the build menu
 				ige.$('marketDialog').show();
 			});
+        ige.$('giftButton')
+            .mouseUp(function() {
+                ige.$('coinDialog').show();
+            })
 	},
 
 	/**

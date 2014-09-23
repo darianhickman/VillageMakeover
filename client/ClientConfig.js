@@ -5,7 +5,7 @@ var igeClientConfig = {
 		'./gameClasses/ui/MarketDialog.js',
 		'./gameClasses/ui/CoinParticle.js',
 
-        //'./gameClasses/ui/CoinDialog.js',
+        './gameClasses/ui/CoinDialog.js',
 
         './clientBuy.js',
 
