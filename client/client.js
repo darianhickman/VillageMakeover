@@ -74,7 +74,7 @@ var Client = IgeClass.extend({
                         ige.client.cursorObject = null;
 					    ige.client.cursorObjectData = null;
 
-                        alert("open coin dialog");
+                        ige.$('coinDialog').show();
                         return;
                     }
 
