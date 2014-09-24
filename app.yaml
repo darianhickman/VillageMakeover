@@ -27,3 +27,6 @@ handlers:
 libraries:
 - name: pycrypto
   version: latest
+
+skip_files:
+- .venv/
