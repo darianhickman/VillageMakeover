@@ -33,3 +33,5 @@ skip_files:
 - libs/Crypto/
 - (.*).pyc$
 - /.git/
+- (.*).pack$
+- \(
