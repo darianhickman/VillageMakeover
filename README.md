@@ -24,8 +24,8 @@ sudo easy_install pip
 sudo pip install virtualenv
 ```
 
-Prepare dependencies:
+Deploy:
 
 ```
-./synclibs.sh
+./upload.sh
 ```
