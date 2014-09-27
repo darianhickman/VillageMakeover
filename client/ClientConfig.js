@@ -22,7 +22,7 @@ var igeClientConfig = {
         './clientApiSupport.js',
         './clientHelpers.js',
         './gameObjects.js',
-        '/catalog',
+        './gameCatalog.js',
 
 		// Graphs
 		'./graphs/GraphLevel1.js',
