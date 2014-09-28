@@ -9,6 +9,10 @@ handlers:
   static_dir: assets
 
 - url: /client/$
+  static_files: client/index_deploy.html
+  upload: client/index_deploy.html
+
+- url: /client/dev$
   static_files: client/index.html
   upload: client/index.html
 
@@ -35,3 +39,4 @@ skip_files:
 - /.git/
 - (.*).pack$
 - \(
+- ^ige/

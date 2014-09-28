@@ -1,4 +1,6 @@
 #!/bin/bash
+./compile.sh
+
 if [ "$APPCFG" = "" ]; then
     if which appcfg.py; then
         APPCFG=appcfg.py

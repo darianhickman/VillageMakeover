@@ -3,3 +3,4 @@
 /libs
 /config.yaml
 /.venv
+/client/deploy
