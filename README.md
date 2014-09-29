@@ -24,6 +24,8 @@ sudo easy_install pip
 sudo pip install virtualenv
 ```
 
+Clone full version of IGE to `ige` directory.
+
 Install Node.js and then IGE deps via NPM:
 
 ```
