@@ -74,6 +74,10 @@ var API = {
         }
     },
     reloadState: function() {
+        if(!API.state.coins)
+            API.state.coins = 0
+        if(!API.state.cash)
+            API.state.cash = 0
         ClientHelpers.guiSetCoins(API.state.coins)
         ClientHelpers.guiSetCash(API.state.cash)
     },
