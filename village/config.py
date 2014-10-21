@@ -24,7 +24,13 @@ def memcached(name):
                 memcache.set(name, json.dumps(ret))
                 return ret
 
+        def remove():
+            memcache.delete(name)
+
+        cacher.remove_cache = remove
+
         return cacher
+
     return wrapper
 
 def login():

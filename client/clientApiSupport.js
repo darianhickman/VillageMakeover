@@ -30,10 +30,15 @@ var API = {
         })
     },
 
-    reduceCoins: function(by) {
-        if(by > API.state.coins)
+    reduceAssets: function(assets) {
+        console.log('reduce assets', assets)
+        if(assets.coins > API.state.coins)
             return false
-        API.state.coins -= by
+        if(assets.cash > API.state.cash)
+            return false
+
+        API.state.cash -= assets.cash
+        API.state.coins -= assets.coins
         API.reloadState()
         API.saveState()
         return true
@@ -41,6 +46,13 @@ var API = {
 
     addCoins: function(by) {
         API.state.coins += by
+        API.reloadState()
+        API.saveState()
+        return true
+    },
+
+    addCash: function(by) {
+        API.state.cash += by
         API.reloadState()
         API.saveState()
         return true
@@ -63,6 +75,7 @@ var API = {
     },
     reloadState: function() {
         ClientHelpers.guiSetCoins(API.state.coins)
+        ClientHelpers.guiSetCash(API.state.cash)
     },
     createObject: function(obj) {
         console.log("ige create object", obj)

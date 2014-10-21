@@ -28,9 +28,14 @@ def config_route():
 def config_catalog():
     return flask.Response(
         'GameObjects.loadCatalog(%s);' %
-        json.dumps(get_fixed_catalog(),
+        json.dumps(get_fixed_catalog()[:6],
                    indent=4),
         content_type='text/javascript')
+
+@root.route('/updateCatalog')
+def update_catalog():
+    get_catalog.remove_cache()
+    return flask.Response('ok')
 
 def get_fixed_catalog():
     catalog = get_catalog()
@@ -52,7 +57,16 @@ def get_fixed_catalog():
 @root.route('/buy')
 def api_buy():
     user = users.get_current_user()
-    coins = int(flask.request.args['coins'])
+    coins = int(flask.request.args['coins'] or '0')
+    cash = int(flask.request.args['cash'] or '0')
+    name_parts = []
+    if coins:
+        name_parts.append("%d coins" % coins)
+    if cash:
+        name_parts.append("%d cash" % coins)
+
+    name = ' and '.join(name_parts)
+
     token = jwt.encode(
         {
             "iss" : config['wallet']['ident'],
@@ -61,11 +75,13 @@ def api_buy():
             "exp" : int(time.time() + 3600),
             "iat" : int(time.time()),
             "request" :{
-                "name" : "%d coins" % coins,
+                "name" : name,
                 "description" : "SOHIP coins",
-                "price" : '%.2f' % (coins * 0.01),
+                "price" : '%.2f' % (coins * 0.01 + cash * 0.2),
                 "currencyCode" : "USD",
-                "sellerData" : urllib.urlencode({'mail': user.email(), 'coins': coins})
+                "sellerData" : urllib.urlencode({'mail': user.email(),
+                                                 'coins': coins,
+                                                 'cash': cash})
             }
         },
         config['wallet']['secret'])

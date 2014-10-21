@@ -32,6 +32,8 @@ var Client = IgeClass.extend({
 			}
         });
 
+        var clientSelf = this
+
 		this.fsm.defineState('build', {
             enter: function(data, completeCallback) {
 				var self = this,
@@ -67,14 +69,16 @@ var Client = IgeClass.extend({
 				self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
 
                     // Reduce the coins progress bar by the cost
-                    if(!API.reduceCoins(
-                        parseInt(ige.client.cursorObjectData.coins, 10))) {
+                    if(!API.reduceAssets(
+                        {coins: parseInt(ige.client.cursorObjectData.coins, 10),
+                        cash: parseInt(ige.client.cursorObjectData.cash, 10)})) {
                         // Not enough money?
                         ige.client.cursorObject.destroy();
                         ige.client.cursorObject = null;
 					    ige.client.cursorObjectData = null;
 
                         ige.$('coinDialog').show();
+                        clientSelf.fsm.enterState('select')
                         return;
                     }
 

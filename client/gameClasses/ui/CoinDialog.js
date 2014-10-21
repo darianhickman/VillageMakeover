@@ -39,7 +39,7 @@ var CoinDialog = Dialog.extend({
             ige.client.audio.select.play();
             self.hide()
 
-            Buy.buy(10)
+            Buy.buy({cash: 10, coins: 10})
         })
 
         itemEnt.center(-150).top(20);

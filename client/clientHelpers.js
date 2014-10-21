@@ -3,6 +3,9 @@ var ClientHelpers = {
     guiSetCoins: function(value) {
         ige.$('coinsProgress').progress(value);
     },
+    guiSetCash: function(value) {
+        ige.$('cashProgress').progress(value);
+    },
     addObject: function(data) {
         console.log("add object", data.name)
         var obj = new ige.newClassInstance(data.name)

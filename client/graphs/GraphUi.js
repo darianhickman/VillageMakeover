@@ -139,13 +139,24 @@ var GraphUi = IgeSceneGraph.extend({
 			.hide()
 			.mount(uiScene);
 
-		new IgeUiElement()
+		var cashBar = new IgeUiElement()
 			.id('cashBar')
 			.texture(ige.client.textures.cashBar)
 			.dimensionsFromTexture()
 			.top(10)
 			.center(-300)
 			.mount(uiScene);
+
+        new IgeUiProgressBar()
+			.id('cashProgress')
+			.barColor('#69f22f')
+			.min(0)
+			.max(100)
+			.progress(80)
+			.width(87)
+			.height(18)
+			.right(17)
+			.mount(cashBar);
 
 		var coinsBar = new IgeUiElement()
 			.id('coinsBar')

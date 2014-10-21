@@ -3,7 +3,6 @@ var MarketDialog = Dialog.extend({
 
 	init: function () {
 		Dialog.prototype.init.call(this);
-		console.log("AAAAAAAAAAA!!!!!!!!!!!!!")
 
 		new IgeUiElement()
 			.id('marketDialogImage')
@@ -95,6 +94,20 @@ var MarketDialog = Dialog.extend({
 			.center(10)
 			.bottom(5)
 			.mount(itemEnt);
+
+        new IgeFontEntity()
+			.id(itemData.id + '_cash')
+			.layer(2)
+			.textAlignX(0)
+			.colorOverlay('#000000')
+			.nativeFont('10px Verdana')
+			.nativeStroke(0.5)
+			.nativeStrokeColor('#666666')
+			.textLineSpacing(0)
+			.text(itemData.cash)
+			.width(20)
+			.center(70)
+			.mount(coinIcon);
 
 		// Create an entity to represent this item
 		var itemPic = new IgeEntity()
@@ -188,7 +201,8 @@ var MarketDialog = Dialog.extend({
 			// Switch to build mode
 			ige.client.fsm.enterState('build', {
 				classId: itemData.classId,
-				coins: itemData.coins
+				coins: itemData.coins,
+                cash: itemData.cash,
 			});
 		});
 

@@ -1,8 +1,8 @@
 
 var Buy = {
-    buy: function(coins) {
+    buy: function(assets) {
         $.ajax({
-            url: '/buy?coins=' + coins,
+            url: '/buy?coins=' + (assets.coins || 0) + '&cash=' + (assets.cash || 0),
             dataType: 'json',
             success: function(data) {
                 Buy.buyJWT(data.token)
@@ -15,10 +15,16 @@ var Buy = {
             'jwt'     : jwt,
             'success' : function(data) {
                 console.log(data)
-                var coins = Buy.getQueryVariable(data.request.sellerData, 'coins')
-                coins = parseInt(coins, 10)
-                alert("You have just purchased " + coins + " coins")
-                API.addCoins(coins)
+
+                var addFuncs = {'coins': API.addCoins,
+                              'cash': API.addCash}
+                for(var what in addFuncs) {
+                    var coins = Buy.getQueryVariable(data.request.sellerData, what)
+                    coins = parseInt(coins, 10)
+                    if(coins != coins) coins = 0
+                    alert("You have just purchased " + coins + " " + what)
+                    addFuncs[what](coins)
+                }
             },
             'failure' : function() {
                 alert("FAIL!");
