@@ -28,7 +28,7 @@ def config_route():
 def config_catalog():
     return flask.Response(
         'GameObjects.loadCatalog(%s);' %
-        json.dumps(get_fixed_catalog()[:6],
+        json.dumps(get_fixed_catalog(),
                    indent=4),
         content_type='text/javascript')
 

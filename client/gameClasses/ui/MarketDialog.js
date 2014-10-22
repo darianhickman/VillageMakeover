@@ -4,7 +4,7 @@ var MarketDialog = Dialog.extend({
 	init: function () {
 		Dialog.prototype.init.call(this);
 
-		new IgeUiElement()
+		var background = new IgeUiElement()
 			.id('marketDialogImage')
 			.layer(0)
 			.texture(ige.client.textures.marketMenuBack)
@@ -15,17 +15,54 @@ var MarketDialog = Dialog.extend({
 		this._items = [];
 		this._pageItems = [];
 
-		var pageEnt = new IgeUiElement()
-			.id('marketDialog_page0')
-			.layer(1)
-			.width(560)
-			.height(380)
-			.translateTo(0, 21, 0)
-			.mount(this);
+        var self = this
 
-		this._pages.push(pageEnt);
+        for(var i=0; i<30; i++) {
+		    var pageEnt = new IgeUiElement()
+			    .id('marketDialog_page' + i)
+			    .layer(1)
+			    .width(560)
+			    .height(380)
+			    .translateTo(0, 21, 0)
+                .mount(this)
+
+		    this._pages.push(pageEnt);
+        }
+
+        new IgeUiElement()
+            .id('marketDialogRight')
+            .layer(2)
+            .texture(ige.client.textures.rightButton1)
+            .bottom(55)
+            .right(65)
+            .mount(this)
+            .mouseUp(function () {
+                self.changePage(1)
+            })
+
+        new IgeUiElement()
+            .id('marketDialogLeft')
+            .layer(2)
+            .texture(ige.client.textures.leftButton1)
+            .bottom(55)
+            .left(65)
+            .mount(this)
+            .mouseUp(function () {
+                self.changePage(-1)
+            })
+
 		this._activePageIndex = 0;
+        this._pages[0].mount(this)
 	},
+
+    changePage: function(dir) {
+        console.log(dir, this._activePageIndex)
+        this._pages[this._activePageIndex].hide()
+        this._activePageIndex += dir
+        if(this._activePageIndex < 0)
+            this._activePageIndex = 0
+        this._pages[this._activePageIndex].show()
+    },
 
 	show: function () {
 		var self = this;
