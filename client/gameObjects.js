@@ -16,7 +16,7 @@ var GameObjects = {
     createGameObjectClass: function(classId, options) {
         GameObjects.gameObjectTextures[classId] = [options.textureUrl, options.cellCount || 1]
 
-        GameObjects._marketCallbacks.push(function(marketDialog) {
+        if(options.enabled) GameObjects._marketCallbacks.push(function(marketDialog) {
             marketDialog.addItem({
 			    'id': classId,
 			    'classId': classId,
@@ -39,6 +39,9 @@ var GameObjects = {
 			        .dimensionsFromCell()
 			        .bounds3d(options.bounds3d[0], options.bounds3d[1], options.bounds3d[2])
 			        .anchor(options.anchor[0], options.anchor[1]);
+
+                this.width(options.scaleValue * this.width())
+                this.height(options.scaleValue * this.height())
 
 		        this.calcTileAdjust();
                 this.cell(options.cell)

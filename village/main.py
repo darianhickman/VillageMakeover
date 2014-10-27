@@ -51,6 +51,8 @@ def get_fixed_catalog():
         item['bounds3d'] = parse_int_tuple(item['bounds3d'])
         item['anchor'] = parse_int_tuple(item['anchor'])
         item['scale'] = item['scale'].lower() in ('true', 1, 'yes')
+        item['enabled'] = item['enabled'].lower() in ('true', 1, 'yes')
+        item['scaleValue'] = float(item['scaleValue'])
 
     return catalog
 
