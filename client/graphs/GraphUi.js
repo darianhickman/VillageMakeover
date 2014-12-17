@@ -48,82 +48,8 @@ var GraphUi = IgeSceneGraph.extend({
 			.id('townName')
 			.texture(self.textures.townName)
 			.dimensionsFromTexture()
-			.translateTo(-372, -8, 0)
+			.translateTo(-372, 100, 0)
 			.mount(buildMenu);
-
-		for (var i = 0; i < 9; i++) {
-			new IgeEntity()
-				.id('friendTile' + (i + 1))
-				.addGroup('uiButton')
-				.texture(self.textures.friendTile)
-				.dimensionsFromTexture()
-				.translateTo(-404 + (i * 70), 69, 0)
-				.mount(buildMenu);
-		}
-
-		var rightButtonGroup = new IgeEntity()
-			.id('rightButtonGroup')
-			.addGroup('uiButton')
-			.translateTo(215, 69, 0)
-			.width(40)
-			.height(90)
-			.mount(buildMenu);
-
-		var rightButton1 = new IgeEntity()
-			.id('rightButton1')
-			.addGroup('uiButton')
-			.texture(self.textures.rightButton1)
-			.dimensionsFromTexture()
-			.translateTo(0, -28, 0)
-			.mount(rightButtonGroup);
-
-		var rightButton2 = new IgeEntity()
-			.id('rightButton2')
-			.addGroup('uiButton')
-			.texture(self.textures.rightButton2)
-			.dimensionsFromTexture()
-			.translateTo(0, 0, 0)
-			.mount(rightButtonGroup);
-
-		var rightButton3 = new IgeEntity()
-			.id('rightButton3')
-			.addGroup('uiButton')
-			.texture(self.textures.rightButton3)
-			.dimensionsFromTexture()
-			.translateTo(0, 28, 0)
-			.mount(rightButtonGroup);
-
-		var leftButtonGroup = new IgeEntity()
-			.id('leftButtonGroup')
-			.addGroup('uiButton')
-			.translateTo(-463, 69, 0)
-			.width(40)
-			.height(90)
-			.mount(buildMenu);
-
-		var leftButton1 = new IgeEntity()
-			.id('leftButton1')
-			.addGroup('uiButton')
-			.texture(self.textures.leftButton1)
-			.dimensionsFromTexture()
-			.translateTo(0, -28, 0)
-			.mount(leftButtonGroup);
-
-		var leftButton2 = new IgeEntity()
-			.id('leftButton2')
-			.addGroup('uiButton')
-			.texture(self.textures.leftButton2)
-			.dimensionsFromTexture()
-			.translateTo(0, 0, 0)
-			.mount(leftButtonGroup);
-
-		var leftButton3 = new IgeEntity()
-			.id('leftButton3')
-			.addGroup('uiButton')
-			.texture(self.textures.leftButton3)
-			.dimensionsFromTexture()
-			.translateTo(0, 28, 0)
-			.mount(leftButtonGroup);
 
 		var marketDialog = new MarketDialog()
 			.id('marketDialog')
