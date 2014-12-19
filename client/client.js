@@ -285,7 +285,23 @@ var Client = IgeClass.extend({
 		// Wait for our textures to load before continuing
 		ige.on('texturesLoaded', function () {
 			// Create the HTML canvas
-			ige.createFrontBuffer(true);
+			//ige.createFrontBuffer(true);
+            var canvas = $('<canvas id=gameCanvas>').appendTo('body')
+            var width = 971
+            var height = 470
+            canvas.attr('width', width)
+            canvas.attr('height', height)
+            var baseSize = Math.min($(window).width() / width, $(window).height() / height)
+            canvas.width(width * baseSize)
+            canvas.height(height * baseSize)
+            canvas.css({
+                position: 'absolute',
+                left: ($(window).width() - width * baseSize) / 2,
+                top: ($(window).height() - height * baseSize) / 2
+            })
+            $('body').css('background-color', '#407c03')
+
+            ige.canvas(document.getElementById('gameCanvas'));
 
 			// Start the engine
 			ige.start(function (success) {
@@ -301,11 +317,11 @@ var Client = IgeClass.extend({
 					ige.addGraph('GraphUi');
 
 					// Mouse pan with limits
-					//ige.$('vp1')
-						//.addComponent(IgeMousePanComponent)
-						//.mousePan.enabled(true)
-						//.mousePan.limit(new IgeRect(-250, -200, 500, 400))
-						//.drawBounds(true);
+					/*ige.$('vp1')
+						.addComponent(IgeMousePanComponent)
+						.mousePan.enabled(true)
+						.mousePan.limit(new IgeRect(-250, -200, 500, 400))
+						//.drawBounds(true);*/
 
 					new Villager()
 						.id('bob')
