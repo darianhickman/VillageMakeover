@@ -8,27 +8,27 @@ var GraphLevel1 = IgeSceneGraph.extend({
 	addGraph: function (options) {
 		var self = ige.client,
 			baseScene = ige.$('baseScene');
-		
+
 		var level1 = new IgeScene2d()
 			.id('level1')
 			.mount(baseScene);
-		
+
 		var backScene = new IgeScene2d()
 			.id('backScene')
 			.layer(0)
 			.mount(level1);
-		
+
 		var objectScene = new IgeScene2d()
 			.id('objectScene')
 			.layer(1)
 			.mount(level1);
-		
+
 		var uiScene = new IgeScene2d()
 			.id('uiScene')
 			.layer(2)
 			.ignoreCamera(true)
 			.mount(level1);
-		
+
 		// Add background entity
 		new IgeEntity()
 			.id('background')
@@ -38,27 +38,31 @@ var GraphLevel1 = IgeSceneGraph.extend({
 			.translateTo(0, -50, 0)
 			//.scaleTo(0.44, 0.44, 0.5)
 			.mount(backScene);
-		
+
 		// Add ground entity
 		new IgeEntity()
 			.id('ground')
 			.layer(1)
 			.texture(self.textures.dirtBackground)
-			.dimensionsFromTexture()
+			.dimensionsFromTexture(gameScale * 100)
 			.mount(backScene);
-		
+
 		// Add tile map
+        var tileCount = parseInt(12 * gameScale)
+        var mapDeltaY = 70
+        var mapDeltaX = -0
+
 		new IgeTileMap2d()
 			.id('tileMap1')
 			.mouseEventsActive(true)
 			.isometricMounts(true)
 			.tileWidth(38)
 			.tileHeight(38)
-			.gridSize(12, 12)
+			.gridSize(tileCount, tileCount)
 			.drawGrid(false)
 			.drawMouse(false)
 			.drawMouseData(true)
-			.translateTo(-7, -228, 0)
+			.translateTo(-7 - mapDeltaX, -228 - mapDeltaY, 0)
 			.highlightOccupied(false)
 			.mount(objectScene);
 	},
