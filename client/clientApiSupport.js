@@ -72,6 +72,7 @@ var API = {
         for(var i in objects) {
             ClientHelpers.addObject(objects[i])
         }
+        ClientHelpers.setPlayerPos()
     },
     reloadState: function() {
         if(!API.state.coins)

@@ -331,7 +331,6 @@ var Client = IgeClass.extend({
 					new Villager()
 						.id('bob')
 						.mount(ige.$('tileMap1'))
-						.translateToTile(5, 5, 0);
 
 					// Set the initial fsm state
 					self.fsm.initialState('select');

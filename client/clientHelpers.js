@@ -3,9 +3,11 @@ var ClientHelpers = {
     guiSetCoins: function(value) {
         ige.$('coinsProgress').progress(value);
     },
+
     guiSetCash: function(value) {
         ige.$('cashProgress').progress(value);
     },
+
     addObject: function(data) {
         console.log("add object", data.name)
         var obj = new ige.newClassInstance(data.name)
@@ -20,6 +22,18 @@ var ClientHelpers = {
         obj.place(true)
         ClientHelpers.moveOutPlayer()
     },
+
+    setPlayerPos: function() {
+        var player = ige.$('bob')
+		var playerTile = player.currentTile();
+
+        var x = 5, y = 5
+        while(ige.$('tileMap1').isTileOccupied(x, y, 1, 1)) {
+            x ++; y ++
+        }
+        player.translateToTile(x, y)
+    },
+
     moveOutPlayer: function() {
         var player = ige.$('bob')
         var playerTile = player.currentTile()
