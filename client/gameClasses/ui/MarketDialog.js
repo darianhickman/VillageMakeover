@@ -17,7 +17,7 @@ var MarketDialog = Dialog.extend({
 
         var self = this
 
-        for(var i=0; i<30; i++) {
+        for(var i=0; i<3; i++) {
 		    var pageEnt = new IgeUiElement()
 			    .id('marketDialog_page' + i)
 			    .layer(1)
@@ -28,28 +28,6 @@ var MarketDialog = Dialog.extend({
 
 		    this._pages.push(pageEnt);
         }
-
-        new IgeUiElement()
-            .id('marketDialogRight')
-            .layer(2)
-            .texture(ige.client.textures.rightButton1)
-            .bottom(55)
-            .right(65)
-            .mount(this)
-            .mouseUp(function () {
-                self.changePage(1)
-            })
-
-        new IgeUiElement()
-            .id('marketDialogLeft')
-            .layer(2)
-            .texture(ige.client.textures.leftButton1)
-            .bottom(55)
-            .left(65)
-            .mount(this)
-            .mouseUp(function () {
-                self.changePage(-1)
-            })
 
 		this._activePageIndex = 0;
         this._pages[0].mount(this)
