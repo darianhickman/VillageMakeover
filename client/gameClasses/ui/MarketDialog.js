@@ -26,6 +26,30 @@ var MarketDialog = Dialog.extend({
 			    .translateTo(0, 21, 0)
                 .mount(this)
 
+            new IgeUiElement()
+                .id('marketDialogRight_' + i)
+                .layer(2)
+                .texture(ige.client.textures.rightButton1)
+                .dimensionsFromTexture()
+                .bottom(55)
+                .right(65)
+                .mount(pageEnt)
+                .mouseUp(function () {
+                    self.changePage(1)
+                })
+
+            new IgeUiElement()
+                .id('marketDialogLeft_' + i)
+                .layer(2)
+                .texture(ige.client.textures.leftButton1)
+                .dimensionsFromTexture()
+                .bottom(55)
+                .left(65)
+                .mount(pageEnt)
+                .mouseUp(function () {
+                    self.changePage(-1)
+                })
+
 		    this._pages.push(pageEnt);
         }
 
@@ -39,6 +63,8 @@ var MarketDialog = Dialog.extend({
         this._activePageIndex += dir
         if(this._activePageIndex < 0)
             this._activePageIndex = 0
+        if(this._activePageIndex >= this._pages.length)
+            this._activePageIndex = this._pages.length - 1
         this._pages[this._activePageIndex].show()
     },
 
