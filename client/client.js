@@ -322,11 +322,11 @@ var Client = IgeClass.extend({
 					ige.addGraph('GraphUi');
 
 					// Mouse pan with limits
-					/*ige.$('vp1')
+					ige.$('vp1')
 						.addComponent(IgeMousePanComponent)
 						.mousePan.enabled(true)
 						.mousePan.limit(new IgeRect(-250, -200, 500, 400))
-						//.drawBounds(true);*/
+						//.drawBounds(true);
 
 					new Villager()
 						.id('bob')
