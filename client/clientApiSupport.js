@@ -1,6 +1,6 @@
 
 var API = {
-    init: function() {
+    init: function(postinit_cb) {
         $.ajax({
             url: '/api/get_user',
             dataType: 'json',
@@ -10,6 +10,7 @@ var API = {
                 } else {
                     location.href = result.login_url
                 }
+                postinit_cb()
                 API.loadState()
             }
         })

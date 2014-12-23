@@ -311,7 +311,7 @@ var Client = IgeClass.extend({
 			// Start the engine
 			ige.start(function (success) {
 				// Check if the engine started successfully
-				if (success) {
+				function postinit() {
 					// Add base scene data
 					ige.addGraph('IgeBaseScene');
 
@@ -334,9 +334,10 @@ var Client = IgeClass.extend({
 
 					// Set the initial fsm state
 					self.fsm.initialState('select');
-
-                    API.init();
 				}
+                if (success) {
+                    API.init(postinit);
+                }
 			});
 		});
 	}

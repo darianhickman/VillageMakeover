@@ -22,7 +22,7 @@ def get_user():
     user = users.get_current_user()
     if not user:
         return JSONResponse({'status': 'fail',
-                             'login_url': users.create_login_url()})
+                             'login_url': '/client/login.html'})
     else:
         csrf = flask.request.cookies.get('csrf')
         if not csrf:
@@ -33,6 +33,10 @@ def get_user():
             'csrf': csrf})
         resp.set_cookie('csrf', csrf)
         return resp
+
+@root.route('/api/login_redirect')
+def login_redirect():
+    return flask.redirect(users.create_login_url())
 
 @root.route('/api/get_state')
 def get_state():
