@@ -82,6 +82,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.width(87)
 			.height(18)
 			.right(17)
+            .barText('$', '', 'black')
 			.mount(cashBar);
 
 		var coinsBar = new IgeUiElement()
@@ -94,6 +95,26 @@ var GraphUi = IgeSceneGraph.extend({
 
 		new IgeUiProgressBar()
 			.id('coinsProgress')
+			.barColor('#69f22f')
+			.min(0)
+			.max(100)
+			.progress(80)
+			.width(87)
+			.height(18)
+			.right(17)
+            .barText('', ' coins', 'black')
+			.mount(coinsBar);
+
+		var xpBar = new IgeUiElement()
+			.id('xpBar')
+			.texture(ige.client.textures.xpBar)
+			.dimensionsFromTexture()
+			.top(10)
+			.center(100)
+			.mount(uiScene);
+
+        new IgeUiProgressBar()
+			.id('xpProgress')
 			//.barBackColor('#f2b982')
 			//.barBorderColor('#3a9bc5')
 			.barColor('#69f22f')
@@ -103,15 +124,8 @@ var GraphUi = IgeSceneGraph.extend({
 			.width(87)
 			.height(18)
 			.right(17)
-			.mount(coinsBar);
-
-		new IgeUiElement()
-			.id('xpBar')
-			.texture(ige.client.textures.xpBar)
-			.dimensionsFromTexture()
-			.top(10)
-			.center(100)
-			.mount(uiScene);
+            .barText('', ' XP', 'black')
+			.mount(xpBar);
 
 		new IgeUiElement()
 			.id('energyBar')
@@ -119,6 +133,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
 			.top(10)
 			.center(300)
+            //.barText('', '%', 'black')
 			.mount(uiScene);
 
 		new IgeParticleEmitter()
