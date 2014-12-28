@@ -7,11 +7,11 @@ var API = {
             success: function(result) {
                 if(result.status === 'ok') {
                     API.user = result
+                    postinit_cb()
+                    API.loadState()
                 } else {
                     location.href = result.login_url
                 }
-                postinit_cb()
-                API.loadState()
             }
         })
     },
