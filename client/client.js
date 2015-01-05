@@ -51,8 +51,10 @@ var Client = IgeClass.extend({
 				// Hook mouse events
 				self.mouseMoveHandle = tileMap.on('mouseMove', function (event, evc, data) {
 					var tile = tileMap.mouseToTile(),
-						objectTileWidth = ige.client.cursorObject._bounds3d.x / tileMap._tileWidth,
-						objectTileHeight = ige.client.cursorObject._bounds3d.y / tileMap._tileHeight;
+						objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
+                                                    / tileMap._tileWidth),
+						objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+                                                     / tileMap._tileHeight);
 
 					// Check that the tiles this object will occupy if moved are
 					// not already occupied
@@ -84,8 +86,10 @@ var Client = IgeClass.extend({
                         return;
                     }
 
-					var objectTileWidth = ige.client.cursorObject._bounds3d.x / tileMap._tileWidth,
-						objectTileHeight = ige.client.cursorObject._bounds3d.y / tileMap._tileHeight,
+					var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
+                                                    / tileMap._tileWidth),
+						objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+                                                     / tileMap._tileHeight),
 						player = ige.$('bob'),
 						playerTile = player.currentTile();
 
@@ -326,7 +330,9 @@ var Client = IgeClass.extend({
 						.addComponent(IgeMousePanComponent)
 						.mousePan.enabled(true)
 						.mousePan.limit(new IgeRect(-250, -200, 500, 400))
-						//.drawBounds(true);
+
+                    if(location.search == '?bounds')
+                        ige.$('vp1').drawBounds(true);
 
 					new Villager()
 						.id('bob')

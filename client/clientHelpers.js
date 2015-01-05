@@ -17,7 +17,7 @@ var ClientHelpers = {
             data.x, data.y
         )
         obj.occupyTile(
-            data.x, data.y, data.w, data.h
+            data.x, data.y, Math.ceil(data.w), Math.ceil(data.h)
 		)
         obj.place(true)
         ClientHelpers.moveOutPlayer()
