@@ -48,6 +48,26 @@ var Client = IgeClass.extend({
 
 				ige.client.cursorObjectData = data;
 
+                var indicatorEntities = []
+
+                for(var x=-10; x < 30; x ++) {
+                    for(var y=-10; y < 30; y ++) {
+                        if(!tileMap.inGrid(x, y, 1, 1)) continue;
+                        var isFree = !tileMap.isTileOccupied(x, y, 1, 1);
+                        var e = new IgeEntity()
+					        .layer(10)
+					        .texture(isFree ? ige.client.textures.greenDot : ige.client.textures.redDot)
+                            .scaleTo(0.1, 0.1, 0.1)
+                            .bounds3d(5, 5, 5)
+			                .anchor(1, 1)
+                            .isometric(true)
+                            .drawBounds(true)
+					        .mount(ige.$('tileMap1'))
+					        .translateToTile(x, y);
+                        indicatorEntities.push(e);
+                    }
+                }
+
 				// Hook mouse events
 				self.mouseMoveHandle = tileMap.on('mouseMove', function (event, evc, data) {
 					var tile = tileMap.mouseToTile(),
@@ -58,19 +78,25 @@ var Client = IgeClass.extend({
 
 					// Check that the tiles this object will occupy if moved are
 					// not already occupied
-					if (!tileMap.isTileOccupied(
-						tile.x,
-						tile.y,
-						objectTileWidth,
-						objectTileHeight
-					) && tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
+					if (tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
+                        var isFree = !tileMap.isTileOccupied(
+						    tile.x,
+						    tile.y,
+						    objectTileWidth,
+						    objectTileHeight);
 						// Move our cursor object to the tile
-						ige.client.cursorObject.translateToTile(tile.x + ige.client.cursorObject._tileAdjustX, tile.y + ige.client.cursorObject._tileAdjustY);
-						self.cursorTile = tile;
+                        if(isFree) {
+						    ige.client.cursorObject.translateToTile(tile.x + ige.client.cursorObject._tileAdjustX, tile.y + ige.client.cursorObject._tileAdjustY);
+						    self.cursorTile = tile;
+                        }
 					}
 				});
 
 				self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+
+                    for(var i in indicatorEntities) {
+                        indicatorEntities[i].unMount();
+                    }
 
                     // Reduce the coins progress bar by the cost
                     if(!API.reduceAssets(
@@ -271,6 +297,9 @@ var Client = IgeClass.extend({
 		this.textures.fenceSW = new IgeTexture('./assets/textures/sprites/fenceSW.png');
 		this.textures.clothingLine = new IgeTexture('./assets/textures/sprites/clothingLine.png');
 		this.textures.wallSE = new IgeTexture('./assets/textures/sprites/wallSE.png');
+
+		this.textures.greenDot = new IgeTexture('./assets/textures/greendot.png');
+		this.textures.redDot = new IgeTexture('./assets/textures/reddot.png');
 
 		ige.ui.style('.dialog', {
 			left: 0,

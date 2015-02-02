@@ -68,6 +68,7 @@ var API = {
                    csrf: API.user.csrf},
         })
     },
+
     firstReloadState: function() {
         var objects = API.state.objects || []
         for(var i in objects) {
@@ -75,6 +76,7 @@ var API = {
         }
         ClientHelpers.setPlayerPos()
     },
+
     reloadState: function() {
         if(!API.state.coins)
             API.state.coins = 0
@@ -83,6 +85,7 @@ var API = {
         ClientHelpers.guiSetCoins(API.state.coins)
         ClientHelpers.guiSetCash(API.state.cash)
     },
+
     createObject: function(obj) {
         console.log("ige create object", obj)
         if(!API.state.objects)

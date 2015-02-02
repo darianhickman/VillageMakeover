@@ -1,3 +1,5 @@
+var mapTileSize = 38;
+
 var GraphLevel1 = IgeSceneGraph.extend({
 	classId: 'GraphLevel1',
 
@@ -56,8 +58,8 @@ var GraphLevel1 = IgeSceneGraph.extend({
 			.id('tileMap1')
 			.mouseEventsActive(true)
 			.isometricMounts(true)
-			.tileWidth(38)
-			.tileHeight(38)
+			.tileWidth(mapTileSize)
+			.tileHeight(mapTileSize)
 			.gridSize(tileCount, tileCount)
 			.drawGrid(false)
 			.drawMouse(false)
