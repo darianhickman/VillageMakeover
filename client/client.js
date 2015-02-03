@@ -1,4 +1,5 @@
 var gameScale = 1.5
+var uniqueCounter = 0
 
 var Client = IgeClass.extend({
 	classId: 'Client',
@@ -43,38 +44,56 @@ var Client = IgeClass.extend({
 
 				// Create a new instance of the object we are going to build
 				ige.client.cursorObject = new ige.newClassInstance(data.classId)
-					.mount(ige.$('tileMap1'));
+					.mount(ige.$('tileMap1'))
+                    .layer(24);
                 var cursorClassId = data.classId
 
 				ige.client.cursorObjectData = data;
 
-                var indicatorEntities = []
+				var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
+                                                / tileMap._tileWidth);
+				var objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+                                             / tileMap._tileHeight);
 
-                for(var x=-10; x < 30; x ++) {
-                    for(var y=-10; y < 30; y ++) {
-                        if(!tileMap.inGrid(x, y, 1, 1)) continue;
-                        var isFree = !tileMap.isTileOccupied(x, y, 1, 1);
-                        var e = new IgeEntity()
-					        .layer(10)
-					        .texture(isFree ? ige.client.textures.greenDot : ige.client.textures.redDot)
-                            .scaleTo(0.1, 0.1, 0.1)
-                            .bounds3d(5, 5, 5)
-			                .anchor(1, 1)
-                            .isometric(true)
-                            .drawBounds(true)
-					        .mount(ige.$('tileMap1'))
-					        .translateToTile(x, y);
-                        indicatorEntities.push(e);
-                    }
-                }
+                var HiEntity = IgeEntity.extend({
+			         classId: 'HiEntity' + (uniqueCounter ++),
+			         tick: function (ctx) {
+				         IgeEntity.prototype.tick.call(this, ctx);
+                         for(var x_=-100; x_ < 300; x_ ++) {
+                             for(var y_=-100; y_ < 300; y_ ++) {
+                                 var x = x_ * 20;
+                                 var y = y_ * 20;
+                                 var tx = Math.ceil(x / tileMap._tileWidth);
+                                 var ty = Math.ceil(y / tileMap._tileHeight);
+                                 if(!tileMap.inGrid(tx, ty, 1, 1)) continue;
+
+                                 var isFree = !tileMap.isTileOccupied(
+						             tx,
+						             ty,
+						             objectTileWidth,
+						             objectTileHeight);
+
+                                 if(isFree)
+				                     ctx.fillStyle = '#3f3';
+                                 else
+                                     ctx.fillStyle = 'red';
+
+                                 var point = new IgePoint3d(x, y, 0);
+                                 var p = point.toIso();
+                                 ctx.fillRect(p.x, p.y, 3, 3);
+                             }
+                         }
+			         }
+		         });
+
+                var hientity = new HiEntity()
+                    .layer(20)
+                    .translateTo(0, 0, 0)
+                    .mount(tileMap);
 
 				// Hook mouse events
 				self.mouseMoveHandle = tileMap.on('mouseMove', function (event, evc, data) {
-					var tile = tileMap.mouseToTile(),
-						objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                                                    / tileMap._tileWidth),
-						objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
-                                                     / tileMap._tileHeight);
+					var tile = tileMap.mouseToTile();
 
 					// Check that the tiles this object will occupy if moved are
 					// not already occupied
@@ -84,18 +103,33 @@ var Client = IgeClass.extend({
 						    tile.y,
 						    objectTileWidth,
 						    objectTileHeight);
+                        ige.client.cursorObject.opacity(isFree ? 1 : 0.5);
 						// Move our cursor object to the tile
-                        if(isFree) {
-						    ige.client.cursorObject.translateToTile(tile.x + ige.client.cursorObject._tileAdjustX, tile.y + ige.client.cursorObject._tileAdjustY);
-						    self.cursorTile = tile;
-                        }
+                        var tx = tile.x + ige.client.cursorObject._tileAdjustX;
+                        var ty = tile.y + ige.client.cursorObject._tileAdjustY;
+						ige.client.cursorObject.translateToTile(tx, ty);
+						self.cursorTile = tile;
 					}
 				});
 
 				self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
 
-                    for(var i in indicatorEntities) {
-                        indicatorEntities[i].unMount();
+                    hientity.unMount();
+
+                    var tile = tileMap.mouseToTile();
+                    if(tileMap.isTileOccupied(
+						    tile.x,
+						    tile.y,
+						    objectTileWidth,
+						    objectTileHeight)) {
+
+                        ige.client.cursorObject.destroy();
+                        ige.client.cursorObject = null;
+					    ige.client.cursorObjectData = null;
+
+                        clientSelf.fsm.enterState('select')
+
+                        return;
                     }
 
                     // Reduce the coins progress bar by the cost
@@ -146,6 +180,7 @@ var Client = IgeClass.extend({
 
 					// Tween the object to the position by "bouncing" it
 					ige.client.cursorObject
+                        .layer(5)
 						.translate().z(100)
 						._translate.tween(
 							{z: 0},

@@ -1,4 +1,4 @@
-var mapTileSize = 38;
+var mapTileSize = 36;
 
 var GraphLevel1 = IgeSceneGraph.extend({
 	classId: 'GraphLevel1',
@@ -50,7 +50,7 @@ var GraphLevel1 = IgeSceneGraph.extend({
 			.mount(backScene);
 
 		// Add tile map
-        var tileCount = parseInt(12 * gameScale)
+        var tileCount = parseInt(12 * 36 / mapTileSize * gameScale)
         var mapDeltaY = 70
         var mapDeltaX = -0
 
