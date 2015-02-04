@@ -39,3 +39,7 @@ body {
 .dialog img {
     height: 3em;
 }
+
+.dialog.pay {
+    background: white;
+}

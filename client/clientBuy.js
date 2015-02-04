@@ -1,35 +1,26 @@
 
 var Buy = {
     buy: function(assets) {
+
+    },
+
+    pay: function(reason) {
         $.ajax({
-            url: '/buy?coins=' + (assets.coins || 0) + '&cash=' + (assets.cash || 0),
+            url: '/api/pay',
+            data: {amount: Buy._getAmount(reason),
+                   csrf: API.user.csrf},
             dataType: 'json',
-            success: function(data) {
-                Buy.buyJWT(data.token)
+            type: 'POST',
+            success: function(ret) {
+                console.log('pay -> ', ret);
+                if(ret.status == 'register')
+                    location.href = 'pay.html?param=' + reason
             }
         })
     },
 
-    buyJWT: function(jwt) {
-        google.payments.inapp.buy({
-            'jwt'     : jwt,
-            'success' : function(data) {
-                console.log(data)
-
-                var addFuncs = {'coins': API.addCoins,
-                              'cash': API.addCash}
-                for(var what in addFuncs) {
-                    var coins = Buy.getQueryVariable(data.request.sellerData, what)
-                    coins = parseInt(coins, 10)
-                    if(coins != coins) coins = 0
-                    alert("You have just purchased " + coins + " " + what)
-                    addFuncs[what](coins)
-                }
-            },
-            'failure' : function() {
-                alert("FAIL!");
-            }
-        });
+    _getAmount: function(reason) {
+        return 2;
     },
 
     getQueryVariable: function(query, variable) {

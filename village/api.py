@@ -3,10 +3,12 @@ import load_libs; load_libs.do()
 import flask
 import os
 import json
+import braintree
 
 from google.appengine.api import users
 
 from . import models
+from .app_common import config
 
 root = flask.Flask(__name__)
 #root.config['DEBUG'] = True
@@ -51,6 +53,21 @@ def save_state():
     models.save_state(userid, json.loads(
         flask.request.form['state']))
     return JSONResponse({'status': 'ok'})
+
+@root.route('/api/pay', methods=['POST'])
+def pay():
+    userid = users.get_current_user().user_id()
+    customer_id = models.get_state_model(userid).customer_id
+    if not customer_id:
+        return JSONResponse({'status': 'register'})
+    result = braintree.Transaction.sale({
+        "customer_id": customer_id,
+        "amount": "%.2f" % float(flask.request.form['amount']),
+        "options": {
+            "submit_for_settlement": True,
+        },
+    })
+    return JSONResponse({'status': 'ok' if result.is_success else 'fail'})
 
 def JSONResponse(x):
     return flask.Response(

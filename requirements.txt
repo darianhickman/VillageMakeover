@@ -5,6 +5,7 @@ PyJWT==0.2.1
 Werkzeug==0.9.6
 argparse==1.2.1
 bottle==0.12.7
+braintree==3.10.0
 elpy==1.4.0
 flake8==2.2.3
 gspread==0.2.2
@@ -13,5 +14,6 @@ jedi==0.8.1-final0
 mccabe==0.2.1
 pep8==1.5.7
 pyflakes==0.8.1
+requests==2.3.0
 rope==0.10.2
 wsgiref==0.1.2

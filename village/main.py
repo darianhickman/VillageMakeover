@@ -1,13 +1,13 @@
 # -*- mode: python; eval: (elpy-mode 0) -*-
 import load_libs; load_libs.do()
 import flask
-import jwt
-import time
 import json
+import braintree
 import urllib
 
 from .app_common import config
 from .config import get_config, get_catalog
+from . import models
 
 from google.appengine.api import users
 
@@ -20,9 +20,14 @@ def index():
 @root.route('/config')
 def config_route():
     return flask.Response(
-        json.dumps(get_config(),
+        json.dumps(dict(get_config()),
                    indent=4),
         content_type='application/json')
+
+@root.route('/getcse')
+def get_cse():
+    return flask.Response(json.dumps({'cse': braintree.ClientToken.generate()}),
+                          content_type='application/json')
 
 @root.route('/catalog')
 def config_catalog():
@@ -56,37 +61,15 @@ def get_fixed_catalog():
 
     return catalog
 
-@root.route('/buy')
-def api_buy():
-    user = users.get_current_user()
-    coins = int(flask.request.args['coins'] or '0')
-    cash = int(flask.request.args['cash'] or '0')
-    name_parts = []
-    if coins:
-        name_parts.append("%d coins" % coins)
-    if cash:
-        name_parts.append("%d cash" % coins)
-
-    name = ' and '.join(name_parts)
-
-    token = jwt.encode(
-        {
-            "iss" : config['wallet']['ident'],
-            "aud" : "Google",
-            "typ" : "google/payments/inapp/item/v1",
-            "exp" : int(time.time() + 3600),
-            "iat" : int(time.time()),
-            "request" :{
-                "name" : name,
-                "description" : "SOHIP coins",
-                "price" : '%.2f' % (coins * 0.01 + cash * 0.2),
-                "currencyCode" : "USD",
-                "sellerData" : urllib.urlencode({'mail': user.email(),
-                                                 'coins': coins,
-                                                 'cash': cash})
-            }
-        },
-        config['wallet']['secret'])
-    return flask.Response(
-        json.dumps({'token': token}),
-        content_type='application/json')
+@root.route('/create_client', methods=['POST'])
+def create_client():
+    nonce = flask.request.form["payment_method_nonce"]
+    param = flask.request.form.get("param", 'none')
+    userid = users.get_current_user().user_id()
+    state = models.get_state_model(userid)
+    result = braintree.Customer.create({'payment_method_nonce': nonce})
+    if not result.is_success:
+        return flask.redirect('/client/pay.html?status=fail&param=' + urllib.quote(param))
+    state.customer_id = result.customer.id
+    state.put()
+    return flask.redirect('/client/#pay=' + urllib.quote(param))
