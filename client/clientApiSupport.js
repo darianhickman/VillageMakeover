@@ -9,12 +9,15 @@ var API = {
                     API.user = result
                     postinit_cb()
                     API.loadState()
+                    API._buyCallback()
                 } else {
                     location.href = result.login_url
                 }
             }
         })
     },
+
+    _buyCallback: function() { console.error('missing buy callback') },
 
     loadState: function() {
         $.ajax({

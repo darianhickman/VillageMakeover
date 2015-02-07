@@ -7,7 +7,8 @@ var igeClientConfig = {
 
         './gameClasses/ui/CoinDialog.js',
 
-        './clientBuy.js',
+        './util.js',
+        './crypto-js-hmac.js',
 
 		// Game objects
 		'./gameClasses/base/GameObject.js',
@@ -20,6 +21,7 @@ var igeClientConfig = {
 		'./gameClasses/base/Villager.js',
 
         './clientApiSupport.js',
+        './clientBuy.js',
         './clientHelpers.js',
         './gameObjects.js',
         './gameCatalog.js',

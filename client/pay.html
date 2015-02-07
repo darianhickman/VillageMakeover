@@ -10,7 +10,9 @@
   <div class=dialogback>
     <div class="dialog pay">
       <form action="/create_client" method=POST>
+        <input type=hidden name="param" id=param>
         <div id="dropin"></div>
+        <div id="loading">Loading...</div>
         <button type="submit">Pay</button>
       </form>
     </div>
@@ -18,11 +20,17 @@
 
   <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
   <script type="text/javascript" src="https://js.braintreegateway.com/v2/braintree.js"></script>
+  <script type="text/javascript" src="util.js"></script>
   <script type="text/javascript">
+    $(function() {
+        $('#param').val(getParameterByName(location.search, 'param'));
+    });
+
     $.ajax({
         url: '/getcse',
         dataType: 'json',
         success: function(data) {
+            $('#loading').hide();
             braintree.setup(
                 data['cse'],
                 'dropin', {

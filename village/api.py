@@ -60,9 +60,14 @@ def pay():
     customer_id = models.get_state_model(userid).customer_id
     if not customer_id:
         return JSONResponse({'status': 'register'})
+
+    amount = float(flask.request.form['amount'])
+
+    assert amount > 0 and amount < 100 # sanity check
+
     result = braintree.Transaction.sale({
         "customer_id": customer_id,
-        "amount": "%.2f" % float(flask.request.form['amount']),
+        "amount": "%.2f" % amount,
         "options": {
             "submit_for_settlement": True,
         },
