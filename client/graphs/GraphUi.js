@@ -36,6 +36,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.translateTo(352, 66, 0)
 			.mount(buildMenu);
 
+
 		var actionButton = new IgeUiElement()
 			.id('actionButton')
 			.addGroup('uiButton')
