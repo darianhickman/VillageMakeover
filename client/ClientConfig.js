@@ -9,7 +9,11 @@ var igeClientConfig = {
 
         './util.js',
         './crypto-js-hmac.js',
-
+        //enable zoom and scroll
+		'./LimitZoomPanComponent.js',
+		'./ScrollZoomComponent.js',
+		'./ScaleToPointComponent.js',
+		'./PinchZoomComponent.js',
 		// Game objects
 		'./gameClasses/base/GameObject.js',
 		/*'./gameClasses/objects/OakTree.js',

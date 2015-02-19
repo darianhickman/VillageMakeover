@@ -295,6 +295,7 @@ var Client = IgeClass.extend({
 
 		// Load a game texture here
 		this.textures.greenBackground = new IgeTexture('./assets/textures/backgrounds/greenBackground.png');
+        this.textures.valleyBackground = new IgeTexture('./assets/textures/backgrounds/valleyBackground.png')
 		this.textures.dirtBackground = new IgeTexture('./assets/textures/backgrounds/dirtBackground.png');
 
 		this.textures.mainMenuBackground = new IgeTexture('./assets/textures/ui/mainMenuBackground.png');
@@ -390,13 +391,35 @@ var Client = IgeClass.extend({
 					ige.addGraph('GraphUi');
 
 					// Mouse pan with limits
-					ige.$('vp1')
-						.addComponent(IgeMousePanComponent)
-						.mousePan.enabled(true)
-						.mousePan.limit(new IgeRect(-250, -200, 500, 400))
+					//ige.$('vp1')
+					//	.addComponent(IgeMousePanComponent)
+					//	.mousePan.enabled(true)
+					//	.mousePan.limit(new IgeRect(-250, -200, 500, 400))
 
-                    if(location.search == '?bounds')
-                        ige.$('vp1').drawBounds(true);
+                   // if(location.search == '?bounds')
+                   //     ige.$('vp1').drawBounds(true);
+                    ige.$('vp1')
+                        .addComponent(IgeMousePanComponent)
+						.addComponent(ScrollZoomComponent)
+						.addComponent(ScaleToPointComponent)
+						.addComponent(PinchZoomComponent)
+						.addComponent(LimitZoomPanComponent, {
+							boundsX: 0,
+							boundsY: 0,
+							boundsWidth: 2627,
+							boundsHeight: 1545
+						})
+
+						.mousePan.enabled(true)
+						.scrollZoom.enabled(true)
+						.autoSize(true)
+                        .drawBounds(false) // Switch this to true to draw all bounding boxes
+			            .drawBoundsData(false) // Switch this to true to draw all bounding boxes
+						.scene(ige.$('baseScene'))
+						.mount(ige);
+
+
+
 
 					new Villager()
 						.id('bob')
