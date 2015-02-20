@@ -9,48 +9,13 @@ var GraphUi = IgeSceneGraph.extend({
 		var self = ige.client,
 			uiScene = ige.$('uiScene');
 
-		// Build menu
-		var buildMenu = new IgeUiElement()
-			.id('buildMenu')
-			.layer(0)
-			.texture(self.textures.mainMenuBackground)
-			.dimensionsFromTexture()
-			.bottom(0)
-			.center(0)
-			.mouseEventsActive(false)
-			.mount(uiScene);
-
-		var buildButton = new IgeUiElement()
-			.id('buildButton')
-			.addGroup('uiButton')
-			.texture(self.textures.buildButton)
-			.dimensionsFromTexture()
-			.translateTo(436, 47, 0)
-			.mount(buildMenu);
-
-		var giftButton = new IgeUiElement()
-			.id('giftButton')
-			.addGroup('uiButton')
-			.texture(self.textures.giftButton)
-			.dimensionsFromTexture()
-			.translateTo(352, 66, 0)
-			.mount(buildMenu);
+        var topNav = new IgeUiElement()
+            .id('topNav')
+            .mount(uiScene)
 
 
-		var actionButton = new IgeUiElement()
-			.id('actionButton')
-			.addGroup('uiButton')
-			.texture(self.textures.actionButtonBack)
-			.dimensionsFromTexture()
-			.translateTo(274, 80, 0)
-			.mount(buildMenu);
 
-		var townName = new IgeEntity()
-			.id('townName')
-			.texture(self.textures.townName)
-			.dimensionsFromTexture()
-			.translateTo(-372, 100, 0)
-			.mount(buildMenu);
+
 
 		var marketDialog = new MarketDialog()
 			.id('marketDialog')
@@ -70,9 +35,9 @@ var GraphUi = IgeSceneGraph.extend({
 			.id('cashBar')
 			.texture(ige.client.textures.cashBar)
 			.dimensionsFromTexture()
-			.top(10)
-			.center(-300)
-			.mount(uiScene);
+            .center(-500)
+
+			.mount(topNav);
 
         new IgeUiProgressBar()
 			.id('cashProgress')
@@ -86,13 +51,20 @@ var GraphUi = IgeSceneGraph.extend({
             .barText('$', '', 'black')
 			.mount(cashBar);
 
+        var cashButton = new IgeUiElement()
+			.id('cashButton')
+			.texture(self.textures.greenPlus)
+			.dimensionsFromTexture()
+            .right(100)
+			.mount(cashBar);
+
 		var coinsBar = new IgeUiElement()
 			.id('coinsBar')
 			.texture(ige.client.textures.coinsBar)
 			.dimensionsFromTexture()
-			.top(10)
-			.center(-100)
-			.mount(uiScene);
+            .center(-320)
+
+			.mount(topNav);
 
 		new IgeUiProgressBar()
 			.id('coinsProgress')
@@ -110,9 +82,9 @@ var GraphUi = IgeSceneGraph.extend({
 			.id('xpBar')
 			.texture(ige.client.textures.xpBar)
 			.dimensionsFromTexture()
-			.top(10)
-			.center(100)
-			.mount(uiScene);
+            .center(-170)
+
+			.mount(topNav);
 
         new IgeUiProgressBar()
 			.id('xpProgress')
@@ -132,10 +104,18 @@ var GraphUi = IgeSceneGraph.extend({
 			.id('energyBar')
 			.texture(ige.client.textures.energyBar)
 			.dimensionsFromTexture()
-			.top(10)
-			.center(300)
+            .center(10)
+
             //.barText('', '%', 'black')
-			.mount(uiScene);
+			.mount(topNav);
+
+        var buildButton = new IgeUiElement()
+			.id('buildButton')
+			.texture(self.textures.buildButton)
+			.dimensionsFromTexture()
+            .right(10)
+
+			.mount(topNav);
 
 		new IgeParticleEmitter()
 			.id('coinEmitter')
@@ -161,15 +141,18 @@ var GraphUi = IgeSceneGraph.extend({
 	},
 
 	addActions: function () {
+
 		ige.$('buildButton')
 			.mouseUp(function () {
 				// Open the build menu
 				ige.$('marketDialog').show();
 			});
-        ige.$('giftButton')
+         /**
+        ige.$('cashButton')
             .mouseUp(function() {
                 ige.$('coinDialog').show();
             })
+          **/
 	},
 
 	/**

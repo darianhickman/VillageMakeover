@@ -300,11 +300,11 @@ var Client = IgeClass.extend({
 
 		this.textures.mainMenuBackground = new IgeTexture('./assets/textures/ui/mainMenuBackground.png');
 		this.textures.marketItemBack = new IgeTexture('./assets/textures/ui/marketItemBack.png');
-		this.textures.buildButton = new IgeTexture('./assets/textures/ui/buildButton.png');
+		this.textures.buildButton = new IgeTexture('./assets/textures/ui/build.png');
+        this.textures.greenPlus = new IgeTexture('./assets/textures/ui/green+.png');
 		this.textures.giftButton = new IgeTexture('./assets/textures/ui/giftButton.png');
 		this.textures.actionButtonBack = new IgeTexture('./assets/textures/ui/actionButtonBack.png');
 		this.textures.actionIconSelect = new IgeTexture('./assets/textures/ui/actionIconSelect.png');
-		this.textures.townName = new IgeTexture('./assets/textures/ui/townName.png');
 		this.textures.friendTile = new IgeTexture('./assets/textures/ui/friendTile.png');
 		this.textures.marketMenuBack = new IgeTexture('./assets/textures/ui/marketMenuBack.png');
 		this.textures.cashBar = new IgeTexture('./assets/textures/ui/cashBar.png');
@@ -343,6 +343,14 @@ var Client = IgeClass.extend({
 			top: 0,
 			bottom: 0
 		});
+
+        ige.ui.style('#topNav', {
+            'top': 10,
+            'left': 10,
+            'right': 10,
+            'width': 1000,
+            'height': 50
+        });
 
 		ige.ui.style('.underlay', {
 			backgroundColor: '#000000',
