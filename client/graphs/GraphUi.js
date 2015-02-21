@@ -24,7 +24,7 @@ var GraphUi = IgeSceneGraph.extend({
 
         GameObjects.setupMarket(marketDialog)
 
-        var coinDialog = new CoinDialog()
+        var cashDialog = new CashDialog()
 			.id('coinDialog')
 			.layer(1)
 			.hide()

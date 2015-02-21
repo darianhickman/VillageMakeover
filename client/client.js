@@ -300,7 +300,8 @@ var Client = IgeClass.extend({
         this.textures.valleyBackground = new IgeTexture('./assets/textures/backgrounds/valleyBackground.png')
 		this.textures.dirtBackground = new IgeTexture('./assets/textures/backgrounds/dirtBackground.png');
 
-		this.textures.mainMenuBackground = new IgeTexture('./assets/textures/ui/mainMenuBackground.png');
+		this.textures.moneyMenuBackground = new IgeTexture('./assets/textures/ui/CashMenuTemplate.png');
+        this.textures.mainMenuBackground = new IgeTexture('./assets/textures/ui/mainMenuBackground.png');
 		this.textures.marketItemBack = new IgeTexture('./assets/textures/ui/marketItemBack.png');
 		this.textures.buildButton = new IgeTexture('./assets/textures/ui/build.png');
         this.textures.greenPlus = new IgeTexture('./assets/textures/ui/green+.png');
