@@ -9,7 +9,10 @@ var CoinDialog = Dialog.extend({
 		new IgeUiElement()
 			.id('coinDialogImage')
 			.layer(0)
-			.texture(ige.client.textures.marketMenuBack)
+            .backgroundColor('white')
+            .width(400)
+            .height(300)
+		//	.texture(ige.client.textures.marketMenuBack)
 			.dimensionsFromTexture()
 			.mount(this);
 
@@ -77,7 +80,7 @@ var CoinDialog = Dialog.extend({
 
             itemEnt.mouseUp(function() {
                 ige.input.stopPropagation();
-                ige.client.audio.select.play();
+                ige.client.audio.normClick.play();
                 self.hide()
 
                 Buy.buy({cash: cash, coins: coins})

@@ -154,7 +154,7 @@ var Client = IgeClass.extend({
 						playerTile = player.currentTile();
 
 					// Play the audio
-					ige.client.audio.construct.play();
+					ige.client.audio.monster_footstep.play();
 
 					// Build the cursorObject by releasing it from our control
 					// and switching state
@@ -290,7 +290,9 @@ var Client = IgeClass.extend({
 
 		// Load game audio
 		this.audio.select = new IgeAudio('./assets/audio/select.mp3');
-		this.audio.construct = new IgeAudio('./assets/audio/construct.mp3');
+        this.audio.normClick = new IgeAudio('./assets/audio/generalclick04.wav');
+		//this.audio.construct = new IgeAudio('./assets/audio/construct.mp3');
+        this.audio.monster_footstep = new IgeAudio('./assets/audio/creatur_footstep_large.mp3');
 		this.audio.dialogOpen = new IgeAudio('./assets/audio/dialogOpen.mp3');
 
 		// Load a game texture here

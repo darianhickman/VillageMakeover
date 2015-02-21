@@ -74,7 +74,7 @@ var MarketDialog = Dialog.extend({
 		ige.client.fsm.enterState('buildDialog', null, function (err) {
 			if (!err) {
 				Dialog.prototype.show.call(self);
-				ige.client.audio.dialogOpen.play();
+				ige.client.audio.normClick.play();
 			}
 		});
 
@@ -234,7 +234,7 @@ var MarketDialog = Dialog.extend({
 			ige.input.stopPropagation();
 
 			// Play the audio
-			ige.client.audio.select.play();
+			ige.client.audio.normClick.play();
 
 			// Hide the build dialog
 			self.hide();

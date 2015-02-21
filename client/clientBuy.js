@@ -30,7 +30,7 @@ var Buy = {
                 else if(ret.status == 'ok')
                     success()
                 else
-                    alert('Transaction failed.')
+                    console.log('Transaction failed.');
             }
         })
     },
@@ -48,7 +48,8 @@ var Buy = {
                 msgRest.push(coins + " " + what)
             }
         }
-        alert("You have just purchased " + msgRest.join(' and '))
+        console.log("You have just purchased " + msgRest.join(' and '));
+        //add twinkle or effect to where you enchance numbers.
     },
 
     _getAmount: function(assets) {
