@@ -6,3 +6,4 @@
 /client/deploy
 /.DS_Store
 /.idea
+*.DS_Store

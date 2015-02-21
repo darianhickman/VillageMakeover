@@ -1,4 +1,5 @@
-var MyInlineContainer = IgeUiElement.extend({
+var SpanContainer = IgeUiElement.extend({
+   	classId: 'SpanContainer',
     tick: function(ctx) {
         var i,
             children = this.children(),

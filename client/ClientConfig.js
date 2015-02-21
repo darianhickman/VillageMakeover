@@ -9,6 +9,8 @@ var igeClientConfig = {
 
         './util.js',
         './crypto-js-hmac.js',
+        // try inline span container
+        './SpanContainer.js',
         //enable zoom and scroll
 		'./LimitZoomPanComponent.js',
 		'./ScrollZoomComponent.js',

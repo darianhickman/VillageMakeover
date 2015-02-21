@@ -11,11 +11,10 @@ var GraphUi = IgeSceneGraph.extend({
 
         var topNav = new IgeUiElement()
             .id('topNav')
+            .width(900)
+            .top(10)
+            .height(50)
             .mount(uiScene)
-
-
-
-
 
 		var marketDialog = new MarketDialog()
 			.id('marketDialog')
@@ -35,11 +34,10 @@ var GraphUi = IgeSceneGraph.extend({
 			.id('cashBar')
 			.texture(ige.client.textures.cashBar)
 			.dimensionsFromTexture()
-            .center(-500)
-
+            .left(0)
 			.mount(topNav);
 
-        new IgeUiProgressBar()
+        var cashProgress = new IgeUiProgressBar()
 			.id('cashProgress')
 			.barColor('#69f22f')
 			.min(0)
@@ -55,15 +53,15 @@ var GraphUi = IgeSceneGraph.extend({
 			.id('cashButton')
 			.texture(self.textures.greenPlus)
 			.dimensionsFromTexture()
-            .right(100)
-			.mount(cashBar);
+            .right(-20)
+			.mount(cashProgress);
+
 
 		var coinsBar = new IgeUiElement()
 			.id('coinsBar')
 			.texture(ige.client.textures.coinsBar)
 			.dimensionsFromTexture()
-            .center(-320)
-
+            .left(150)
 			.mount(topNav);
 
 		new IgeUiProgressBar()
@@ -82,8 +80,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.id('xpBar')
 			.texture(ige.client.textures.xpBar)
 			.dimensionsFromTexture()
-            .center(-170)
-
+            .left(300)
 			.mount(topNav);
 
         new IgeUiProgressBar()
@@ -104,8 +101,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.id('energyBar')
 			.texture(ige.client.textures.energyBar)
 			.dimensionsFromTexture()
-            .center(10)
-
+            .left(450)
             //.barText('', '%', 'black')
 			.mount(topNav);
 
@@ -114,7 +110,6 @@ var GraphUi = IgeSceneGraph.extend({
 			.texture(self.textures.buildButton)
 			.dimensionsFromTexture()
             .right(10)
-
 			.mount(topNav);
 
 		new IgeParticleEmitter()
@@ -138,6 +133,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.center(-146);
 
 		this.addActions();
+
 	},
 
 	addActions: function () {
@@ -147,12 +143,20 @@ var GraphUi = IgeSceneGraph.extend({
 				// Open the build menu
 				ige.$('marketDialog').show();
 			});
-         /**
+
+        ige.$('cashBar')
+            .mouseUp(function() {
+                ige.$('coinDialog').show();
+            });
+        ige.$('cashProgress')
+            .mouseUp(function() {
+                ige.$('coinDialog').show();
+            });
         ige.$('cashButton')
             .mouseUp(function() {
                 ige.$('coinDialog').show();
             })
-          **/
+
 	},
 
 	/**
