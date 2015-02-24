@@ -6,6 +6,8 @@ var igeClientConfig = {
 		'./gameClasses/ui/CoinParticle.js',
 
         './gameClasses/ui/CoinDialog.js',
+        './gameClasses/ui/CashDialog.js',
+
 
         './util.js',
         './crypto-js-hmac.js',

@@ -25,7 +25,7 @@ var GraphUi = IgeSceneGraph.extend({
         GameObjects.setupMarket(marketDialog)
 
         var cashDialog = new CashDialog()
-			.id('coinDialog')
+			.id('cashDialog')
 			.layer(1)
 			.hide()
 			.mount(uiScene);
@@ -146,15 +146,15 @@ var GraphUi = IgeSceneGraph.extend({
 
         ige.$('cashBar')
             .mouseUp(function() {
-                ige.$('coinDialog').show();
+                ige.$('cashDialog').show();
             });
         ige.$('cashProgress')
             .mouseUp(function() {
-                ige.$('coinDialog').show();
+                ige.$('cashDialog').show();
             });
         ige.$('cashButton')
             .mouseUp(function() {
-                ige.$('coinDialog').show();
+                ige.$('cashDialog').show();
             })
 
 	},
