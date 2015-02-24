@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="https://js.braintreegateway.com/v2/braintree.js"></script>
+
+</head>
+<body>
+
+<form id="checkout" method="post" action="/purchases">
+  <div id="dropin"></div>
+  <input type="submit" value="Pay $10">
+</form>
+<script>
+   var braintree = Braintree.create('MIIBCgKCAQEA0weZNGUfE7cEfVOhRpSXKZqe9sRW7GA85i/eviZ/P1xx45beQ8bWr6IiFiT66y1CuhyO+u2l2Sq9fud5SA4gGkGeSBjLeg9PpoVeav6nbNwMvUSXZnsUwBktg/zdVdlFZffgZO4WKIb043nSKHcKqCxvwMn2DbKqrJ1udCx7dItQdizRFS1QPMNFQ6qHxFy0y9Y8OwUigpBHBkDlJ/ZKjLv+z2fOkB7yDZVwBTmG/XiudxonAN1zvvRd8F/t7S5LhhZR2/jughh5e5o7oYkKhoaFnnr08v4eo3FzzcrDKIg6UtHr7GSsM/cQ9O6rxhwimX4ZtU/PyMDS5RngxpMDpwIDAQAB');
+   braintree.onSubmitEncryptForm('checkout');
+</script>
+</body>
+</html>

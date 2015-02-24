@@ -1,22 +1,5 @@
-/**
- * Created by darianhickman on 2/21/15.
- */
 var CashDialog = Dialog.extend({
 	classId: 'CashDialog',
-
-    // pull data from correct spreadsheet.
-      pull doc id from Settings spread
-   // content	currency_catalog	1dnCs_UvLhcLxnr6dqheBfV7xSzE1qG33xvoNsyOqOsg	Contains pricing in usd
-    // create labels and make them buttons.
-    // loop 5 times instead of hardcoding 5 times.
-/*
-bundleid	VilageCash	USD	catalog_image	active
-1	50	5		yes
-2	100	10		yes
-3	200	20		yes
-4	250	25		yes
-*/
-w
     init: function () {
         Dialog.prototype.init.call(this);
 
@@ -29,49 +12,83 @@ w
             .dimensionsFromTexture()
             .mount(this);
        //add 5 transparent buttons over the exact pixels needed
-         var b1 =  new IgeUiElement()
+         var b1 =  new IgeUiLabel()
             .id('b1')
+            .value("50 villagebucks for $5 USD")
             .left(10)
-            .width(50)
-            .height(100)
+            .width(150)
+            .height(300)
              .drawBounds(true)
             .mount(panel);
 
-        var b2 = new IgeUiElement()
-                .id('b2')
+        var b2 = new IgeUiLabel()
+            .id('b2')
+            .value("100 villagebucks for 10 USD")
             .left(110)
-            .width(50)
-            .height(100)
+            .width(150)
+            .height(300)
             .mount(panel);
 
-        var b3 = new IgeUiElement()
+        var b3 = new IgeUiLabel()
             .id('b3')
+            .value("200 villagebucks for $20 USD ")
             .left(220)
-            .width(50)
-            .height(100)
+            .width(150)
+            .height(300)
             .mount(panel);
 
         var b4 = new IgeUiElement()
             .id('b4')
+
             .left(330)
-            .width(50)
-            .height(100)
+            .width(150)
+            .height(300)
             .mount(panel);
 
         var b5 = new IgeUiElement()
             .id('b5')
             .left(440)
-            .width(50)
-            .height(100)
+            .width(150)
+            .height(300)
             .mount(panel);
 
-         b1.mouseUp(function() {
+        b1.mouseUp(function() {
                 ige.input.stopPropagation();
                 ige.client.audio.normClick.play();
                 self.hide()
 
-                Buy.buy({cash: cash, coins: coins})
+                Buy.buy({cash: 4.99, coins: 0})
             })
+        b2.mouseUp(function() {
+                ige.input.stopPropagation();
+                ige.client.audio.normClick.play();
+                self.hide()
+
+                Buy.buy({cash: 9.99, coins: 0})
+            })
+        b3.mouseUp(function() {
+                ige.input.stopPropagation();
+                ige.client.audio.normClick.play();
+                self.hide()
+
+                Buy.buy({cash: 19.99, coins: 0})
+            })
+        b4.mouseUp(function() {
+                ige.input.stopPropagation();
+                ige.client.audio.normClick.play();
+                self.hide()
+
+                Buy.buy({cash: 49.00, coins: 0})
+            })
+        b5.mouseUp(function() {
+                ige.input.stopPropagation();
+                ige.client.audio.normClick.play();
+                self.hide()
+
+                Buy.buy({cash: 99.99, coins: 0})
+            })
+
+
             // background texture
 
 

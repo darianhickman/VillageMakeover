@@ -8,6 +8,13 @@ handlers:
 - url: /client/assets
   static_dir: assets
 
+- url: /purchases
+  script: village.braindemo.create_purchase
+
+- url: /client/braindemo.html
+  static_files: client/braindemo.html
+  upload: client/braindemo.html
+
 - url: /client/$
   static_files: client/index_deploy.html
   upload: client/index_deploy.html

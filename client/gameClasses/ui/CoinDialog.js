@@ -9,7 +9,6 @@ var CoinDialog = Dialog.extend({
 		new IgeUiElement()
 			.id('coinDialogImage')
 			.layer(0)
-            //.backgroundColor('white')
             .width(400)
             .height(300)
 			.texture(ige.client.textures.marketMenuBack)
