@@ -17,22 +17,20 @@ var CashDialog = Dialog.extend({
             if(i >= 3) offset += 20;
             var base =  new IgeUiLabel()
                 .id('b' + i)
-                .value("50 villagebucks for $5 USD")
                 .left(60 + offset)
                 .top(123)
                 .width(146)
                 .height(284)
-                .applyStyle({
-                    'borderColor': '#ffffff',
-                    'borderWidth': 2,
-                })
                 .drawBounds(true)
                 .mount(panel);
 
+            var j = i + 1;
             new IgeUiLabel()
-                .value('Button ' + i)
-                .bottom(10)
-                .left(40)
+                .value( (j * 10) + " villagebucks\nfor $" + j + " USD")
+                .bottom(13)
+                .left(25)
+                .width(150)
+                .applyStyle({color: 'white'})
                 .mount(base)
 
             base.mouseUp(function() {
