@@ -25,7 +25,13 @@ var GraphUi = IgeSceneGraph.extend({
         GameObjects.setupMarket(marketDialog)
 
         var cashDialog = new CashDialog()
-			.id('coinDialog')
+			.id('cashDialog')
+			.layer(1)
+			.hide()
+			.mount(uiScene);
+
+        var buyStatus = new BuyStatus()
+			.id('buyStatus')
 			.layer(1)
 			.hide()
 			.mount(uiScene);
@@ -52,8 +58,8 @@ var GraphUi = IgeSceneGraph.extend({
         var cashButton = new IgeUiElement()
 			.id('cashButton')
 			.texture(self.textures.greenPlus)
-			.dimensionsFromTexture()
-            .right(-20)
+			.dimensionsFromTexture(80)
+            .right(-40)
 			.mount(cashProgress);
 
 
@@ -61,7 +67,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.id('coinsBar')
 			.texture(ige.client.textures.coinsBar)
 			.dimensionsFromTexture()
-            .left(150)
+            .left(175)
 			.mount(topNav);
 
 		new IgeUiProgressBar()
@@ -80,7 +86,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.id('xpBar')
 			.texture(ige.client.textures.xpBar)
 			.dimensionsFromTexture()
-            .left(300)
+            .left(325)
 			.mount(topNav);
 
         new IgeUiProgressBar()
@@ -101,7 +107,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.id('energyBar')
 			.texture(ige.client.textures.energyBar)
 			.dimensionsFromTexture()
-            .left(450)
+            .left(475)
             //.barText('', '%', 'black')
 			.mount(topNav);
 
@@ -146,15 +152,15 @@ var GraphUi = IgeSceneGraph.extend({
 
         ige.$('cashBar')
             .mouseUp(function() {
-                ige.$('coinDialog').show();
+                ige.$('cashDialog').show();
             });
         ige.$('cashProgress')
             .mouseUp(function() {
-                ige.$('coinDialog').show();
+                ige.$('cashDialog').show();
             });
         ige.$('cashButton')
             .mouseUp(function() {
-                ige.$('coinDialog').show();
+                ige.$('cashDialog').show();
             })
 
 	},

@@ -1,8 +1,10 @@
 
 var Buy = {
     buy: function(assets) {
+        ige.$('buyStatus').startTransaction()
         Buy.pay(assets, function() {
             Buy._addAssets(assets);
+            ige.$('buyStatus').transactionSuccess()
         });
     },
 
