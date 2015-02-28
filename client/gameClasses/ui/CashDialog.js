@@ -12,6 +12,10 @@ var CashDialog = Dialog.extend({
             .dimensionsFromTexture()
             .mount(this);
 
+        // hardcoded for Milestone 2
+        //where do I hardcode this server side for braintree submission?
+        var pay = [4.99, 9.99, 19.99, 49.99, 99.99];
+        var bucks = [500, 1200, 2500, 6500, 14000]
         for(var i=0; i < 5; i ++) {
             var offset = i * 173;
             if(i >= 3) offset += 20;
@@ -26,7 +30,7 @@ var CashDialog = Dialog.extend({
 
             var j = i + 1;
             new IgeUiLabel()
-                .value( (j * 10) + " villagebucks\nfor $" + j + " USD")
+                .value( bucks[i] + " villagebucks\nfor $" + pay[i] + " USD")
                 .bottom(13)
                 .left(25)
                 .width(150)
