@@ -12,10 +12,8 @@ var CashDialog = Dialog.extend({
             .dimensionsFromTexture()
             .mount(this);
 
-        // hardcoded for Milestone 2
-        //where do I hardcode this server side for braintree submission?
+        var bucks = [500, 1200, 2500, 6500, 14000];
         var pay = [4.99, 9.99, 19.99, 49.99, 99.99];
-        var bucks = [500, 1200, 2500, 6500, 14000]
         for(var i=0; i < 5; i ++) {
             var offset = i * 173;
             if(i >= 3) offset += 20;
@@ -35,17 +33,21 @@ var CashDialog = Dialog.extend({
                 .left(25)
                 .width(150)
                 .applyStyle({color: 'white'})
-                .mount(base)
+                .mount(base);
 
-            base.mouseUp(function() {
-                ige.input.stopPropagation();
-                ige.client.audio.normClick.play();
-                self.hide();
-                var price = {};
-                price['cash'] = bucks[i];
-                price['coins'] = 0;
-                Buy.buy(price);
-            })
+            (function(i) {
+                base.mouseUp(function() {
+                    ige.input.stopPropagation();
+                    ige.client.audio.normClick.play();
+                    self.hide();
+
+                    var price = {
+                        cash: bucks[i],
+                        coins: 0
+                    };
+                    Buy.buy(price);
+                })
+            })(i);
 
         }
     }

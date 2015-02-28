@@ -59,7 +59,7 @@ var Buy = {
     _getAmount: function(assets) {
         if(!(0 <= assets.coins && 0 <= assets.cash)) // also catch NaNs
             throw "error " + JSON.stringify(assets);
-        return assets.coins * 0.01 + assets.cash * 0.2;
+        return JSON.stringify(assets);
     },
 
     getQueryVariable: function(query, variable) {

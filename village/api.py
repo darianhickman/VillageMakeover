@@ -61,7 +61,7 @@ def pay():
     if not customer_id:
         return JSONResponse({'status': 'register'})
 
-    amount = float(flask.request.form['amount'])
+    amount = calculate_amount(flask.request.form['amount'])
 
     assert amount > 0 and amount < 100 # sanity check
 
@@ -73,6 +73,14 @@ def pay():
         },
     })
     return JSONResponse({'status': 'ok' if result.is_success else 'fail'})
+
+def calculate_amount(amount):
+    assets = json.loads(amount)
+
+    cash_prices = dict(zip(
+        [500, 1200, 2500, 6500, 14000], [4.99, 9.99, 19.99, 49.99, 99.99]))
+
+    return cash_prices[assets['cash']]
 
 def JSONResponse(x):
     return flask.Response(
