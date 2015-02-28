@@ -40,9 +40,11 @@ var CashDialog = Dialog.extend({
             base.mouseUp(function() {
                 ige.input.stopPropagation();
                 ige.client.audio.normClick.play();
-                self.hide()
-
-                Buy.buy({cash: (i + 1) * 5, coins: 0})
+                self.hide();
+                var price = {};
+                price['cash'] = bucks[i];
+                price['coins'] = 0;
+                Buy.buy(price);
             })
 
         }

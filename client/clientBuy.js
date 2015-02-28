@@ -1,5 +1,7 @@
 
 var Buy = {
+
+    // need some details on how this works.
     buy: function(assets) {
         ige.$('buyStatus').startTransaction()
         Buy.pay(assets, function() {
