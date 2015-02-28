@@ -4,10 +4,11 @@ config.yaml
 Create `config.yaml`:
 
 ```
-wallet:
-  secret: yourgooglewalletsecret
-  ident: yourgooglewalletident
-  production: false
+
+braintree:
+  server: [Sandbox,  '', '', '']
+  client:
+
 
 spreadsheet:
   login: "mail-of-user-which-has-access-to-config-spreadsheets@gmail.com"
