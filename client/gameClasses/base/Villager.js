@@ -30,20 +30,30 @@ var Villager = IgeEntity.extend({
 			.lookAheadSteps(3)
 			.dynamic(true)
 			.allowSquare(true) // Allow north, south, east and west movement
-			.allowDiagonal(false) // Allow north-east, north-west, south-east, south-west movement
-			.drawPath(false) // Enable debug drawing the paths
+			.allowDiagonal(true) // Allow north-east, north-west, south-east, south-west movement
+			.drawPath(true) // Enable debug drawing the paths
 			.drawPathGlow(true) // Enable path glowing (eye candy)
 			.drawPathText(true); // Enable path text output
 		
 		self.path.speed(2);
+
+        self.path.on('pathComplete',function(){
+            self.path.clear();
+        });
 	},
 	
 	walkToTile: function (x, y) {
 		// Map a path to the tile and then walk there
-		this.path
-			.clear()
-			.add(x, y, 0, true)
-			.start();
+        // Workaround for teleporting glitch
+        var path = this.path;
+        if(path._points.length > 1){
+            path.replacePoints(path._currentPointTo, path._points.length, path._points[path._currentPointTo]);
+            path.add(x, y, 0, true);
+        }else{
+            path.clear()
+                .add(x, y, 0, true)
+                .start();
+        }
 	},
 	
 	currentTile: function () {
@@ -69,7 +79,27 @@ var Villager = IgeEntity.extend({
 						direction = 'SW';
 						this.scaleTo(-1, 1, 1);
 						break;
-					
+
+                    case 'N':
+                        direction = 'NW';
+                        this.scaleTo(-1, 1, 1);
+                        break;
+
+                    case 'W':
+                        direction = 'NW';
+                        this.scaleTo(1, 1, 1);
+                        break;
+
+                    case 'S':
+                        direction = 'SW';
+                        this.scaleTo(1, 1, 1);
+                        break;
+
+                    case 'E':
+                        direction = 'NW';
+                        this.scaleTo(-1, 1, 1);
+                        break;
+
 					default:
 						this.scaleTo(1, 1, 1);
 						break;

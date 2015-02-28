@@ -18,6 +18,7 @@ var Dialog = IgeUiElement.extend({
 			})
 			.mouseUp(function () {
 				self.hide();
+                ige.client.fsm.enterState('select');
 			})
 			.mount(this);
 	}
