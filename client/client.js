@@ -17,13 +17,26 @@ var Client = IgeClass.extend({
 		// Define the fsm states
 		this.fsm.defineState('select', {
             enter: function(data, completeCallback) {
-				// Hook mouse events
-				completeCallback();
-			},
+                // Hook mouse events
+                var self = this,
+                    tileMap = ige.$('tileMap1');
+
+                self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+                    var tile = tileMap.mouseToTile();
+                    ige.$('bob').walkToTile(tile.x, tile.y);
+                });
+
+                completeCallback();
+            },
             exit: function(data, completeCallback) {
-				// Un-hook mouse events
-				completeCallback();
-			}
+                // Un-hook mouse events
+                var self = this,
+                    tileMap = ige.$('tileMap1');
+
+                tileMap.off('mouseUp', self.mouseUpHandle);
+
+                completeCallback();
+            }
         });
 
 		this.fsm.defineState('buildDialog', {
@@ -429,8 +442,12 @@ var Client = IgeClass.extend({
 						.scene(ige.$('baseScene'))
 						.mount(ige);
 
-
-
+                    ige.$('vp1').mousePan.on('panMove', function(){
+                        clientSelf.fsm.enterState('pan');
+                    });
+                    ige.$('vp1').mousePan.on('panEnd', function(){
+                        clientSelf.fsm.enterState('select');
+                    });
 
 					new Villager()
 						.id('bob')
