@@ -7,6 +7,10 @@ var Buy = {
         Buy.pay(assets, function() {
             Buy._addAssets(assets);
             ige.$('buyStatus').transactionSuccess()
+        }, function() {
+            ige.$('buyStatus').transactionFailed(function() {
+                location.href = 'pay.html?param=' + Buy.createReason(assets);
+            })
         });
     },
 
@@ -19,7 +23,7 @@ var Buy = {
         return hash.toString() + '-' + window.btoa(msg);
     },
 
-    pay: function(assets, success) {
+    pay: function(assets, success, fail) {
         console.log('buy ', assets);
         $.ajax({
             url: '/api/pay',
@@ -34,7 +38,7 @@ var Buy = {
                 else if(ret.status == 'ok')
                     success()
                 else
-                    console.log('Transaction failed.');
+                    fail()
             }
         })
     },
