@@ -31,11 +31,11 @@ var Villager = IgeEntity.extend({
 			.dynamic(true)
 			.allowSquare(true) // Allow north, south, east and west movement
 			.allowDiagonal(true) // Allow north-east, north-west, south-east, south-west movement
-			.drawPath(true) // Enable debug drawing the paths
+			.drawPath(false) // Enable debug drawing the paths
 			.drawPathGlow(true) // Enable path glowing (eye candy)
 			.drawPathText(true); // Enable path text output
 		
-		self.path.speed(2);
+		self.path.speed(3);
 
         self.path.on('pathComplete',function(){
             self.path.clear();
