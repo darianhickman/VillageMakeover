@@ -6,7 +6,7 @@ Create `config.yaml`:
 ```
 
 braintree:
-  server: [Sandbox,  '', '', '']
+  server: [Sandbox,  'merchant_id', 'public_key', 'private_key']
   client:
 
 
