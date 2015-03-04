@@ -4,8 +4,6 @@ var BuyStatus = Dialog.extend({
         Dialog.prototype.init.call(this);
 
         var base = new IgeUiLabel()
-            .left(200)
-            .top(200)
             .width(300)
             .height(100)
             .applyStyle({backgroundColor: '#000'})

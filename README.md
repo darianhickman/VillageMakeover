@@ -7,8 +7,6 @@ Create `config.yaml`:
 
 braintree:
   server: [Sandbox,  'merchant_id', 'public_key', 'private_key']
-  client:
-
 
 spreadsheet:
   login: "mail-of-user-which-has-access-to-config-spreadsheets@gmail.com"

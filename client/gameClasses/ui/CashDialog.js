@@ -45,10 +45,19 @@ var CashDialog = Dialog.extend({
                         cash: bucks[i],
                         coins: 0
                     };
-                    Buy.buy(price);
+
+
+                    var message = 'Buy ' + bucks[i] + ' villagebucks for $' + pay[i] + '?';
+
+                    var cashDialog = new BuyConfirm(message,
+                        function() {
+                            Buy.buy(price);
+                        })
+			            .layer(1)
+			            .show()
+			            .mount(ige.$('uiScene'));
                 })
             })(i);
-
         }
     }
 })
