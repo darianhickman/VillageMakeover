@@ -64,6 +64,7 @@ def get_fixed_catalog():
 @root.route('/create_client', methods=['POST'])
 def create_client():
     nonce = flask.request.form["payment_method_nonce"]
+    remember = flask.request.form.get("remember") == 'on'
     param = flask.request.form.get("param", 'none')
     userid = users.get_current_user().user_id()
     state = models.get_state_model(userid)
@@ -71,5 +72,6 @@ def create_client():
     if not result.is_success:
         return flask.redirect('/client/pay.html?status=fail&param=' + urllib.quote(param))
     state.customer_id = result.customer.id
+    state.customer_id_once = not remember
     state.put()
     return flask.redirect('/client/#pay=' + urllib.quote(param))

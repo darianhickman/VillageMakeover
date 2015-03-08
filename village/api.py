@@ -57,9 +57,14 @@ def save_state():
 @root.route('/api/pay', methods=['POST'])
 def pay():
     userid = users.get_current_user().user_id()
-    customer_id = models.get_state_model(userid).customer_id
+    model = models.get_state_model(userid)
+    customer_id = model.customer_id
     if not customer_id:
         return JSONResponse({'status': 'register'})
+
+    if model.customer_id_once:
+        model.customer_id = None
+        model.put()
 
     amount = calculate_amount(flask.request.form['amount'])
 

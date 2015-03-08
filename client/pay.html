@@ -13,7 +13,13 @@
         <input type=hidden name="param" id=param>
         <div id="dropin"></div>
         <div id="loading">Loading...</div>
-        <button type="submit">Pay</button>
+        <div id="notloading">
+          <input type=checkbox name="remember" id=remember checked>
+          <label for=remember>Remember my payment data</label>
+          <div id=paybutton>
+            <button type="submit">Pay</button>
+          </div>
+          </div>
       </form>
     </div>
   </div>
@@ -31,6 +37,7 @@
         dataType: 'json',
         success: function(data) {
             $('#loading').hide();
+            $('#notloading').show();
             braintree.setup(
                 data['cse'],
                 'dropin', {

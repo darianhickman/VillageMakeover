@@ -11,6 +11,7 @@ class State(ndb.Model):
     userid = ndb.StringProperty()
     data = ndb.TextProperty()
     customer_id = ndb.StringProperty()
+    customer_id_once = ndb.BooleanProperty()
 
 #TODO: @ndb.transctional
 def get_state_model(userid):
