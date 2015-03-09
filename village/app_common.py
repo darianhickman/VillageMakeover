@@ -8,6 +8,6 @@ config = yaml.safe_load(
 _braintree_conf = config['braintree']['server']
 
 braintree.Configuration.configure(
-    braintree.Environment.Sandbox, # TODO
+    getattr(braintree.Environment, _braintree_conf[0]), # TODO
     *_braintree_conf[1:]
 )
