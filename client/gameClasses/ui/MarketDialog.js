@@ -55,6 +55,8 @@ var MarketDialog = Dialog.extend({
 
 		this._activePageIndex = 0;
         this._pages[0].mount(this)
+
+        this.closeButton.translateTo(300,-200,0);
 	},
 
     changePage: function(dir) {

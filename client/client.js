@@ -330,6 +330,7 @@ var Client = IgeClass.extend({
 		this.textures.coin = new IgeTexture('./assets/textures/ui/coin.png');
 		this.textures.cash = new IgeTexture('./assets/textures/ui/cash.png');
         this.textures.star = new IgeTexture('./assets/textures/ui/star.png');
+        this.textures.closeButton = new IgeTexture('./assets/textures/ui/close.png');
 
 		this.textures.leftButton1 = new IgeTexture('./assets/textures/ui/leftButton1.png');
 		this.textures.leftButton2 = new IgeTexture('./assets/textures/ui/leftButton2.png');

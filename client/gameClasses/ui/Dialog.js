@@ -17,9 +17,28 @@ var Dialog = IgeUiElement.extend({
 				ige.input.stopPropagation();
 			})
 			.mouseUp(function () {
-				self.hide();
-                ige.client.fsm.enterState('select');
+                ige.input.stopPropagation();
+                self.closeMe();
 			})
 			.mount(this);
-	}
+
+        this.closeButton = new IgeUiEntity()
+            .id('closeButton_' + this.id())
+            .layer(2)
+            .texture(ige.client.textures.closeButton)
+            .dimensionsFromTexture()
+            .mouseDown(function () {
+                ige.input.stopPropagation();
+            })
+            .mouseUp(function () {
+                ige.input.stopPropagation();
+                self.closeMe();
+            })
+            .mount(this);
+    },
+
+    closeMe: function() {
+        this.hide();
+        ige.client.fsm.enterState('select');
+    }
 });
