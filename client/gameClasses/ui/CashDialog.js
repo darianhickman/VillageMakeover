@@ -61,5 +61,18 @@ var CashDialog = Dialog.extend({
         }
 
         this.closeButton.translateTo(438,-236,0);
+    },
+
+    show: function () {
+        var self = this;
+
+        ige.client.fsm.enterState('cashDialog', null, function (err) {
+            if (!err) {
+                Dialog.prototype.show.call(self);
+                ige.client.audio.normClick.play();
+            }
+        });
+
+        return this;
     }
 })

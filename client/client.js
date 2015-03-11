@@ -48,6 +48,15 @@ var Client = IgeClass.extend({
 			}
         });
 
+        this.fsm.defineState('cashDialog', {
+            enter: function(data, completeCallback) {
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                completeCallback();
+            }
+        });
+
         var clientSelf = this
 
 		this.fsm.defineState('build', {
@@ -100,6 +109,7 @@ var Client = IgeClass.extend({
 		         });
 
                 var hientity = new HiEntity()
+                    .id('hientity_' + uniqueCounter)
                     .layer(20)
                     .translateTo(0, 0, 0)
                     .mount(tileMap);
@@ -276,7 +286,14 @@ var Client = IgeClass.extend({
 				tileMap.off('mouseUp', self.mouseUpHandle);
 				tileMap.off('mouseMove', self.mouseMoveHandle);
 
-				completeCallback();
+                ige.$('hientity_' + uniqueCounter).unMount();
+
+                if (ige.client.cursorObject) {
+                    ige.client.cursorObject.destroy();
+                    delete ige.client.cursorObject;
+                }
+
+                completeCallback();
 			}
         });
 
