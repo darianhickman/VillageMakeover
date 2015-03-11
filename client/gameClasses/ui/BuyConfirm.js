@@ -39,5 +39,7 @@ var BuyConfirm = Dialog.extend({
             .mouseUp(function() {
                 self.hide();
             });
+
+        this.closeButton.translateTo(189,-125,0);
     },
 })

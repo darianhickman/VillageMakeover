@@ -59,5 +59,7 @@ var CashDialog = Dialog.extend({
                 })
             })(i);
         }
+
+        this.closeButton.translateTo(438,-236,0);
     }
 })
