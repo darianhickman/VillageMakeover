@@ -111,6 +111,19 @@ var GraphUi = IgeSceneGraph.extend({
             //.barText('', '%', 'black')
 			.mount(topNav);
 
+        var loginIDString = API.user.email.substring(0,API.user.email.lastIndexOf("@"));
+        loginIDString = loginIDString.charAt(0).toUpperCase() + loginIDString.slice(1);
+
+        var loginIDEntity = new IgeFontEntity()
+            .colorOverlay('white')
+            .nativeFont('25px Times New Roman')
+            .right(90)
+            .textAlignX(2)
+            .mount(topNav)
+            .text(loginIDString);
+
+        loginIDEntity.width(loginIDEntity.measureTextWidth() + 5);
+
         var buildButton = new IgeUiElement()
 			.id('buildButton')
 			.texture(self.textures.buildButton)
