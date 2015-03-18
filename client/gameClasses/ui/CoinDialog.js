@@ -88,5 +88,6 @@ var CoinDialog = Dialog.extend({
             itemEnt.mount(pageEnt)
         })() }
 
+        this.closeButton.translateTo(309,-201,0);
     },
 })

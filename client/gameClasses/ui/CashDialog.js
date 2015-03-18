@@ -6,7 +6,7 @@ var CashDialog = Dialog.extend({
         var self = this
 
          var panel = new IgeUiElement()
-            .id('coinDialogImage')
+            .id('cashDialogImage')
             .layer(0)
             .texture(ige.client.textures.moneyMenuBackground)
             .dimensionsFromTexture()

@@ -22,7 +22,7 @@ var Dialog = IgeUiElement.extend({
 			})
 			.mount(this);
 
-        this.closeButton = new IgeUiEntity()
+        this.closeButton = new IgeEntity()
             .id('closeButton_' + this.id())
             .layer(2)
             .texture(ige.client.textures.closeButton)

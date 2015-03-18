@@ -30,6 +30,12 @@ var GraphUi = IgeSceneGraph.extend({
 			.hide()
 			.mount(uiScene);
 
+        var coinDialog = new CoinDialog()
+            .id('coinDialog')
+            .layer(1)
+            .hide()
+            .mount(uiScene);
+
         var buyStatus = new BuyStatus()
 			.id('buyStatus')
 			.layer(1)
