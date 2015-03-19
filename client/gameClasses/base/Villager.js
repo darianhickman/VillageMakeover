@@ -12,7 +12,7 @@ var Villager = IgeEntity.extend({
 			.addComponent(IgeAnimationComponent)
 			.animation.define('NW', [1, 2, 3, 2], 12, -1)
 			.animation.define('SW', [4, 5, 6, 5], 12, -1)
-			.cell(1)
+			.cell(5)
 			.translateTo(0, -10, 0);
 		
 		// Create a path finder

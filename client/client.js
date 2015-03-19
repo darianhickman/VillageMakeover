@@ -57,6 +57,15 @@ var Client = IgeClass.extend({
             }
         });
 
+        this.fsm.defineState('coinDialog', {
+            enter: function(data, completeCallback) {
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                completeCallback();
+            }
+        });
+
         var clientSelf = this
 
 		this.fsm.defineState('build', {
@@ -331,6 +340,7 @@ var Client = IgeClass.extend({
 		this.textures.dirtBackground = new IgeTexture('./assets/textures/backgrounds/dirtBackground.png');
 
 		this.textures.moneyMenuBackground = new IgeTexture('./assets/textures/ui/CashMenuTemplate.png');
+		this.textures.coinMenuBackground = new IgeTexture('./assets/textures/ui/CoinMenuTemplate.png');
         this.textures.mainMenuBackground = new IgeTexture('./assets/textures/ui/mainMenuBackground.png');
 		this.textures.marketItemBack = new IgeTexture('./assets/textures/ui/marketItemBack.png');
 		this.textures.buildButton = new IgeTexture('./assets/textures/ui/build.png');
@@ -444,7 +454,7 @@ var Client = IgeClass.extend({
                         .addComponent(IgeMousePanComponent)
 						.addComponent(ScrollZoomComponent)
 						.addComponent(ScaleToPointComponent)
-						.addComponent(PinchZoomComponent)
+						//.addComponent(PinchZoomComponent)
 						.addComponent(LimitZoomPanComponent, {
 							boundsX: 0,
 							boundsY: 0,

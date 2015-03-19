@@ -27,7 +27,7 @@ var ClientHelpers = {
         var player = ige.$('bob')
 		var playerTile = player.currentTile();
 
-        var x = 5, y = 5
+        var x = 15, y = 15
         while(ige.$('tileMap1').isTileOccupied(x, y, 1, 1)) {
             x ++; y ++
         }
