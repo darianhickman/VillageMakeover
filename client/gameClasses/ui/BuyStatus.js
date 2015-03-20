@@ -15,6 +15,8 @@ var BuyStatus = Dialog.extend({
             .nativeFont('30px Times New Roman')
             .width(300)
             .mount(base);
+
+        this.closeButton.hide();
     },
 
     startTransaction: function() {
