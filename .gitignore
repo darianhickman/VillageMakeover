@@ -2,6 +2,8 @@
 /ige
 /libs
 /config.yaml
+/config-dev.yaml
+/config-prod.yaml
 /.venv
 /client/deploy
 /.idea
