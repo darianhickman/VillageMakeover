@@ -16,7 +16,7 @@ var BuyStatus = Dialog.extend({
             .width(300)
             .mount(base);
 
-        this.closeButton.hide();
+        this.closeButton.translateTo(150,-50,0);
     },
 
     startTransaction: function() {

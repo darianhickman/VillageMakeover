@@ -68,7 +68,6 @@ var GraphUi = IgeSceneGraph.extend({
             .right(-40)
 			.mount(cashProgress);
 
-
 		var coinsBar = new IgeUiElement()
 			.id('coinsBar')
 			.texture(ige.client.textures.coinsBar)
@@ -76,11 +75,11 @@ var GraphUi = IgeSceneGraph.extend({
             .left(175)
 			.mount(topNav);
 
-		new IgeUiProgressBar()
+        var coinsProgress = new IgeUiProgressBar()
 			.id('coinsProgress')
 			.barColor('#69f22f')
 			.min(0)
-			.max(100)
+			.max(1000000)
 			.progress(80)
 			.width(87)
 			.height(18)
@@ -88,7 +87,14 @@ var GraphUi = IgeSceneGraph.extend({
             .barText('', ' coins', 'black')
 			.mount(coinsBar);
 
-		var xpBar = new IgeUiElement()
+        var coinsButton = new IgeUiElement()
+            .id('coinsButton')
+            .texture(self.textures.greenPlus)
+            .dimensionsFromTexture(80)
+            .right(-40)
+            .mount(coinsProgress);
+
+		/*var xpBar = new IgeUiElement()
 			.id('xpBar')
 			.texture(ige.client.textures.xpBar)
 			.dimensionsFromTexture()
@@ -116,6 +122,7 @@ var GraphUi = IgeSceneGraph.extend({
             .left(475)
             //.barText('', '%', 'black')
 			.mount(topNav);
+        */
 
         var loginIDString = API.user.email.substring(0,API.user.email.lastIndexOf("@"));
         loginIDString = loginIDString.charAt(0).toUpperCase() + loginIDString.slice(1);
@@ -180,6 +187,19 @@ var GraphUi = IgeSceneGraph.extend({
         ige.$('cashButton')
             .mouseUp(function() {
                 ige.$('cashDialog').show();
+            })
+
+        ige.$('coinsBar')
+            .mouseUp(function() {
+                ige.$('coinDialog').show();
+            });
+        ige.$('coinsProgress')
+            .mouseUp(function() {
+                ige.$('coinDialog').show();
+            });
+        ige.$('coinsButton')
+            .mouseUp(function() {
+                ige.$('coinDialog').show();
             })
 
 	},

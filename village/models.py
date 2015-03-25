@@ -4,7 +4,7 @@ from google.appengine.ext import ndb
 import json
 
 INIT_STATE = {
-    'coins': 60,
+    'coins': 1000,
 }
 
 class State(ndb.Model):

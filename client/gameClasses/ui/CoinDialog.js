@@ -54,25 +54,28 @@ var CoinDialog = Dialog.extend({
                         coins: 0
                     };
 
-                    if(price.cash > API.state.cash){
-                        // Not enough money?
-                        ige.$('cashDialog').show();
-                        return;
-                    }
-
                     var message = 'Buy ' + coins[i] + ' coins for ' + pay[i] + ' villagebucks?';
 
-                    var cashDialog = new BuyConfirm(message,
-                        function() {
-                            if(!API.reduceAssets(
-                                {coins: parseInt(price.coins, 10),
-                                    cash: parseInt(price.cash, 10)})) {
-                                // Not enough money?
-                                ige.$('cashDialog').show();
-                                return;
-                            }
-                            API.addCoins(parseInt(coins[i], 10));
-                        })
+                    var callBack = function() {
+                        if(!API.reduceAssets(
+                            {coins: parseInt(price.coins, 10),
+                                cash: parseInt(price.cash, 10)})) {
+                            // Not enough money?
+                            ige.$('cashDialog').show();
+                            return;
+                        }
+                        API.addCoins(parseInt(coins[i], 10));
+                    }
+
+                    if(price.cash > API.state.cash){
+                        // Not enough money?
+                        message = 'You don\'t have enough villagebucks. \nWould you like to buy some?';
+                        callBack = function() {
+                            ige.$('cashDialog').show();
+                        }
+                    }
+
+                    var cashDialog = new BuyConfirm(message,callBack)
                         .layer(1)
                         .show()
                         .mount(ige.$('uiScene'));
