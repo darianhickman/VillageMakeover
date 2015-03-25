@@ -173,7 +173,16 @@ var Client = IgeClass.extend({
                         ige.client.cursorObject = null;
 					    ige.client.cursorObjectData = null;
 
-                        ige.$('coinDialog').show();
+                        var message = 'You don\'t have enough coins. \nWould you like to buy some?';
+
+                        var cashDialog = new BuyConfirm(message,
+                            function() {
+                                ige.$('coinDialog').show();
+                            })
+                            .layer(1)
+                            .show()
+                            .mount(ige.$('uiScene'));
+
                         clientSelf.fsm.enterState('select')
                         return;
                     }
@@ -223,50 +232,53 @@ var Client = IgeClass.extend({
 					// Set initial state of object by calling the place() method
 					ige.client.cursorObject.place();
 
-					// Create a cash value rising from placement that fades out
-					var coinAnim;
+                    //we don't need a coin animation and particle effect for zero coin
+					if(ige.client.cursorObjectData.coins > 0){
+                        // Create a cash value rising from placement that fades out
+                        var coinAnim;
 
-					coinAnim = new IgeEntity()
-						.layer(10)
-						.texture(ige.client.textures.coin)
-						.dimensionsFromCell()
-						.scaleTo(1, 1, 1)
-						.translateToPoint(buildPoint)
-						.translateBy(-10, -50, 0)
-						.mount(ige.$('tileMap1'));
+                        coinAnim = new IgeEntity()
+                            .layer(10)
+                            .texture(ige.client.textures.coin)
+                            .dimensionsFromCell()
+                            .scaleTo(1, 1, 1)
+                            .translateToPoint(buildPoint)
+                            .translateBy(-10, -50, 0)
+                            .mount(ige.$('tileMap1'));
 
-					new IgeFontEntity()
-						.layer(2)
-						.textAlignX(0)
-						.colorOverlay('#ffffff')
-						.nativeFont('12px Verdana')
-						.textLineSpacing(0)
-						.text('-' + ige.client.cursorObjectData.coins)
-						.width(24)
-						.center(20)
-						.mount(coinAnim);
+                        new IgeFontEntity()
+                            .layer(2)
+                            .textAlignX(0)
+                            .colorOverlay('#ffffff')
+                            .nativeFont('12px Verdana')
+                            .textLineSpacing(0)
+                            .text('-' + ige.client.cursorObjectData.coins)
+                            .width(45)
+                            .center(28)
+                            .mount(coinAnim);
 
-					coinAnim
-						._translate.tween(
-							{y: buildPoint.y - 100},
-							2000
-						)
-						.start(200);
+                        coinAnim
+                            ._translate.tween(
+                                {y: buildPoint.y - 100},
+                                2000
+                            )
+                            .start(200);
 
-					coinAnim.tween(
-							{_opacity: 0},
-							2000,
-							{easing: 'inQuad'}
-						)
-						.afterTween(function () {
-							coinAnim.destroy();
-						})
-						.start(200);
+                        coinAnim.tween(
+                                {_opacity: 0},
+                                2000,
+                                {easing: 'inQuad'}
+                            )
+                            .afterTween(function () {
+                                coinAnim.destroy();
+                            })
+                            .start(200);
 
-					// Play the coin particle effect
-					ige.$('coinEmitter')
-						.quantityMax(parseInt(ige.client.cursorObjectData.coins, 10))
-						.start();
+                        // Play the coin particle effect
+                        ige.$('coinEmitter')
+                            .quantityMax(parseInt(ige.client.cursorObjectData.coins, 10))
+                            .start();
+                    }
 
 					// Remove reference to the object
 					ige.client.cursorObject = null;
@@ -352,8 +364,8 @@ var Client = IgeClass.extend({
 		this.textures.marketMenuBack = new IgeTexture('./assets/textures/ui/marketMenuBack.png');
 		this.textures.cashBar = new IgeTexture('./assets/textures/ui/cashBar.png');
 		this.textures.coinsBar = new IgeTexture('./assets/textures/ui/coinsBar.png');
-		this.textures.energyBar = new IgeTexture('./assets/textures/ui/energyBar.png');
-		this.textures.xpBar = new IgeTexture('./assets/textures/ui/xpBar.png');
+		//this.textures.energyBar = new IgeTexture('./assets/textures/ui/energyBar.png');
+		//this.textures.xpBar = new IgeTexture('./assets/textures/ui/xpBar.png');
 		this.textures.coin = new IgeTexture('./assets/textures/ui/coin.png');
 		this.textures.cash = new IgeTexture('./assets/textures/ui/cash.png');
         this.textures.star = new IgeTexture('./assets/textures/ui/star.png');
