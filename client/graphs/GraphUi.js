@@ -61,6 +61,11 @@ var GraphUi = IgeSceneGraph.extend({
             .barText('$', '', 'black')
 			.mount(cashBar);
 
+        cashProgress.render = function(ctx){
+            ctx.font = '11px Verdana';
+            IgeUiProgressBar.prototype.render.call(this,ctx);
+        }
+
         var cashButton = new IgeUiElement()
 			.id('cashButton')
 			.texture(self.textures.greenPlus)
@@ -86,6 +91,11 @@ var GraphUi = IgeSceneGraph.extend({
 			.right(17)
             .barText('', ' coins', 'black')
 			.mount(coinsBar);
+
+        coinsProgress.render = function(ctx){
+            ctx.font = '11px Verdana';
+            IgeUiProgressBar.prototype.render.call(this,ctx);
+        }
 
         var coinsButton = new IgeUiElement()
             .id('coinsButton')
@@ -147,7 +157,7 @@ var GraphUi = IgeSceneGraph.extend({
 		new IgeParticleEmitter()
 			.id('coinEmitter')
 			.layer(10)
-			.quantityTimespan(600)
+			.quantityTimespan(60)
 			.quantityBase(10)
 			.velocityVector(new IgePoint3d(0, -0.030, 0), new IgePoint3d(-0.025, -0.005, 0), new IgePoint3d(0.025, -0.01, 0))
 			.linearForceVector(new IgePoint3d(0, 0.25, 0), new IgePoint3d(0, 0, 0), new IgePoint3d(0, 0, 0))
@@ -162,7 +172,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.particle(CoinParticle)
 			.mount(uiScene)
 			.top(20)
-			.center(-146);
+			.left(380);
 
 		this.addActions();
 

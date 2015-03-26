@@ -101,8 +101,8 @@ var Client = IgeClass.extend({
                                  var isFree = !tileMap.isTileOccupied(
 						             tx,
 						             ty,
-						             objectTileWidth,
-						             objectTileHeight);
+						             1,
+						             1);
 
                                  if(isFree)
 				                     ctx.fillStyle = '#3f3';
@@ -145,10 +145,20 @@ var Client = IgeClass.extend({
 				});
 
 				self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+                    var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
+                            / tileMap._tileWidth),
+                        objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+                            / tileMap._tileHeight),
+                        player = ige.$('bob'),
+                        playerTile = player.currentTile(),
+                        tile = tileMap.mouseToTile();
+
+                    if (!tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
+                        return;
+                    }
 
                     hientity.unMount();
 
-                    var tile = tileMap.mouseToTile();
                     if(tileMap.isTileOccupied(
 						    tile.x,
 						    tile.y,
@@ -187,12 +197,7 @@ var Client = IgeClass.extend({
                         return;
                     }
 
-					var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                                                    / tileMap._tileWidth),
-						objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
-                                                     / tileMap._tileHeight),
-						player = ige.$('bob'),
-						playerTile = player.currentTile();
+
 
 					// Play the audio
 					ige.client.audio.monster_footstep.play();
