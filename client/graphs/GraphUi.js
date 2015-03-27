@@ -140,12 +140,27 @@ var GraphUi = IgeSceneGraph.extend({
         var loginIDEntity = new IgeFontEntity()
             .colorOverlay('white')
             .nativeFont('25px Times New Roman')
-            .right(90)
+            .right(120)
             .textAlignX(2)
             .mount(topNav)
             .text(loginIDString);
 
         loginIDEntity.width(loginIDEntity.measureTextWidth() + 5);
+
+        var helpButton = new IgeFontEntity()
+            .colorOverlay('white')
+            .nativeFont('25px Times New Roman')
+            .right(90)
+            .textAlignX(1)
+            .mount(topNav)
+            .text('?')
+            .mouseUp(function(){
+                $( "#dialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, width: 675, height: 430, modal: true, autoOpen: false });
+                $( "#dialog" ).dialog( "open" );
+            });
+
+        helpButton.width(helpButton.measureTextWidth() + 5);
+
 
         var buildButton = new IgeUiElement()
 			.id('buildButton')
