@@ -5,7 +5,7 @@ var Client = IgeClass.extend({
 	classId: 'Client',
 
 	init: function () {
-		ige.addComponent(IgeEditorComponent);
+		//ige.addComponent(IgeEditorComponent);
 		ige.addComponent(IgeAudioComponent);
 
 		// Load our textures
@@ -28,7 +28,6 @@ var Client = IgeClass.extend({
                         var tile = tileMap.mouseToTile(),
                             item = ige.client.itemAt(tile.x, tile.y);
 
-                        console.log(item)
                         if (item) {
                             // The user clicked on a building so set this as the
                             // building we are moving.
@@ -57,9 +56,13 @@ var Client = IgeClass.extend({
                     var item = ige.client.data('moveItem'),
                         map = tileMap.map,
                         tile = tileMap.mouseToTile();
-console.log(item)
+
                     if (item) {
                         // Check if the current tile is occupied or not
+                        if (!tileMap.inGrid(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight'))) {
+                            return;
+                        }
+
                         if (!map.collision(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight')) || map.collisionWithOnly(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight'), item)) {
                             // We are currently moving an item so update it's
                             // translation
