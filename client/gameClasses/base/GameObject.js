@@ -19,5 +19,41 @@ var GameObject = IgeEntity.extend({
 	
 	place: function () {
 		
-	}
+	},
+
+    /**
+     * Moves the tile placement of the item from it's current
+     * tile location to the new tile location specified. Also
+     * translates the entity.
+     * @param tileX
+     * @param tileY
+     * @return {*}
+     */
+    moveTo: function (tileX, tileY) {
+        // Un-occupy the current tiles
+        this.unOccupyTile(
+            this.data('tileX'),
+            this.data('tileY'),
+            this.data('tileWidth'),
+            this.data('tileHeight')
+        );
+
+        // Set the new tile position
+        this.data('tileX', tileX)
+            .data('tileY', tileY);
+
+        this.occupyTile(
+            this.data('tileX'),
+            this.data('tileY'),
+            this.data('tileWidth'),
+            this.data('tileHeight')
+        );
+
+        var tx = tileX + this._tileAdjustX;
+        var ty = tileY + this._tileAdjustY;
+
+        this.translateToTile(tx,ty);
+
+        return this;
+    },
 });
