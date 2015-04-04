@@ -73,11 +73,19 @@ var API = {
     },
 
     firstReloadState: function() {
-        var objects = API.state.objects || []
+        var objects = API.state.objects || [],
+            isIDMissing = false;
         for(var i in objects) {
+            if (objects[i].id === undefined){
+                objects[i].id = ige.newIdHex()
+                isIDMissing = true
+            }
+            API.stateObjectsLookup[objects[i].id] = API.state.objects[i]
             ClientHelpers.addObject(objects[i])
         }
         ClientHelpers.setPlayerPos()
+        if(isIDMissing)
+            API.saveState()
     },
 
     reloadState: function() {
@@ -93,9 +101,18 @@ var API = {
         console.log("ige create object", obj)
         if(!API.state.objects)
             API.state.objects = []
-        API.state.objects.push(obj)
+        var newLength = API.state.objects.push(obj)
+        API.stateObjectsLookup[obj.id] = API.state.objects[newLength-1]
+        API.saveState()
+    },
+
+    updateObject: function(obj, newX, newY) {
+        console.log("ige update object", obj)
+        API.stateObjectsLookup[obj.id()].x = newX
+        API.stateObjectsLookup[obj.id()].y = newY
         API.saveState()
     },
     state: {},
+    stateObjectsLookup: {},
     user: null,
 }

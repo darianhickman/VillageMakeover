@@ -22,9 +22,62 @@ var Client = IgeClass.extend({
                     tileMap = ige.$('tileMap1');
 
                 self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
-                    var tile = tileMap.mouseToTile();
-                    ige.$('bob').walkToTile(tile.x, tile.y);
+                    if (!ige.client.data('moveItem')) {
+                        // We're not already moving an item so check if the user
+                        // just clicked on a building
+                        var tile = tileMap.mouseToTile(),
+                            item = ige.client.itemAt(tile.x, tile.y);
+
+                        if (item) {
+                            // The user clicked on a building so set this as the
+                            // building we are moving.
+                            ige.client.data('moveItem', item);
+                            ige.client.data('moveItemX', item.data('tileX'));
+                            ige.client.data('moveItemY', item.data('tileY'));
+                        }else {
+                            ige.$('bob').walkToTile(tile.x, tile.y);
+                        }
+                    } else {
+                        // We are already moving a building, place this building
+                        // down now
+                        var item = ige.client.data('moveItem'),
+                            moveX = item.data('lastMoveX'),
+                            moveY = item.data('lastMoveY');
+
+                        item.moveTo(moveX, moveY);
+                        // Clear the data
+                        ige.client.data('moveItem', '');
+
+                        API.updateObject(item, moveX, moveY)
+                    }
                 });
+
+                self.mouseMoveHandle = tileMap.on('mouseMove', function (event, evc, data) {
+                    var item = ige.client.data('moveItem'),
+                        map = tileMap.map,
+                        tile = tileMap.mouseToTile();
+
+                    if (item) {
+                        // Check if the current tile is occupied or not
+                        if (!tileMap.inGrid(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight'))) {
+                            return;
+                        }
+
+                        if (!map.collision(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight')) || map.collisionWithOnly(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight'), item)) {
+                            // We are currently moving an item so update it's
+                            // translation
+                            var tx = tile.x + item._tileAdjustX;
+                            var ty = tile.y + item._tileAdjustY;
+
+                            item.translateToTile(tx, ty);
+
+                            // Store the last position we accepted
+                            item.data('lastMoveX', tile.x);
+                            item.data('lastMoveY', tile.y);
+                        }
+                    }
+                });
+
 
                 completeCallback();
             },
@@ -34,6 +87,7 @@ var Client = IgeClass.extend({
                     tileMap = ige.$('tileMap1');
 
                 tileMap.off('mouseUp', self.mouseUpHandle);
+                tileMap.off('mouseMove', self.mouseMoveHandle);
 
                 completeCallback();
             }
@@ -211,7 +265,13 @@ var Client = IgeClass.extend({
 						objectTileHeight
 					);
 
+                    ige.client.cursorObject.data('tileX', self.cursorTile.x)
+                        .data('tileY', self.cursorTile.y)
+                        .data('tileWidth', objectTileWidth)
+                        .data('tileHeight', objectTileHeight);
+
                     var objinfo = {
+                        id: ige.client.cursorObject.id(),
                         x: self.cursorTile.x,
 						y: self.cursorTile.y,
 						w: objectTileWidth,
@@ -506,7 +566,17 @@ var Client = IgeClass.extend({
                 }
 			});
 		});
-	}
+	},
+
+    /**
+     * Returns the item occupying the tile co-ordinates of the tile map.
+     * @param tileX
+     * @param tileY
+     */
+    itemAt: function (tileX, tileY) {
+        // Return the data at the map's tile co-ordinates
+        return ige.$('tileMap1').map.tileData(tileX, tileY);
+    }
 });
 
 if (typeof(module) !== 'undefined' && typeof(module.exports) !== 'undefined') { module.exports = Client; }
