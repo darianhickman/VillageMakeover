@@ -70,6 +70,11 @@ var GraphLevel1 = IgeSceneGraph.extend({
             .translateTo(0,-600,0)
             .highlightOccupied(false)
 			.mount(objectScene);
+
+        new HiEntity()
+            .id('hientity')
+            .layer(20)
+            .translateTo(0, 0, 0);
 	},
 
 	/**

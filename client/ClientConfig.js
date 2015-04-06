@@ -21,6 +21,7 @@ var igeClientConfig = {
 		// Game objects
 		'./gameClasses/base/GameObject.js',
 		'./gameClasses/base/Villager.js',
+		'./gameClasses/base/HiEntity.js',
 
         './clientApiSupport.js',
         './clientBuy.js',
