@@ -93,6 +93,21 @@ var Client = IgeClass.extend({
                 tileMap.off('mouseUp', self.mouseUpHandle);
                 tileMap.off('mouseMove', self.mouseMoveHandle);
 
+                if (ige.client.data('moveItem')) {
+                    // We are moving a building, place this building
+                    // down before changing state
+                    var item = ige.client.data('moveItem'),
+                        moveX = item.data('lastMoveX'),
+                        moveY = item.data('lastMoveY');
+
+                    item.moveTo(moveX, moveY);
+                    // Clear the data
+                    ige.client.data('moveItem', '');
+
+                    ige.$('hientity').unMount();
+
+                    API.updateObject(item, moveX, moveY)
+                }
                 completeCallback();
             }
         });
