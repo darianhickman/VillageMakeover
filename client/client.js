@@ -35,6 +35,10 @@ var Client = IgeClass.extend({
                             ige.client.data('moveItemX', item.data('tileX'));
                             ige.client.data('moveItemY', item.data('tileY'));
 
+                            //set initial position to lastmoveX-Y data
+                            item.data('lastMoveX', item.data('tileX'));
+                            item.data('lastMoveY', item.data('tileY'));
+
                             ige.$('hientity').mount(tileMap);
                         }else {
                             ige.$('bob').walkToTile(tile.x, tile.y);
