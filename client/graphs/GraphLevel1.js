@@ -67,14 +67,19 @@ var GraphLevel1 = IgeSceneGraph.extend({
 			.drawMouse(false)
 			.drawMouseData(false)
 			//.translateTo(-7 - mapDeltaX, -228 - mapDeltaY, 0)
-            .translateTo(0,-600,0)
+            .translateTo(0,-640,0)
             .highlightOccupied(false)
 			.mount(objectScene);
 
-        new HiEntity()
-            .id('hientity')
-            .layer(20)
-            .translateTo(0, 0, 0);
+        new IgeEntity()
+            .id('outlineEntity')
+            .isometric(true)
+            .texture(ige.client.textures.outline)
+            .layer(30)
+            .mount(ige.$('tileMap1'))
+            .hide();
+
+        ige.$('outlineEntity').isFeasible = true;
 	},
 
 	/**
