@@ -34,6 +34,17 @@ var Client = IgeClass.extend({
                             ige.client.data('moveItem', item);
                             ige.client.data('moveItemX', item.data('tileX'));
                             ige.client.data('moveItemY', item.data('tileY'));
+
+                            //set initial position to lastmoveX-Y data
+                            item.data('lastMoveX', item.data('tileX'));
+                            item.data('lastMoveY', item.data('tileY'));
+
+                            ige.$('outlineEntity').tileWidth = item.data('tileWidth');
+                            ige.$('outlineEntity').tileHeight = item.data('tileHeight');
+                            ige.$('outlineEntity').isFeasible = true;
+                            ige.$('outlineEntity').translateToTile(item.data('tileX'), item.data('tileY'));
+
+                            ige.client.showGrid();
                         }else {
                             ige.$('bob').walkToTile(tile.x, tile.y);
                         }
@@ -47,6 +58,8 @@ var Client = IgeClass.extend({
                         item.moveTo(moveX, moveY);
                         // Clear the data
                         ige.client.data('moveItem', '');
+
+                        ige.client.hideGrid();
 
                         API.updateObject(item, moveX, moveY)
                     }
@@ -70,6 +83,7 @@ var Client = IgeClass.extend({
                             var ty = tile.y + item._tileAdjustY;
 
                             item.translateToTile(tx, ty);
+                            ige.$('outlineEntity').translateToTile(tile.x, tile.y);
 
                             // Store the last position we accepted
                             item.data('lastMoveX', tile.x);
@@ -89,6 +103,21 @@ var Client = IgeClass.extend({
                 tileMap.off('mouseUp', self.mouseUpHandle);
                 tileMap.off('mouseMove', self.mouseMoveHandle);
 
+                if (ige.client.data('moveItem')) {
+                    // We are moving a building, place this building
+                    // down before changing state
+                    var item = ige.client.data('moveItem'),
+                        moveX = item.data('lastMoveX'),
+                        moveY = item.data('lastMoveY');
+
+                    item.moveTo(moveX, moveY);
+                    // Clear the data
+                    ige.client.data('moveItem', '');
+
+                    ige.client.hideGrid();
+
+                    API.updateObject(item, moveX, moveY)
+                }
                 completeCallback();
             }
         });
@@ -136,46 +165,17 @@ var Client = IgeClass.extend({
 				ige.client.cursorObjectData = data;
 
 				var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                                                / tileMap._tileWidth);
-				var objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+                                                / tileMap._tileWidth),
+                    objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
                                              / tileMap._tileHeight);
 
-                var HiEntity = IgeEntity.extend({
-			         classId: 'HiEntity' + (uniqueCounter ++),
-			         tick: function (ctx) {
-				         IgeEntity.prototype.tick.call(this, ctx);
-                         for(var x_=-100; x_ < 300; x_ ++) {
-                             for(var y_=-100; y_ < 300; y_ ++) {
-                                 var x = x_ * 20;
-                                 var y = y_ * 20;
-                                 var tx = Math.ceil(x / tileMap._tileWidth);
-                                 var ty = Math.ceil(y / tileMap._tileHeight);
-                                 if(!tileMap.inGrid(tx, ty, 1, 1)) continue;
+                ige.client.cursorObject.data('tileWidth', objectTileWidth)
+                    .data('tileHeight', objectTileHeight);
 
-                                 var isFree = !tileMap.isTileOccupied(
-						             tx,
-						             ty,
-						             1,
-						             1);
+                ige.$('outlineEntity').tileWidth = objectTileWidth;
+                ige.$('outlineEntity').tileHeight = objectTileHeight;
 
-                                 if(isFree)
-				                     ctx.fillStyle = '#3f3';
-                                 else
-                                     ctx.fillStyle = 'red';
-
-                                 var point = new IgePoint3d(x, y, 0);
-                                 var p = point.toIso();
-                                 ctx.fillRect(p.x, p.y, 3, 3);
-                             }
-                         }
-			         }
-		         });
-
-                var hientity = new HiEntity()
-                    .id('hientity_' + uniqueCounter)
-                    .layer(20)
-                    .translateTo(0, 0, 0)
-                    .mount(tileMap);
+                ige.client.showGrid();
 
 				// Hook mouse events
 				self.mouseMoveHandle = tileMap.on('mouseMove', function (event, evc, data) {
@@ -190,10 +190,12 @@ var Client = IgeClass.extend({
 						    objectTileWidth,
 						    objectTileHeight);
                         ige.client.cursorObject.opacity(isFree ? 1 : 0.5);
+                        ige.$('outlineEntity').isFeasible = isFree;
 						// Move our cursor object to the tile
                         var tx = tile.x + ige.client.cursorObject._tileAdjustX;
                         var ty = tile.y + ige.client.cursorObject._tileAdjustY;
 						ige.client.cursorObject.translateToTile(tx, ty);
+                        ige.$('outlineEntity').translateToTile(tile.x, tile.y);
 						self.cursorTile = tile;
 					}
 				});
@@ -211,7 +213,7 @@ var Client = IgeClass.extend({
                         return;
                     }
 
-                    hientity.unMount();
+                    ige.client.hideGrid();
 
                     if(tileMap.isTileOccupied(
 						    tile.x,
@@ -372,7 +374,7 @@ var Client = IgeClass.extend({
 				tileMap.off('mouseUp', self.mouseUpHandle);
 				tileMap.off('mouseMove', self.mouseMoveHandle);
 
-                ige.$('hientity_' + uniqueCounter).unMount();
+                ige.client.hideGrid();
 
                 if (ige.client.cursorObject) {
                     ige.client.cursorObject.destroy();
@@ -457,6 +459,7 @@ var Client = IgeClass.extend({
 
 		this.textures.greenDot = new IgeTexture('./assets/textures/greendot.png');
 		this.textures.redDot = new IgeTexture('./assets/textures/reddot.png');
+		this.textures.outline = new IgeTexture('./assets/textures/outline.js');
 
 		ige.ui.style('.dialog', {
 			left: 0,
@@ -576,6 +579,16 @@ var Client = IgeClass.extend({
     itemAt: function (tileX, tileY) {
         // Return the data at the map's tile co-ordinates
         return ige.$('tileMap1').map.tileData(tileX, tileY);
+    },
+    showGrid: function(){
+        ige.$('tileMap1').drawGrid(true);
+        ige.$('tileMap1').highlightOccupied(true);
+        ige.$('outlineEntity').show();
+    },
+    hideGrid: function(){
+        ige.$('tileMap1').drawGrid(false);
+        ige.$('tileMap1').highlightOccupied(false);
+        ige.$('outlineEntity').hide();
     }
 });
 
