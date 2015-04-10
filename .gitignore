@@ -8,4 +8,5 @@
 /client/deploy
 /.idea
 **/.DS_Store
+update_prod.sh`
 villagegamedev2_deploy.sh

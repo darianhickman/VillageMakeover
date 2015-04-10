@@ -19,6 +19,9 @@ handlers:
 - url: /client/
   static_dir: client
 
+- url: /client/mailchimp/.*
+  static_dir: client/mailchimp
+
 - url: /ige
   static_dir: ige
 
