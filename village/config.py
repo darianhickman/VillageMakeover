@@ -9,6 +9,7 @@ local_config = yaml.load(open(os.path.join(os.path.dirname(__file__), '../config
 
 catalog_name = 'Innovations Catalog Village Social OPERATIONAL DATA Devel'
 config_name = 'Village MakeOver Settings OPERATIONAL'
+news_feed_name = 'Village MakeOver News Feed'
 cash_bundle_name = 'Virtual Currency Cash Bundle Catalog Operational'
 
 session = None
@@ -48,6 +49,13 @@ def get_sheet(name):
 
 def get_config():
     data = get_sheet(config_name)
+    d = {}
+    for row in data[1:]:
+        d[row[0]] = row[1]
+    return d
+
+def get_news_feed():
+    data = get_sheet(news_feed_name)
     d = {}
     for row in data[1:]:
         d[row[0]] = row[1]

@@ -45,6 +45,49 @@ var GameObjects = {
 
 		        this.calcTileAdjust();
                 this.cell(options.cell)
+
+                this.mouseOverFontEntity = new IgeFontEntity()
+                    .layer(2)
+                    .colorOverlay('white')
+                    .texture(ige.client.textures.aharoniFont)
+                    .width(500)
+                    .height(150)
+                    .textAlignX(1)
+                    .autoWrap(true)
+                    .text(options.description)
+                    .mount(this)
+                    .hide()
+
+                var totalLines = (this.mouseOverFontEntity._renderText.match(new RegExp('\n', 'g')) || []).length || 1
+                this.mouseOverFontEntity.translateTo(0, -this.height() / 2 - 20 * totalLines, 0)
+
+                this.fontEntityBackground = new IgeEntity()
+                    .layer(2)
+                    .width(this.mouseOverFontEntity.measureTextWidth(this.mouseOverFontEntity._renderText) + 20)
+                    .height((totalLines + 1) * 40)
+                    .translateTo(0, -this.height() / 2 - 20 * totalLines, 0)
+                    .texture(ige.client.textures.rectangle)
+                    .mount(this)
+                    .hide()
+
+                this.mouseOver(function(){
+                    if(ige.client.fsm.currentStateName() === "select" && !ige.client.data('moveItem')){
+                        this.mouseOverFontEntity.show()
+                        this.fontEntityBackground.show()
+                        this.layer(24)
+                    }
+                })
+
+                this.mouseOut(function(){
+                    this.mouseOverFontEntity.hide()
+                    this.fontEntityBackground.hide()
+                    this.layer(23)
+                })
+
+                this.mouseMove(function(){
+                    if(ige.client.fsm.currentStateName() === "select" && !ige.client.data('moveItem'))
+                        ige.input.stopPropagation();
+                })
 	        },
 
             place: function(noBuildAnimation) {
