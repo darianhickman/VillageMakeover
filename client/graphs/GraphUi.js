@@ -24,6 +24,8 @@ var GraphUi = IgeSceneGraph.extend({
 
         GameObjects.setupMarket(marketDialog)
 
+        var newsFeed = new NewsFeed()
+
         var cashDialog = new CashDialog()
 			.id('cashDialog')
 			.layer(1)
@@ -140,7 +142,7 @@ var GraphUi = IgeSceneGraph.extend({
         var loginIDEntity = new IgeFontEntity()
             .colorOverlay('white')
             .nativeFont('25px Times New Roman')
-            .right(120)
+            .right(180)
             .textAlignX(2)
             .mount(topNav)
             .text(loginIDString);
@@ -150,12 +152,12 @@ var GraphUi = IgeSceneGraph.extend({
         var helpButton = new IgeFontEntity()
             .colorOverlay('white')
             .nativeFont('25px Times New Roman')
-            .right(90)
+            .right(150)
             .textAlignX(1)
             .mount(topNav)
             .text('?')
             .mouseUp(function(){
-                $( "#dialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, width: 675, height: 430, modal: true, autoOpen: false });
+                $( "#dialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, width: 640, height: 410, modal: true, autoOpen: false });
                 $( "#dialog" ).dialog( "open" );
             });
 
@@ -168,6 +170,13 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
             .right(10)
 			.mount(topNav);
+
+        var newsFeedButton = new IgeUiElement()
+            .id('newsFeedButton')
+            .texture(self.textures.newsFeedButton)
+            .dimensionsFromTexture()
+            .right(80)
+            .mount(topNav);
 
 		new IgeParticleEmitter()
 			.id('coinEmitter')
@@ -200,6 +209,12 @@ var GraphUi = IgeSceneGraph.extend({
 				// Open the build menu
 				ige.$('marketDialog').show();
 			});
+
+        ige.$('newsFeedButton')
+            .mouseUp(function () {
+                $( "#newsFeedDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, width: 675, height: 430, modal: true, autoOpen: false });
+                $( "#newsFeedDialog" ).dialog( "open" );
+            });
 
         ige.$('cashBar')
             .mouseUp(function() {

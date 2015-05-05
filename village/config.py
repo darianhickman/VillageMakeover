@@ -9,7 +9,7 @@ local_config = yaml.load(open(os.path.join(os.path.dirname(__file__), '../config
 
 catalog_name = 'Innovations Catalog Village Social OPERATIONAL DATA Devel'
 config_name = 'Village MakeOver Settings OPERATIONAL'
-news_feed_name = 'Village MakeOver News Feed'
+news_feed_name = 'SOHIP Village News PRD'
 cash_bundle_name = 'Virtual Currency Cash Bundle Catalog Operational'
 
 session = None
@@ -56,10 +56,12 @@ def get_config():
 
 def get_news_feed():
     data = get_sheet(news_feed_name)
-    d = {}
-    for row in data[1:]:
-        d[row[0]] = row[1]
-    return d
+    headers = data[0]
+    items = []
+    for row in data[2:]:
+        if row and row[0]:
+            items.append(dict(zip(headers, row)))
+    return items
 
 @memcached('catalog')
 def get_catalog():

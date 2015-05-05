@@ -424,6 +424,7 @@ var Client = IgeClass.extend({
         this.textures.mainMenuBackground = new IgeTexture('./assets/textures/ui/mainMenuBackground.png');
 		this.textures.marketItemBack = new IgeTexture('./assets/textures/ui/marketItemBack.png');
 		this.textures.buildButton = new IgeTexture('./assets/textures/ui/build.png');
+		this.textures.newsFeedButton = new IgeTexture('./assets/textures/ui/newsFeed.png');
         this.textures.greenPlus = new IgeTexture('./assets/textures/ui/green+.png');
 		this.textures.giftButton = new IgeTexture('./assets/textures/ui/giftButton.png');
 		this.textures.actionButtonBack = new IgeTexture('./assets/textures/ui/actionButtonBack.png');
