@@ -6,7 +6,7 @@ import braintree
 import urllib
 
 from .app_common import config
-from .config import get_config, get_catalog
+from .config import get_config, get_catalog, get_news_feed
 from . import models
 
 from google.appengine.api import users
@@ -75,3 +75,7 @@ def create_client():
     state.customer_id_once = not remember
     state.put()
     return flask.redirect('/client/#pay=' + urllib.quote(param))
+
+@root.route('/newsFeed')
+def news_feed_route():
+    return flask.Response(json.dumps(get_news_feed()),content_type='application/json')

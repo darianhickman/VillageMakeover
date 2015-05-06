@@ -28,6 +28,7 @@ var igeClientConfig = {
         './clientHelpers.js',
         './gameObjects.js',
         './gameCatalog.js',
+        './NewsFeed.js',
 
 		// Graphs
 		'./graphs/GraphLevel1.js',

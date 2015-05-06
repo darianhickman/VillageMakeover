@@ -417,12 +417,14 @@ var Client = IgeClass.extend({
 		this.textures.greenBackground = new IgeTexture('./assets/textures/backgrounds/greenBackground.png');
         this.textures.valleyBackground = new IgeTexture('./assets/textures/backgrounds/valleyBackground.png')
 		this.textures.dirtBackground = new IgeTexture('./assets/textures/backgrounds/dirtBackground.png');
+		this.textures.aharoniFont = new IgeFontSheet('./assets/textures/fonts/aharoni_26px.png');
 
 		this.textures.moneyMenuBackground = new IgeTexture('./assets/textures/ui/CashMenuTemplate.png');
 		this.textures.coinMenuBackground = new IgeTexture('./assets/textures/ui/CoinMenuTemplate.png');
         this.textures.mainMenuBackground = new IgeTexture('./assets/textures/ui/mainMenuBackground.png');
 		this.textures.marketItemBack = new IgeTexture('./assets/textures/ui/marketItemBack.png');
 		this.textures.buildButton = new IgeTexture('./assets/textures/ui/build.png');
+		this.textures.newsFeedButton = new IgeTexture('./assets/textures/ui/newsFeed.png');
         this.textures.greenPlus = new IgeTexture('./assets/textures/ui/green+.png');
 		this.textures.giftButton = new IgeTexture('./assets/textures/ui/giftButton.png');
 		this.textures.actionButtonBack = new IgeTexture('./assets/textures/ui/actionButtonBack.png');
@@ -460,6 +462,7 @@ var Client = IgeClass.extend({
 		this.textures.greenDot = new IgeTexture('./assets/textures/greendot.png');
 		this.textures.redDot = new IgeTexture('./assets/textures/reddot.png');
 		this.textures.outline = new IgeTexture('./assets/textures/outline.js');
+		this.textures.rectangle = new IgeTexture('./assets/textures/rectangle.js');
 
 		ige.ui.style('.dialog', {
 			left: 0,
