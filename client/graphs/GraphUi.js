@@ -212,7 +212,7 @@ var GraphUi = IgeSceneGraph.extend({
 
         ige.$('newsFeedButton')
             .mouseUp(function () {
-                $( "#newsFeedDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, width: 675, height: 430, modal: true, autoOpen: false });
+                $( "#newsFeedDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, width: 675, height: 430, modal: true, autoOpen: false });
                 $( "#newsFeedDialog" ).dialog( "open" );
             });
 
