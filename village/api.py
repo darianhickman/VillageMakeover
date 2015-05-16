@@ -23,18 +23,23 @@ def verify_csrf():
 def get_user():
     user = users.get_current_user()
     if not user:
-        return JSONResponse({'status': 'fail',
-                             'login_url': '/client/login.html'})
+        respStatus = "fail"
+        respMail = "offline"
+        respID = "offline"
     else:
-        csrf = flask.request.cookies.get('csrf')
-        if not csrf:
-            csrf = os.urandom(20).encode('hex')
-        resp = JSONResponse({
-            'status': 'ok',
-            'email': user.email(),
-            'csrf': csrf})
-        resp.set_cookie('csrf', csrf)
-        return resp
+        respStatus = "ok"
+        respMail = user.email()
+        respID = user.user_id()
+    csrf = flask.request.cookies.get('csrf')
+    if not csrf:
+        csrf = os.urandom(20).encode('hex')
+    resp = JSONResponse({
+        'status': respStatus,
+        'email': respMail,
+        'id': respID,
+        'csrf': csrf})
+    resp.set_cookie('csrf', csrf)
+    return resp
 
 @root.route('/api/login_redirect')
 def login_redirect():
@@ -56,7 +61,10 @@ def save_state():
 
 @root.route('/api/pay', methods=['POST'])
 def pay():
-    userid = users.get_current_user().user_id()
+    if flask.request.form['loginStatus'] == 'online':
+        userid = users.get_current_user().user_id()
+    else:
+        userid = flask.request.form['id']
     model = models.get_state_model(userid)
     customer_id = model.customer_id
     if not customer_id:

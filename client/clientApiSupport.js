@@ -5,14 +5,19 @@ var API = {
             url: '/api/get_user',
             dataType: 'json',
             success: function(result) {
+                API.user = result
                 if(result.status === 'ok') {
-                    API.user = result
-                    postinit_cb()
-                    API.loadState()
-                    API._buyCallback()
+                    API.loginStatus = "online"
                 } else {
-                    location.href = result.login_url
+                    API.loginStatus = "offline"
+                    if(localStorage.getItem('id') === null){
+                        localStorage.setItem('id',ige.newIdHex())
+                    }
+                    API.user.id = localStorage.getItem('id')
                 }
+                postinit_cb()
+                API.loadState()
+                API._buyCallback()
             }
         })
     },
@@ -20,18 +25,46 @@ var API = {
     _buyCallback: function() { console.error('missing buy callback') },
 
     loadState: function() {
-        $.ajax({
-            url: '/api/get_state',
-            dataType: 'json',
-            success: function(result) {
-                console.log('loaded state', result)
-                var first = !API.state.objects
-                API.state = result
-                if(first)
-                    API.firstReloadState()
-                API.reloadState()
+        if(API.loginStatus === "offline"){
+            //get local storage
+            //no local storage crate one
+            //has local storage load state
+            if(localStorage.getItem('state') === null){
+                localStorage.setItem('state',JSON.stringify({coins: 1000}))
             }
-        })
+            console.log('loaded state from local storage', localStorage.getItem('state'))
+            var first = !API.state.objects
+            API.state = JSON.parse(localStorage.getItem('state'))
+            if(first)
+                API.firstReloadState()
+            API.reloadState()
+
+        }else if(API.loginStatus === "online"){
+            $.ajax({
+                url: '/api/get_state',
+                dataType: 'json',
+                success: function(result) {
+                    console.log('loaded state', result)
+                    var first = !API.state.objects
+                    if(localStorage.getItem('state') !== null && result.first === 'true'){
+                        API.state = JSON.parse(localStorage.getItem('state'))
+                        API.state.first = 'false'
+                        API.saveState()
+                        localStorage.removeItem('state');
+                        localStorage.removeItem('id');
+                    }else if(localStorage.getItem('state') === null && result.first === 'true'){
+                        API.state.first = 'false'
+                        API.saveState()
+                    }else{
+                        API.state = result
+                        //could show a warning that this is an existing user and local storage stands still
+                    }
+                    if(first)
+                        API.firstReloadState()
+                    API.reloadState()
+                }
+            })
+        }
     },
 
     reduceAssets: function(assets) {
@@ -63,13 +96,17 @@ var API = {
     },
 
     saveState: function() {
-        $.ajax({
-            url: '/api/save_state',
-            dataType: 'json',
-            method: 'POST',
-            data: {state: JSON.stringify(API.state),
-                   csrf: API.user.csrf},
-        })
+        if(API.loginStatus === "offline"){
+            localStorage.setItem('state',JSON.stringify(API.state))
+        }else if(API.loginStatus === "online"){
+            $.ajax({
+                url: '/api/save_state',
+                dataType: 'json',
+                method: 'POST',
+                data: {state: JSON.stringify(API.state),
+                    csrf: API.user.csrf},
+            })
+        }
     },
 
     firstReloadState: function() {
@@ -115,4 +152,5 @@ var API = {
     state: {},
     stateObjectsLookup: {},
     user: null,
+    loginStatus: "offline"
 }
