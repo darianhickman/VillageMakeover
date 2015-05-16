@@ -28,13 +28,15 @@ var Buy = {
         $.ajax({
             url: '/api/pay',
             data: {amount: Buy._getAmount(assets),
-                   csrf: API.user.csrf},
+                   csrf: API.user.csrf,
+                   id: API.user.id,
+                   loginStatus: API.loginStatus},
             dataType: 'json',
             type: 'POST',
             success: function(ret) {
                 console.log('pay -> ', ret);
                 if(ret.status == 'register')
-                    location.href = 'pay.html?param=' + Buy.createReason(assets);
+                    location.href = 'pay.html?param=' + Buy.createReason(assets) + '&loginStatus=' + API.loginStatus + '&userID=' + API.user.id;
                 else if(ret.status == 'ok')
                     success()
                 else

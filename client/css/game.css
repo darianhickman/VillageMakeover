@@ -32,3 +32,7 @@
     background-color: #e9eaed;
     background: rgba(237,239,245,.98);
 }
+
+.ui-dialog-no-titlebar .ui-dialog-titlebar {
+    display:none;
+}

@@ -4,6 +4,7 @@ from google.appengine.ext import ndb
 import json
 
 INIT_STATE = {
+    'first': 'true',
     'coins': 1000,
 }
 

@@ -46,6 +46,8 @@ var GameObjects = {
 		        this.calcTileAdjust();
                 this.cell(options.cell)
 
+                this.mouseOverText = options.description;
+
                 this.mouseOverFontEntity = new IgeFontEntity()
                     .layer(2)
                     .colorOverlay('white')
@@ -72,16 +74,30 @@ var GameObjects = {
 
                 this.mouseOver(function(){
                     if(ige.client.fsm.currentStateName() === "select" && !ige.client.data('moveItem')){
-                        this.mouseOverFontEntity.show()
+                        /*this.mouseOverFontEntity.show()
                         this.fontEntityBackground.show()
+                        */
                         this.layer(24)
+
+                        $( "#mouseOverDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', position:['middle','bottom'], closeOnEscape: true, width: 450, height: 120, modal: false, autoOpen: false });
+                        $( "#mouseOverDialog" ).dialog( "open" );
+                        $( '#mouseOverObjectText').html(this.mouseOverText);
+                        var middle = ($( "#mouseOverDialog" ).height() - $( '#mouseOverObjectText').height()) / 2
+                        $( '#mouseOverObjectText').css('padding-top', middle);
+
                     }
                 })
 
                 this.mouseOut(function(){
-                    this.mouseOverFontEntity.hide()
+                    /*this.mouseOverFontEntity.hide()
                     this.fontEntityBackground.hide()
+                    */
                     this.layer(23)
+                    try{
+                        $( "#mouseOverDialog" ).dialog( "close" );
+                    }catch(error){
+                        console.log(error)
+                    }
                 })
 
                 this.mouseMove(function(){

@@ -136,23 +136,38 @@ var GraphUi = IgeSceneGraph.extend({
 			.mount(topNav);
         */
 
-        var loginIDString = API.user.email.substring(0,API.user.email.lastIndexOf("@"));
-        loginIDString = loginIDString.charAt(0).toUpperCase() + loginIDString.slice(1);
+        if(API.user.email === 'offline'){
+            var loginButtonEntity = new IgeFontEntity()
+                .colorOverlay('white')
+                .nativeFont('25px Times New Roman')
+                .right(210)
+                .textAlignX(2)
+                .mount(topNav)
+                .text('Login')
+                .mouseUp(function(){
+                    location.href = '/client/login.html'
+                });
 
-        var loginIDEntity = new IgeFontEntity()
-            .colorOverlay('white')
-            .nativeFont('25px Times New Roman')
-            .right(180)
-            .textAlignX(2)
-            .mount(topNav)
-            .text(loginIDString);
+            loginButtonEntity.width(loginButtonEntity.measureTextWidth() + 5);
+        }else{
+            var loginIDString = API.user.email.substring(0,API.user.email.lastIndexOf("@"));
+            loginIDString = loginIDString.charAt(0).toUpperCase() + loginIDString.slice(1);
 
-        loginIDEntity.width(loginIDEntity.measureTextWidth() + 5);
+            var loginIDEntity = new IgeFontEntity()
+                .colorOverlay('white')
+                .nativeFont('25px Times New Roman')
+                .right(210)
+                .textAlignX(2)
+                .mount(topNav)
+                .text(loginIDString);
+
+            loginIDEntity.width(loginIDEntity.measureTextWidth() + 5);
+        }
 
         var helpButton = new IgeFontEntity()
             .colorOverlay('white')
             .nativeFont('25px Times New Roman')
-            .right(150)
+            .right(180)
             .textAlignX(1)
             .mount(topNav)
             .text('?')
@@ -175,6 +190,7 @@ var GraphUi = IgeSceneGraph.extend({
             .id('newsFeedButton')
             .texture(self.textures.newsFeedButton)
             .dimensionsFromTexture()
+            .top(-15)
             .right(80)
             .mount(topNav);
 

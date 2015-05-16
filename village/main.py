@@ -66,7 +66,11 @@ def create_client():
     nonce = flask.request.form["payment_method_nonce"]
     remember = flask.request.form.get("remember") == 'on'
     param = flask.request.form.get("param", 'none')
-    userid = users.get_current_user().user_id()
+    user = users.get_current_user()
+    if user:
+        userid = users.get_current_user().user_id()
+    else:
+        userid = flask.request.form.get("userID", 'none')
     state = models.get_state_model(userid)
     result = braintree.Customer.create({'payment_method_nonce': nonce})
     if not result.is_success:
