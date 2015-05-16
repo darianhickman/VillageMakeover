@@ -248,7 +248,7 @@ var Client = IgeClass.extend({
                             .layer(1)
                             .show()
                             .mount(ige.$('uiScene'));
-
+                        mixpanel.track("Cash buy");
                         clientSelf.fsm.enterState('select')
                         return;
                     }
