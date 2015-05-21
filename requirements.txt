@@ -17,3 +17,4 @@ pyflakes==0.8.1
 requests==2.3.0
 rope==0.10.2
 wsgiref==0.1.2
+facebook-sdk==0.4.0

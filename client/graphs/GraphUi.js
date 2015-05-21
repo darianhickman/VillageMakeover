@@ -136,7 +136,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.mount(topNav);
         */
 
-        if(API.user.email === 'offline'){
+        if(API.loginStatus === 'offline'){
             var loginButtonEntity = new IgeFontEntity()
                 .colorOverlay('white')
                 .nativeFont('25px Times New Roman')
@@ -150,18 +150,49 @@ var GraphUi = IgeSceneGraph.extend({
 
             loginButtonEntity.width(loginButtonEntity.measureTextWidth() + 5);
         }else{
-            var loginIDString = API.user.email.substring(0,API.user.email.lastIndexOf("@"));
-            loginIDString = loginIDString.charAt(0).toUpperCase() + loginIDString.slice(1);
+            var loginIDString;
+            if(API.user.email.lastIndexOf("@") === -1){
+                loginIDString = API.user.email;
+            }else{
+                loginIDString = API.user.email.substring(0,API.user.email.lastIndexOf("@"));
+                loginIDString = loginIDString.charAt(0).toUpperCase() + loginIDString.slice(1);
+            }
 
             var loginIDEntity = new IgeFontEntity()
+                .id('loginIDEntity')
                 .colorOverlay('white')
                 .nativeFont('25px Times New Roman')
-                .right(210)
+                .right(300)
                 .textAlignX(2)
                 .mount(topNav)
                 .text(loginIDString);
 
             loginIDEntity.width(loginIDEntity.measureTextWidth() + 5);
+
+            var logoutButtonEntity = new IgeFontEntity()
+                .id('logoutButtonEntity')
+                .colorOverlay('white')
+                .nativeFont('25px Times New Roman')
+                .right(210)
+                .textAlignX(2)
+                .mount(topNav)
+                .text('Logout')
+                .mouseUp(function(){
+                    location.href = '/api/logout'
+                });
+
+            logoutButtonEntity.width(logoutButtonEntity.measureTextWidth() + 5);
+        }
+
+        if(API.user.picture_url === 'no-picture'){
+            //draw triangle
+        }else{
+            var loginPicture = new IgeUiElement()
+                .id('loginPicture')
+                .texture(new IgeTexture(API.user.picture_url))
+                .dimensionsFromTexture()
+                .right(300 + ige.$('loginIDEntity').measureTextWidth() + 10)
+                .mount(topNav);
         }
 
         var helpButton = new IgeFontEntity()

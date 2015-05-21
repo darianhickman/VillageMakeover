@@ -8,6 +8,8 @@ var API = {
                 API.user = result
                 if(result.status === 'ok') {
                     API.loginStatus = "online"
+                } else if(result.status === 'fail'){
+                    location.href = result.login_url
                 } else {
                     API.loginStatus = "offline"
                     if(localStorage.getItem('id') === null){
@@ -30,7 +32,7 @@ var API = {
             //no local storage crate one
             //has local storage load state
             if(localStorage.getItem('state') === null){
-                localStorage.setItem('state',JSON.stringify({coins: 1000}))
+                localStorage.setItem('state',JSON.stringify(API.state))
             }
             console.log('loaded state from local storage', localStorage.getItem('state'))
             var first = !API.state.objects
@@ -53,6 +55,7 @@ var API = {
                         localStorage.removeItem('state');
                         localStorage.removeItem('id');
                     }else if(localStorage.getItem('state') === null && result.first === 'true'){
+                        API.state = result
                         API.state.first = 'false'
                         API.saveState()
                     }else{
@@ -149,7 +152,7 @@ var API = {
         API.stateObjectsLookup[obj.id()].y = newY
         API.saveState()
     },
-    state: {},
+    state: {coins: 1000},
     stateObjectsLookup: {},
     user: null,
     loginStatus: "offline"

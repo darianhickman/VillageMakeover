@@ -11,6 +11,10 @@ braintree:
 spreadsheet:
   login: "mail-of-user-which-has-access-to-config-spreadsheets@gmail.com"
   password: "password-for-that-user"
+
+facebook:
+  FB_APP_ID: 'facebook APP ID'
+  FB_APP_SECRET: 'facebook APP Secret'
 ```
 
 Deployment

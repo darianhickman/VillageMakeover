@@ -12,6 +12,8 @@ config_name = 'Village MakeOver Settings OPERATIONAL'
 news_feed_name = 'SOHIP Village News PRD'
 cash_bundle_name = 'Virtual Currency Cash Bundle Catalog Operational'
 
+is_login_necessary = False
+
 session = None
 
 def memcached(name):
@@ -62,6 +64,9 @@ def get_news_feed():
         if row and row[0]:
             items.append(dict(zip(headers, row)))
     return items
+
+def get_login_condition():
+    return is_login_necessary
 
 @memcached('catalog')
 def get_catalog():
