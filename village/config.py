@@ -13,6 +13,7 @@ news_feed_name = 'SOHIP Village News PRD'
 cash_bundle_name = 'Virtual Currency Cash Bundle Catalog Operational'
 
 is_login_necessary = False
+secret_key = 'C0Zf73j/4yX R~DHH!juN]LZX/,?SL'
 
 session = None
 
@@ -67,6 +68,9 @@ def get_news_feed():
 
 def get_login_condition():
     return is_login_necessary
+
+def get_secret_key():
+    return secret_key
 
 @memcached('catalog')
 def get_catalog():

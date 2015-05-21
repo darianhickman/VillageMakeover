@@ -6,12 +6,15 @@ import braintree
 import urllib
 
 from .app_common import config
-from .config import get_config, get_catalog, get_news_feed
+from .config import get_config, get_catalog, get_news_feed, get_secret_key
 from . import models
 
 from google.appengine.api import users
 
 root = flask.Flask(__name__)
+
+# set the secret key.  keep this really secret:
+root.secret_key  = get_secret_key()
 
 @root.route('/')
 def index():
@@ -66,9 +69,9 @@ def create_client():
     nonce = flask.request.form["payment_method_nonce"]
     remember = flask.request.form.get("remember") == 'on'
     param = flask.request.form.get("param", 'none')
-    user = users.get_current_user()
+    user = flask.session.get('user', None)
     if user:
-        userid = users.get_current_user().user_id()
+        userid = user['id']
     else:
         userid = flask.request.form.get("userID", 'none')
     state = models.get_state_model(userid)

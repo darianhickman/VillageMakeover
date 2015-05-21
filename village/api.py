@@ -12,7 +12,7 @@ from google.appengine.api import users
 
 from . import models
 from .app_common import config
-from .config import get_login_condition
+from .config import get_login_condition, get_secret_key
 
 local_config = yaml.safe_load(
     open(os.path.dirname(__file__) + '/../config.yaml'))
@@ -24,7 +24,7 @@ root = flask.Flask(__name__)
 #root.config['DEBUG'] = True
 
 # set the secret key.  keep this really secret:
-root.secret_key = 'C0Zf73j/4yX R~DHH!juN]LZX/,?SL'
+root.secret_key = get_secret_key()
 
 def verify_csrf():
     found = flask.request.form.get('csrf')
