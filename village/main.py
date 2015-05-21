@@ -13,7 +13,6 @@ from google.appengine.api import users
 
 root = flask.Flask(__name__)
 
-# set the secret key.  keep this really secret:
 root.secret_key  = get_secret_key()
 
 @root.route('/')

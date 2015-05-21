@@ -23,7 +23,6 @@ FB_APP_SECRET = local_config['facebook']['FB_APP_SECRET']
 root = flask.Flask(__name__)
 #root.config['DEBUG'] = True
 
-# set the secret key.  keep this really secret:
 root.secret_key = get_secret_key()
 
 def verify_csrf():
