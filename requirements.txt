@@ -17,3 +17,5 @@ pyflakes==0.8.1
 requests==2.3.0
 rope==0.10.2
 wsgiref==0.1.2
+oauth2client==1.4.6
+pycrypto==2.6.1
