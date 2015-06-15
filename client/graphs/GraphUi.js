@@ -140,7 +140,7 @@ var GraphUi = IgeSceneGraph.extend({
             var loginButtonEntity = new IgeFontEntity()
                 .colorOverlay('white')
                 .nativeFont('25px Times New Roman')
-                .right(210)
+                .right(320)
                 .textAlignX(2)
                 .mount(topNav)
                 .text('Login')
@@ -162,7 +162,7 @@ var GraphUi = IgeSceneGraph.extend({
                 .id('loginIDEntity')
                 .colorOverlay('white')
                 .nativeFont('25px Times New Roman')
-                .right(300)
+                .right(410)
                 .textAlignX(2)
                 .mount(topNav)
                 .text(loginIDString);
@@ -173,7 +173,7 @@ var GraphUi = IgeSceneGraph.extend({
                 .id('logoutButtonEntity')
                 .colorOverlay('white')
                 .nativeFont('25px Times New Roman')
-                .right(210)
+                .right(320)
                 .textAlignX(2)
                 .mount(topNav)
                 .text('Logout')
@@ -191,14 +191,14 @@ var GraphUi = IgeSceneGraph.extend({
                 .id('loginPicture')
                 .texture(new IgeTexture(API.user.picture_url))
                 .dimensionsFromTexture()
-                .right(300 + ige.$('loginIDEntity').measureTextWidth() + 10)
+                .right(410 + ige.$('loginIDEntity').measureTextWidth() + 10)
                 .mount(topNav);
         }
 
         var helpButton = new IgeFontEntity()
             .colorOverlay('white')
             .nativeFont('25px Times New Roman')
-            .right(180)
+            .right(290)
             .textAlignX(1)
             .mount(topNav)
             .text('?')
@@ -208,6 +208,18 @@ var GraphUi = IgeSceneGraph.extend({
 
         helpButton.width(helpButton.measureTextWidth() + 5);
 
+        var feedbackButton = new IgeFontEntity()
+            .colorOverlay('white')
+            .nativeFont('25px Times New Roman')
+            .right(180)
+            .textAlignX(1)
+            .mount(topNav)
+            .text('Feedback')
+            .mouseUp(function(){
+                //goto url
+            });
+
+        feedbackButton.width(feedbackButton.measureTextWidth() + 5);
 
         var buildButton = new IgeUiElement()
 			.id('buildButton')
