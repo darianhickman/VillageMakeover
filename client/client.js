@@ -21,6 +21,10 @@ var Client = IgeClass.extend({
                 var self = this,
                     tileMap = ige.$('tileMap1');
 
+                ige.$('vp1')
+                    .mousePan.enabled(true)
+                    .scrollZoom.enabled(true)
+
                 self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
                     if (!ige.client.data('moveItem')) {
                         // We're not already moving an item so check if the user
@@ -118,6 +122,43 @@ var Client = IgeClass.extend({
 
                     API.updateObject(item, moveX, moveY)
                 }
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('tutorial', {
+            enter: function(data, completeCallback) {
+                ige.$('vp1')
+                    .mousePan.enabled(false)
+                    .scrollZoom.enabled(false)
+
+                ige.$('objectScene').hide();
+                ige.$('uiScene').hide();
+
+                new IgeScene2d()
+                    .id('objectSceneTutorial')
+                    .layer(1)
+                    .mount(ige.$('level1'));
+
+                new IgeScene2d()
+                    .id('uiSceneTutorial')
+                    .layer(2)
+                    .ignoreCamera(true)
+                    .mount(ige.$('level1'));
+
+                self.tutorial = new Tutorial();
+                self.tutorial.gotoStep('initialStep');
+
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                ige.$('objectScene').show();
+                ige.$('uiScene').show();
+
+                ige.$('objectSceneTutorial').destroy();
+                ige.$('uiSceneTutorial').destroy();
+                self.tutorial = null;
+
                 completeCallback();
             }
         });
@@ -279,7 +320,10 @@ var Client = IgeClass.extend({
 						w: objectTileWidth,
 						h: objectTileHeight,
                         name: cursorClassId,
+                        buildStarted: Date.now()
                     }
+
+                    ige.client.cursorObject._buildStarted = objinfo.buildStarted;
 
                     API.createObject(objinfo)
 
@@ -463,6 +507,7 @@ var Client = IgeClass.extend({
 		this.textures.redDot = new IgeTexture('./assets/textures/reddot.png');
 		this.textures.outline = new IgeTexture('./assets/textures/outline.js');
 		this.textures.rectangle = new IgeTexture('./assets/textures/rectangle.js');
+		this.textures.arrow = new IgeTexture('./assets/textures/arrow.js');
 
 		ige.ui.style('.dialog', {
 			left: 0,
@@ -515,7 +560,7 @@ var Client = IgeClass.extend({
 			// Start the engine
 			ige.start(function (success) {
 				// Check if the engine started successfully
-				function postinit() {
+				function postinit(isTutorialShown) {
 					// Add base scene data
 					ige.addGraph('IgeBaseScene');
 
@@ -545,8 +590,8 @@ var Client = IgeClass.extend({
 							boundsHeight: 1545
 						})
 
-						.mousePan.enabled(true)
-						.scrollZoom.enabled(true)
+						.mousePan.enabled(false)
+						.scrollZoom.enabled(false)
 						.autoSize(true)
                         .drawBounds(false) // Switch this to true to draw all bounding boxes
 			            .drawBoundsData(false) // Switch this to true to draw all bounding boxes
@@ -564,8 +609,13 @@ var Client = IgeClass.extend({
 						.id('bob')
 						.mount(ige.$('tileMap1'))
 
-					// Set the initial fsm state
-					self.fsm.initialState('select');
+                    if(isTutorialShown === true){
+                        // Set the initial fsm state
+                        self.fsm.initialState('select');
+                    }else{
+					    // Set the initial fsm state
+                        self.fsm.initialState('tutorial');
+                    }
 				}
                 if (success) {
                     API.init(postinit);

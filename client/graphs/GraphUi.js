@@ -203,8 +203,7 @@ var GraphUi = IgeSceneGraph.extend({
             .mount(topNav)
             .text('?')
             .mouseUp(function(){
-                $( "#dialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, width: 640, height: 410, modal: true, autoOpen: false });
-                $( "#dialog" ).dialog( "open" );
+                ige.client.fsm.enterState('tutorial');
             });
 
         helpButton.width(helpButton.measureTextWidth() + 5);

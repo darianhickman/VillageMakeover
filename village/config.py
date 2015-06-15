@@ -54,7 +54,7 @@ def get_session():
     return session
 
 def get_sheet(name):
-    return get_session().open(name).sheet1.get_all_values()
+    return login().open(name).sheet1.get_all_values()
 
 def get_config():
     data = get_sheet(config_name)

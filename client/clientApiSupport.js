@@ -17,8 +17,7 @@ var API = {
                     }
                     API.user.id = localStorage.getItem('id')
                 }
-                postinit_cb()
-                API.loadState()
+                API.loadState(postinit_cb)
                 API._buyCallback()
             }
         })
@@ -26,7 +25,7 @@ var API = {
 
     _buyCallback: function() { console.error('missing buy callback') },
 
-    loadState: function() {
+    loadState: function(postinit_cb) {
         if(API.loginStatus === "offline"){
             //get local storage
             //no local storage crate one
@@ -37,6 +36,7 @@ var API = {
             console.log('loaded state from local storage', localStorage.getItem('state'))
             var first = !API.state.objects
             API.state = JSON.parse(localStorage.getItem('state'))
+            postinit_cb(API.state.isTutorialShown)
             if(first)
                 API.firstReloadState()
             API.reloadState()
@@ -47,6 +47,7 @@ var API = {
                 dataType: 'json',
                 success: function(result) {
                     console.log('loaded state', result)
+                    postinit_cb(result.isTutorialShown)
                     var first = !API.state.objects
                     if(localStorage.getItem('state') !== null && result.first === 'true'){
                         API.state = JSON.parse(localStorage.getItem('state'))
@@ -150,6 +151,18 @@ var API = {
         console.log("ige update object", obj)
         API.stateObjectsLookup[obj.id()].x = newX
         API.stateObjectsLookup[obj.id()].y = newY
+        API.saveState()
+    },
+
+    saveObjectBuiltDate: function(obj, buildCompleted) {
+        console.log("ige update object", obj)
+        API.stateObjectsLookup[obj.id()].buildCompleted = buildCompleted
+        API.saveState()
+    },
+
+    setTutorialAsShown: function() {
+        console.log("tutorial is shown")
+        API.state.isTutorialShown = true
         API.saveState()
     },
     state: {coins: 1000},
