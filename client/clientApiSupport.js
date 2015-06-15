@@ -7,11 +7,13 @@ var API = {
             success: function(result) {
                 API.user = result
                 if(result.status === 'ok') {
+                    mixpanel.track("Online user");
                     API.loginStatus = "online"
                 } else if(result.status === 'fail'){
                     location.href = result.login_url
                 } else {
                     API.loginStatus = "offline"
+                    mixpanel.track("Offline user");
                     if(localStorage.getItem('id') === null){
                         localStorage.setItem('id',ige.newIdHex())
                     }
@@ -86,6 +88,7 @@ var API = {
     },
 
     addCoins: function(by) {
+        mixpanel.track("Add Coins");
         API.state.coins += by
         API.reloadState()
         API.saveState()
@@ -93,6 +96,7 @@ var API = {
     },
 
     addCash: function(by) {
+        mixpanel.track("Add Cash");
         API.state.cash += by
         API.reloadState()
         API.saveState()
@@ -139,6 +143,7 @@ var API = {
     },
 
     createObject: function(obj) {
+        mixpanel.track("Create object");
         console.log("ige create object", obj)
         if(!API.state.objects)
             API.state.objects = []
@@ -148,6 +153,7 @@ var API = {
     },
 
     updateObject: function(obj, newX, newY) {
+        mixpanel.track("Update object");
         console.log("ige update object", obj)
         API.stateObjectsLookup[obj.id()].x = newX
         API.stateObjectsLookup[obj.id()].y = newY
