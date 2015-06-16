@@ -193,6 +193,45 @@ var GraphUi = IgeSceneGraph.extend({
                 .dimensionsFromTexture()
                 .right(410 + ige.$('loginIDEntity').measureTextWidth() + 10)
                 .mount(topNav);
+
+
+            var likeButton = new IgeFontEntity()
+                .colorOverlay('white')
+                .nativeFont('25px Times New Roman')
+                .right(600)
+                .textAlignX(1)
+                .mount(topNav)
+                .text('Like')
+                .mouseUp(function(){
+                    //goto url
+                    $.ajax({
+                        url: '/api/like',
+                        dataType: 'json',
+                        success: function (result) {
+                            console.log(result)
+                            $("#tutorialDialog").dialog({
+                                resizable: false,
+                                draggable: true,
+                                dialogClass: 'ui-dialog-no-titlebar',
+                                closeOnEscape: false,
+                                width: 500,
+                                height: 200,
+                                modal: true,
+                                autoOpen: false
+                            });
+                            $("#tutorialDialog").dialog("open");
+
+                            $("#tutorialContent")
+                                .html('<div style="padding-top:50px"><p>You liked our game. Thank You!</p><button id="dialogButton">OK</button></div>');
+
+                            $('#dialogButton').on('click', function () {
+                                $("#tutorialDialog").dialog("close");
+                            });
+                        }
+                    });
+                });
+
+            likeButton.width(likeButton.measureTextWidth() + 5);
         }
 
         var helpButton = new IgeFontEntity()

@@ -19,6 +19,9 @@ local_config = yaml.safe_load(
 
 FB_APP_ID = local_config['facebook']['FB_APP_ID']
 FB_APP_SECRET = local_config['facebook']['FB_APP_SECRET']
+FB_LIKE_URL = local_config['facebook']['FB_LIKE_URL']
+FB_LIKE_TITLE = local_config['facebook']['FB_LIKE_TITLE']
+FB_LIKE_IMAGE = local_config['facebook']['FB_LIKE_IMAGE']
 
 root = flask.Flask(__name__)
 #root.config['DEBUG'] = True
@@ -148,17 +151,18 @@ def get_current_user():
     # If there is no result, we assume the user is not logged in.
     if result:
         graph = facebook.GraphAPI(result['access_token'])
+        extended_token = graph.extend_access_token(FB_APP_ID, FB_APP_SECRET)
         profile = graph.get_object('me')
 
         state = models.get_state_model(result['uid'])
         state.provider = 'facebook'
         state.name = profile['name']
-        state.access_token = result['access_token']
+        state.access_token = extended_token['access_token']
         state.put()
 
         # Add the user to the current session
         flask.session['user'] = dict(name=profile['name'],
-                               id=result['uid'], access_token=result['access_token'], provider='facebook')
+                               id=result['uid'], access_token=extended_token['access_token'], provider='facebook')
 
     # Set the user as a global g.user
     flask.g.user = flask.session.get('user', None)
@@ -168,6 +172,15 @@ def get_facebook_picture_url():
     data = json.load(response)
     picture_url = data['data']['url']
     return picture_url
+
+@root.route('/api/like')
+def like_game():
+    if flask.g.user:
+        if flask.g.user['provider'] == 'facebook':
+            graph = facebook.GraphAPI(flask.g.user['access_token'])
+            like_result = graph.request(flask.g.user['id'] + '/og.likes', post_args={"object": "{\"fb:app_id\":\""+FB_APP_ID+"\",\"og:type\":\"object\",\"og:url\":\""+FB_LIKE_URL+"\",\"og:title\":\""+FB_LIKE_TITLE+"\",\"og:image\":\""+FB_LIKE_IMAGE+"\"}"})
+            return JSONResponse(like_result)
+    return JSONResponse({'status':'no fb user'})
 
 @root.route('/api/logout')
 def logout():
