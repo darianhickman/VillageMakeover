@@ -128,6 +128,8 @@ var Client = IgeClass.extend({
 
         this.fsm.defineState('tutorial', {
             enter: function(data, completeCallback) {
+                mixpanel.track("Open tutorial");
+
                 ige.$('vp1')
                     .mousePan.enabled(false)
                     .scrollZoom.enabled(false)
@@ -276,6 +278,7 @@ var Client = IgeClass.extend({
                         {coins: parseInt(ige.client.cursorObjectData.coins, 10),
                         cash: parseInt(ige.client.cursorObjectData.cash, 10)})) {
                         // Not enough money?
+                        mixpanel.track("Not enough money");
                         ige.client.cursorObject.destroy();
                         ige.client.cursorObject = null;
 					    ige.client.cursorObjectData = null;

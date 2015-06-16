@@ -102,6 +102,7 @@ var Tutorial = IgeEventingClass.extend({
             .text('Skip Tutorial ->')
             .mount(uiScene)
             .mouseUp(function(){
+                mixpanel.track("Skip tutorial");
                 self.gotoStep('finishTutorial');
             });
 

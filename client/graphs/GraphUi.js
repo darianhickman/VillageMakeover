@@ -145,6 +145,7 @@ var GraphUi = IgeSceneGraph.extend({
                 .mount(topNav)
                 .text('Login')
                 .mouseUp(function(){
+                    mixpanel.track("Click login");
                     location.href = '/client/login.html'
                 });
 
@@ -178,6 +179,7 @@ var GraphUi = IgeSceneGraph.extend({
                 .mount(topNav)
                 .text('Logout')
                 .mouseUp(function(){
+                    mixpanel.track("Logout");
                     location.href = '/api/logout'
                 });
 
@@ -208,6 +210,7 @@ var GraphUi = IgeSceneGraph.extend({
                         url: '/api/like',
                         dataType: 'json',
                         success: function (result) {
+                            mixpanel.track("Like game");
                             console.log(result)
                             $("#tutorialDialog").dialog({
                                 resizable: false,
@@ -256,6 +259,7 @@ var GraphUi = IgeSceneGraph.extend({
             .text('Feedback')
             .mouseUp(function(){
                 window.open(
+                    mixpanel.track("Send feedback");
                     GameConfig.config['feedbackButtonURL'],
                     "GoogleGroupPage",
                     "resizable,scrollbars,status"
@@ -309,38 +313,46 @@ var GraphUi = IgeSceneGraph.extend({
 		ige.$('buildButton')
 			.mouseUp(function () {
 				// Open the build menu
+                mixpanel.track("Open market dialog");
 				ige.$('marketDialog').show();
 			});
 
         ige.$('newsFeedButton')
             .mouseUp(function () {
+                mixpanel.track("Open newsfeed dialog");
                 $( "#newsFeedDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, width: 675, height: 430, modal: true, autoOpen: false });
                 $( "#newsFeedDialog" ).dialog( "open" );
             });
 
         ige.$('cashBar')
             .mouseUp(function() {
+                mixpanel.track("Open cash dialog");
                 ige.$('cashDialog').show();
             });
         ige.$('cashProgress')
             .mouseUp(function() {
+                mixpanel.track("Open cash dialog");
                 ige.$('cashDialog').show();
             });
         ige.$('cashButton')
             .mouseUp(function() {
+                mixpanel.track("Open cash dialog");
                 ige.$('cashDialog').show();
             })
 
         ige.$('coinsBar')
             .mouseUp(function() {
+                mixpanel.track("Open coin dialog");
                 ige.$('coinDialog').show();
             });
         ige.$('coinsProgress')
             .mouseUp(function() {
+                mixpanel.track("Open coin dialog");
                 ige.$('coinDialog').show();
             });
         ige.$('coinsButton')
             .mouseUp(function() {
+                mixpanel.track("Open coin dialog");
                 ige.$('coinDialog').show();
             })
 

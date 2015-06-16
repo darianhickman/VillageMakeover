@@ -26,12 +26,14 @@ var BuyStatus = Dialog.extend({
 
     transactionSuccess: function() {
         var self = this;
+        mixpanel.track("Transaction success");
         this.label.text('Transaction successful!');
         new IgeInterval(function () { self.hide()  }, 1000);
     },
 
     transactionFailed: function(callback) {
         var self = this;
+        mixpanel.track("Transaction fail");
         this.label.text('Transaction failed!\nPlease update your info...');
         this.label.nativeFont('20px Times New Roman')
         new IgeInterval(callback, 2000);
