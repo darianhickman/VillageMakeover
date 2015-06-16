@@ -258,8 +258,8 @@ var GraphUi = IgeSceneGraph.extend({
             .mount(topNav)
             .text('Feedback')
             .mouseUp(function(){
+                mixpanel.track("Send feedback");
                 window.open(
-                    mixpanel.track("Send feedback");
                     GameConfig.config['feedbackButtonURL'],
                     "GoogleGroupPage",
                     "resizable,scrollbars,status"
