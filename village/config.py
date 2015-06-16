@@ -60,7 +60,7 @@ def get_config():
     data = get_sheet(config_name)
     d = {}
     for row in data[1:]:
-        d[row[0]] = row[1]
+        d[row[2]] = row[3]
     return d
 
 def get_news_feed():

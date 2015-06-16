@@ -255,7 +255,12 @@ var GraphUi = IgeSceneGraph.extend({
             .mount(topNav)
             .text('Feedback')
             .mouseUp(function(){
-                //goto url
+                window.open(
+                    GameConfig.config['feedbackButtonURL'],
+                    "GoogleGroupPage",
+                    "resizable,scrollbars,status"
+                );
+
             });
 
         feedbackButton.width(feedbackButton.measureTextWidth() + 5);
