@@ -7,18 +7,19 @@ var API = {
             success: function(result) {
                 API.user = result
                 if(result.status === 'ok') {
+                    mixpanel.track("Online user");
                     API.loginStatus = "online"
                 } else if(result.status === 'fail'){
                     location.href = result.login_url
                 } else {
                     API.loginStatus = "offline"
+                    mixpanel.track("Offline user");
                     if(localStorage.getItem('id') === null){
                         localStorage.setItem('id',ige.newIdHex())
                     }
                     API.user.id = localStorage.getItem('id')
                 }
-                postinit_cb()
-                API.loadState()
+                API.loadState(postinit_cb)
                 API._buyCallback()
             }
         })
@@ -26,7 +27,7 @@ var API = {
 
     _buyCallback: function() { console.error('missing buy callback') },
 
-    loadState: function() {
+    loadState: function(postinit_cb) {
         if(API.loginStatus === "offline"){
             //get local storage
             //no local storage crate one
@@ -37,6 +38,7 @@ var API = {
             console.log('loaded state from local storage', localStorage.getItem('state'))
             var first = !API.state.objects
             API.state = JSON.parse(localStorage.getItem('state'))
+            postinit_cb(API.state.isTutorialShown)
             if(first)
                 API.firstReloadState()
             API.reloadState()
@@ -47,6 +49,7 @@ var API = {
                 dataType: 'json',
                 success: function(result) {
                     console.log('loaded state', result)
+                    postinit_cb(result.isTutorialShown)
                     var first = !API.state.objects
                     if(localStorage.getItem('state') !== null && result.first === 'true'){
                         API.state = JSON.parse(localStorage.getItem('state'))
@@ -85,6 +88,7 @@ var API = {
     },
 
     addCoins: function(by) {
+        mixpanel.track("Add Coins");
         API.state.coins += by
         API.reloadState()
         API.saveState()
@@ -92,6 +96,7 @@ var API = {
     },
 
     addCash: function(by) {
+        mixpanel.track("Add Cash");
         API.state.cash += by
         API.reloadState()
         API.saveState()
@@ -138,6 +143,7 @@ var API = {
     },
 
     createObject: function(obj) {
+        mixpanel.track("Create object");
         console.log("ige create object", obj)
         if(!API.state.objects)
             API.state.objects = []
@@ -147,9 +153,22 @@ var API = {
     },
 
     updateObject: function(obj, newX, newY) {
+        mixpanel.track("Update object");
         console.log("ige update object", obj)
         API.stateObjectsLookup[obj.id()].x = newX
         API.stateObjectsLookup[obj.id()].y = newY
+        API.saveState()
+    },
+
+    saveObjectBuiltDate: function(obj, buildCompleted) {
+        console.log("ige update object", obj)
+        API.stateObjectsLookup[obj.id()].buildCompleted = buildCompleted
+        API.saveState()
+    },
+
+    setTutorialAsShown: function() {
+        console.log("tutorial is shown")
+        API.state.isTutorialShown = true
         API.saveState()
     },
     state: {coins: 1000},

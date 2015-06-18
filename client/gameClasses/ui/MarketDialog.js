@@ -250,5 +250,13 @@ var MarketDialog = Dialog.extend({
 		});
 
 		return itemEnt;
+	},
+
+	getItemByID: function(id){
+		for(var i = 0; i < this._items.length; i++){
+			if(this._items[i].id == id){
+				return this._items[i];
+			}
+		}
 	}
 });

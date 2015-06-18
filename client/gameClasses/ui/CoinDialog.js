@@ -61,6 +61,7 @@ var CoinDialog = Dialog.extend({
                             {coins: parseInt(price.coins, 10),
                                 cash: parseInt(price.cash, 10)})) {
                             // Not enough money?
+                            mixpanel.track("Not enough money");
                             ige.$('cashDialog').show();
                             return;
                         }
@@ -69,6 +70,7 @@ var CoinDialog = Dialog.extend({
 
                     if(price.cash > API.state.cash){
                         // Not enough money?
+                        mixpanel.track("Not enough money");
                         message = 'You don\'t have enough villagebucks. \nWould you like to buy some?';
                         callBack = function() {
                             ige.$('cashDialog').show();

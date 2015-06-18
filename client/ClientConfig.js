@@ -8,6 +8,8 @@ var igeClientConfig = {
         './gameClasses/ui/CoinDialog.js',
         './gameClasses/ui/BuyStatus.js',
         './gameClasses/ui/BuyConfirm.js',
+		'./gameClasses/ui/TutorialViews.js',
+		'./gameClasses/ui/Tutorial.js',
 
         './util.js',
         './crypto-js-hmac.js',
@@ -29,9 +31,11 @@ var igeClientConfig = {
         './gameObjects.js',
         './gameCatalog.js',
         './NewsFeed.js',
+        './GameConfig.js',
 
 		// Graphs
 		'./graphs/GraphLevel1.js',
+		'./graphs/GraphTutorial.js',
 		'./graphs/GraphUi.js',
 
 		/* Standard game scripts */

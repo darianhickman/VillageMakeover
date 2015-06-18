@@ -4,6 +4,7 @@ import json
 import gspread
 import yaml
 import os
+from oauth2client.client import SignedJwtAssertionCredentials
 
 local_config = yaml.load(open(os.path.join(os.path.dirname(__file__), '../config.yaml')))
 
@@ -18,6 +19,8 @@ is_login_necessary = False
 secret_key = 'C0Zf73j/4yX R~DHH!juN]LZX/,?SL'
 
 session = None
+
+scope = ['https://spreadsheets.google.com/feeds']
 
 def memcached(name):
     def wrapper(func):
@@ -41,7 +44,8 @@ def memcached(name):
 
 def login():
     conf = local_config['spreadsheet']
-    return gspread.login(conf['login'], conf['password'])
+    credentials = SignedJwtAssertionCredentials(conf['client_email'], conf['private_key'], scope)
+    return gspread.authorize(credentials)
 
 def get_session():
     global session
@@ -50,13 +54,13 @@ def get_session():
     return session
 
 def get_sheet(name):
-    return get_session().open(name).sheet1.get_all_values()
+    return login().open(name).sheet1.get_all_values()
 
 def get_config():
     data = get_sheet(config_name)
     d = {}
     for row in data[1:]:
-        d[row[0]] = row[1]
+        d[row[2]] = row[3]
     return d
 
 def get_news_feed():
