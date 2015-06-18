@@ -25,7 +25,8 @@ var GameObjects = {
 			    'coins': options.coins,
 			    'cash': options.cash,
 			    'cell': options.cell,
-			    'scale': options.scale
+			    'scale': options.scale,
+			    'scaleValue': options.scaleValue
 		    });
         })
 
@@ -47,6 +48,8 @@ var GameObjects = {
                 this.cell(options.cell)
 
                 this.mouseOverText = options.description;
+                this.buildTime = options.buildTime;
+                this.buildTimeMilliseconds = convertTimeFormatToMilliseconds(this.buildTime);
 
                 this.mouseOverFontEntity = new IgeFontEntity()
                     .layer(2)
@@ -112,10 +115,9 @@ var GameObjects = {
                 if(noBuildAnimation)
                     return
 
-                if(options.cell == 1) // no build animation
-                    return
+                //if(options.cell == 1) // no build animation
+                  //  return
 
-                this._buildStarted = ige._currentTime;
                 this._buildProgressBar = new IgeUiProgressBar()
 					.barBackColor('#f2b982')
 					.barColor('#69f22f')
@@ -125,20 +127,75 @@ var GameObjects = {
 					.progress(0)
 					.width(50)
 					.height(10)
+                    .translateTo(0,-40,0)
 					.mount(this);
+
+                this._buildProgressTime = new IgeFontEntity()
+                    .colorOverlay('white')
+                    .nativeFont('25px Times New Roman')
+                    .width(200)
+                    .height(100)
+                    .mount(this)
+                    .translateTo(0,-60,0)
+                    .text('')
             },
 
             update: function() {
                 GameObject.prototype.update.call(this);
 
                 if(this._buildProgressBar) {
-                    var progress = Math.floor((100 / 15000) * (ige._currentTime - this._buildStarted));
+                    var progress,
+                        remainingMilliseconds,
+                        remainingSeconds,
+                        remainingMinutes,
+                        remainingHours,
+                        remainingDays,
+                        progressText = '';
+
+                    progress = Math.floor((100 / this.buildTimeMilliseconds) * (Date.now() - this._buildStarted));
+
+                    remainingMilliseconds = this.buildTimeMilliseconds - (Date.now() - this._buildStarted)
+
+                    remainingDays = Math.floor(remainingMilliseconds / 864e5);
+                    remainingHours = Math.floor((remainingMilliseconds % 864e5) / 36e5);
+                    remainingMinutes = Math.floor((remainingMilliseconds % 36e5) / 6e4);
+                    remainingSeconds = Math.floor((remainingMilliseconds % 6e4) / 1000);
+
+                    if(remainingDays > 0){
+                        progressText += remainingDays + 'd'
+
+                        if(remainingHours > 0)
+                            progressText += remainingHours + 'h'
+                        else if(remainingMinutes > 0)
+                            progressText += remainingMinutes + 'm'
+                        else if(remainingSeconds > 0)
+                            progressText += remainingSeconds + 's'
+
+                    }else if(remainingHours > 0){
+                        progressText += remainingHours + 'h'
+
+                        if(remainingMinutes > 0)
+                            progressText += remainingMinutes + 'm'
+                        else if(remainingSeconds > 0)
+                            progressText += remainingSeconds + 's'
+
+                    }else if(remainingMinutes > 0){
+                        progressText += remainingMinutes + 'm'
+                        progressText += remainingSeconds + 's'
+                    }else{
+                        progressText += remainingSeconds + 's'
+                    }
+
 
                     this._buildProgressBar.progress(progress);
+                    this._buildProgressTime.text(progressText);
 
                     if(progress >= 100) {
+                        API.saveObjectBuiltDate(this, Date.now())
                         this._buildProgressBar.destroy()
                         this._buildProgressBar = null
+                        this._buildProgressTime.destroy()
+                        this._buildProgressTime = null
                         this.cell(options.cell)
                     } else {
                         var cellno = Math.ceil(progress / 100 * (options.cell - 1))

@@ -1,5 +1,6 @@
 #!/bin/bash
 ./compile.sh
+cp config-dev.yaml config.yaml 
 
 if [ "$APPCFG" = "" ]; then
     if which appcfg.py; then

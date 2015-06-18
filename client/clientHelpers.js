@@ -26,7 +26,12 @@ var ClientHelpers = {
            .data('tileY', data.y)
            .data('tileWidth', data.w)
            .data('tileHeight', data.h);
-        obj.place(true)
+        if(data.buildStarted && !data.buildCompleted){
+            obj._buildStarted=data.buildStarted
+            obj.place()
+        }else{
+            obj.place(true)
+        }
         ClientHelpers.moveOutPlayer()
     },
 

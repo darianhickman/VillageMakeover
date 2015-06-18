@@ -5,6 +5,7 @@ var Buy = {
     buy: function(assets) {
         ige.$('buyStatus').startTransaction()
         Buy.pay(assets, function() {
+            mixpanel.track("Cash buy");
             Buy._addAssets(assets);
             ige.$('buyStatus').transactionSuccess()
         }, function() {

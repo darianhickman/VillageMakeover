@@ -26,6 +26,7 @@ var BuyConfirm = Dialog.extend({
             .mount(base)
             .text('YES')
             .mouseUp(function() {
+                mixpanel.track("Confirm buy");
                 self.hide();
                 callback();
             });
@@ -37,6 +38,7 @@ var BuyConfirm = Dialog.extend({
             .mount(base)
             .text('NO')
             .mouseUp(function() {
+                mixpanel.track("Cancel buy");
                 self.hide();
             });
 

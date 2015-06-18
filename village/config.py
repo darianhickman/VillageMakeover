@@ -13,6 +13,11 @@ config_name = 'Village MakeOver Settings OPERATIONAL'
 news_feed_name = 'SOHIP Village News PRD'
 cash_bundle_name = 'Virtual Currency Cash Bundle Catalog Operational'
 
+is_login_necessary = False
+
+# set the secret key.  keep this really secret:
+secret_key = 'C0Zf73j/4yX R~DHH!juN]LZX/,?SL'
+
 session = None
 
 scope = ['https://spreadsheets.google.com/feeds']
@@ -49,13 +54,13 @@ def get_session():
     return session
 
 def get_sheet(name):
-    return get_session().open(name).sheet1.get_all_values()
+    return login().open(name).sheet1.get_all_values()
 
 def get_config():
     data = get_sheet(config_name)
     d = {}
     for row in data[1:]:
-        d[row[0]] = row[1]
+        d[row[2]] = row[3]
     return d
 
 def get_news_feed():
@@ -66,6 +71,12 @@ def get_news_feed():
         if row and row[0]:
             items.append(dict(zip(headers, row)))
     return items
+
+def get_login_condition():
+    return is_login_necessary
+
+def get_secret_key():
+    return secret_key
 
 @memcached('catalog')
 def get_catalog():
