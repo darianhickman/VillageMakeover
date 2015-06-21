@@ -26,8 +26,8 @@ var Tutorial = IgeEventingClass.extend({
             .layer(50)
             .texture(ige.client.textures.buildButton)
             .dimensionsFromTexture()
-            .top(10)
-            .right(10)
+            .top(3)
+            .right(20)
             .mount(uiScene)
             .hide()
 
@@ -35,7 +35,7 @@ var Tutorial = IgeEventingClass.extend({
             .texture(ige.client.textures.star)
             .dimensionsFromTexture()
             .top(80)
-            .right(10)
+            .right(23)
             .mount(uiScene)
             .hide()
 
@@ -76,8 +76,8 @@ var Tutorial = IgeEventingClass.extend({
             .layer(50)
             .texture(ige.client.textures.cashBar)
             .dimensionsFromTexture()
-            .left(50)
-            .top(10)
+            .left(10)
+            .top(5)
             .mount(uiScene)
             .hide();
 
@@ -107,8 +107,8 @@ var Tutorial = IgeEventingClass.extend({
             .layer(50)
             .texture(ige.client.textures.coinsBar)
             .dimensionsFromTexture()
-            .left(250)
-            .top(10)
+            .left(185)
+            .top(5)
             .mount(uiScene)
             .hide();
 
