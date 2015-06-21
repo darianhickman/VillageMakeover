@@ -31,7 +31,7 @@ var TutorialViews = IgeClass.extend({
         },
         {
             id: 'creditCardScreen',
-            view: '<div><p><img src="./assets/textures/ui/creditCardFill.png"></p><button id="dialogButton">Continue</button></div>'
+            view: '<div><p><img src="./assets/textures/ui/creditCardFillSample.png"></p><button id="dialogButton">Continue</button></div>'
         },
         {
             id: 'newGoalFirstScreen',
@@ -48,6 +48,10 @@ var TutorialViews = IgeClass.extend({
         {
             id: 'newGoalFourthScreen',
             view: '<div style="padding-top:80px"><p>Congratulations! You just created a well in your village and supported construction and training for a real well.</p><button id="dialogButton">Continue</button></div>'
+        },
+        {
+            id: 'finishTutorial',
+            view: '<div style="padding-top:80px"><p>Congratulations! You completed the tutorial.</p><button id="dialogButton">Play</button></div>'
         }
     ],
 
