@@ -108,49 +108,53 @@ var MarketDialog = Dialog.extend({
 				.dimensionsFromTexture();
 
 		// Create coin and cash icons
-		var coinIcon = new IgeUiElement()
-			.id(itemData.id + '_coinIcon')
-			.texture(ige.client.textures.coin)
-			.dimensionsFromTexture()
-			.center(-40)
-			.bottom(5)
-			.mount(itemEnt);
+        var coinIcon = new IgeUiElement()
+            .id(itemData.id + '_coinIcon')
+            .texture(ige.client.textures.coin)
+            .dimensionsFromTexture()
+            .center(-40)
+            .bottom(5)
+            .mount(itemEnt);
+        if(itemData.coins != 0){
 
-		new IgeFontEntity()
-			.id(itemData.id + '_coins')
-			.layer(2)
-			.textAlignX(0)
-			.colorOverlay('#000000')
-			.nativeFont('10px Verdana')
-			.nativeStroke(0.5)
-			.nativeStrokeColor('#666666')
-			.textLineSpacing(0)
-			.text(itemData.coins)
-			.width(20)
-			.center(20)
-			.mount(coinIcon);
+		    new IgeFontEntity()
+                .id(itemData.id + '_coins')
+                .layer(2)
+                .textAlignX(0)
+                .colorOverlay('#000000')
+                .nativeFont('10px Verdana')
+                .nativeStroke(0.5)
+                .nativeStrokeColor('#666666')
+                .textLineSpacing(0)
+                .text(itemData.coins)
+                .width(20)
+                .center(20)
+                .mount(coinIcon);
+        }
+        
+	    if(itemData.cash != 0) {
+            new IgeUiElement()
+                .id(itemData.id + '_cashIcon')
+                .texture(ige.client.textures.cash)
+                .dimensionsFromTexture()
+                .center(10)
+                .bottom(5)
+                .mount(itemEnt);
 
-		new IgeUiElement()
-			.id(itemData.id + '_cashIcon')
-			.texture(ige.client.textures.cash)
-			.dimensionsFromTexture()
-			.center(10)
-			.bottom(5)
-			.mount(itemEnt);
-
-        new IgeFontEntity()
-			.id(itemData.id + '_cash')
-			.layer(2)
-			.textAlignX(0)
-			.colorOverlay('#000000')
-			.nativeFont('10px Verdana')
-			.nativeStroke(0.5)
-			.nativeStrokeColor('#666666')
-			.textLineSpacing(0)
-			.text(itemData.cash)
-			.width(20)
-			.center(70)
-			.mount(coinIcon);
+            new IgeFontEntity()
+                .id(itemData.id + '_cash')
+                .layer(2)
+                .textAlignX(0)
+                .colorOverlay('#000000')
+                .nativeFont('10px Verdana')
+                .nativeStroke(0.5)
+                .nativeStrokeColor('#666666')
+                .textLineSpacing(0)
+                .text(itemData.cash)
+                .width(20)
+                .center(70)
+                .mount(coinIcon);
+        }
 
 		// Create an entity to represent this item
 		var itemPic = new IgeEntity()
