@@ -39,6 +39,7 @@ var API = {
             var first = !API.state.objects
             API.state = JSON.parse(localStorage.getItem('state'))
             postinit_cb(API.state.isTutorialShown)
+
             if(first)
                 API.firstReloadState()
             API.reloadState()
@@ -75,7 +76,7 @@ var API = {
 
     reduceAssets: function(assets) {
         console.log('reduce assets', assets)
-        if(assets.coins > API.state.coins)
+            if(assets.coins > API.state.coins)
             return false
         if(assets.cash > API.state.cash)
             return false
@@ -171,7 +172,7 @@ var API = {
         API.state.isTutorialShown = true
         API.saveState()
     },
-    state: {coins: 1000},
+    state: {coins: 1999, cash: 499 },
     stateObjectsLookup: {},
     user: null,
     loginStatus: "offline"

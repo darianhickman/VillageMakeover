@@ -1,6 +1,6 @@
 #!/bin/bash
 ./compile.sh
-cp config-dev.yaml config.yaml
+cp config-prod.yaml config.yaml
 if [ "$APPCFG" = "" ]; then
     if which appcfg.py; then
         APPCFG=appcfg.py
