@@ -24,7 +24,7 @@ var GraphUi = IgeSceneGraph.extend({
 
         GameObjects.setupMarket(marketDialog)
 
-        var newsFeed = new NewsFeed()
+        //var newsFeed = new NewsFeed()
 
         var cashDialog = new CashDialog()
 			.id('cashDialog')
@@ -275,7 +275,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
             .right(10)
 			.mount(topNav);
-
+/*
         var newsFeedButton = new IgeUiElement()
             .id('newsFeedButton')
             .texture(self.textures.newsFeedButton)
@@ -283,6 +283,7 @@ var GraphUi = IgeSceneGraph.extend({
             .top(-15)
             .right(80)
             .mount(topNav);
+*/
 
 		new IgeParticleEmitter()
 			.id('coinEmitter')
@@ -316,14 +317,14 @@ var GraphUi = IgeSceneGraph.extend({
                 mixpanel.track("Open market dialog");
 				ige.$('marketDialog').show();
 			});
-
+/*
         ige.$('newsFeedButton')
             .mouseUp(function () {
                 mixpanel.track("Open newsfeed dialog");
                 $( "#newsFeedDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, width: 675, height: 430, modal: true, autoOpen: false });
                 $( "#newsFeedDialog" ).dialog( "open" );
             });
-
+*/
         ige.$('cashBar')
             .mouseUp(function() {
                 mixpanel.track("Open cash dialog");

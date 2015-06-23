@@ -30,7 +30,7 @@ var igeClientConfig = {
         './clientHelpers.js',
         './gameObjects.js',
         './gameCatalog.js',
-        './NewsFeed.js',
+       /* './NewsFeed.js', */
         './GameConfig.js',
 
 		// Graphs
