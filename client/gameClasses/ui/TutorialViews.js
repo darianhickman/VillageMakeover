@@ -15,7 +15,7 @@ var TutorialViews = IgeClass.extend({
     views: [
         {
             id: 'welcomeScreen',
-            view: '<div style="padding-top:80px"><p>Welcome to your village! Everything you do here impacts the real world.</p><button id="dialogButton">Play</button></div>'
+            view: '<div style="padding-top:80px"><p>Welcome to your village!<br>Everything you do here impacts the real world.</p><button id="dialogButton">Play</button></div>'
         },
         {
             id: 'firstHomeBuiltScreen',

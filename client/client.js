@@ -133,6 +133,8 @@ var Client = IgeClass.extend({
                 ige.$('vp1')
                     .mousePan.enabled(false)
                     .scrollZoom.enabled(false)
+                    .camera.translateTo(0, 0, 0)
+                    .camera.scaleTo(1.0,1.0,0);
 
                 ige.$('objectScene').hide();
                 ige.$('uiScene').hide();
