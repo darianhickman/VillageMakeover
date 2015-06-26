@@ -467,7 +467,7 @@ var Tutorial = IgeEventingClass.extend({
                     .width(146)
                     .height(284)
                     .mount(self.cashDialogTutorial)
-                    .translateTo(-400,-100,0)
+                    .translateTo(-400,40,0)
                     .mouseUp(function () {
                         self.gotoStep('fillCreditCard');
                     });
@@ -543,7 +543,7 @@ var Tutorial = IgeEventingClass.extend({
                     .width(146)
                     .height(284)
                     .mount(self.coinsDialogTutorial)
-                    .translateTo(-400,-100,0)
+                    .translateTo(-400,40,0)
                     .mouseUp(function () {
                         self.coinsProgress.progress(1100);
                         self.cashProgress.progress(249);
@@ -551,7 +551,7 @@ var Tutorial = IgeEventingClass.extend({
                     });
 
                 self.dummyCoinsButton.fontEntity = new IgeFontEntity()
-                    .colorOverlay('white')
+                    .colorOverlay('black')
                     .nativeFont('15px Times New Roman')
                     .width(400)
                     .height(50)

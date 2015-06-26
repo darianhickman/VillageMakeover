@@ -468,8 +468,8 @@ var Client = IgeClass.extend({
 		this.textures.dirtBackground = new IgeTexture('./assets/textures/backgrounds/dirtBackground.png');
 		this.textures.aharoniFont = new IgeFontSheet('./assets/textures/fonts/aharoni_26px.png');
 
-		this.textures.moneyMenuBackground = new IgeTexture('./assets/textures/ui/CashMenuTemplate.png');
-		this.textures.coinMenuBackground = new IgeTexture('./assets/textures/ui/CoinMenuTemplate.png');
+        this.textures.moneyMenuBackground = new IgeTexture('./assets/textures/ui/dollar_menu_small.png');
+        this.textures.coinMenuBackground = new IgeTexture('./assets/textures/ui/gold_menu_small.png');
         this.textures.mainMenuBackground = new IgeTexture('./assets/textures/ui/mainMenuBackground.png');
 		this.textures.marketItemBack = new IgeTexture('./assets/textures/ui/marketItemBack.png');
 		this.textures.buildButton = new IgeTexture('./assets/textures/ui/build.png');

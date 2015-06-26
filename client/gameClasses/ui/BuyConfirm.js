@@ -5,7 +5,7 @@ var BuyConfirm = Dialog.extend({
 
         var self = this;
 
-        var base = new IgeUiLabel()
+        var base = new IgeUiElement()
             .width(400)
             .height(300)
 			.texture(ige.client.textures.marketMenuBack)

@@ -17,11 +17,10 @@ var CoinDialog = Dialog.extend({
         var pay = [1, 2, 4, 10, 20];
         for(var i=0; i < 5; i ++) {
             var offset = i * 173;
-            if(i >= 3) offset += 20;
             var base =  new IgeUiLabel()
                 .id('bCoin' + i)
-                .left(60 + offset)
-                .top(123)
+                .left(40 + offset)
+                .top(80)
                 .width(146)
                 .height(284)
                 .drawBounds(true)
@@ -29,16 +28,18 @@ var CoinDialog = Dialog.extend({
 
             new IgeUiLabel()
                 .value( coins[i] + " Coins")
+                .font('13px Verdana')
                 .top(13)
-                .left(25)
+                .left(30)
                 .width(150)
-                .applyStyle({color: 'white'})
+                .applyStyle({color: 'black'})
                 .mount(base);
 
             new IgeUiLabel()
                 .value( pay[i] + " VCash")
+                .font('13px Verdana')
                 .bottom(13)
-                .left(25)
+                .left(35)
                 .width(150)
                 .applyStyle({color: 'white'})
                 .mount(base);
@@ -85,7 +86,7 @@ var CoinDialog = Dialog.extend({
             })(i);
         }
 
-        this.closeButton.translateTo(438,-236,0);
+        this.closeButton.translateTo(423,-139,0);
     },
 
     show: function () {
