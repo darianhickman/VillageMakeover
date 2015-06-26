@@ -25,13 +25,13 @@ var igeClientConfig = {
 		'./gameClasses/base/Villager.js',
 		'./gameClasses/base/HiEntity.js',
 
+		'./GameConfig.js',
         './clientApiSupport.js',
         './clientBuy.js',
         './clientHelpers.js',
         './gameObjects.js',
         './gameCatalog.js',
        /* './NewsFeed.js', */
-        './GameConfig.js',
 
 		// Graphs
 		'./graphs/GraphLevel1.js',

@@ -50,7 +50,6 @@ var API = {
                 dataType: 'json',
                 success: function(result) {
                     console.log('loaded state', result)
-                    postinit_cb(result.isTutorialShown)
                     var first = !API.state.objects
                     if(localStorage.getItem('state') !== null && result.first === 'true'){
                         API.state = JSON.parse(localStorage.getItem('state'))
@@ -66,6 +65,8 @@ var API = {
                         API.state = result
                         //could show a warning that this is an existing user and local storage stands still
                     }
+                    postinit_cb(API.state.isTutorialShown)
+
                     if(first)
                         API.firstReloadState()
                     API.reloadState()
@@ -172,7 +173,7 @@ var API = {
         API.state.isTutorialShown = true
         API.saveState()
     },
-    state: {coins: 1999, cash: 499 },
+    state: {coins: GameConfig.config['startCoins'], cash: GameConfig.config['startCash'] },
     stateObjectsLookup: {},
     user: null,
     loginStatus: "offline"
