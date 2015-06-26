@@ -133,6 +133,8 @@ var GameObjects = {
                 this._buildProgressTime = new IgeFontEntity()
                     .colorOverlay('white')
                     .nativeFont('25px Times New Roman')
+                    .nativeStroke(4)
+                    .nativeStrokeColor('#000000')
                     .width(200)
                     .height(100)
                     .mount(this)
