@@ -136,19 +136,8 @@ var Client = IgeClass.extend({
                     .camera.translateTo(0, 0, 0)
                     .camera.scaleTo(1.0,1.0,0);
 
-                ige.$('objectScene').hide();
-                ige.$('uiScene').hide();
-
-                new IgeScene2d()
-                    .id('objectSceneTutorial')
-                    .layer(1)
-                    .mount(ige.$('level1'));
-
-                new IgeScene2d()
-                    .id('uiSceneTutorial')
-                    .layer(2)
-                    .ignoreCamera(true)
-                    .mount(ige.$('level1'));
+                ige.$('level1').hide();
+                ige.addGraph('GraphTutorial');
 
                 self.tutorial = new Tutorial();
                 self.tutorial.gotoStep('initialStep');
@@ -156,11 +145,9 @@ var Client = IgeClass.extend({
                 completeCallback();
             },
             exit: function(data, completeCallback) {
-                ige.$('objectScene').show();
-                ige.$('uiScene').show();
+                ige.$('level1').show();
+                ige.removeGraph('GraphTutorial');
 
-                ige.$('objectSceneTutorial').destroy();
-                ige.$('uiSceneTutorial').destroy();
                 self.tutorial = null;
 
                 completeCallback();
@@ -647,6 +634,14 @@ var Client = IgeClass.extend({
         ige.$('tileMap1').drawGrid(false);
         ige.$('tileMap1').highlightOccupied(false);
         ige.$('outlineEntity').hide();
+    },
+    setGameBoardPostTutorial: function (tutorialObjects){
+        if(!API.state.objects){
+            for(var i=0;i<tutorialObjects.length;i++){
+                ClientHelpers.addObject(tutorialObjects[i])
+                API.createObject(tutorialObjects[i])
+            }
+        }
     }
 });
 

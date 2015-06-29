@@ -4,11 +4,11 @@ var Tutorial = IgeEventingClass.extend({
     init: function (message, callback) {
 
         var self = this,
-            uiScene = ige.$('uiSceneTutorial');
+            uiScene = ige.$('uiSceneTutorial'),
+            tileMap = ige.$('tileMapTutorial');
 
         self.steps = [];
         self.currentStep = '';
-        self.arrowTweenRef = null;
         self.currentBuildStep = 1;
         self.currentGoalStep = 1;
         self.isMoneyAdded = false;
@@ -18,9 +18,27 @@ var Tutorial = IgeEventingClass.extend({
             .layer(100)
             .width(240)
             .height(100)
-            .texture(ige.client.textures.arrow)
             .mount(uiScene)
             .hide()
+
+        self.tutorialArrow.textureEntity = new IgeEntity()
+            .layer(100)
+            .width(240)
+            .height(100)
+            .texture(ige.client.textures.arrow)
+            .mount(self.tutorialArrow)
+            ._translate.tween()
+                .stepTo({
+                    x: -20,
+                    y: 0
+                }, 500, 'inOutSine')
+                .stepTo({
+                    x: 20,
+                    y: 0
+                }, 500, 'inOutSine')
+                .repeatMode(1, -1)
+                .startTime(ige._currentTime)
+                .start();
 
         self.buildButtonTutorial = new IgeUiElement()
             .layer(50)
@@ -148,32 +166,34 @@ var Tutorial = IgeEventingClass.extend({
                 self.gotoStep('finishTutorial');
             });
 
+        self.tutorialObjects = []
+
         self.items = {
             item1: {
-                id: 'Hut2',
-                mapX: 300,
-                mapY: -200,
+                name: 'Hut2',
+                mapX: 15,
+                mapY: 5,
                 marketX: -200,
                 marketY: -100,
             },
             item2: {
-                id: 'Hut1',
-                mapX: -250,
-                mapY: -300,
+                name: 'Hut1',
+                mapX: 8,
+                mapY: 13,
                 marketX: 0,
                 marketY: -100,
             },
             item3: {
-                id: 'Plants',
-                mapX: -450,
-                mapY: -250,
+                name: 'Plants',
+                mapX: 8,
+                mapY: 18,
                 marketX: 200,
                 marketY: -100,
             },
             item4: {
-                id: 'Well2',
-                mapX: 450,
-                mapY: -200,
+                name: 'Well2',
+                mapX: 26,
+                mapY: 18,
                 marketX: -200,
                 marketY: 100,
             }
@@ -206,8 +226,9 @@ var Tutorial = IgeEventingClass.extend({
 
                 self.tutorialArrow
                     .scaleTo(.5,.5,.5)
+                    .translateTo(self.buildButtonTutorial._translate.x - 60, self.buildButtonTutorial._translate.y, self.buildButtonTutorial._translate.z)
+                    .show()
 
-                self.setArrowPositionAndTween(self.buildButtonTutorial._translate.x, self.buildButtonTutorial._translate.y, self.buildButtonTutorial._translate.z)
             },
             exit: function(){
                 self.buildButtonTutorial.mouseUp(function () {});
@@ -216,11 +237,11 @@ var Tutorial = IgeEventingClass.extend({
 
         self.steps['showMarketDialog'] = {
             enter: function(){
-                var realMarketDialogItem = ige.$('marketDialog').getItemByID(self.items['item'+self.currentBuildStep].id)
+                var realMarketDialogItem = ige.$('marketDialog').getItemByID(self.items['item'+self.currentBuildStep].name)
 
                 self.marketItemButton = new IgeEntity()
                     .layer(1)
-                    .texture(ige.client.textures[self.items['item'+self.currentBuildStep].id])
+                    .texture(ige.client.textures[self.items['item'+self.currentBuildStep].name])
                     .cell(realMarketDialogItem.cell)
                     .dimensionsFromCell()
                     .height(100,true)
@@ -251,8 +272,8 @@ var Tutorial = IgeEventingClass.extend({
                 self.tutorialArrow
                     .scaleTo(.75,.75,.75)
                     .rotateTo(0,0,3.1415)
-
-                self.setArrowPositionAndTween(self.marketItemButton._translate.x + 140 ,self.marketItemButton._translate.y, self.marketItemButton._translate.z)
+                    .translateTo(self.marketItemButton._translate.x + 90 ,self.marketItemButton._translate.y, self.marketItemButton._translate.z)
+                    .show()
 
                 self.marketDialogTutorial.show()
             },
@@ -265,17 +286,19 @@ var Tutorial = IgeEventingClass.extend({
         self.steps['buildHouse'] = {
             enter: function(){
                 var step = 1,
-                    realMarketDialogItem = ige.$('marketDialog').getItemByID(self.items['item'+self.currentBuildStep].id);
+                    objectTileWidth,
+                    objectTileHeight,
+                    objinfo,
+                    realMarketDialogItem = ige.$('marketDialog').getItemByID(self.items['item'+self.currentBuildStep].name);
 
-                self.mapItemButton = new IgeEntity()
+                self.mapItemButton = new ige.newClassInstance(self.items['item'+self.currentBuildStep].name)
                     .layer(1)
-                    .texture(ige.client.textures[self.items['item'+self.currentBuildStep].id])
+                    .mount(tileMap)
                     .cell(step)
-                    .dimensionsFromCell()
-                    .scaleTo(realMarketDialogItem.scaleValue,realMarketDialogItem.scaleValue,realMarketDialogItem.scaleValue)
-                    .mount(uiScene)
-                    .translateTo(self.items['item'+self.currentBuildStep].mapX,self.items['item'+self.currentBuildStep].mapY,0)
-                    .mouseUp(function () {
+                    .mouseOver(function(){})
+                    .mouseOut(function(){})
+                    .mouseMove(function(){})
+                    .mouseUp(function(){
                         if(realMarketDialogItem.cell == step){
                             self.gotoStep('HouseIsBuilt')
                         }
@@ -285,6 +308,24 @@ var Tutorial = IgeEventingClass.extend({
                             this.buildProgressBar.progress(this.buildProgressBar.progress() + 50)
                         }
                     });
+
+                self.mapItemButton.translateToTile(self.items['item'+self.currentBuildStep].mapX+self.mapItemButton._tileAdjustX,self.items['item'+self.currentBuildStep].mapY+self.mapItemButton._tileAdjustY)
+
+                objectTileWidth = Math.ceil(self.mapItemButton._bounds3d.x / tileMap._tileWidth);
+                objectTileHeight = Math.ceil(self.mapItemButton._bounds3d.y / tileMap._tileHeight);
+
+                objinfo = {
+                    id: ige.newIdHex(),
+                    x: self.items['item'+self.currentBuildStep].mapX,
+                    y: self.items['item'+self.currentBuildStep].mapY,
+                    w: objectTileWidth,
+                    h: objectTileHeight,
+                    name: self.items['item'+self.currentBuildStep].name,
+                    buildStarted: Date.now(),
+                    buildCompleted: Date.now()
+                }
+
+                self.tutorialObjects.push(objinfo)
 
                 self.mapItemButton.buildProgressBar = new IgeUiProgressBar()
                     .barBackColor('#f2b982')
@@ -298,13 +339,21 @@ var Tutorial = IgeEventingClass.extend({
                     .translateTo(0,-60,0)
                     .mount(self.mapItemButton);
 
-                self.tutorialArrow.rotateTo(0,0,0);
-
-                self.setArrowPositionAndTween(self.mapItemButton._translate.x-20 ,self.mapItemButton._translate.y, self.mapItemButton._translate.z)
+                self.tutorialArrow.rotateTo(0,0,0)
+                    .unMount()
+                    .isometric(true)
+                    .mount(tileMap)
+                    .translateTo(self.mapItemButton._translate.x - 70 ,self.mapItemButton._translate.y, self.mapItemButton._translate.z)
+                    .show()
             },
             exit: function(){
                 self.mapItemButton.buildProgressBar.unMount();
                 self.mapItemButton.mouseUp(function () {});
+
+                self.tutorialArrow
+                    .unMount()
+                    .isometric(false)
+                    .mount(uiScene)
             }
         }
 
@@ -362,8 +411,8 @@ var Tutorial = IgeEventingClass.extend({
 
                 self.tutorialArrow
                     .scaleTo(.5,.5,.5)
-
-                self.setArrowPositionAndTween(self.goalButtonTutorial._translate.x, self.goalButtonTutorial._translate.y, self.goalButtonTutorial._translate.z)
+                    .translateTo(self.goalButtonTutorial._translate.x - 50, self.goalButtonTutorial._translate.y, self.goalButtonTutorial._translate.z)
+                    .show()
             },
             exit: function(){
                 self.goalButtonTutorial.mouseUp(function () {});
@@ -451,8 +500,8 @@ var Tutorial = IgeEventingClass.extend({
 
                 self.tutorialArrow
                     .scaleTo(.5,.5,.5)
-
-                self.setArrowPositionAndTween(self.cashBar._translate.x + 175, self.cashBar._translate.y, self.cashBar._translate.z)
+                    .translateTo(self.cashBar._translate.x + 125, self.cashBar._translate.y, self.cashBar._translate.z)
+                    .show()
             },
             exit: function(){
                 self.cashButton.mouseUp(function () {});
@@ -484,8 +533,8 @@ var Tutorial = IgeEventingClass.extend({
                 self.tutorialArrow
                     .scaleTo(.75,.75,.75)
                     .rotateTo(0,0,0)
-
-                self.setArrowPositionAndTween(self.dummyMoneyButton._translate.x ,self.dummyMoneyButton._translate.y, self.dummyMoneyButton._translate.z)
+                    .translateTo(self.dummyMoneyButton._translate.x - 50,self.dummyMoneyButton._translate.y, self.dummyMoneyButton._translate.z)
+                    .show()
 
                 self.cashDialogTutorial.show()
 
@@ -527,8 +576,8 @@ var Tutorial = IgeEventingClass.extend({
                 self.tutorialArrow
                     .scaleTo(.5,.5,.5)
                     .rotateTo(0,0,3.1415)
-
-                self.setArrowPositionAndTween(self.coinsBar._translate.x + 175, self.coinsBar._translate.y, self.coinsBar._translate.z)
+                    .translateTo(self.coinsBar._translate.x + 125, self.coinsBar._translate.y, self.coinsBar._translate.z)
+                    .show()
             },
             exit: function(){
                 self.coinsButton.mouseUp(function () {});
@@ -562,8 +611,8 @@ var Tutorial = IgeEventingClass.extend({
                 self.tutorialArrow
                     .scaleTo(.75,.75,.75)
                     .rotateTo(0,0,0)
-
-                self.setArrowPositionAndTween(self.dummyCoinsButton._translate.x ,self.dummyCoinsButton._translate.y, self.dummyCoinsButton._translate.z)
+                    .translateTo(self.dummyCoinsButton._translate.x - 50,self.dummyCoinsButton._translate.y, self.dummyCoinsButton._translate.z)
+                    .show()
 
                 self.coinsDialogTutorial.show()
 
@@ -583,6 +632,7 @@ var Tutorial = IgeEventingClass.extend({
                     .html( self.tutorialViews.getViewByID('finishTutorial').view );
 
                 $('#dialogButton').on('click', function(){
+
                     self.gotoStep('finishTutorial')
                 });
             },
@@ -594,6 +644,7 @@ var Tutorial = IgeEventingClass.extend({
         self.steps['finishTutorial'] = {
             enter: function(){
                 $( "#tutorialDialog" ).dialog( "close" );
+                ige.client.setGameBoardPostTutorial(self.tutorialObjects);
                 API.setTutorialAsShown()
                 ige.client.fsm.enterState('select')
             },
@@ -608,66 +659,86 @@ var Tutorial = IgeEventingClass.extend({
         if(this.currentStep !== ''){
             this.steps[this.currentStep].exit();
         }
-        this.steps[stepID].enter();
         this.currentStep = stepID;
+        this.steps[stepID].enter();
     },
 
     fillScreenWithObjects: function(currentBuildStep) {
         var self = this,
-            uiScene = ige.$('uiSceneTutorial'),
-            realMarketDialogItem = ige.$('marketDialog').getItemByID('Plants');
+            tileMap = ige.$('tileMapTutorial'),
+            realMarketDialogItem,
+            offsetX = 0,
+            offsetY = 0,
+            objectTileWidth,
+            objectTileHeight;
 
-        var offsetX = 200;
-        var offsetY = 100;
+        realMarketDialogItem = ige.$('marketDialog').getItemByID('Plants')
+
         for (var i = 1; i <= 8; i++){
-            new IgeEntity()
+            var newItem = new ige.newClassInstance('Plants')
                 .layer(1)
-                .texture(ige.client.textures['Plants'])
-                .cell(realMarketDialogItem.cell)
-                .dimensionsFromCell()
-                .scaleTo(realMarketDialogItem.scaleValue,realMarketDialogItem.scaleValue,realMarketDialogItem.scaleValue)
-                .mount(uiScene)
-                .translateTo(self.items['item'+currentBuildStep].mapX + offsetX + (i%4) * 200,self.items['item'+currentBuildStep].mapY + offsetY + (i%4) * 100,0);
-            if(i%4 == 0){
-                offsetX -= 200
-                offsetY += 100
+                .mount(tileMap)
+                .mouseOver(function(){})
+                .mouseOut(function(){})
+                .mouseMove(function(){})
+                .mouseUp(function(){});
+
+            objectTileWidth = Math.ceil(newItem._bounds3d.x / tileMap._tileWidth);
+            objectTileHeight = Math.ceil(newItem._bounds3d.y / tileMap._tileHeight);
+            offsetX += objectTileWidth
+            if(i === 4){
+                offsetX = 0
+                offsetY += objectTileHeight
             }
+
+            newItem.translateToTile(self.items['item3'].mapX + newItem._tileAdjustX + offsetX,self.items['item3'].mapY + newItem._tileAdjustY + offsetY)
+
+            objinfo = {
+                id: ige.newIdHex(),
+                x: self.items['item3'].mapX + offsetX,
+                y: self.items['item3'].mapY + offsetY,
+                w: objectTileWidth,
+                h: objectTileHeight,
+                name: self.items['item3'].name,
+                buildStarted: Date.now(),
+                buildCompleted: Date.now()
+            }
+
+            self.tutorialObjects.push(objinfo)
         }
+
+        offsetX = 0
+        offsetY = 0
 
         realMarketDialogItem = ige.$('marketDialog').getItemByID('Hut1')
 
-        for (var i = 0; i < 4; i++){
-            new IgeEntity()
+        for (var i = 1; i <= 4; i++){
+            var newItem = new ige.newClassInstance('Hut1')
                 .layer(1)
-                .texture(ige.client.textures['Hut1'])
-                .cell(realMarketDialogItem.cell)
-                .dimensionsFromCell()
-                .scaleTo(realMarketDialogItem.scaleValue,realMarketDialogItem.scaleValue,realMarketDialogItem.scaleValue)
-                .mount(uiScene)
-                .translateTo(self.items['item'+currentBuildStep].mapX + 400 + i * 200,self.items['item'+currentBuildStep].mapY + i * 100,0);
+                .mount(tileMap)
+                .mouseOver(function(){})
+                .mouseOut(function(){})
+                .mouseMove(function(){})
+                .mouseUp(function(){});
+
+            objectTileWidth = Math.ceil(newItem._bounds3d.x / tileMap._tileWidth);
+            objectTileHeight = Math.ceil(newItem._bounds3d.y / tileMap._tileHeight);
+            offsetX += objectTileWidth
+
+            newItem.translateToTile(self.items['item2'].mapX + newItem._tileAdjustX + offsetX,self.items['item2'].mapY + newItem._tileAdjustY)
+
+            objinfo = {
+                id: ige.newIdHex(),
+                x: self.items['item2'].mapX + offsetX,
+                y: self.items['item2'].mapY,
+                w: objectTileWidth,
+                h: objectTileHeight,
+                name: self.items['item2'].name,
+                buildStarted: Date.now(),
+                buildCompleted: Date.now()
+            }
+
+            self.tutorialObjects.push(objinfo)
         }
-    },
-
-    setArrowPositionAndTween: function(newX,newY,newZ) {
-        this.tutorialArrow
-            .translateTo(newX - 50,newY,newZ)
-            .show()
-
-        if(this.arrowTweenRef !== null)
-            this.arrowTweenRef.stop()
-
-        this.arrowTweenRef = this.tutorialArrow._translate.tween()
-            .stepTo({
-                x: newX - 70,
-                y: newY
-            }, 500, 'inOutSine')
-            .stepTo({
-                x: newX - 50,
-                y: newY
-            }, 500, 'inOutSine')
-            .repeatMode(1, -1)
-            .startTime(ige._currentTime)
-            .start();
     }
-
 })
