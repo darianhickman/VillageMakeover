@@ -446,14 +446,15 @@ var Client = IgeClass.extend({
         for(var i=0; i<GameAssets.assets.length;i++){
             if(GameAssets.assets[i].enabled === "FALSE")
                 continue;
-            if(GameAssets.assets[i].type === "CellSheet")
-                this[GameAssets.assets[i].attachTo][GameAssets.assets[i].name] = new IgeCellSheet(GameAssets.assets[i].url,parseInt(GameAssets.assets[i].horizontalCells),parseInt(GameAssets.assets[i].verticalCells));
-            else if(GameAssets.assets[i].type === "Audio")
-                this[GameAssets.assets[i].attachTo][GameAssets.assets[i].name] = new IgeAudio(GameAssets.assets[i].url);
-            else if(GameAssets.assets[i].type === "Texture")
-                this[GameAssets.assets[i].attachTo][GameAssets.assets[i].name] = new IgeTexture(GameAssets.assets[i].url);
-            else if(GameAssets.assets[i].type === "FontSheet")
-                this[GameAssets.assets[i].attachTo][GameAssets.assets[i].name] = new IgeFontSheet(GameAssets.assets[i].url);
+            var asset = GameAssets.assets[i]
+            if(asset.type === "CellSheet")
+                this[asset.attachTo][asset.name] = new IgeCellSheet(asset.url,parseInt(asset.horizontalCells),parseInt(asset.verticalCells));
+            else if(asset.type === "Audio")
+                this[asset.attachTo][asset.name] = new IgeAudio(asset.url);
+            else if(asset.type === "Texture")
+                this[asset.attachTo][asset.name] = new IgeTexture(asset.url);
+            else if(asset.type === "FontSheet")
+                this[asset.attachTo][asset.name] = new IgeFontSheet(asset.url);
         }
 
         for(var key in GameObjects.gameObjectTextures) {
