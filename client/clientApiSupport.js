@@ -20,7 +20,7 @@ var API = {
                     API.user.id = localStorage.getItem('id')
                 }
                 API.loadState(postinit_cb)
-                API._buyCallback()
+
             }
         })
     },
@@ -39,7 +39,7 @@ var API = {
             var first = !API.state.objects
             API.state = JSON.parse(localStorage.getItem('state'))
             postinit_cb(API.state.isTutorialShown)
-
+            API._buyCallback()
             if(first)
                 API.firstReloadState()
             API.reloadState()
@@ -66,7 +66,7 @@ var API = {
                         //could show a warning that this is an existing user and local storage stands still
                     }
                     postinit_cb(API.state.isTutorialShown)
-
+                    API._buyCallback()
                     if(first)
                         API.firstReloadState()
                     API.reloadState()
@@ -77,7 +77,7 @@ var API = {
 
     reduceAssets: function(assets) {
         console.log('reduce assets', assets)
-            if(assets.coins > API.state.coins)
+        if(assets.coins > API.state.coins)
             return false
         if(assets.cash > API.state.cash)
             return false
@@ -173,7 +173,7 @@ var API = {
         API.state.isTutorialShown = true
         API.saveState()
     },
-    state: {coins: GameConfig.config['startCoins'], cash: GameConfig.config['startCash'] },
+    state: {coins: parseInt(GameConfig.config['startCoins']), cash: parseInt(GameConfig.config['startCash']) },
     stateObjectsLookup: {},
     user: null,
     loginStatus: "offline"

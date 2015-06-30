@@ -5,12 +5,12 @@ from .config import get_config
 
 import json
 
-config = get_config()
+sheet_config = get_config()
 
 INIT_STATE = {
     'first': 'true',
-    'coins': config['startCoins'],
-    'cash': config['startCash']
+    'coins': int(sheet_config['startCoins']),
+    'cash': int(sheet_config['startCash'])
 }
 
 class State(ndb.Model):
