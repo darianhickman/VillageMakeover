@@ -26,6 +26,7 @@ var igeClientConfig = {
 		'./gameClasses/base/HiEntity.js',
 
 		'./GameConfig.js',
+		'./GameAssets.js',
         './clientApiSupport.js',
         './clientBuy.js',
         './clientHelpers.js',

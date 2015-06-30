@@ -442,64 +442,24 @@ var Client = IgeClass.extend({
 			callback(false);
 		});
 
-		// Load game audio
-		this.audio.select = new IgeAudio('./assets/audio/select.mp3');
-        this.audio.normClick = new IgeAudio('./assets/audio/generalclick04.wav');
-		//this.audio.construct = new IgeAudio('./assets/audio/construct.mp3');
-        this.audio.monster_footstep = new IgeAudio('./assets/audio/creatur_footstep_large.mp3');
-		this.audio.dialogOpen = new IgeAudio('./assets/audio/dialogOpen.mp3');
-
-		// Load a game texture here
-		this.textures.greenBackground = new IgeTexture('./assets/textures/backgrounds/greenBackground.png');
-        this.textures.valleyBackground = new IgeTexture('./assets/textures/backgrounds/valleyBackground.png')
-		this.textures.dirtBackground = new IgeTexture('./assets/textures/backgrounds/dirtBackground.png');
-		this.textures.aharoniFont = new IgeFontSheet('./assets/textures/fonts/aharoni_26px.png');
-
-        this.textures.moneyMenuBackground = new IgeTexture('./assets/textures/ui/dollar_menu_small.png');
-        this.textures.coinMenuBackground = new IgeTexture('./assets/textures/ui/gold_menu_small.png');
-        this.textures.mainMenuBackground = new IgeTexture('./assets/textures/ui/mainMenuBackground.png');
-		this.textures.marketItemBack = new IgeTexture('./assets/textures/ui/marketItemBack.png');
-		this.textures.buildButton = new IgeTexture('./assets/textures/ui/build.png');
-		this.textures.newsFeedButton = new IgeTexture('./assets/textures/ui/whats_new_icon.png');
-        this.textures.greenPlus = new IgeTexture('./assets/textures/ui/green+.png');
-		this.textures.giftButton = new IgeTexture('./assets/textures/ui/giftButton.png');
-		this.textures.actionButtonBack = new IgeTexture('./assets/textures/ui/actionButtonBack.png');
-		this.textures.actionIconSelect = new IgeTexture('./assets/textures/ui/actionIconSelect.png');
-		this.textures.friendTile = new IgeTexture('./assets/textures/ui/friendTile.png');
-		this.textures.marketMenuBack = new IgeTexture('./assets/textures/ui/marketMenuBack.png');
-		this.textures.cashBar = new IgeTexture('./assets/textures/ui/cashBar.png');
-		this.textures.coinsBar = new IgeTexture('./assets/textures/ui/coinsBar.png');
-		//this.textures.energyBar = new IgeTexture('./assets/textures/ui/energyBar.png');
-		//this.textures.xpBar = new IgeTexture('./assets/textures/ui/xpBar.png');
-		this.textures.coin = new IgeTexture('./assets/textures/ui/coin.png');
-		this.textures.cash = new IgeTexture('./assets/textures/ui/cash.png');
-        this.textures.star = new IgeTexture('./assets/textures/ui/star.png');
-        this.textures.closeButton = new IgeTexture('./assets/textures/ui/close.png');
-
-		this.textures.leftButton1 = new IgeTexture('./assets/textures/ui/leftButton1.png');
-		this.textures.leftButton2 = new IgeTexture('./assets/textures/ui/leftButton2.png');
-		this.textures.leftButton3 = new IgeTexture('./assets/textures/ui/leftButton3.png');
-
-		this.textures.rightButton1 = new IgeTexture('./assets/textures/ui/rightButton1.png');
-		this.textures.rightButton2 = new IgeTexture('./assets/textures/ui/rightButton2.png');
-		this.textures.rightButton3 = new IgeTexture('./assets/textures/ui/rightButton3.png');
+		// Load game audio and textures
+        for(var i=0; i<GameAssets.assets.length;i++){
+            if(GameAssets.assets[i].enabled === "FALSE")
+                continue;
+            if(GameAssets.assets[i].type === "CellSheet")
+                this[GameAssets.assets[i].attachTo][GameAssets.assets[i].name] = new IgeCellSheet(GameAssets.assets[i].url,parseInt(GameAssets.assets[i].horizontalCells),parseInt(GameAssets.assets[i].verticalCells));
+            else if(GameAssets.assets[i].type === "Audio")
+                this[GameAssets.assets[i].attachTo][GameAssets.assets[i].name] = new IgeAudio(GameAssets.assets[i].url);
+            else if(GameAssets.assets[i].type === "Texture")
+                this[GameAssets.assets[i].attachTo][GameAssets.assets[i].name] = new IgeTexture(GameAssets.assets[i].url);
+            else if(GameAssets.assets[i].type === "FontSheet")
+                this[GameAssets.assets[i].attachTo][GameAssets.assets[i].name] = new IgeFontSheet(GameAssets.assets[i].url);
+        }
 
         for(var key in GameObjects.gameObjectTextures) {
             var tex = GameObjects.gameObjectTextures[key]
             this.textures[key] = new IgeCellSheet(tex[0], tex[1], 1)
         }
-
-		this.textures.villager1 = new IgeCellSheet('./assets/textures/sprites/villager.png', 3, 2);
-		this.textures.flowerPot1 = new IgeTexture('./assets/textures/sprites/flowerPot1.png');
-		this.textures.fenceSW = new IgeTexture('./assets/textures/sprites/fenceSW.png');
-		this.textures.clothingLine = new IgeTexture('./assets/textures/sprites/clothingLine.png');
-		this.textures.wallSE = new IgeTexture('./assets/textures/sprites/wallSE.png');
-
-		this.textures.greenDot = new IgeTexture('./assets/textures/greendot.png');
-		this.textures.redDot = new IgeTexture('./assets/textures/reddot.png');
-		this.textures.outline = new IgeTexture('./assets/textures/outline.js');
-		this.textures.rectangle = new IgeTexture('./assets/textures/rectangle.js');
-		this.textures.arrow = new IgeTexture('./assets/textures/arrow.js');
 
 		ige.ui.style('.dialog', {
 			left: 0,

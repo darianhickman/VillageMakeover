@@ -6,7 +6,7 @@ import braintree
 import urllib
 
 from .app_common import config
-from .config import get_config, get_catalog, get_news_feed, get_secret_key
+from .config import get_config, get_catalog, get_news_feed, get_secret_key, get_config_worksheet
 from . import models
 
 from google.appengine.api import users
@@ -19,12 +19,13 @@ root.secret_key  = get_secret_key()
 def index():
     return flask.redirect('/client/')
 
-@root.route('/config')
+@root.route('/config', methods=['POST'])
 def config_route():
-    return flask.Response(
-        json.dumps(dict(get_config()),
-                   indent=4),
-        content_type='application/json')
+    worksheet_name = flask.request.form.get("worksheet")
+    if worksheet_name:
+        return flask.Response(json.dumps(get_config_worksheet(worksheet_name)),content_type='application/json')
+    else:
+        return flask.Response(json.dumps(dict(get_config()),indent=4),content_type='application/json')
 
 @root.route('/getcse')
 def get_cse():

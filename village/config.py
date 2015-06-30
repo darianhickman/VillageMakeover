@@ -56,6 +56,19 @@ def get_session():
 def get_sheet(name):
     return login().open(name).sheet1.get_all_values()
 
+def get_worksheet(sheet_name,worksheet_name):
+    sheet = login().open(sheet_name)
+    return sheet.worksheet(worksheet_name).get_all_values()
+
+def get_config_worksheet(worksheet_name):
+    data = get_worksheet(config_name,worksheet_name)
+    headers = data[0]
+    items = []
+    for row in data[2:]:
+        if row and row[0]:
+            items.append(dict(zip(headers, row)))
+    return items
+
 def get_config():
     data = get_sheet(config_name)
     d = {}
