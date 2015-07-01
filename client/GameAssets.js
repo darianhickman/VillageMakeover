@@ -7,6 +7,5 @@ $.ajax({
     url: '/config',
     success: function(data) {
         GameAssets.assets = data
-        console.log(GameAssets.assets);
     }
 })

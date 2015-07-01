@@ -6,6 +6,5 @@ $.ajax({
     url: '/config',
     success: function(data) {
         GameConfig.config = data
-        console.log(GameConfig.config);
     }
 })

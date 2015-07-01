@@ -39,7 +39,7 @@ var BuyConfirm = Dialog.extend({
             .text('NO')
             .mouseUp(function() {
                 mixpanel.track("Cancel buy");
-                self.hide();
+                self.closeMe();
             });
 
         this.closeButton.translateTo(189,-125,0);
