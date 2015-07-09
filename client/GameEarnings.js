@@ -11,6 +11,5 @@ $.ajax({
             GameEarnings.earnings[row.event] = GameEarnings.earnings[row.event] || []
             GameEarnings.earnings[row.event].push({asset: row.asset, amount: row.amount})
         }
-        console.log(GameEarnings.earnings);
     }
 })

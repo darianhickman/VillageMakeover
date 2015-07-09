@@ -150,6 +150,9 @@ var Client = IgeClass.extend({
 
                 self.tutorial = null;
 
+                self.eventEmitter = self.eventEmitter || new EventEmitter()
+                self.gameLogic = self.gameLogic || new GameLogic()
+
                 completeCallback();
             }
         });
@@ -173,6 +176,15 @@ var Client = IgeClass.extend({
         });
 
         this.fsm.defineState('coinDialog', {
+            enter: function(data, completeCallback) {
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('goalDialog', {
             enter: function(data, completeCallback) {
                 completeCallback();
             },
@@ -382,6 +394,8 @@ var Client = IgeClass.extend({
                             .quantityMax(parseInt(ige.client.cursorObjectData.coins, 10))
                             .start();
                     }
+
+                    ige.client.eventEmitter.emit('build', {"id":cursorClassId, "type":ige.client.cursorObject.type})
 
 					// Remove reference to the object
 					ige.client.cursorObject = null;

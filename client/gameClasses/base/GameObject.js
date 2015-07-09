@@ -54,6 +54,8 @@ var GameObject = IgeEntity.extend({
 
         this.translateToTile(tx,ty);
 
+        ige.client.eventEmitter.emit('updatePosition',{"id":this.classId(), "type":this.type})
+console.log("this", this)
         return this;
     },
 });

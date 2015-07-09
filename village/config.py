@@ -10,6 +10,7 @@ local_config = yaml.load(open(os.path.join(os.path.dirname(__file__), '../config
 
 catalog_name = 'Innovations Catalog Village Social OPERATIONAL DATA Devel'
 config_name = 'Village MakeOver Settings OPERATIONAL'
+goals_name = 'Village Makeover Operational Goals'
 news_feed_name = 'SOHIP Village News PRD'
 cash_bundle_name = 'Virtual Currency Cash Bundle Catalog Operational'
 
@@ -69,6 +70,23 @@ def get_config_worksheet(worksheet_name):
             items.append(dict(zip(headers, row)))
     return items
 
+def get_goals_worksheet(worksheet_name):
+    data = get_worksheet(goals_name,worksheet_name)
+    headers = data[0]
+    items = []
+    for row in data[2:]:
+        if row and row[0]:
+            items.append(dict(zip(headers, row)))
+    return items
+
+def get_goals_settings(worksheet_name):
+    data = get_worksheet(goals_name,worksheet_name)
+    d = {}
+    for row in data[1:]:
+        d[row[0]] = row[1]
+    return d
+
+@memcached('config')
 def get_config():
     data = get_sheet(config_name)
     d = {}

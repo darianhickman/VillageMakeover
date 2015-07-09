@@ -6,7 +6,7 @@ import braintree
 import urllib
 
 from .app_common import config
-from .config import get_config, get_catalog, get_news_feed, get_secret_key, get_config_worksheet
+from .config import get_config, get_catalog, get_news_feed, get_secret_key, get_config_worksheet, get_goals_worksheet, get_goals_settings
 from . import models
 
 from google.appengine.api import users
@@ -26,6 +26,14 @@ def config_route():
         return flask.Response(json.dumps(get_config_worksheet(worksheet_name)),content_type='application/json')
     else:
         return flask.Response(json.dumps(dict(get_config()),indent=4),content_type='application/json')
+
+@root.route('/goals')
+def goals_route():
+    goals_data = get_goals_worksheet("goals")
+    settings_data = get_goals_settings("settings")
+    tasks_data = get_goals_worksheet("tasks")
+
+    return flask.Response(json.dumps({'goals':goals_data, 'settings':settings_data, 'tasks':tasks_data}),content_type='application/json')
 
 @root.route('/getcse')
 def get_cse():

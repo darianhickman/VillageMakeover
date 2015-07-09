@@ -1,7 +1,7 @@
 var Tutorial = IgeEventingClass.extend({
     classId: 'Tutorial',
 
-    init: function (message, callback) {
+    init: function () {
 
         var self = this,
             uiScene = ige.$('uiSceneTutorial'),

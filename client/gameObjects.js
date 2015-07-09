@@ -47,6 +47,7 @@ var GameObjects = {
 		        this.calcTileAdjust();
                 this.cell(options.cell)
 
+                this.type = options.type;
                 this.mouseOverText = options.description;
                 this.buildTime = options.buildTime;
                 this.buildTimeMilliseconds = convertTimeFormatToMilliseconds(this.buildTime);

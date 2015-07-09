@@ -43,7 +43,11 @@ var API = {
             if(first)
                 API.firstReloadState()
             API.reloadState()
-
+            if(API.state.isTutorialShown){
+                //start game logic
+                ige.client.eventEmitter = ige.client.eventEmitter || new EventEmitter()
+                ige.client.gameLogic = ige.client.gameLogic || new GameLogic()
+            }
         }else if(API.loginStatus === "online"){
             $.ajax({
                 url: '/api/get_state',
@@ -70,6 +74,11 @@ var API = {
                     if(first)
                         API.firstReloadState()
                     API.reloadState()
+                    if(API.state.isTutorialShown){
+                        //start game logic
+                        ige.client.eventEmitter = new EventEmitter()
+                        ige.clien.gameLogic = new GameLogic()
+                    }
                 }
             })
         }
@@ -121,14 +130,18 @@ var API = {
 
     firstReloadState: function() {
         var objects = API.state.objects || [],
+            goals = API.state.goals || [],
             isIDMissing = false;
         for(var i in objects) {
             if (objects[i].id === undefined){
                 objects[i].id = ige.newIdHex()
                 isIDMissing = true
             }
-            API.stateObjectsLookup[objects[i].id] = API.state.objects[i]
+            API.stateObjectsLookup[objects[i].id] = objects[i]
             ClientHelpers.addObject(objects[i])
+        }
+        for(var i in goals) {
+            API.stateGoalsLookup[goals[i].goalID] = goals[i]
         }
         ClientHelpers.setPlayerPos()
         if(isIDMissing)
@@ -173,8 +186,41 @@ var API = {
         API.state.isTutorialShown = true
         API.saveState()
     },
+
+    createGoal: function(goalID) {
+        mixpanel.track("Create goal");
+        console.log("ige create goal", goalID)
+        if(!API.state.goals)
+            API.state.goals = []
+        var newLength = API.state.goals.push({'goalID':goalID})
+        API.stateGoalsLookup[goalID] = API.state.goals[newLength-1]
+        API.state.currentGoalID = goalID
+        API.saveState()
+    },
+
+    updateGoal: function(goalID, taskID, value) {
+        mixpanel.track("Update goal");
+        console.log("ige update goal", goalID, taskID, value)
+        if(!API.stateGoalsLookup[goalID].tasks)
+            API.stateGoalsLookup[goalID].tasks = []
+        var elementPos = API.stateGoalsLookup[goalID].tasks.map(function(x) {return x.taskID; }).indexOf(taskID);
+        if(elementPos !== -1)
+            API.stateGoalsLookup[goalID].tasks[elementPos].value = value
+        else
+            API.stateGoalsLookup[goalID].tasks.push({"taskID":taskID,"value":value})
+        API.saveState()
+    },
+
+    setGoalAsComplete: function(goalID) {
+        mixpanel.track("Complete goal");
+        console.log("goal is complete")
+        API.stateGoalsLookup[goalID].isComplete = true
+        API.saveState()
+    },
+
     state: {coins: parseInt(GameConfig.config['startCoins']), cash: parseInt(GameConfig.config['startCash']) },
     stateObjectsLookup: {},
+    stateGoalsLookup: {},
     user: null,
     loginStatus: "offline"
 }

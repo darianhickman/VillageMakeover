@@ -285,6 +285,35 @@ var GraphUi = IgeSceneGraph.extend({
             .mount(topNav);
 */
 
+        var goalButton = new IgeUiElement()
+            .id('goalButton')
+            .top(80)
+            .right(23)
+            .mount(topNav)
+            .hide();
+
+        var goalButtonTexture = new IgeEntity()
+            .texture(self.textures.star)
+            .dimensionsFromTexture()
+            .mount(goalButton)
+
+        var goalButtonFontEntity = new IgeFontEntity()
+            .id('goalButtonFontEntity')
+            .colorOverlay('black')
+            .nativeFont('23px Times New Roman')
+            .backgroundColor('#D3D3D3')
+            .borderColor('#FFFFFF')
+            .borderWidth(2)
+            .right(25)
+            .top(8)
+            .width(140)
+            .height(30)
+            .textAlignX(0)
+            .paddingLeft(10)
+            .mount(goalButton)
+            .text('New Goal')
+            .hide();
+
 		new IgeParticleEmitter()
 			.id('coinEmitter')
 			.layer(10)
@@ -325,6 +354,16 @@ var GraphUi = IgeSceneGraph.extend({
                 $( "#newsFeedDialog" ).dialog( "open" );
             });
 */
+
+        ige.$('goalButton')
+            .mouseUp(function () {
+                // Open the goal dialog
+                mixpanel.track("Open goal dialog");
+                ige.$('goalButtonFontEntity').hide();
+                $( "#goalDialog" ).dialog( "open" );
+                ige.client.fsm.enterState('goalDialog');
+            });
+
         ige.$('cashBar')
             .mouseUp(function() {
                 mixpanel.track("Open cash dialog");
