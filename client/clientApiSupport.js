@@ -77,7 +77,7 @@ var API = {
                     if(API.state.isTutorialShown){
                         //start game logic
                         ige.client.eventEmitter = new EventEmitter()
-                        ige.clien.gameLogic = new GameLogic()
+                        ige.client.gameLogic = new GameLogic()
                     }
                 }
             })
