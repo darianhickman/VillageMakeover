@@ -184,7 +184,7 @@ var Tutorial = IgeEventingClass.extend({
                 marketY: -100,
             },
             item3: {
-                name: 'Plants',
+                name: 'PlantsSmall',
                 mapX: 8,
                 mapY: 18,
                 marketX: 200,
@@ -672,10 +672,10 @@ var Tutorial = IgeEventingClass.extend({
             objectTileWidth,
             objectTileHeight;
 
-        realMarketDialogItem = ige.$('marketDialog').getItemByID('Plants')
+        realMarketDialogItem = ige.$('marketDialog').getItemByID('PlantsSmall')
 
         for (var i = 1; i <= 8; i++){
-            var newItem = new ige.newClassInstance('Plants')
+            var newItem = new ige.newClassInstance('PlantsSmall')
                 .layer(1)
                 .mount(tileMap)
                 .mouseOver(function(){})

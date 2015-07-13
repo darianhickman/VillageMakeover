@@ -81,7 +81,7 @@ var GameObjects = {
                         /*this.mouseOverFontEntity.show()
                         this.fontEntityBackground.show()
                         */
-                        this.layer(24)
+                        this.layer(1)
 
                         $( "#mouseOverDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', position:['middle','bottom'], closeOnEscape: true, width: 450, height: 120, modal: false, autoOpen: false });
                         $( "#mouseOverDialog" ).dialog( "open" );
@@ -96,7 +96,7 @@ var GameObjects = {
                     /*this.mouseOverFontEntity.hide()
                     this.fontEntityBackground.hide()
                     */
-                    this.layer(23)
+                    this.layer(0)
                     try{
                         $( "#mouseOverDialog" ).dialog( "close" );
                     }catch(error){
