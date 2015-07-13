@@ -2,6 +2,8 @@ var GameLogic = IgeObject.extend({
     classId: 'GameLogic',
 
     init: function () {
+        IgeObject.prototype.init.call(this);
+
         var self = this,
             currentGoalID;
 
@@ -56,5 +58,20 @@ var GameLogic = IgeObject.extend({
                 self.goals.loadGoal(currentGoalID, API.stateGoalsLookup[currentGoalID])
             }
         }
+
+        self.rewardMechanism = new RewardMechanism();
+
+        //set earnings on handlers
+        for(var item in GameEarnings.earnings){
+            var arr = GameEarnings.earnings[item]
+            for(var i = 0; i < arr.length; i++){
+                (function(i){
+                    ige.client.eventEmitter.on(item, function(){
+                        self.rewardMechanism.claimReward(arr[i].asset, arr[i].amount)
+                    })
+                })(i)
+            }
+        }
+
     }
 })

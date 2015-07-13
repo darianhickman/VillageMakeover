@@ -3,6 +3,8 @@ var igeClientConfig = {
 		/* Your custom game JS scripts */
 		'./gameClasses/Goals.js',
 		'./gameClasses/EventEmitter.js',
+		'./gameClasses/ui/AssetAnimation.js',
+		'./gameClasses/RewardMechanism.js',
 		'./gameClasses/GameLogic.js',
 		'./gameClasses/ui/Dialog.js',
 		'./gameClasses/ui/MarketDialog.js',
