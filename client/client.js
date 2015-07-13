@@ -284,7 +284,7 @@ var Client = IgeClass.extend({
                         ige.client.cursorObject = null;
 					    ige.client.cursorObjectData = null;
 
-                        var message = 'You don\'t have enough coins. \nWould you like to buy some?';
+                        var message = GameConfig.config['notEnoughCoinsString'];
 
                         var cashDialog = new BuyConfirm(message,
                             function() {

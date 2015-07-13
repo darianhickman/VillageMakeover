@@ -264,7 +264,7 @@ var Tutorial = IgeEventingClass.extend({
                         .nativeFont('15px Times New Roman')
                         .width(400)
                         .height(50)
-                        .text('250 VB')
+                        .text(GameConfig.config['tutorialVBString'])
                         .mount(self.marketItemButton)
                         .translateTo(-5,50,0)
                 }
@@ -527,7 +527,7 @@ var Tutorial = IgeEventingClass.extend({
                     .width(400)
                     .height(50)
                     .translateTo(50,80,0)
-                    .text('500 villagebucks\nfor $4.99 USD')
+                    .text(GameConfig.config['tutorialBuyCashString'])
                     .mount(self.dummyMoneyButton)
 
                 self.tutorialArrow
@@ -605,7 +605,7 @@ var Tutorial = IgeEventingClass.extend({
                     .width(400)
                     .height(50)
                     .translateTo(50,-80,0)
-                    .text('100 Coins\nfor 1 VCash')
+                    .text(GameConfig.config['tutorialBuyCoinsString'])
                     .mount(self.dummyCoinsButton)
 
                 self.tutorialArrow

@@ -24,7 +24,7 @@ var BuyConfirm = Dialog.extend({
             .nativeFont('25px Times New Roman')
             .left(34).bottom(25).width(50)
             .mount(base)
-            .text('YES')
+            .text(GameConfig.config['yesString'])
             .mouseUp(function() {
                 mixpanel.track("Confirm buy");
                 self.hide();
@@ -36,7 +36,7 @@ var BuyConfirm = Dialog.extend({
             .nativeFont('25px Times New Roman')
             .right(30).bottom(25).width(50)
             .mount(base)
-            .text('NO')
+            .text(GameConfig.config['noString'])
             .mouseUp(function() {
                 mixpanel.track("Cancel buy");
                 self.closeMe();

@@ -143,7 +143,7 @@ var GraphUi = IgeSceneGraph.extend({
                 .right(320)
                 .textAlignX(2)
                 .mount(topNav)
-                .text('Login')
+                .text(GameConfig.config['loginString'])
                 .mouseUp(function(){
                     mixpanel.track("Click login");
                     location.href = '/client/login.html'
@@ -177,7 +177,7 @@ var GraphUi = IgeSceneGraph.extend({
                 .right(320)
                 .textAlignX(2)
                 .mount(topNav)
-                .text('Logout')
+                .text(GameConfig.config['logoutString'])
                 .mouseUp(function(){
                     mixpanel.track("Logout");
                     location.href = '/api/logout'
@@ -203,7 +203,7 @@ var GraphUi = IgeSceneGraph.extend({
                 .right(600)
                 .textAlignX(1)
                 .mount(topNav)
-                .text('Like')
+                .text(GameConfig.config['likeString'])
                 .mouseUp(function(){
                     //goto url
                     $.ajax({
@@ -225,7 +225,7 @@ var GraphUi = IgeSceneGraph.extend({
                             $("#tutorialDialog").dialog("open");
 
                             $("#tutorialContent")
-                                .html('<div style="padding-top:50px"><p>You liked our game. Thank You!</p><button id="dialogButton">OK</button></div>');
+                                .html('<div style="padding-top:50px"><p>' + GameConfig.config['likeFeedbackString'] + '</p><button id="dialogButton">OK</button></div>');
 
                             $('#dialogButton').on('click', function () {
                                 $("#tutorialDialog").dialog("close");
@@ -243,7 +243,7 @@ var GraphUi = IgeSceneGraph.extend({
             .right(290)
             .textAlignX(1)
             .mount(topNav)
-            .text('?')
+            .text(GameConfig.config['helpString'])
             .mouseUp(function(){
                 ige.client.fsm.enterState('tutorial');
             });
@@ -256,7 +256,7 @@ var GraphUi = IgeSceneGraph.extend({
             .right(180)
             .textAlignX(1)
             .mount(topNav)
-            .text('Feedback')
+            .text(GameConfig.config['feedbackString'])
             .mouseUp(function(){
                 mixpanel.track("Send feedback");
                 window.open(
@@ -311,7 +311,7 @@ var GraphUi = IgeSceneGraph.extend({
             .textAlignX(0)
             .paddingLeft(10)
             .mount(goalButton)
-            .text('New Goal')
+            .text(GameConfig.config['newGoalString'])
             .hide();
 
 		new IgeParticleEmitter()

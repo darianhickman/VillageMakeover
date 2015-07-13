@@ -72,7 +72,7 @@ var CoinDialog = Dialog.extend({
                     if(price.cash > API.state.cash){
                         // Not enough money?
                         mixpanel.track("Not enough money");
-                        message = 'You don\'t have enough villagebucks. \nWould you like to buy some?';
+                        message = GameConfig.config['notEnoughCashString'];
                         callBack = function() {
                             ige.$('cashDialog').show();
                         }
