@@ -12,8 +12,8 @@ var CashDialog = Dialog.extend({
             .dimensionsFromTexture()
             .mount(this);
 
-        var bucks = [500, 1200, 2500, 6500, 14000];
-        var pay = [4.99, 9.99, 19.99, 49.99, 99.99];
+        var bucks = GameConfig.config['cashDialogBucks'].split(",").map(parseFloat);
+        var pay = GameConfig.config['cashDialogPays'].split(",").map(parseFloat);
         for(var i=0; i < 5; i ++) {
             var offset = i * 173;
             var base =  new IgeUiLabel()

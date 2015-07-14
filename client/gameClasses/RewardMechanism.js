@@ -3,7 +3,7 @@ var RewardMechanism = IgeEventingClass.extend({
 
     init: function () {
         var self = this,
-            textureList = [{"name":"xp","texture":"star","mount":"coinsBar"},{"name":"coins","texture":"coin","mount":"coinsBar"},{"name":"cash","texture":"cash","mount":"cashBar"}];
+            textureList = JSON.parse(GameConfig.config['rewardMechanismTextureList']);
 
         self.uiScene = ige.$('uiScene');
         self.textureListLookup = {};

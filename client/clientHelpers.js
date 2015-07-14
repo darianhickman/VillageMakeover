@@ -39,7 +39,7 @@ var ClientHelpers = {
         var player = ige.$('bob')
 		var playerTile = player.currentTile();
 
-        var x = 16, y = 16
+        var x = parseInt(GameConfig.config['villagerStartX']), y = parseInt(GameConfig.config['villagerStartY'])
         while(ige.$('tileMap1').isTileOccupied(x, y, 1, 1)) {
             x ++; y ++
         }

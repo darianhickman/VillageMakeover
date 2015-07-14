@@ -6,7 +6,7 @@ var AssetAnimation = IgeEntity.extend({
 
         var self = this;
 
-        self.totalObjects = 15;
+        self.totalObjects = parseInt(GameConfig.config['assetAnimationTotalObjects']);
         self.objects = [];
         self.tweenRefs = [];
         self._moveTo = moveTo;

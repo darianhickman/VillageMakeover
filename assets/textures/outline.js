@@ -3,9 +3,9 @@ var image = {
     render: function (ctx, entity) {
         // configuration
         var offsetY = 0;
-        var strokeWidth = 4//ige.client.defaultSettings.outlineStrokeWidth;
-        var feasibleColor = "rgb(0,255,0)";
-        var unfeasibleColor = "rgb(255,0,0)";
+        var strokeWidth = parseInt(GameConfig.config['outlineStrokeWidth'])
+        var feasibleColor = GameConfig.config['outlineFeasibleColor'];
+        var unfeasibleColor = GameConfig.config['outlineUnfeasibleColor'];
         var unitLength = ige.$('tileMap1')._tileWidth / 2;
 
         var dx = entity.tileWidth * unitLength;

@@ -1,4 +1,4 @@
-var gameScale = 1.5
+var gameScale = parseFloat(GameConfig.config['gameScale'])
 var uniqueCounter = 0
 
 var Client = IgeClass.extend({
@@ -507,8 +507,8 @@ var Client = IgeClass.extend({
 			    ige.createFrontBuffer(true);
             } else {
                 var canvas = $('<canvas id=gameCanvas>').appendTo('body')
-                var width = 971 * gameScale
-                var height = 470 * gameScale
+                var width = parseInt(GameConfig.config['canvasWidth']) * gameScale
+                var height = parseInt(GameConfig.config['canvasHeight']) * gameScale
                 canvas.attr('width', width)
                 canvas.attr('height', height)
                 var baseSize = Math.min($(window).width() / width, $(window).height() / height)
@@ -553,8 +553,8 @@ var Client = IgeClass.extend({
 						.addComponent(LimitZoomPanComponent, {
 							boundsX: 0,
 							boundsY: 0,
-							boundsWidth: 2627,
-							boundsHeight: 1545
+							boundsWidth: parseInt(GameConfig.config['boundsWidth']),
+							boundsHeight: parseInt(GameConfig.config['boundsHeight'])
 						})
 
 						.mousePan.enabled(false)

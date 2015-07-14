@@ -1,4 +1,4 @@
-var mapTileSize = 36;
+var mapTileSize = parseInt(GameConfig.config['mapTileSize']);
 
 var GraphLevel1 = IgeSceneGraph.extend({
 	classId: 'GraphLevel1',

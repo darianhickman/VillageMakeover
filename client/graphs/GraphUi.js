@@ -106,35 +106,38 @@ var GraphUi = IgeSceneGraph.extend({
             .right(-40)
             .mount(coinsProgress);
 
-		/*var xpBar = new IgeUiElement()
-			.id('xpBar')
-			.texture(ige.client.textures.xpBar)
-			.dimensionsFromTexture()
-            .left(325)
-			.mount(topNav);
+		if(GameConfig.config['xpFeature'] === "on"){
+            var xpBar = new IgeUiElement()
+                .id('xpBar')
+                .texture(ige.client.textures.xpBar)
+                .dimensionsFromTexture()
+                .left(325)
+                .mount(topNav);
 
-        new IgeUiProgressBar()
-			.id('xpProgress')
-			//.barBackColor('#f2b982')
-			//.barBorderColor('#3a9bc5')
-			.barColor('#69f22f')
-			.min(0)
-			.max(500)
-			.progress(80)
-			.width(87)
-			.height(18)
-			.right(17)
-            .barText('', ' XP', 'black')
-			.mount(xpBar);
+            new IgeUiProgressBar()
+                .id('xpProgress')
+                //.barBackColor('#f2b982')
+                //.barBorderColor('#3a9bc5')
+                .barColor('#69f22f')
+                .min(0)
+                .max(500)
+                .progress(80)
+                .width(87)
+                .height(18)
+                .right(17)
+                .barText('', ' XP', 'black')
+                .mount(xpBar);
+        }
 
-		new IgeUiElement()
-			.id('energyBar')
-			.texture(ige.client.textures.energyBar)
-			.dimensionsFromTexture()
-            .left(475)
-            //.barText('', '%', 'black')
-			.mount(topNav);
-        */
+        if(GameConfig.config['energyFeature'] === "on"){
+            new IgeUiElement()
+                .id('energyBar')
+                .texture(ige.client.textures.energyBar)
+                .dimensionsFromTexture()
+                .left(475)
+                //.barText('', '%', 'black')
+                .mount(topNav);
+        }
 
         if(API.loginStatus === 'offline'){
             var loginButtonEntity = new IgeFontEntity()

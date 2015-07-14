@@ -13,8 +13,8 @@ var CoinDialog = Dialog.extend({
             .dimensionsFromTexture()
             .mount(this);
 
-        var coins = [100, 200, 400, 1000, 2000];
-        var pay = [1, 2, 4, 10, 20];
+        var coins = GameConfig.config['coinDialogCoins'].split(",").map(parseFloat);
+        var pay = GameConfig.config['coinDialogPays'].split(",").map(parseFloat);
         for(var i=0; i < 5; i ++) {
             var offset = i * 173;
             var base =  new IgeUiLabel()

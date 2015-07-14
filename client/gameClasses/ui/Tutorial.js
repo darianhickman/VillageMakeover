@@ -170,28 +170,28 @@ var Tutorial = IgeEventingClass.extend({
 
         self.items = {
             item1: {
-                name: 'Hut2',
+                name: GameConfig.config['tutorialItem1'],
                 mapX: 15,
                 mapY: 5,
                 marketX: -200,
                 marketY: -100,
             },
             item2: {
-                name: 'Hut1',
+                name: GameConfig.config['tutorialItem2'],
                 mapX: 8,
                 mapY: 13,
                 marketX: 0,
                 marketY: -100,
             },
             item3: {
-                name: 'PlantsSmall',
+                name: GameConfig.config['tutorialItem3'],
                 mapX: 8,
                 mapY: 18,
                 marketX: 200,
                 marketY: -100,
             },
             item4: {
-                name: 'Well2',
+                name: GameConfig.config['tutorialItem4'],
                 mapX: 26,
                 mapY: 18,
                 marketX: -200,
@@ -672,10 +672,10 @@ var Tutorial = IgeEventingClass.extend({
             objectTileWidth,
             objectTileHeight;
 
-        realMarketDialogItem = ige.$('marketDialog').getItemByID('PlantsSmall')
+        realMarketDialogItem = ige.$('marketDialog').getItemByID(GameConfig.config['tutorialItem3'])
 
         for (var i = 1; i <= 8; i++){
-            var newItem = new ige.newClassInstance('PlantsSmall')
+            var newItem = new ige.newClassInstance(GameConfig.config['tutorialItem3'])
                 .layer(1)
                 .mount(tileMap)
                 .mouseOver(function(){})
@@ -710,10 +710,10 @@ var Tutorial = IgeEventingClass.extend({
         offsetX = 0
         offsetY = 0
 
-        realMarketDialogItem = ige.$('marketDialog').getItemByID('Hut1')
+        realMarketDialogItem = ige.$('marketDialog').getItemByID(GameConfig.config['tutorialItem2'])
 
         for (var i = 1; i <= 4; i++){
-            var newItem = new ige.newClassInstance('Hut1')
+            var newItem = new ige.newClassInstance(GameConfig.config['tutorialItem2'])
                 .layer(1)
                 .mount(tileMap)
                 .mouseOver(function(){})
