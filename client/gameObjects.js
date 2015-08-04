@@ -2,6 +2,9 @@
 var GameObjects = {
     gameObjectTextures: {},
     setupMarket: function(marketDialog) {
+        var pageCount = Math.ceil(GameObjects._marketCallbacks.length / 6);
+        marketDialog.createPages(pageCount);
+
         for(var i in GameObjects._marketCallbacks) {
 		    (GameObjects._marketCallbacks[i])(marketDialog)
         }
