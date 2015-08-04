@@ -25,6 +25,7 @@ var MarketDialog = Dialog.extend({
 			    .height(380)
 			    .translateTo(0, 21, 0)
                 .mount(this)
+				.hide()
 
             new IgeUiElement()
                 .id('marketDialogRight_' + i)
@@ -55,6 +56,7 @@ var MarketDialog = Dialog.extend({
 
 		this._activePageIndex = 0;
         this._pages[0].mount(this)
+			.show()
 
         this.closeButton.translateTo(300,-200,0);
 	},
