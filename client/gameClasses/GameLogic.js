@@ -13,13 +13,13 @@ var GameLogic = IgeObject.extend({
             var item = API.state.objects[i],
                 options = GameObjects.catalogLookup[item.name]
 
-            if(marketDialog.getItemByID(item.name) === null) {
+            if(options.enabled && marketDialog.getItemByID(item.name) === null)
                 self.addItemToMarketDialog(options);
-            }
 
             if(options.unlocks !== "none" && marketDialog.getItemByID(options.unlocks) === null){
                 var unlockedOptions = GameObjects.catalogLookup[options.unlocks]
-                self.addItemToMarketDialog(unlockedOptions);
+                if(unlockedOptions.enabled)
+                    self.addItemToMarketDialog(unlockedOptions);
             }
         }
 
@@ -93,7 +93,8 @@ var GameLogic = IgeObject.extend({
         ige.client.eventEmitter.on('build', function(data){
             if(data.unlocks !== "none" && marketDialog.getItemByID(data.unlocks) === null){
                 var options = GameObjects.catalogLookup[data.unlocks]
-                self.addItemToMarketDialog(options);
+                if(options.enabled)
+                    self.addItemToMarketDialog(options);
             }
         })
     },
