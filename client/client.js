@@ -395,7 +395,7 @@ var Client = IgeClass.extend({
                             .start();
                     }
 
-                    ige.client.eventEmitter.emit('build', {"id":cursorClassId, "type":ige.client.cursorObject.type})
+                    ige.client.eventEmitter.emit('build', {"id":cursorClassId, "type":ige.client.cursorObject.type, "unlocks":ige.client.cursorObject.unlocks})
 
 					// Remove reference to the object
 					ige.client.cursorObject = null;

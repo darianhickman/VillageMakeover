@@ -5,7 +5,23 @@ var GameLogic = IgeObject.extend({
         IgeObject.prototype.init.call(this);
 
         var self = this,
-            currentGoalID;
+            currentGoalID,
+            marketDialog = ige.$('marketDialog');
+
+        //add unlocked market items based on user state
+        for(var i in API.state.objects){
+            var item = API.state.objects[i],
+                options = GameObjects.catalogLookup[item.name]
+
+            if(marketDialog.getItemByID(item.name) === null) {
+                self.addItemToMarketDialog(options);
+            }
+
+            if(options.unlocks !== "none" && marketDialog.getItemByID(options.unlocks) === null){
+                var unlockedOptions = GameObjects.catalogLookup[options.unlocks]
+                self.addItemToMarketDialog(unlockedOptions);
+            }
+        }
 
         self.goals = new Goals()
 
@@ -73,5 +89,38 @@ var GameLogic = IgeObject.extend({
             }
         }
 
+        //on item build unlock new item
+        ige.client.eventEmitter.on('build', function(data){
+            if(data.unlocks !== "none" && marketDialog.getItemByID(data.unlocks) === null){
+                var options = GameObjects.catalogLookup[data.unlocks]
+                self.addItemToMarketDialog(options);
+            }
+        })
+    },
+
+    //add unlocked item to market dialog
+    addItemToMarketDialog: function(options){
+        var marketDialog = ige.$('marketDialog'),
+            pageIndex = 0;
+
+        //check for page availability, if not create new page
+        while (marketDialog._pageItems[pageIndex] && marketDialog._pageItems[pageIndex].length === 6) {
+            pageIndex++;
+        }
+        if(!marketDialog._pages[pageIndex])
+            marketDialog.createSinglePage();
+
+        //add item to market dialog
+        marketDialog.addItem({
+            'id': options.id,
+            'classId': options.id,
+            'title': options.name,
+            'texture': ige.client.textures[options.id],
+            'coins': options.coins,
+            'cash': options.cash,
+            'cell': options.cell,
+            'scale': options.scale,
+            'scaleValue': options.scaleValue
+        });
     }
 })

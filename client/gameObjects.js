@@ -11,15 +11,18 @@ var GameObjects = {
     },
     _marketCallbacks: [],
     loadCatalog: function(catalog) {
+        GameObjects.catalog = catalog;
+        GameObjects.catalogLookup = {};
         for(var i in catalog) {
             var item = catalog[i]
             GameObjects.createGameObjectClass(item.id, item)
+            GameObjects.catalogLookup[item.id] = item
         }
     },
     createGameObjectClass: function(classId, options) {
         GameObjects.gameObjectTextures[classId] = [options.textureUrl, options.cellCount || 1]
 
-        if(options.enabled) GameObjects._marketCallbacks.push(function(marketDialog) {
+        if(options.enabled && options.dependency === "none") GameObjects._marketCallbacks.push(function(marketDialog) {
             marketDialog.addItem({
 			    'id': classId,
 			    'classId': classId,
@@ -51,6 +54,8 @@ var GameObjects = {
                 this.cell(options.cell)
 
                 this.type = options.type;
+                this.dependency = options.dependency;
+                this.unlocks = options.unlocks;
                 this.mouseOverText = options.description;
                 this.buildTime = options.buildTime;
                 this.buildTimeMilliseconds = convertTimeFormatToMilliseconds(this.buildTime);

@@ -237,12 +237,12 @@ var Tutorial = IgeEventingClass.extend({
 
         self.steps['showMarketDialog'] = {
             enter: function(){
-                var realMarketDialogItem = ige.$('marketDialog').getItemByID(self.items['item'+self.currentBuildStep].name)
+                var catalogItem = GameObjects.catalogLookup[self.items['item'+self.currentBuildStep].name]
 
                 self.marketItemButton = new IgeEntity()
                     .layer(1)
                     .texture(ige.client.textures[self.items['item'+self.currentBuildStep].name])
-                    .cell(realMarketDialogItem.cell)
+                    .cell(catalogItem.cell)
                     .dimensionsFromCell()
                     .height(100,true)
                     .mount(self.marketDialogTutorial)
@@ -289,7 +289,7 @@ var Tutorial = IgeEventingClass.extend({
                     objectTileWidth,
                     objectTileHeight,
                     objinfo,
-                    realMarketDialogItem = ige.$('marketDialog').getItemByID(self.items['item'+self.currentBuildStep].name);
+                    catalogItem = GameObjects.catalogLookup[self.items['item'+self.currentBuildStep].name];
 
                 self.mapItemButton = new ige.newClassInstance(self.items['item'+self.currentBuildStep].name)
                     .layer(1)
@@ -299,7 +299,7 @@ var Tutorial = IgeEventingClass.extend({
                     .mouseOut(function(){})
                     .mouseMove(function(){})
                     .mouseUp(function(){
-                        if(realMarketDialogItem.cell == step){
+                        if(catalogItem.cell == step){
                             self.gotoStep('HouseIsBuilt')
                         }
                         else{
@@ -666,13 +666,10 @@ var Tutorial = IgeEventingClass.extend({
     fillScreenWithObjects: function(currentBuildStep) {
         var self = this,
             tileMap = ige.$('tileMapTutorial'),
-            realMarketDialogItem,
             offsetX = 0,
             offsetY = 0,
             objectTileWidth,
             objectTileHeight;
-
-        realMarketDialogItem = ige.$('marketDialog').getItemByID(GameConfig.config['tutorialItem3'])
 
         for (var i = 1; i <= 8; i++){
             var newItem = new ige.newClassInstance(GameConfig.config['tutorialItem3'])
@@ -709,8 +706,6 @@ var Tutorial = IgeEventingClass.extend({
 
         offsetX = 0
         offsetY = 0
-
-        realMarketDialogItem = ige.$('marketDialog').getItemByID(GameConfig.config['tutorialItem2'])
 
         for (var i = 1; i <= 4; i++){
             var newItem = new ige.newClassInstance(GameConfig.config['tutorialItem2'])
