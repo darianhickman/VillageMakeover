@@ -2,21 +2,27 @@
 var GameObjects = {
     gameObjectTextures: {},
     setupMarket: function(marketDialog) {
+        var pageCount = Math.ceil(GameObjects._marketCallbacks.length / 6);
+        marketDialog.createPages(pageCount);
+
         for(var i in GameObjects._marketCallbacks) {
 		    (GameObjects._marketCallbacks[i])(marketDialog)
         }
     },
     _marketCallbacks: [],
     loadCatalog: function(catalog) {
+        GameObjects.catalog = catalog;
+        GameObjects.catalogLookup = {};
         for(var i in catalog) {
             var item = catalog[i]
             GameObjects.createGameObjectClass(item.id, item)
+            GameObjects.catalogLookup[item.id] = item
         }
     },
     createGameObjectClass: function(classId, options) {
         GameObjects.gameObjectTextures[classId] = [options.textureUrl, options.cellCount || 1]
 
-        if(options.enabled) GameObjects._marketCallbacks.push(function(marketDialog) {
+        if(options.enabled && options.dependency === "none") GameObjects._marketCallbacks.push(function(marketDialog) {
             marketDialog.addItem({
 			    'id': classId,
 			    'classId': classId,
@@ -47,40 +53,16 @@ var GameObjects = {
 		        this.calcTileAdjust();
                 this.cell(options.cell)
 
+                this.type = options.type;
+                this.dependency = options.dependency;
+                this.unlocks = options.unlocks;
                 this.mouseOverText = options.description;
                 this.buildTime = options.buildTime;
                 this.buildTimeMilliseconds = convertTimeFormatToMilliseconds(this.buildTime);
 
-                this.mouseOverFontEntity = new IgeFontEntity()
-                    .layer(2)
-                    .colorOverlay('white')
-                    .texture(ige.client.textures.aharoniFont)
-                    .width(500)
-                    .height(150)
-                    .textAlignX(1)
-                    .autoWrap(true)
-                    .text(options.description)
-                    .mount(this)
-                    .hide()
-
-                var totalLines = (this.mouseOverFontEntity._renderText.match(new RegExp('\n', 'g')) || []).length || 1
-                this.mouseOverFontEntity.translateTo(0, -this.height() / 2 - 20 * totalLines, 0)
-
-                this.fontEntityBackground = new IgeEntity()
-                    .layer(2)
-                    .width(this.mouseOverFontEntity.measureTextWidth(this.mouseOverFontEntity._renderText) + 20)
-                    .height((totalLines + 1) * 40)
-                    .translateTo(0, -this.height() / 2 - 20 * totalLines, 0)
-                    .texture(ige.client.textures.rectangle)
-                    .mount(this)
-                    .hide()
-
                 this.mouseOver(function(){
                     if(ige.client.fsm.currentStateName() === "select" && !ige.client.data('moveItem')){
-                        /*this.mouseOverFontEntity.show()
-                        this.fontEntityBackground.show()
-                        */
-                        this.layer(24)
+                        this.layer(1)
 
                         $( "#mouseOverDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', position:['middle','bottom'], closeOnEscape: true, width: 450, height: 120, modal: false, autoOpen: false });
                         $( "#mouseOverDialog" ).dialog( "open" );
@@ -92,14 +74,11 @@ var GameObjects = {
                 })
 
                 this.mouseOut(function(){
-                    /*this.mouseOverFontEntity.hide()
-                    this.fontEntityBackground.hide()
-                    */
-                    this.layer(23)
+                    this.layer(0)
                     try{
                         $( "#mouseOverDialog" ).dialog( "close" );
                     }catch(error){
-                        console.log(error)
+
                     }
                 })
 
@@ -133,6 +112,8 @@ var GameObjects = {
                 this._buildProgressTime = new IgeFontEntity()
                     .colorOverlay('white')
                     .nativeFont('25px Times New Roman')
+                    .nativeStroke(4)
+                    .nativeStrokeColor('#000000')
                     .width(200)
                     .height(100)
                     .mount(this)

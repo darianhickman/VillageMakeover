@@ -20,21 +20,21 @@ var BuyStatus = Dialog.extend({
     },
 
     startTransaction: function() {
-        this.label.text('Buying...');
+        this.label.text(GameConfig.config['buyingString']);
         this.show();
     },
 
     transactionSuccess: function() {
         var self = this;
         mixpanel.track("Transaction success");
-        this.label.text('Transaction successful!');
+        this.label.text(GameConfig.config['transactionSuccessString']);
         new IgeInterval(function () { self.hide()  }, 1000);
     },
 
     transactionFailed: function(callback) {
         var self = this;
         mixpanel.track("Transaction fail");
-        this.label.text('Transaction failed!\nPlease update your info...');
+        this.label.text(GameConfig.config['transactionFailString']);
         this.label.nativeFont('20px Times New Roman')
         new IgeInterval(callback, 2000);
     }

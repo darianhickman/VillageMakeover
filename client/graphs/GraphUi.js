@@ -106,35 +106,38 @@ var GraphUi = IgeSceneGraph.extend({
             .right(-40)
             .mount(coinsProgress);
 
-		/*var xpBar = new IgeUiElement()
-			.id('xpBar')
-			.texture(ige.client.textures.xpBar)
-			.dimensionsFromTexture()
-            .left(325)
-			.mount(topNav);
+		if(GameConfig.config['xpFeature'] === "on"){
+            var xpBar = new IgeUiElement()
+                .id('xpBar')
+                .texture(ige.client.textures.xpBar)
+                .dimensionsFromTexture()
+                .left(325)
+                .mount(topNav);
 
-        new IgeUiProgressBar()
-			.id('xpProgress')
-			//.barBackColor('#f2b982')
-			//.barBorderColor('#3a9bc5')
-			.barColor('#69f22f')
-			.min(0)
-			.max(500)
-			.progress(80)
-			.width(87)
-			.height(18)
-			.right(17)
-            .barText('', ' XP', 'black')
-			.mount(xpBar);
+            new IgeUiProgressBar()
+                .id('xpProgress')
+                //.barBackColor('#f2b982')
+                //.barBorderColor('#3a9bc5')
+                .barColor('#69f22f')
+                .min(0)
+                .max(500)
+                .progress(80)
+                .width(87)
+                .height(18)
+                .right(17)
+                .barText('', ' XP', 'black')
+                .mount(xpBar);
+        }
 
-		new IgeUiElement()
-			.id('energyBar')
-			.texture(ige.client.textures.energyBar)
-			.dimensionsFromTexture()
-            .left(475)
-            //.barText('', '%', 'black')
-			.mount(topNav);
-        */
+        if(GameConfig.config['energyFeature'] === "on"){
+            new IgeUiElement()
+                .id('energyBar')
+                .texture(ige.client.textures.energyBar)
+                .dimensionsFromTexture()
+                .left(475)
+                //.barText('', '%', 'black')
+                .mount(topNav);
+        }
 
         if(API.loginStatus === 'offline'){
             var loginButtonEntity = new IgeFontEntity()
@@ -143,7 +146,7 @@ var GraphUi = IgeSceneGraph.extend({
                 .right(320)
                 .textAlignX(2)
                 .mount(topNav)
-                .text('Login')
+                .text(GameConfig.config['loginString'])
                 .mouseUp(function(){
                     mixpanel.track("Click login");
                     location.href = '/client/login.html'
@@ -177,7 +180,7 @@ var GraphUi = IgeSceneGraph.extend({
                 .right(320)
                 .textAlignX(2)
                 .mount(topNav)
-                .text('Logout')
+                .text(GameConfig.config['logoutString'])
                 .mouseUp(function(){
                     mixpanel.track("Logout");
                     location.href = '/api/logout'
@@ -203,7 +206,7 @@ var GraphUi = IgeSceneGraph.extend({
                 .right(600)
                 .textAlignX(1)
                 .mount(topNav)
-                .text('Like')
+                .text(GameConfig.config['likeString'])
                 .mouseUp(function(){
                     //goto url
                     $.ajax({
@@ -225,7 +228,7 @@ var GraphUi = IgeSceneGraph.extend({
                             $("#tutorialDialog").dialog("open");
 
                             $("#tutorialContent")
-                                .html('<div style="padding-top:50px"><p>You liked our game. Thank You!</p><button id="dialogButton">OK</button></div>');
+                                .html('<div style="padding-top:50px"><p>' + GameConfig.config['likeFeedbackString'] + '</p><button id="dialogButton">OK</button></div>');
 
                             $('#dialogButton').on('click', function () {
                                 $("#tutorialDialog").dialog("close");
@@ -243,7 +246,7 @@ var GraphUi = IgeSceneGraph.extend({
             .right(290)
             .textAlignX(1)
             .mount(topNav)
-            .text('?')
+            .text(GameConfig.config['helpString'])
             .mouseUp(function(){
                 ige.client.fsm.enterState('tutorial');
             });
@@ -256,7 +259,7 @@ var GraphUi = IgeSceneGraph.extend({
             .right(180)
             .textAlignX(1)
             .mount(topNav)
-            .text('Feedback')
+            .text(GameConfig.config['feedbackString'])
             .mouseUp(function(){
                 mixpanel.track("Send feedback");
                 window.open(
@@ -284,6 +287,35 @@ var GraphUi = IgeSceneGraph.extend({
             .right(80)
             .mount(topNav);
 */
+
+        var goalButton = new IgeUiElement()
+            .id('goalButton')
+            .top(80)
+            .right(23)
+            .mount(topNav)
+            .hide();
+
+        var goalButtonTexture = new IgeEntity()
+            .texture(self.textures.star)
+            .dimensionsFromTexture()
+            .mount(goalButton)
+
+        var goalButtonFontEntity = new IgeFontEntity()
+            .id('goalButtonFontEntity')
+            .colorOverlay('black')
+            .nativeFont('23px Times New Roman')
+            .backgroundColor('#D3D3D3')
+            .borderColor('#FFFFFF')
+            .borderWidth(2)
+            .right(25)
+            .top(8)
+            .width(140)
+            .height(30)
+            .textAlignX(0)
+            .paddingLeft(10)
+            .mount(goalButton)
+            .text(GameConfig.config['newGoalString'])
+            .hide();
 
 		new IgeParticleEmitter()
 			.id('coinEmitter')
@@ -325,6 +357,16 @@ var GraphUi = IgeSceneGraph.extend({
                 $( "#newsFeedDialog" ).dialog( "open" );
             });
 */
+
+        ige.$('goalButton')
+            .mouseUp(function () {
+                // Open the goal dialog
+                mixpanel.track("Open goal dialog");
+                ige.$('goalButtonFontEntity').hide();
+                $( "#goalDialog" ).dialog( "open" );
+                ige.client.fsm.enterState('goalDialog');
+            });
+
         ige.$('cashBar')
             .mouseUp(function() {
                 mixpanel.track("Open cash dialog");

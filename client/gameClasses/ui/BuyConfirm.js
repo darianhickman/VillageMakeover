@@ -5,7 +5,7 @@ var BuyConfirm = Dialog.extend({
 
         var self = this;
 
-        var base = new IgeUiLabel()
+        var base = new IgeUiElement()
             .width(400)
             .height(300)
 			.texture(ige.client.textures.marketMenuBack)
@@ -24,7 +24,7 @@ var BuyConfirm = Dialog.extend({
             .nativeFont('25px Times New Roman')
             .left(34).bottom(25).width(50)
             .mount(base)
-            .text('YES')
+            .text(GameConfig.config['yesString'])
             .mouseUp(function() {
                 mixpanel.track("Confirm buy");
                 self.hide();
@@ -36,10 +36,10 @@ var BuyConfirm = Dialog.extend({
             .nativeFont('25px Times New Roman')
             .right(30).bottom(25).width(50)
             .mount(base)
-            .text('NO')
+            .text(GameConfig.config['noString'])
             .mouseUp(function() {
                 mixpanel.track("Cancel buy");
-                self.hide();
+                self.closeMe();
             });
 
         this.closeButton.translateTo(189,-125,0);

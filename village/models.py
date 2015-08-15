@@ -1,11 +1,16 @@
 # -*- mode: python; eval: (elpy-mode 0) -*-
 from google.appengine.ext import ndb
 
+from .config import get_config
+
 import json
+
+sheet_config = get_config()
 
 INIT_STATE = {
     'first': 'true',
-    'coins': 1000,
+    'coins': int(sheet_config['startCoins']),
+    'cash': int(sheet_config['startCash'])
 }
 
 class State(ndb.Model):

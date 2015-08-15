@@ -1,4 +1,4 @@
-var gameScale = 1.5
+var gameScale = parseFloat(GameConfig.config['gameScale'])
 var uniqueCounter = 0
 
 var Client = IgeClass.extend({
@@ -136,19 +136,8 @@ var Client = IgeClass.extend({
                     .camera.translateTo(0, 0, 0)
                     .camera.scaleTo(1.0,1.0,0);
 
-                ige.$('objectScene').hide();
-                ige.$('uiScene').hide();
-
-                new IgeScene2d()
-                    .id('objectSceneTutorial')
-                    .layer(1)
-                    .mount(ige.$('level1'));
-
-                new IgeScene2d()
-                    .id('uiSceneTutorial')
-                    .layer(2)
-                    .ignoreCamera(true)
-                    .mount(ige.$('level1'));
+                ige.$('level1').hide();
+                ige.addGraph('GraphTutorial');
 
                 self.tutorial = new Tutorial();
                 self.tutorial.gotoStep('initialStep');
@@ -156,12 +145,13 @@ var Client = IgeClass.extend({
                 completeCallback();
             },
             exit: function(data, completeCallback) {
-                ige.$('objectScene').show();
-                ige.$('uiScene').show();
+                ige.$('level1').show();
+                ige.removeGraph('GraphTutorial');
 
-                ige.$('objectSceneTutorial').destroy();
-                ige.$('uiSceneTutorial').destroy();
                 self.tutorial = null;
+
+                self.eventEmitter = self.eventEmitter || new EventEmitter()
+                self.gameLogic = self.gameLogic || new GameLogic()
 
                 completeCallback();
             }
@@ -186,6 +176,15 @@ var Client = IgeClass.extend({
         });
 
         this.fsm.defineState('coinDialog', {
+            enter: function(data, completeCallback) {
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('goalDialog', {
             enter: function(data, completeCallback) {
                 completeCallback();
             },
@@ -285,7 +284,7 @@ var Client = IgeClass.extend({
                         ige.client.cursorObject = null;
 					    ige.client.cursorObjectData = null;
 
-                        var message = 'You don\'t have enough coins. \nWould you like to buy some?';
+                        var message = GameConfig.config['notEnoughCoinsString'];
 
                         var cashDialog = new BuyConfirm(message,
                             function() {
@@ -396,6 +395,8 @@ var Client = IgeClass.extend({
                             .start();
                     }
 
+                    ige.client.eventEmitter.emit('build', {"id":cursorClassId, "type":ige.client.cursorObject.type, "unlocks":ige.client.cursorObject.unlocks})
+
 					// Remove reference to the object
 					ige.client.cursorObject = null;
 					ige.client.cursorObjectData = null;
@@ -455,64 +456,25 @@ var Client = IgeClass.extend({
 			callback(false);
 		});
 
-		// Load game audio
-		this.audio.select = new IgeAudio('./assets/audio/select.mp3');
-        this.audio.normClick = new IgeAudio('./assets/audio/generalclick04.wav');
-		//this.audio.construct = new IgeAudio('./assets/audio/construct.mp3');
-        this.audio.monster_footstep = new IgeAudio('./assets/audio/creatur_footstep_large.mp3');
-		this.audio.dialogOpen = new IgeAudio('./assets/audio/dialogOpen.mp3');
-
-		// Load a game texture here
-		this.textures.greenBackground = new IgeTexture('./assets/textures/backgrounds/greenBackground.png');
-        this.textures.valleyBackground = new IgeTexture('./assets/textures/backgrounds/valleyBackground.png')
-		this.textures.dirtBackground = new IgeTexture('./assets/textures/backgrounds/dirtBackground.png');
-		this.textures.aharoniFont = new IgeFontSheet('./assets/textures/fonts/aharoni_26px.png');
-
-		this.textures.moneyMenuBackground = new IgeTexture('./assets/textures/ui/CashMenuTemplate.png');
-		this.textures.coinMenuBackground = new IgeTexture('./assets/textures/ui/CoinMenuTemplate.png');
-        this.textures.mainMenuBackground = new IgeTexture('./assets/textures/ui/mainMenuBackground.png');
-		this.textures.marketItemBack = new IgeTexture('./assets/textures/ui/marketItemBack.png');
-		this.textures.buildButton = new IgeTexture('./assets/textures/ui/build.png');
-		this.textures.newsFeedButton = new IgeTexture('./assets/textures/ui/whats_new_icon.png');
-        this.textures.greenPlus = new IgeTexture('./assets/textures/ui/green+.png');
-		this.textures.giftButton = new IgeTexture('./assets/textures/ui/giftButton.png');
-		this.textures.actionButtonBack = new IgeTexture('./assets/textures/ui/actionButtonBack.png');
-		this.textures.actionIconSelect = new IgeTexture('./assets/textures/ui/actionIconSelect.png');
-		this.textures.friendTile = new IgeTexture('./assets/textures/ui/friendTile.png');
-		this.textures.marketMenuBack = new IgeTexture('./assets/textures/ui/marketMenuBack.png');
-		this.textures.cashBar = new IgeTexture('./assets/textures/ui/cashBar.png');
-		this.textures.coinsBar = new IgeTexture('./assets/textures/ui/coinsBar.png');
-		//this.textures.energyBar = new IgeTexture('./assets/textures/ui/energyBar.png');
-		//this.textures.xpBar = new IgeTexture('./assets/textures/ui/xpBar.png');
-		this.textures.coin = new IgeTexture('./assets/textures/ui/coin.png');
-		this.textures.cash = new IgeTexture('./assets/textures/ui/cash.png');
-        this.textures.star = new IgeTexture('./assets/textures/ui/star.png');
-        this.textures.closeButton = new IgeTexture('./assets/textures/ui/close.png');
-
-		this.textures.leftButton1 = new IgeTexture('./assets/textures/ui/leftButton1.png');
-		this.textures.leftButton2 = new IgeTexture('./assets/textures/ui/leftButton2.png');
-		this.textures.leftButton3 = new IgeTexture('./assets/textures/ui/leftButton3.png');
-
-		this.textures.rightButton1 = new IgeTexture('./assets/textures/ui/rightButton1.png');
-		this.textures.rightButton2 = new IgeTexture('./assets/textures/ui/rightButton2.png');
-		this.textures.rightButton3 = new IgeTexture('./assets/textures/ui/rightButton3.png');
+		// Load game audio and textures
+        for(var i=0; i<GameAssets.assets.length;i++){
+            if(GameAssets.assets[i].enabled === "FALSE")
+                continue;
+            var asset = GameAssets.assets[i]
+            if(asset.type === "CellSheet")
+                this[asset.attachTo][asset.name] = new IgeCellSheet(asset.url,parseInt(asset.horizontalCells),parseInt(asset.verticalCells));
+            else if(asset.type === "Audio")
+                this[asset.attachTo][asset.name] = new IgeAudio(asset.url);
+            else if(asset.type === "Texture")
+                this[asset.attachTo][asset.name] = new IgeTexture(asset.url);
+            else if(asset.type === "FontSheet")
+                this[asset.attachTo][asset.name] = new IgeFontSheet(asset.url);
+        }
 
         for(var key in GameObjects.gameObjectTextures) {
             var tex = GameObjects.gameObjectTextures[key]
             this.textures[key] = new IgeCellSheet(tex[0], tex[1], 1)
         }
-
-		this.textures.villager1 = new IgeCellSheet('./assets/textures/sprites/villager.png', 3, 2);
-		this.textures.flowerPot1 = new IgeTexture('./assets/textures/sprites/flowerPot1.png');
-		this.textures.fenceSW = new IgeTexture('./assets/textures/sprites/fenceSW.png');
-		this.textures.clothingLine = new IgeTexture('./assets/textures/sprites/clothingLine.png');
-		this.textures.wallSE = new IgeTexture('./assets/textures/sprites/wallSE.png');
-
-		this.textures.greenDot = new IgeTexture('./assets/textures/greendot.png');
-		this.textures.redDot = new IgeTexture('./assets/textures/reddot.png');
-		this.textures.outline = new IgeTexture('./assets/textures/outline.js');
-		this.textures.rectangle = new IgeTexture('./assets/textures/rectangle.js');
-		this.textures.arrow = new IgeTexture('./assets/textures/arrow.js');
 
 		ige.ui.style('.dialog', {
 			left: 0,
@@ -545,8 +507,8 @@ var Client = IgeClass.extend({
 			    ige.createFrontBuffer(true);
             } else {
                 var canvas = $('<canvas id=gameCanvas>').appendTo('body')
-                var width = 971 * gameScale
-                var height = 470 * gameScale
+                var width = parseInt(GameConfig.config['canvasWidth']) * gameScale
+                var height = parseInt(GameConfig.config['canvasHeight']) * gameScale
                 canvas.attr('width', width)
                 canvas.attr('height', height)
                 var baseSize = Math.min($(window).width() / width, $(window).height() / height)
@@ -591,8 +553,8 @@ var Client = IgeClass.extend({
 						.addComponent(LimitZoomPanComponent, {
 							boundsX: 0,
 							boundsY: 0,
-							boundsWidth: 2627,
-							boundsHeight: 1545
+							boundsWidth: parseInt(GameConfig.config['boundsWidth']),
+							boundsHeight: parseInt(GameConfig.config['boundsHeight'])
 						})
 
 						.mousePan.enabled(false)
@@ -647,6 +609,14 @@ var Client = IgeClass.extend({
         ige.$('tileMap1').drawGrid(false);
         ige.$('tileMap1').highlightOccupied(false);
         ige.$('outlineEntity').hide();
+    },
+    setGameBoardPostTutorial: function (tutorialObjects){
+        if(!API.state.objects){
+            for(var i=0;i<tutorialObjects.length;i++){
+                ClientHelpers.addObject(tutorialObjects[i])
+                API.createObject(tutorialObjects[i])
+            }
+        }
     }
 });
 

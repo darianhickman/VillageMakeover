@@ -13,15 +13,14 @@ var CoinDialog = Dialog.extend({
             .dimensionsFromTexture()
             .mount(this);
 
-        var coins = [100, 200, 400, 1000, 2000];
-        var pay = [1, 2, 4, 10, 20];
+        var coins = GameConfig.config['coinDialogCoins'].split(",").map(parseFloat);
+        var pay = GameConfig.config['coinDialogPays'].split(",").map(parseFloat);
         for(var i=0; i < 5; i ++) {
             var offset = i * 173;
-            if(i >= 3) offset += 20;
             var base =  new IgeUiLabel()
                 .id('bCoin' + i)
-                .left(60 + offset)
-                .top(123)
+                .left(40 + offset)
+                .top(80)
                 .width(146)
                 .height(284)
                 .drawBounds(true)
@@ -29,16 +28,18 @@ var CoinDialog = Dialog.extend({
 
             new IgeUiLabel()
                 .value( coins[i] + " Coins")
+                .font('13px Verdana')
                 .top(13)
-                .left(25)
+                .left(30)
                 .width(150)
-                .applyStyle({color: 'white'})
+                .applyStyle({color: 'black'})
                 .mount(base);
 
             new IgeUiLabel()
                 .value( pay[i] + " VCash")
+                .font('13px Verdana')
                 .bottom(13)
-                .left(25)
+                .left(35)
                 .width(150)
                 .applyStyle({color: 'white'})
                 .mount(base);
@@ -71,7 +72,7 @@ var CoinDialog = Dialog.extend({
                     if(price.cash > API.state.cash){
                         // Not enough money?
                         mixpanel.track("Not enough money");
-                        message = 'You don\'t have enough villagebucks. \nWould you like to buy some?';
+                        message = GameConfig.config['notEnoughCashString'];
                         callBack = function() {
                             ige.$('cashDialog').show();
                         }
@@ -85,7 +86,7 @@ var CoinDialog = Dialog.extend({
             })(i);
         }
 
-        this.closeButton.translateTo(438,-236,0);
+        this.closeButton.translateTo(423,-139,0);
     },
 
     show: function () {

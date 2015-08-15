@@ -1,6 +1,12 @@
 var igeClientConfig = {
 	include: [
 		/* Your custom game JS scripts */
+		'./GameConfig.js',
+		'./gameClasses/Goals.js',
+		'./gameClasses/EventEmitter.js',
+		'./gameClasses/ui/AssetAnimation.js',
+		'./gameClasses/RewardMechanism.js',
+		'./gameClasses/GameLogic.js',
 		'./gameClasses/ui/Dialog.js',
 		'./gameClasses/ui/MarketDialog.js',
 		'./gameClasses/ui/CoinParticle.js',
@@ -25,13 +31,15 @@ var igeClientConfig = {
 		'./gameClasses/base/Villager.js',
 		'./gameClasses/base/HiEntity.js',
 
+		'./GameAssets.js',
+		'./GameEarnings.js',
+		'./GameGoals.js',
         './clientApiSupport.js',
         './clientBuy.js',
         './clientHelpers.js',
         './gameObjects.js',
         './gameCatalog.js',
        /* './NewsFeed.js', */
-        './GameConfig.js',
 
 		// Graphs
 		'./graphs/GraphLevel1.js',

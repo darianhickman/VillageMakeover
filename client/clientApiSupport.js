@@ -20,7 +20,7 @@ var API = {
                     API.user.id = localStorage.getItem('id')
                 }
                 API.loadState(postinit_cb)
-                API._buyCallback()
+
             }
         })
     },
@@ -39,18 +39,21 @@ var API = {
             var first = !API.state.objects
             API.state = JSON.parse(localStorage.getItem('state'))
             postinit_cb(API.state.isTutorialShown)
-
+            API._buyCallback()
             if(first)
                 API.firstReloadState()
             API.reloadState()
-
+            if(API.state.isTutorialShown){
+                //start game logic
+                ige.client.eventEmitter = ige.client.eventEmitter || new EventEmitter()
+                ige.client.gameLogic = ige.client.gameLogic || new GameLogic()
+            }
         }else if(API.loginStatus === "online"){
             $.ajax({
                 url: '/api/get_state',
                 dataType: 'json',
                 success: function(result) {
                     console.log('loaded state', result)
-                    postinit_cb(result.isTutorialShown)
                     var first = !API.state.objects
                     if(localStorage.getItem('state') !== null && result.first === 'true'){
                         API.state = JSON.parse(localStorage.getItem('state'))
@@ -66,9 +69,16 @@ var API = {
                         API.state = result
                         //could show a warning that this is an existing user and local storage stands still
                     }
+                    postinit_cb(API.state.isTutorialShown)
+                    API._buyCallback()
                     if(first)
                         API.firstReloadState()
                     API.reloadState()
+                    if(API.state.isTutorialShown){
+                        //start game logic
+                        ige.client.eventEmitter = new EventEmitter()
+                        ige.client.gameLogic = new GameLogic()
+                    }
                 }
             })
         }
@@ -76,7 +86,7 @@ var API = {
 
     reduceAssets: function(assets) {
         console.log('reduce assets', assets)
-            if(assets.coins > API.state.coins)
+        if(assets.coins > API.state.coins)
             return false
         if(assets.cash > API.state.cash)
             return false
@@ -120,14 +130,18 @@ var API = {
 
     firstReloadState: function() {
         var objects = API.state.objects || [],
+            goals = API.state.goals || [],
             isIDMissing = false;
         for(var i in objects) {
             if (objects[i].id === undefined){
                 objects[i].id = ige.newIdHex()
                 isIDMissing = true
             }
-            API.stateObjectsLookup[objects[i].id] = API.state.objects[i]
+            API.stateObjectsLookup[objects[i].id] = objects[i]
             ClientHelpers.addObject(objects[i])
+        }
+        for(var i in goals) {
+            API.stateGoalsLookup[goals[i].goalID] = goals[i]
         }
         ClientHelpers.setPlayerPos()
         if(isIDMissing)
@@ -172,8 +186,41 @@ var API = {
         API.state.isTutorialShown = true
         API.saveState()
     },
-    state: {coins: 1999, cash: 499 },
+
+    createGoal: function(goalID) {
+        mixpanel.track("Create goal");
+        console.log("ige create goal", goalID)
+        if(!API.state.goals)
+            API.state.goals = []
+        var newLength = API.state.goals.push({'goalID':goalID})
+        API.stateGoalsLookup[goalID] = API.state.goals[newLength-1]
+        API.state.currentGoalID = goalID
+        API.saveState()
+    },
+
+    updateGoal: function(goalID, taskID, value) {
+        mixpanel.track("Update goal");
+        console.log("ige update goal", goalID, taskID, value)
+        if(!API.stateGoalsLookup[goalID].tasks)
+            API.stateGoalsLookup[goalID].tasks = []
+        var elementPos = API.stateGoalsLookup[goalID].tasks.map(function(x) {return x.taskID; }).indexOf(taskID);
+        if(elementPos !== -1)
+            API.stateGoalsLookup[goalID].tasks[elementPos].value = value
+        else
+            API.stateGoalsLookup[goalID].tasks.push({"taskID":taskID,"value":value})
+        API.saveState()
+    },
+
+    setGoalAsComplete: function(goalID) {
+        mixpanel.track("Complete goal");
+        console.log("goal is complete")
+        API.stateGoalsLookup[goalID].isComplete = true
+        API.saveState()
+    },
+
+    state: {coins: parseInt(GameConfig.config['startCoins']), cash: parseInt(GameConfig.config['startCash']) },
     stateObjectsLookup: {},
+    stateGoalsLookup: {},
     user: null,
     loginStatus: "offline"
 }

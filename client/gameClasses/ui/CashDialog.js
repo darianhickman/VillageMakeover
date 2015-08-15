@@ -12,15 +12,14 @@ var CashDialog = Dialog.extend({
             .dimensionsFromTexture()
             .mount(this);
 
-        var bucks = [500, 1200, 2500, 6500, 14000];
-        var pay = [4.99, 9.99, 19.99, 49.99, 99.99];
+        var bucks = GameConfig.config['cashDialogBucks'].split(",").map(parseFloat);
+        var pay = GameConfig.config['cashDialogPays'].split(",").map(parseFloat);
         for(var i=0; i < 5; i ++) {
             var offset = i * 173;
-            if(i >= 3) offset += 20;
             var base =  new IgeUiLabel()
                 .id('b' + i)
-                .left(60 + offset)
-                .top(123)
+                .left(40 + offset)
+                .top(80)
                 .width(146)
                 .height(284)
                 .drawBounds(true)
@@ -29,8 +28,9 @@ var CashDialog = Dialog.extend({
             var j = i + 1;
             new IgeUiLabel()
                 .value( bucks[i] + " villagebucks\nfor $" + pay[i] + " USD")
-                .bottom(13)
-                .left(25)
+                .font('11px Verdana')
+                .bottom(15)
+                .left(15)
                 .width(150)
                 .applyStyle({color: 'white'})
                 .mount(base);
@@ -60,7 +60,7 @@ var CashDialog = Dialog.extend({
             })(i);
         }
 
-        this.closeButton.translateTo(438,-236,0);
+        this.closeButton.translateTo(423,-139,0);
     },
 
     show: function () {

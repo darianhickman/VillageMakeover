@@ -1,5 +1,3 @@
-var mapTileSize = 36;
-
 var GraphTutorial = IgeSceneGraph.extend({
 	classId: 'GraphTutorial',
 

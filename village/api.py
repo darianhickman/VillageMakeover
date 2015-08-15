@@ -12,16 +12,15 @@ from google.appengine.api import users
 
 from . import models
 from .app_common import config
-from .config import get_login_condition, get_secret_key
+from .config import get_login_condition, get_secret_key, get_config
 
-local_config = yaml.safe_load(
-    open(os.path.dirname(__file__) + '/../config.yaml'))
+sheet_config = get_config()
 
-FB_APP_ID = local_config['facebook']['FB_APP_ID']
-FB_APP_SECRET = local_config['facebook']['FB_APP_SECRET']
-FB_LIKE_URL = local_config['facebook']['FB_LIKE_URL']
-FB_LIKE_TITLE = local_config['facebook']['FB_LIKE_TITLE']
-FB_LIKE_IMAGE = local_config['facebook']['FB_LIKE_IMAGE']
+FB_APP_ID = sheet_config['FB_APP_ID']
+FB_APP_SECRET = sheet_config['FB_APP_SECRET']
+FB_LIKE_URL = sheet_config['FB_LIKE_URL']
+FB_LIKE_TITLE = sheet_config['FB_LIKE_TITLE']
+FB_LIKE_IMAGE = sheet_config['FB_LIKE_IMAGE']
 
 root = flask.Flask(__name__)
 #root.config['DEBUG'] = True
