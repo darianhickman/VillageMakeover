@@ -24,8 +24,6 @@ var GraphUi = IgeSceneGraph.extend({
 
         GameObjects.setupMarket(marketDialog)
 
-        //var newsFeed = new NewsFeed()
-
         var cashDialog = new CashDialog()
 			.id('cashDialog')
 			.layer(1)
@@ -139,21 +137,32 @@ var GraphUi = IgeSceneGraph.extend({
                 .mount(topNav);
         }
 
-        if(API.loginStatus === 'offline'){
-            var loginButtonEntity = new IgeFontEntity()
-                .colorOverlay('white')
-                .nativeFont('25px Times New Roman')
-                .right(320)
-                .textAlignX(2)
-                .mount(topNav)
-                .text(GameConfig.config['loginString'])
-                .mouseUp(function(){
-                    mixpanel.track("Click login");
-                    location.href = '/client/login.html'
-                });
+        $("#dropDownIcon").show();
 
-            loginButtonEntity.width(loginButtonEntity.measureTextWidth() + 5);
+        $("#dropDownDialog").dialog({
+            resizable: false,
+            draggable: true,
+            dialogClass: 'ui-dialog-no-titlebar',
+            closeOnEscape: false,
+            width: 350,
+            height: 180,
+            modal: false,
+            autoOpen: false,
+            position: { my: "left top", at: "left bottom", of: "#dropDownIcon" }
+        });
+
+        $("#dropDownContent")
+            .html('<div style="display: table-row;"><div style="float:left;padding-left: 10px;padding-top: 10px;"><img id="loginPicture" width="75px" height="75px"></div><div id="loginID" style="float: left;padding-left: 10px;padding-top:10px;">Offline</div></div><div style="height: 36px;background-color:white;padding-left: 10px;padding-top: 16px;margin-top: 30px;"><span id="loginLink" style="cursor: pointer">' + GameConfig.config['loginString'] + '</span><span id="logoutLink" style="cursor: pointer">' + GameConfig.config['logoutString'] + '</span> | <span id="helpLink" style="cursor: pointer">' + GameConfig.config['helpString'] + '</span> | <span id="feedbackLink" style="cursor: pointer">' + GameConfig.config['feedbackString'] + '</span></div>');
+
+        if(API.user.picture_url !== 'no-picture'){
+            $("#loginPicture").attr("src",API.user.picture_url);
+        }
+
+        if(API.loginStatus === 'offline'){
+            $("#logoutLink").hide();
         }else{
+            $("#loginLink").hide();
+
             var loginIDString;
             if(API.user.email.lastIndexOf("@") === -1){
                 loginIDString = API.user.email;
@@ -161,116 +170,8 @@ var GraphUi = IgeSceneGraph.extend({
                 loginIDString = API.user.email.substring(0,API.user.email.lastIndexOf("@"));
                 loginIDString = loginIDString.charAt(0).toUpperCase() + loginIDString.slice(1);
             }
-
-            var loginIDEntity = new IgeFontEntity()
-                .id('loginIDEntity')
-                .colorOverlay('white')
-                .nativeFont('25px Times New Roman')
-                .right(410)
-                .textAlignX(2)
-                .mount(topNav)
-                .text(loginIDString);
-
-            loginIDEntity.width(loginIDEntity.measureTextWidth() + 5);
-
-            var logoutButtonEntity = new IgeFontEntity()
-                .id('logoutButtonEntity')
-                .colorOverlay('white')
-                .nativeFont('25px Times New Roman')
-                .right(320)
-                .textAlignX(2)
-                .mount(topNav)
-                .text(GameConfig.config['logoutString'])
-                .mouseUp(function(){
-                    mixpanel.track("Logout");
-                    location.href = '/api/logout'
-                });
-
-            logoutButtonEntity.width(logoutButtonEntity.measureTextWidth() + 5);
+            $("#loginID").html(loginIDString);
         }
-
-        if(API.user.picture_url === 'no-picture'){
-            //draw triangle
-        }else{
-            var loginPicture = new IgeUiElement()
-                .id('loginPicture')
-                .texture(new IgeTexture(API.user.picture_url))
-                .dimensionsFromTexture()
-                .right(410 + ige.$('loginIDEntity').measureTextWidth() + 10)
-                .mount(topNav);
-
-
-            var likeButton = new IgeFontEntity()
-                .colorOverlay('white')
-                .nativeFont('25px Times New Roman')
-                .right(600)
-                .textAlignX(1)
-                .mount(topNav)
-                .text(GameConfig.config['likeString'])
-                .mouseUp(function(){
-                    //goto url
-                    $.ajax({
-                        url: '/api/like',
-                        dataType: 'json',
-                        success: function (result) {
-                            mixpanel.track("Like game");
-                            console.log(result)
-                            $("#tutorialDialog").dialog({
-                                resizable: false,
-                                draggable: true,
-                                dialogClass: 'ui-dialog-no-titlebar',
-                                closeOnEscape: false,
-                                width: 500,
-                                height: 200,
-                                modal: true,
-                                autoOpen: false
-                            });
-                            $("#tutorialDialog").dialog("open");
-
-                            $("#tutorialContent")
-                                .html('<div style="padding-top:50px"><p>' + GameConfig.config['likeFeedbackString'] + '</p><button id="dialogButton">OK</button></div>');
-
-                            $('#dialogButton').on('click', function () {
-                                $("#tutorialDialog").dialog("close");
-                            });
-                        }
-                    });
-                });
-
-            likeButton.width(likeButton.measureTextWidth() + 5);
-        }
-
-        var helpButton = new IgeFontEntity()
-            .colorOverlay('white')
-            .nativeFont('25px Times New Roman')
-            .right(290)
-            .textAlignX(1)
-            .mount(topNav)
-            .text(GameConfig.config['helpString'])
-            .mouseUp(function(){
-                ige.client.fsm.enterState('tutorial');
-            });
-
-        helpButton.width(helpButton.measureTextWidth() + 5);
-
-        var feedbackButton = new IgeFontEntity()
-            .colorOverlay('white')
-            .nativeFont('25px Times New Roman')
-            .right(180)
-            .textAlignX(1)
-            .mount(topNav)
-            .text(GameConfig.config['feedbackString'])
-            .mouseUp(function(){
-                mixpanel.track("Send feedback");
-                window.open(
-                    GameConfig.config['feedbackButtonURL'],
-                    "GoogleGroupPage",
-                    "resizable,scrollbars,status"
-                );
-
-            });
-
-        feedbackButton.width(feedbackButton.measureTextWidth() + 5);
 
         var buildButton = new IgeUiElement()
 			.id('buildButton')
@@ -278,15 +179,6 @@ var GraphUi = IgeSceneGraph.extend({
 			.dimensionsFromTexture()
             .right(10)
 			.mount(topNav);
-/*
-        var newsFeedButton = new IgeUiElement()
-            .id('newsFeedButton')
-            .texture(self.textures.newsFeedButton)
-            .dimensionsFromTexture()
-            .top(-15)
-            .right(80)
-            .mount(topNav);
-*/
 
         var goalButton = new IgeUiElement()
             .id('goalButton')
@@ -342,6 +234,39 @@ var GraphUi = IgeSceneGraph.extend({
 	},
 
 	addActions: function () {
+        var self = this;
+
+        $('#dropDownIcon').on('click',function(){
+            self.toggleDropDownMenu();
+        })
+
+        $('#dropDownIcon').on('mouseover',function(){
+            ige.client.audio.select.play();
+        })
+
+        $('#loginLink').on('click',function(){
+            mixpanel.track("Click login");
+            location.href = '/client/login.html'
+        })
+
+        $('#logoutLink').on('click',function(){
+            mixpanel.track("Logout");
+            location.href = '/api/logout'
+        })
+
+        $('#helpLink').on('click',function(){
+            $("#dropDownDialog").dialog("close");
+            ige.client.fsm.enterState('tutorial');
+        })
+
+        $('#feedbackLink').on('click',function(){
+            mixpanel.track("Send feedback");
+            window.open(
+                GameConfig.config['feedbackButtonURL'],
+                "GoogleGroupPage",
+                "resizable,scrollbars,status"
+            );
+        })
 
 		ige.$('buildButton')
             .mouseOver(function(){
@@ -352,14 +277,6 @@ var GraphUi = IgeSceneGraph.extend({
                 mixpanel.track("Open market dialog");
 				ige.$('marketDialog').show();
 			});
-/*
-        ige.$('newsFeedButton')
-            .mouseUp(function () {
-                mixpanel.track("Open newsfeed dialog");
-                $( "#newsFeedDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, width: 675, height: 430, modal: true, autoOpen: false });
-                $( "#newsFeedDialog" ).dialog( "open" );
-            });
-*/
 
         ige.$('goalButton')
             .mouseOver(function(){
@@ -422,5 +339,13 @@ var GraphUi = IgeSceneGraph.extend({
 		// 'scene1' entity, destroying it will remove everything we
 		// added to it.
 		ige.$('scene1').destroy();
-	}
+	},
+
+    toggleDropDownMenu: function(){
+        if($("#dropDownDialog").dialog("isOpen")){
+            $("#dropDownDialog").dialog("close");
+        }else{
+            $("#dropDownDialog").dialog("open");
+        }
+    }
 });

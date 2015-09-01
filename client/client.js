@@ -146,6 +146,8 @@ var Client = IgeClass.extend({
                 ige.$('level1').hide();
                 ige.addGraph('GraphTutorial');
 
+                $("#dropDownIcon").hide();
+
                 self.tutorial = new Tutorial();
                 self.tutorial.gotoStep('initialStep');
 
@@ -154,6 +156,8 @@ var Client = IgeClass.extend({
             exit: function(data, completeCallback) {
                 ige.$('level1').show();
                 ige.removeGraph('GraphTutorial');
+
+                $("#dropDownIcon").show();
 
                 self.tutorial = null;
 
