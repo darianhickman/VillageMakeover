@@ -344,6 +344,9 @@ var GraphUi = IgeSceneGraph.extend({
 	addActions: function () {
 
 		ige.$('buildButton')
+            .mouseOver(function(){
+                ige.client.audio.select.play();
+            })
 			.mouseUp(function () {
 				// Open the build menu
                 mixpanel.track("Open market dialog");
@@ -359,6 +362,9 @@ var GraphUi = IgeSceneGraph.extend({
 */
 
         ige.$('goalButton')
+            .mouseOver(function(){
+                ige.client.audio.select.play();
+            })
             .mouseUp(function () {
                 // Open the goal dialog
                 mixpanel.track("Open goal dialog");
@@ -378,6 +384,9 @@ var GraphUi = IgeSceneGraph.extend({
                 ige.$('cashDialog').show();
             });
         ige.$('cashButton')
+            .mouseOver(function(){
+                ige.client.audio.select.play();
+            })
             .mouseUp(function() {
                 mixpanel.track("Open cash dialog");
                 ige.$('cashDialog').show();
@@ -394,6 +403,9 @@ var GraphUi = IgeSceneGraph.extend({
                 ige.$('coinDialog').show();
             });
         ige.$('coinsButton')
+            .mouseOver(function(){
+                ige.client.audio.select.play();
+            })
             .mouseUp(function() {
                 mixpanel.track("Open coin dialog");
                 ige.$('coinDialog').show();
