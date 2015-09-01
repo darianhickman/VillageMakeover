@@ -27,7 +27,7 @@ var BuyConfirm = Dialog.extend({
             .text(GameConfig.config['yesString'])
             .mouseUp(function() {
                 mixpanel.track("Confirm buy");
-                self.hide();
+                self.closeMe();
                 callback();
             });
 

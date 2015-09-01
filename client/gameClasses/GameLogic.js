@@ -81,11 +81,11 @@ var GameLogic = IgeObject.extend({
         for(var item in GameEarnings.earnings){
             var arr = GameEarnings.earnings[item]
             for(var i = 0; i < arr.length; i++){
-                (function(i){
+                (function(i, arr){
                     ige.client.eventEmitter.on(item, function(){
                         self.rewardMechanism.claimReward(arr[i].asset, arr[i].amount)
                     })
-                })(i)
+                })(i, arr)
             }
         }
 

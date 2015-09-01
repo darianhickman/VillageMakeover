@@ -181,6 +181,12 @@ var API = {
         API.saveState()
     },
 
+    resetBuildTimes: function(obj, buildStarted){
+        API.stateObjectsLookup[obj.id()].buildStarted = buildStarted;
+        API.stateObjectsLookup[obj.id()].buildCompleted = null;
+        API.saveState()
+    },
+
     setTutorialAsShown: function() {
         console.log("tutorial is shown")
         API.state.isTutorialShown = true

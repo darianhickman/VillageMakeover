@@ -33,22 +33,29 @@ var Client = IgeClass.extend({
                             item = ige.client.itemAt(tile.x, tile.y);
 
                         if (item) {
-                            // The user clicked on a building so set this as the
-                            // building we are moving.
-                            ige.client.data('moveItem', item);
-                            ige.client.data('moveItemX', item.data('tileX'));
-                            ige.client.data('moveItemY', item.data('tileY'));
+                            if(item.type === "Crop" && API.stateObjectsLookup[item.id()].buildCompleted){
+                                ige.client.eventEmitter.emit('harvest', {"id":item.classId(), "type":item.type});
+                                item._buildStarted = Date.now();
+                                API.resetBuildTimes(item, item._buildStarted);
+                                item.place();
+                            }else{
+                                // The user clicked on a building so set this as the
+                                // building we are moving.
+                                ige.client.data('moveItem', item);
+                                ige.client.data('moveItemX', item.data('tileX'));
+                                ige.client.data('moveItemY', item.data('tileY'));
 
-                            //set initial position to lastmoveX-Y data
-                            item.data('lastMoveX', item.data('tileX'));
-                            item.data('lastMoveY', item.data('tileY'));
+                                //set initial position to lastmoveX-Y data
+                                item.data('lastMoveX', item.data('tileX'));
+                                item.data('lastMoveY', item.data('tileY'));
 
-                            ige.$('outlineEntity').tileWidth = item.data('tileWidth');
-                            ige.$('outlineEntity').tileHeight = item.data('tileHeight');
-                            ige.$('outlineEntity').isFeasible = true;
-                            ige.$('outlineEntity').translateToTile(item.data('tileX'), item.data('tileY'));
+                                ige.$('outlineEntity').tileWidth = item.data('tileWidth');
+                                ige.$('outlineEntity').tileHeight = item.data('tileHeight');
+                                ige.$('outlineEntity').isFeasible = true;
+                                ige.$('outlineEntity').translateToTile(item.data('tileX'), item.data('tileY'));
 
-                            ige.client.showGrid();
+                                ige.client.showGrid();
+                            }
                         }else {
                             ige.$('bob').walkToTile(tile.x, tile.y);
                         }
