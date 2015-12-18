@@ -152,25 +152,24 @@ var GraphUi = IgeSceneGraph.extend({
         });
 
         $("#dropDownContent")
-            .html('<div style="display: table-row;"><div style="float:left;padding-left: 10px;padding-top: 10px;"><img id="loginPicture" width="75px" height="75px"></div><div id="loginID" style="float: left;padding-left: 10px;padding-top:10px;">Offline</div></div><div style="height: 36px;background-color:white;padding-left: 10px;padding-top: 16px;margin-top: 30px;"><span id="loginLink" style="cursor: pointer">' + GameConfig.config['loginString'] + '</span><span id="logoutLink" style="cursor: pointer">' + GameConfig.config['logoutString'] + '</span> | <span id="helpLink" style="cursor: pointer">' + GameConfig.config['helpString'] + '</span> | <span id="feedbackLink" style="cursor: pointer">' + GameConfig.config['feedbackString'] + '</span></div>');
+            .html('<div style="display: table-row;"><div style="float:left;padding-left: 10px;padding-top: 10px;"><img id="loginPicture" width="75px" height="75px"></div><div id="loginID" style="float: left;padding-left: 10px;padding-top:10px;">Offline</div></div><div style="height: 36px;background-color:white;padding-left: 10px;padding-top: 16px;margin-top: 30px;"><span id="loginLink" style="cursor: pointer">' + GameConfig.config['loginString'] + '</span><span id="logoutLink" style="cursor: pointer">' + GameConfig.config['logoutString'] + '</span> | <span id="helpLink" style="cursor: pointer">' + GameConfig.config['helpString'] + '</span> | <span id="feedbackLink" style="cursor: pointer">' + GameConfig.config['feedbackString'] + '</span> | <span id="editorLink" style="cursor: pointer">' + GameConfig.config['openEditorString'] + '</span></div>');
 
-        if(API.user.picture_url !== 'no-picture'){
-            $("#loginPicture").attr("src",API.user.picture_url);
+        if(API.user.picture_url === 'no-picture'){
+            $("#loginPicture").attr("src", "assets/textures/ui/No_Image_Available_75.png");
+        }
+        else{
+            $("#loginPicture").attr("src", API.user.picture_url);
         }
 
         if(API.loginStatus === 'offline'){
             $("#logoutLink").hide();
         }else{
             $("#loginLink").hide();
+            $("#loginID").html(API.user.name);
+        }
 
-            var loginIDString;
-            if(API.user.email.lastIndexOf("@") === -1){
-                loginIDString = API.user.email;
-            }else{
-                loginIDString = API.user.email.substring(0,API.user.email.lastIndexOf("@"));
-                loginIDString = loginIDString.charAt(0).toUpperCase() + loginIDString.slice(1);
-            }
-            $("#loginID").html(loginIDString);
+        if(API.user.editor_enabled === "false"){
+            $("#editorLink").hide();
         }
 
         var buildButton = new IgeUiElement()
@@ -266,6 +265,27 @@ var GraphUi = IgeSceneGraph.extend({
                 "GoogleGroupPage",
                 "resizable,scrollbars,status"
             );
+        })
+
+        $('#editorLink').on('click',function(){
+            $("#dropDownDialog").dialog("close");
+
+            ige.client.editorManager = new EditorManager();
+            ige.client.editorManager.gotoStep('init');
+
+            ige.$('vp1')
+                .mousePan.enabled(false)
+                .scrollZoom.enabled(false)
+                .camera.translateTo(0, 0, 0)
+                .camera.scaleTo(1.0,1.0,0);
+
+            ige.$('level1').hide();
+            ige.addGraph('GraphEditor');
+            ige.addGraph('GraphUiEditor');
+
+            $("#dropDownIcon").hide();
+
+            ige.client.fsm.enterState('editor');
         })
 
 		ige.$('buildButton')

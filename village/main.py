@@ -6,10 +6,8 @@ import braintree
 import urllib
 
 from .app_common import config
-from .config import get_config, get_catalog, get_news_feed, get_secret_key, get_config_worksheet, get_goals_worksheet, get_goals_settings
+from .config import get_config, get_catalog, get_news_feed, get_secret_key, get_config_assets, get_config_earnings, get_goals_data, get_goals_tasks, get_goals_settings
 from . import models
-
-from google.appengine.api import users
 
 root = flask.Flask(__name__)
 
@@ -19,19 +17,25 @@ root.secret_key  = get_secret_key()
 def index():
     return flask.redirect('/client/')
 
+@root.route('/view/<village_id>')
+def view_village(village_id):
+    return flask.redirect('/client/?v=' + village_id)
+
 @root.route('/config', methods=['POST'])
 def config_route():
     worksheet_name = flask.request.form.get("worksheet")
-    if worksheet_name:
-        return flask.Response(json.dumps(get_config_worksheet(worksheet_name)),content_type='application/json')
+    if worksheet_name == "assets":
+        return flask.Response(json.dumps(get_config_assets()),content_type='application/json')
+    elif worksheet_name == "earnings":
+        return flask.Response(json.dumps(get_config_earnings()),content_type='application/json')
     else:
         return flask.Response(json.dumps(dict(get_config()),indent=4),content_type='application/json')
 
 @root.route('/goals')
 def goals_route():
-    goals_data = get_goals_worksheet("goals")
-    settings_data = get_goals_settings("settings")
-    tasks_data = get_goals_worksheet("tasks")
+    goals_data = get_goals_data()
+    tasks_data = get_goals_tasks()
+    settings_data = get_goals_settings()
 
     return flask.Response(json.dumps({'goals':goals_data, 'settings':settings_data, 'tasks':tasks_data}),content_type='application/json')
 

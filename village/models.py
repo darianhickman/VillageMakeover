@@ -19,7 +19,7 @@ class State(ndb.Model):
     customer_id = ndb.StringProperty()
     customer_id_once = ndb.BooleanProperty()
     name = ndb.StringProperty()
-    access_token = ndb.StringProperty()
+    email = ndb.StringProperty()
     provider = ndb.StringProperty()
 
 #TODO: @ndb.transctional
@@ -35,4 +35,31 @@ def get_state(userid):
 def save_state(userid, state):
     model = get_state_model(userid)
     model.data = json.dumps(state)
+    model.put()
+
+class Villages(ndb.Model):
+    village_id = ndb.StringProperty()
+    spreadsheet_docid = ndb.StringProperty()
+    title = ndb.StringProperty()
+    organization = ndb.StringProperty()
+    last_saved_by = ndb.StringProperty()
+    viewable = ndb.BooleanProperty()
+
+#TODO: @ndb.transctional
+def get_village_model(village_id):
+    village = Villages.query().filter(Villages.village_id == village_id).get()
+    if not village:
+        village = Villages(village_id=village_id)
+    return village
+
+def get_villages():
+    return Villages.query().fetch()
+
+def save_village(village_id,spreadsheet_docid,title,organization,last_saved_by,viewable):
+    model = get_village_model(village_id)
+    model.spreadsheet_docid = spreadsheet_docid
+    model.title = title
+    model.organization = organization
+    model.last_saved_by = last_saved_by
+    model.viewable = viewable
     model.put()

@@ -8,31 +8,30 @@ var ClientHelpers = {
         ige.$('cashProgress').progress(value);
     },
 
-    addObject: function(data) {
+    addObject: function(data, tileMap) {
         console.log("add object", data.name)
         var obj = new ige.newClassInstance(data.name)
         obj.id(data.id)
-	    obj.mount(ige.$('tileMap1'))
+	    obj.mount(ige.$(tileMap))
         console.log("create", data, obj)
         obj.occupyTile(
-            data.x, data.y, Math.ceil(data.w), Math.ceil(data.h)
+            parseInt(data.x), parseInt(data.y), Math.ceil(parseFloat(data.w)), Math.ceil(parseFloat(data.h))
 		)
-        var tx = data.x + obj._tileAdjustX;
-        var ty = data.y + obj._tileAdjustY;
+        var tx = parseInt(data.x) + obj._tileAdjustX;
+        var ty = parseInt(data.y) + obj._tileAdjustY;
         obj.translateToTile(
             tx, ty
         )
-        obj.data('tileX', data.x)
-           .data('tileY', data.y)
-           .data('tileWidth', data.w)
-           .data('tileHeight', data.h);
+        obj.data('tileX', parseInt(data.x))
+           .data('tileY', parseInt(data.y))
+           .data('tileWidth', parseInt(data.w))
+           .data('tileHeight', parseInt(data.h));
         if(data.buildStarted && !data.buildCompleted){
             obj._buildStarted=data.buildStarted
             obj.place()
         }else{
             obj.place(true)
         }
-        ClientHelpers.moveOutPlayer()
     },
 
     setPlayerPos: function() {

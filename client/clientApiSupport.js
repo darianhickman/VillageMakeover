@@ -138,7 +138,8 @@ var API = {
                 isIDMissing = true
             }
             API.stateObjectsLookup[objects[i].id] = objects[i]
-            ClientHelpers.addObject(objects[i])
+            ClientHelpers.addObject(objects[i],"tileMap1")
+            ClientHelpers.moveOutPlayer()
         }
         for(var i in goals) {
             API.stateGoalsLookup[goals[i].goalID] = goals[i]

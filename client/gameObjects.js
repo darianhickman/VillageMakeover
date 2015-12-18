@@ -9,6 +9,25 @@ var GameObjects = {
 		    (GameObjects._marketCallbacks[i])(marketDialog)
         }
     },
+    setupEditor: function(editorDialog) {
+        var pageCount = Math.ceil(GameObjects.catalog.length / 6);
+        editorDialog.createPages(pageCount);
+
+        for(var i in GameObjects.catalog) {
+            var item = GameObjects.catalog[i]
+            editorDialog.addItem({
+                'id': 'editor' + item.id,
+                'classId': item.id,
+                'title': item.name,
+                'texture': ige.client.textures[item.id],
+                'coins': 0,
+                'cash': 0,
+                'cell': item.cell,
+                'scale': item.scale,
+                'scaleValue': item.scaleValue
+            });
+        }
+    },
     _marketCallbacks: [],
     loadCatalog: function(catalog) {
         GameObjects.catalog = catalog;

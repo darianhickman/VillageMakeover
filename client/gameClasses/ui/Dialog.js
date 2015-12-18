@@ -39,6 +39,9 @@ var Dialog = IgeUiElement.extend({
 
     closeMe: function() {
         this.hide();
-        ige.client.fsm.enterState('select');
+        if(ige.client.isEditorOn !== undefined && ige.client.isEditorOn === true)
+            ige.client.fsm.enterState('editor');
+        else
+            ige.client.fsm.enterState('select');
     }
 });
