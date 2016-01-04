@@ -12,7 +12,6 @@ from apiclient.discovery import build
 local_config = yaml.load(open(os.path.join(os.path.dirname(__file__), '../config.yaml')))
 
 catalog_docid = '1imTZeg1aM4d2cWXpPPfHbTpQP6KX2HyxydqJfcejHtY'
-config_docid = '1OEtPyvf7XGNxuVFqdHUCRbMl8rlmMS36eXPD6Kzdpvo'
 goals_docid = '15hzNCemsXZNPGVBo9ugWhLzFmg3qIrNu9BXTryL9BQI'
 news_feed_docid = '12xPbj-iVTmwnvsddxS3G9fJCR6YyfeZoobuCwTWHewM'
 cash_bundle_docid = '1nIosYSuk6EeZhRbrD0f426UsWSQD2MatyznBSBtUacs'
@@ -150,6 +149,8 @@ def get_worksheet(sheet_docid,worksheet_name):
 
 @memcached('config_assets')
 def get_config_assets():
+    conf = local_config['spreadsheet']
+    config_docid = conf['config_docid']
     data = get_worksheet(config_docid,"assets")
     headers = data[0]
     items = []
@@ -160,6 +161,8 @@ def get_config_assets():
 
 @memcached('config_earnings')
 def get_config_earnings():
+    conf = local_config['spreadsheet']
+    config_docid = conf['config_docid']
     data = get_worksheet(config_docid,"earnings")
     headers = data[0]
     items = []
@@ -198,6 +201,8 @@ def get_goals_settings():
 
 @memcached('config')
 def get_config():
+    conf = local_config['spreadsheet']
+    config_docid = conf['config_docid']
     data = get_sheet(config_docid)
     d = {}
     for row in data[1:]:

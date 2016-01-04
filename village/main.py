@@ -31,6 +31,12 @@ def config_route():
     else:
         return flask.Response(json.dumps(dict(get_config()),indent=4),content_type='application/json')
 
+@root.route('/getclientid')
+def client_id_route():
+    sheet_config = get_config()
+    client_id = sheet_config['clientID']
+    return flask.Response(json.dumps({'client_id':client_id}),content_type='application/json')
+
 @root.route('/goals')
 def goals_route():
     goals_data = get_goals_data()

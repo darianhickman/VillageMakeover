@@ -3,25 +3,11 @@
 <head>
   <meta charset=utf-8>
     <title>Village The Game Login</title>
-    <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="273194051120-p5cpq03v57koecqe7tr34dqmmkt81dr5.apps.googleusercontent.com">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+    <script src="https://apis.google.com/js/client:platform.js" async defer></script>
     <link href="login.css" rel=stylesheet>
-    <script>
-        function start() {
-            gapi.load('auth2', function() {
-                auth2 = gapi.auth2.init({
-                    client_id: '257139645459.apps.googleusercontent.com',
-                    // Scopes to request in addition to 'profile' and 'email'
-                    scope: 'https://www.googleapis.com/auth/groups https://www.googleapis.com/auth/plus.me'
-                });
-                $('#signinButton').attr('style', 'display: block');
-            });
-        }
-    </script>
 </head>
-<body onload="start()">
+<body>
   <div class=front>
   </div>
   <div class=dialogback>
@@ -35,15 +21,32 @@
       </div>
   </div>
   <script>
+      $(document).ready(function() {
+          $.ajax({
+              dataType: 'json',
+              url: '/getclientid',
+              success: function(data) {
+                  gapi.load('auth2', function() {
+                      auth2 = gapi.auth2.init({
+                          client_id: data.client_id,
+                          // Scopes to request in addition to 'profile' and 'email'
+                          scope: 'https://www.googleapis.com/auth/groups https://www.googleapis.com/auth/plus.me'
+                      });
+                      $('#signinButton').attr('style', 'display: block');
+                  });
+              }
+          })
+      });
+
       $('#signinButton').click(function() {
-          $('#loadingGif').html('<p style="font-size: 16px;font-family: verdana;">Signing in, please wait!</p><img src="assets/textures/ui/loading_spinner.gif">')
-          $('#loadingGif').attr('style', 'display: block');
           // signInCallback defined in step 6.
           auth2.grantOfflineAccess({'redirect_uri': 'postmessage'}).then(signInCallback);
       });
 
       function signInCallback(authResult) {
           if (authResult['code']) {
+              $('#loadingGif').html('<p style="font-size: 16px;font-family: verdana;">Signing in, please wait!</p><img src="assets/textures/ui/loading_spinner.gif">')
+              $('#loadingGif').attr('style', 'display: block');
               // Hide the sign-in button now that the user is authorized, for example:
               $('#signinButton').attr('style', 'display: none');
 
