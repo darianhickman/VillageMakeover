@@ -11,11 +11,6 @@ from apiclient.discovery import build
 
 local_config = yaml.load(open(os.path.join(os.path.dirname(__file__), '../config.yaml')))
 
-catalog_docid = '1imTZeg1aM4d2cWXpPPfHbTpQP6KX2HyxydqJfcejHtY'
-goals_docid = '15hzNCemsXZNPGVBo9ugWhLzFmg3qIrNu9BXTryL9BQI'
-news_feed_docid = '12xPbj-iVTmwnvsddxS3G9fJCR6YyfeZoobuCwTWHewM'
-cash_bundle_docid = '1nIosYSuk6EeZhRbrD0f426UsWSQD2MatyznBSBtUacs'
-
 is_login_necessary = False
 
 # set the secret key.  keep this really secret:
@@ -173,6 +168,7 @@ def get_config_earnings():
 
 @memcached('goals_data')
 def get_goals_data():
+    goals_docid = sheet_config['goals_docid']
     data = get_worksheet(goals_docid,"goals")
     headers = data[0]
     items = []
@@ -183,6 +179,7 @@ def get_goals_data():
 
 @memcached('goals_tasks')
 def get_goals_tasks():
+    goals_docid = sheet_config['goals_docid']
     data = get_worksheet(goals_docid,"tasks")
     headers = data[0]
     items = []
@@ -193,6 +190,7 @@ def get_goals_tasks():
 
 @memcached('goals_settings')
 def get_goals_settings():
+    goals_docid = sheet_config['goals_docid']
     data = get_worksheet(goals_docid,"settings")
     d = {}
     for row in data[1:]:
@@ -212,6 +210,7 @@ def get_config():
 sheet_config = get_config()
 
 def get_news_feed():
+    news_feed_docid = sheet_config['news_feed_docid']
     data = get_sheet(news_feed_docid)
     headers = data[0]
     items = []
@@ -228,6 +227,7 @@ def get_secret_key():
 
 @memcached('catalog')
 def get_catalog():
+    catalog_docid = sheet_config['catalog_docid']
     data = get_sheet(catalog_docid)
     headers = data[0]
     items = []
