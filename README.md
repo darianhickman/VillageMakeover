@@ -6,9 +6,9 @@ config.yaml
 ----------------
 
 For service account credentials: https://console.developers.google.com/apis/credentials?project=[your-project-name]
-Create new service account
-Download JSON and copy/paste values into config.yaml
-Share all of the spreadsheets with service account Email address
+  - Create new service account
+  - Download JSON and copy/paste values into config.yaml
+  - Share all of the spreadsheets with service account Email address
 
 Create `config.yaml`:
 
@@ -61,10 +61,10 @@ Download JSON and copy/paste values into config spreadsheet
 App Script
 -----------
 
-Duplicate App Script
-Go to Resources -> Developers Console Project... and enter your project number
-Go to Publish -> Deploy as API Executable select a version select Anyone and hit Update.
-Go to Publish -> Deploy as API Executable and copy Current API ID and paste it into appsScriptID property of the settings sheet
+  - Duplicate App Script
+  - Go to Resources -> Developers Console Project... and enter your project number
+  - Go to Publish -> Deploy as API Executable select a version select Anyone and hit Update.
+  - Go to Publish -> Deploy as API Executable and copy Current API ID and paste it into appsScriptID property of the settings sheet
 
 Important Settings
 -----------
