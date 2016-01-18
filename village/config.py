@@ -3,6 +3,7 @@ from google.appengine.api import memcache
 import json
 import gspread
 import yaml
+import logging
 import os
 from oauth2client.client import SignedJwtAssertionCredentials
 import httplib2
@@ -201,10 +202,13 @@ def get_goals_settings():
 def get_config():
     conf = local_config['spreadsheet']
     config_docid = conf['config_docid']
+    logging.info(['config_docid', config_docid])
     data = get_sheet(config_docid)
     d = {}
     for row in data[1:]:
         d[row[2]] = row[3]
+    # add logging statement here
+    logging.info(d)
     return d
 
 sheet_config = get_config()

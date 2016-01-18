@@ -4,7 +4,7 @@ import flask
 import json
 import braintree
 import urllib
-
+import logging
 from .app_common import config
 from .config import get_config, get_catalog, get_news_feed, get_secret_key, get_config_assets, get_config_earnings, get_goals_data, get_goals_tasks, get_goals_settings
 from . import models
@@ -24,6 +24,8 @@ def view_village(village_id):
 @root.route('/config', methods=['POST'])
 def config_route():
     worksheet_name = flask.request.form.get("worksheet")
+    logging.info(['worksheet_name',worksheet_name ])
+
     if worksheet_name == "assets":
         return flask.Response(json.dumps(get_config_assets()),content_type='application/json')
     elif worksheet_name == "earnings":
