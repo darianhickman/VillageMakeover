@@ -649,26 +649,16 @@ var Client = IgeClass.extend({
         this.fsm.defineState('editorBuild', {
             enter: function(data, completeCallback) {
                 var self = this,
-                    tileMap = ige.$('tileMapEditor');
+                    tileMap = ige.$('tileMapEditor'),
+                    cursorClassId = data.classId,
+                    objectTileWidth, objectTileHeight;
 
-                // Create a new instance of the object we are going to build
-                ige.client.cursorObject = new ige.newClassInstance(data.classId)
-                    .mount(ige.$('tileMapEditor'))
-                    .layer(24);
-                var cursorClassId = data.classId
+                ige.client.createNewCursorObject(data);
 
-                ige.client.cursorObjectData = data;
-
-                var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                        / tileMap._tileWidth),
-                    objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+                objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
+                        / tileMap._tileWidth);
+                objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
                         / tileMap._tileHeight);
-
-                ige.client.cursorObject.data('tileWidth', objectTileWidth)
-                    .data('tileHeight', objectTileHeight);
-
-                ige.$('outlineEntity').tileWidth = objectTileWidth;
-                ige.$('outlineEntity').tileHeight = objectTileHeight;
 
                 ige.client.showGrid('tileMapEditor');
 
@@ -691,24 +681,15 @@ var Client = IgeClass.extend({
                         var ty = tile.y + ige.client.cursorObject._tileAdjustY;
                         ige.client.cursorObject.translateToTile(tx, ty);
                         ige.$('outlineEntity').translateToTile(tile.x, tile.y);
-                        self.cursorTile = tile;
                     }
                 });
 
                 self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
-                    var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                            / tileMap._tileWidth),
-                        objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
-                            / tileMap._tileHeight),
-                        player = ige.$('bob'),
-                        playerTile = player.currentTile(),
-                        tile = tileMap.mouseToTile();
+                    var tile = tileMap.mouseToTile();
 
                     if (!tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
                         return;
                     }
-
-                    //ige.client.hideGrid('tileMapEditor');
 
                     if(tileMap.isTileOccupied(
                             tile.x,
@@ -725,21 +706,21 @@ var Client = IgeClass.extend({
                     // Build the cursorObject by releasing it from our control
                     // and switching state
                     ige.client.cursorObject.occupyTile(
-                        self.cursorTile.x,
-                        self.cursorTile.y,
+                        tile.x,
+                        tile.y,
                         objectTileWidth,
                         objectTileHeight
                     );
 
-                    ige.client.cursorObject.data('tileX', self.cursorTile.x)
-                        .data('tileY', self.cursorTile.y)
+                    ige.client.cursorObject.data('tileX', tile.x)
+                        .data('tileY', tile.y)
                         .data('tileWidth', objectTileWidth)
                         .data('tileHeight', objectTileHeight);
 
                     var objinfo = {
                         id: ige.client.cursorObject.id(),
-                        x: self.cursorTile.x,
-                        y: self.cursorTile.y,
+                        x: tile.x,
+                        y: tile.y,
                         w: objectTileWidth,
                         h: objectTileHeight,
                         name: cursorClassId,
@@ -757,11 +738,9 @@ var Client = IgeClass.extend({
 
                     // Remove reference to the object
                     ige.client.cursorObject = null;
-                    //ige.client.cursorObjectData = null;
 
+                    //Continue with new cursor object
                     ige.client.createNewCursorObject(ige.client.cursorObjectData)
-                    // Enter the select state
-                    //ige.client.fsm.enterState('editor');
                 });
 
                 completeCallback();
@@ -1051,19 +1030,39 @@ var Client = IgeClass.extend({
     },
     createNewCursorObject: function(data){
         var self = this,
-            tileMap = ige.$('tileMapEditor');
+            tileMap = ige.$('tileMapEditor'),
+            tile, tx, ty, objectTileWidth, objectTileHeight;
+
+        tile = tileMap.mouseToTile();
 
         ige.client.cursorObject = new ige.newClassInstance(data.classId)
-            .mount(ige.$('tileMapEditor'))
+            .mount(tileMap)
             .layer(24);
-        var cursorClassId = data.classId
+
+        tx = tile.x + ige.client.cursorObject._tileAdjustX;
+        ty = tile.y + ige.client.cursorObject._tileAdjustY;
+        ige.client.cursorObject.translateToTile(tx, ty);
+        ige.$('outlineEntity').translateToTile(tile.x, tile.y);
 
         ige.client.cursorObjectData = data;
 
-        var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                / tileMap._tileWidth),
-            objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+        objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
+                / tileMap._tileWidth);
+        objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
                 / tileMap._tileHeight);
+
+        if (tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
+            var isFree = !tileMap.isTileOccupied(
+                tile.x,
+                tile.y,
+                objectTileWidth,
+                objectTileHeight);
+            ige.client.cursorObject.opacity(isFree ? 1 : 0.5);
+            ige.$('outlineEntity').isFeasible = isFree;
+        }else{
+            ige.client.cursorObject.opacity(0.5);
+            ige.$('outlineEntity').isFeasible = false;
+        }
 
         ige.client.cursorObject.data('tileWidth', objectTileWidth)
             .data('tileHeight', objectTileHeight);
