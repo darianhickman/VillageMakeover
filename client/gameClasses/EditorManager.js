@@ -7,7 +7,10 @@ var EditorManager = IgeEventingClass.extend({
 
         ige.client.isEditorOn = true;
 
-        $( document ).ajaxStart(function() {
+        $( document ).ajaxSend(function(event, xhr, settings) {
+            if(settings.sentFrom !== "editor")
+                return;
+
             $( "#savingDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
             $( "#savingDialog" ).dialog( "open" );
 
@@ -15,7 +18,10 @@ var EditorManager = IgeEventingClass.extend({
                 .html( "<div style='padding-top:80px'><p>Processing, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
         });
 
-        $( document ).ajaxError(function() {
+        $( document ).ajaxError(function(event, xhr, settings) {
+            if(settings.sentFrom !== "editor")
+                return;
+
             $( "#savingContent" )
                 .html( "<div style='padding-top:80px'><p>There was an error contacting the server!<br />Please try again later.</p>" +
                 "<p><button id='closeSavingDialog'>Close</button></p></div>" );
@@ -26,7 +32,10 @@ var EditorManager = IgeEventingClass.extend({
 
         });
 
-        $( document ).ajaxSuccess(function() {
+        $( document ).ajaxSuccess(function(event, xhr, settings) {
+            if(settings.sentFrom !== "editor")
+                return;
+
             $( "#savingDialog" ).dialog( "close" );
         });
 
@@ -112,6 +121,7 @@ var EditorManager = IgeEventingClass.extend({
                 $.ajax({
                     dataType: 'json',
                     url: '/api/get_villages',
+                    sentFrom: "editor",
                     success: function(data) {
                         $.each(data, function (i, item) {
                             var $tr = $('<tr>').append(
@@ -293,6 +303,7 @@ var EditorManager = IgeEventingClass.extend({
         $.ajax({
             dataType: 'json',
             url: '/api/village/' + villageID ,
+            sentFrom: "editor",
             success: function(response) {
                 for(var i = 0; i < response.data.length; i++){
                     ClientHelpers.addObject(response.data[i],"tileMapEditor")
@@ -314,6 +325,7 @@ var EditorManager = IgeEventingClass.extend({
         $.ajax({
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
+            sentFrom: "editor",
             method: 'PUT',
             data: JSON.stringify({title: data.title, organization: data.organization, viewable: data.viewable}),
             url: '/api/village/' + data.id,
@@ -329,6 +341,7 @@ var EditorManager = IgeEventingClass.extend({
         $.ajax({
             type: 'DELETE',
             url: '/api/village/' + villageID ,
+            sentFrom: "editor",
             success: function(response) {
                 self.gotoStep('init');
             }
@@ -341,6 +354,7 @@ var EditorManager = IgeEventingClass.extend({
         $.ajax({
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
+            sentFrom: "editor",
             method: 'POST',
             data: JSON.stringify({mode: 'new', title: self.villageTitle, organization: self.villageOrganization, viewable: self.villageIsViewable}),
             url: '/api/village/' + self.villageID,
@@ -358,6 +372,7 @@ var EditorManager = IgeEventingClass.extend({
         $.ajax({
             dataType: 'json',
             contentType: "application/json; charset=utf-8",
+            sentFrom: "editor",
             method: 'POST',
             data: JSON.stringify({mode: 'data', title: self.villageTitle, data: self.editorObjects}),
             url: '/api/village/' + self.villageID,
