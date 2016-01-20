@@ -38,6 +38,8 @@ var RewardMechanism = IgeEventingClass.extend({
             .translateTo(_translateObj.x,_translateObj.y,_translateObj.z)
             .mount(self.uiScene);
 
+        new IgeTimeout(function () { animation.gotoTopNavBar(); }, parseInt(GameConfig.config['assetAnimationTimerDuration']) * 1000);
+
         animation.mouseOver(function(){
             animation.gotoTopNavBar();
         });
