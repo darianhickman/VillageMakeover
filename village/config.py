@@ -11,7 +11,7 @@ from apiclient import errors
 from apiclient.discovery import build
 
 local_config = yaml.load(open(os.path.join(os.path.dirname(__file__), '../config.yaml')))
-
+logging.info(['configyaml', local_config])
 is_login_necessary = False
 
 # set the secret key.  keep this really secret:
