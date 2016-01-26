@@ -1,6 +1,7 @@
-Spreadsheets
+Spreadsheets and App Script
 -----------
-Duplicate all of the spreadsheets and put docids into the settings spreadsheet
+  - Duplicate all of the spreadsheets and app script
+  - Put docids into the settings spreadsheet
 
 config.yaml
 ----------------
@@ -48,11 +49,20 @@ Deploy:
 ./upload.sh
 ```
 
+Google APIs
+-----------
+Enable the following APIs:
+  - https://console.developers.google.com/apis/api/drive/overview?project=[your-project-name]
+  - https://console.developers.google.com/apis/api/script/overview?project=[your-project-name]
+  - https://console.developers.google.com/apis/api/plus/overview?project=[your-project-name]
+
+To see the list of the enabled Google APIs: https://console.developers.google.com/apis/enabled?project=[your-project-name]
+
 OAuth 2.0
 -----------
 
 For OAuth2 2.0 credentials: https://console.developers.google.com/apis/credentials?project=[your-project-name]
-Create new OAuth client ID
+  - Create new OAuth client ID
   - Application type: Web application
   - Authorized JavaScript origins: Deployment or development URL
   - Authorized redirect URIs: Deployment or development URL
@@ -60,8 +70,6 @@ Download JSON and copy/paste values into config spreadsheet
 
 App Script
 -----------
-
-  - Duplicate App Script
   - Go to Resources -> Developers Console Project... and enter your project number
   - Go to Publish -> Deploy as API Executable select a version select Anyone and hit Update.
   - Go to Publish -> Deploy as API Executable and copy Current API ID and paste it into appsScriptID property of the settings sheet

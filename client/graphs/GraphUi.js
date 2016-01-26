@@ -141,14 +141,17 @@ var GraphUi = IgeSceneGraph.extend({
 
         $("#dropDownDialog").dialog({
             resizable: false,
-            draggable: true,
-            dialogClass: 'ui-dialog-no-titlebar',
+            draggable: false,
             closeOnEscape: false,
             width: 350,
-            height: 180,
+            height: 200,
             modal: false,
             autoOpen: false,
-            position: { my: "left top", at: "left bottom", of: "#dropDownIcon" }
+            position: { my: "left top", at: "left bottom", of: "#dropDownIcon" },
+            open: function(event, ui) {
+                $(this).dialog('widget').find('div.ui-dialog-titlebar').css('padding','4px');
+                $(this).css('height','171px');
+            }
         });
 
         $("#dropDownContent")
