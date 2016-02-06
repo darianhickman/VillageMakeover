@@ -6,7 +6,8 @@ if [ "$APPCFG" = "" ]; then
     if which appcfg.py; then
         APPCFG=appcfg.py
     else
-        APPCFG=/Users/darianhickman/google-cloud-sdk/bin/appcfg.py
+        APPCFG=/Users/darianhickman/google-cloud-sdk/platform/google_appengine/appcfg.py
+
     fi
 fi
 
