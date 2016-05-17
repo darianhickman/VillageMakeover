@@ -13,7 +13,6 @@ var GraphUiEditor = IgeSceneGraph.extend({
             .id('topNavEditor')
             .width(900)
             .top(10)
-            .left(10)
             .right(10)
             .height(50)
             .mount(uiScene)

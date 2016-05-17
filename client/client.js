@@ -338,6 +338,7 @@ var Client = IgeClass.extend({
                 ige.addGraph('GraphTutorial');
 
                 $("#dropDownIcon").hide();
+                $("#fullscreenIcon").hide();
 
                 self.tutorial = new Tutorial();
                 self.tutorial.gotoStep('initialStep');
@@ -349,6 +350,7 @@ var Client = IgeClass.extend({
                 ige.removeGraph('GraphTutorial');
 
                 $("#dropDownIcon").show();
+                $("#fullscreenIcon").show();
 
                 self.tutorial = null;
 

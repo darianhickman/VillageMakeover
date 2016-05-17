@@ -138,12 +138,13 @@ var GraphUi = IgeSceneGraph.extend({
         }
 
         $("#dropDownIcon").show();
+        $("#fullscreenIcon").show();
 
         $("#dropDownDialog").dialog({
             resizable: false,
             draggable: false,
             closeOnEscape: false,
-            width: 350,
+            width: 360,
             height: 200,
             modal: false,
             autoOpen: false,
@@ -156,6 +157,10 @@ var GraphUi = IgeSceneGraph.extend({
 
         $("#dropDownContent")
             .html('<div style="display: table-row;"><div style="float:left;padding-left: 10px;padding-top: 10px;"><img id="loginPicture" width="75px" height="75px"></div><div id="loginID" style="float: left;padding-left: 10px;padding-top:10px;">Offline</div></div><div style="height: 36px;background-color:white;padding-left: 10px;padding-top: 16px;margin-top: 30px;"><span id="loginLink" style="cursor: pointer">' + GameConfig.config['loginString'] + '</span><span id="logoutLink" style="cursor: pointer">' + GameConfig.config['logoutString'] + '</span> | <span id="helpLink" style="cursor: pointer">' + GameConfig.config['helpString'] + '</span> | <span id="feedbackLink" style="cursor: pointer">' + GameConfig.config['feedbackString'] + '</span> | <span id="editorLink" style="cursor: pointer">' + GameConfig.config['openEditorString'] + '</span></div>');
+
+        $(window).resize(function() {
+            $("#dropDownDialog").dialog("option", "position", { my: "left top", at: "left bottom", of: "#dropDownIcon" });
+        });
 
         if(API.user.picture_url === 'no-picture'){
             $("#loginPicture").attr("src", "assets/textures/ui/No_Image_Available_75.png");
@@ -243,6 +248,19 @@ var GraphUi = IgeSceneGraph.extend({
         })
 
         $('#dropDownIcon').on('mouseover',function(){
+            ige.client.audio.select.play();
+        })
+
+        $('#fullscreenIcon').on('click',function(){
+            mixpanel.track("Go fullscreen");
+            if($.FullScreen.isFullScreen()){
+                $.FullScreen.cancelFullScreen();
+            }else{
+                $('body').requestFullScreen();
+            }
+        })
+
+        $('#fullscreenIcon').on('mouseover',function(){
             ige.client.audio.select.play();
         })
 

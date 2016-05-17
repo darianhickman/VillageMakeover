@@ -83,7 +83,7 @@ var GameObjects = {
                     if(ige.client.fsm.currentStateName() === "select" && !ige.client.data('moveItem')){
                         this.layer(1)
 
-                        $( "#mouseOverDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', position:['middle','bottom'], closeOnEscape: true, width: 450, height: 120, modal: false, autoOpen: false });
+                        $( "#mouseOverDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', position:{at: "middle bottom"}, closeOnEscape: true, width: 450, height: 120, modal: false, autoOpen: false });
                         $( "#mouseOverDialog" ).dialog( "open" );
                         $( '#mouseOverObjectText').html(this.mouseOverText);
                         var middle = ($( "#mouseOverDialog" ).height() - $( '#mouseOverObjectText').height()) / 2
