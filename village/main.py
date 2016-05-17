@@ -5,6 +5,7 @@ import json
 import braintree
 import urllib
 import logging
+import config as config_module
 from .app_common import config
 from .config import get_config, get_catalog, get_news_feed, get_secret_key, get_config_assets, get_config_earnings, get_goals_data, get_goals_tasks, get_goals_settings
 from . import models
@@ -106,3 +107,15 @@ def create_client():
 @root.route('/newsFeed')
 def news_feed_route():
     return flask.Response(json.dumps(get_news_feed()),content_type='application/json')
+
+@root.route('/flushCache/<cache_id>')
+def flush_memcache(cache_id):
+    cache_dict = {'config':'get_config','assets':'get_config_assets','earnings':'get_config_earnings','goalsdata':'get_goals_data','goalstasks':'get_goals_tasks','goalssettings':'get_goals_settings','catalog':'get_catalog'}
+    if cache_id == 'all':
+        for item in cache_dict.values():
+            method = getattr(config_module, item)
+            method.remove_cache()
+    else:
+        method = getattr(config_module, cache_dict[cache_id])
+        method.remove_cache()
+    return flask.Response('ok')
