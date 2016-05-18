@@ -138,7 +138,10 @@ var EditorManager = IgeEventingClass.extend({
                                     .click(function () { self.gotoStep('delete',{id: item.village_id, title: item.title}); })),
                                 $('<td>').append($('<button/>')
                                     .text('View')
-                                    .click(function () { window.open('/view/' + item.village_id,'_blank'); }))
+                                    .click(function () { window.open('/view/' + item.village_id,'_blank'); })),
+                                $('<td>').append($('<button/>')
+                                    .text('Share')
+                                    .click(function () {self.gotoStep('share',{id: item.village_id, title: item.title}); }))
                             ).appendTo('#loadedVillagesTable');
                         });
                     }
@@ -213,6 +216,50 @@ var EditorManager = IgeEventingClass.extend({
                 });
 
                 $('#cancelDeleteButton').on('click', function(){
+                    self.gotoStep('load');
+                });
+
+
+
+            },
+            exit: function(){
+                $( "#editorDialog" ).dialog( "close" );
+            }
+        }
+
+        self.steps['share'] = {
+            enter: function(data){
+                $( "#editorDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+                $( "#editorDialog" ).dialog( "open" );
+
+                $("#editorContent")
+                    .html( self.editorViews.getViewByID('share').view );
+
+                $('#shareVillageTitle').html(data.title);
+
+                var url = window.location.href;
+                var arr = url.split("/");
+                var result = arr[0] + "//" + arr[2]
+                $('#shareTextArea').val(result + '/view/' + data.id);
+
+                $('#copyClipboardButton').on('click', function(){
+                    var copyTextarea = $('#shareTextArea');
+                    copyTextarea.select();
+
+                    try {
+                        var successful = document.execCommand('copy');
+                        var msg = successful ? 'successful' : 'unsuccessful';
+                        console.log('Copying text command was ' + msg);
+                        if(!successful){
+                            $('#shareVillageErrorField').css('display','')
+                        }
+                    } catch (err) {
+                        console.log('Oops, unable to copy');
+                        $('#shareVillageErrorField').css('display','')
+                    }
+                });
+
+                $('#cancelShareButton').on('click', function(){
                     self.gotoStep('load');
                 });
 

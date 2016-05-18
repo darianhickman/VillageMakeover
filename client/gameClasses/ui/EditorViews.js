@@ -31,7 +31,7 @@ var EditorViews = IgeClass.extend({
         },
         {
             id: 'load',
-            view: '<table id="loadedVillagesTable" style="width:100%;"><tr><th>Title</th><th>Organization</th><th>Load</th><th>Edit</th><th>Delete</th><th>View</th></tr></table>' +
+            view: '<table id="loadedVillagesTable" style="width:100%;"><tr><th>Title</th><th>Organization</th><th>Load</th><th>Edit</th><th>Delete</th><th>View</th><th>Share</th></tr></table>' +
             '<p><button id="cancelLoadVillageButton">Back</button></p>'
         },
         {
@@ -58,6 +58,13 @@ var EditorViews = IgeClass.extend({
             '<div id="deleteVillageErrorField" class="ui-state-error" style="display:none;font-size:14px;">Please fill in the "Title" field</div></div>' +
             '<p><button id="yesDeleteButton">Delete</button></p>' +
             '<p><button id="cancelDeleteButton">Cancel</button></p></div>'
+        },
+        {
+            id: 'share',
+            view: '<div style="padding-top:20px"><p>Share Village:</p><p id="shareVillageTitle"></p><div><textarea id="shareTextArea" style="width:428px;"></textarea>' +
+            '<div id="shareVillageErrorField" class="ui-state-error" style="display:none;font-size:14px;">Your browser doesn\'t support copying. Please copy manually</div>' +
+            '<button id="copyClipboardButton">Copy to Clipboard</button></div>' +
+            '<p><button id="cancelShareButton">Back</button></p></div>'
         }
     ],
 
