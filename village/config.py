@@ -205,8 +205,10 @@ def get_config():
     logging.info(['config_docid', config_docid])
     data = get_sheet(config_docid)
     d = {}
+    key_column_index = data[0].index("key")
+    value_column_index = data[0].index("value")
     for row in data[1:]:
-        d[row[2]] = row[3]
+        d[row[key_column_index]] = row[value_column_index]
     # add logging statement here
     logging.info(d)
     return d
