@@ -84,6 +84,16 @@ var Client = IgeClass.extend({
                         tile = tileMap.mouseToTile();
 
                     if (item) {
+                        var tileCenterX = item.data('tileWidth'), tileCenterY = item.data('tileHeight');
+
+                        if(tileCenterX % 2 === 0)
+                            tileCenterX -= 1;
+                        if(tileCenterY % 2 === 0)
+                            tileCenterY -= 1;
+
+                        tile.x -= Math.floor(tileCenterX / 2);
+                        tile.y -= Math.floor(tileCenterY / 2);
+
                         // Check if the current tile is occupied or not
                         if (!tileMap.inGrid(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight'))) {
                             return;
@@ -199,6 +209,16 @@ var Client = IgeClass.extend({
                         tile = tileMap.mouseToTile();
 
                     if (item) {
+                        var tileCenterX = item.data('tileWidth'), tileCenterY = item.data('tileHeight');
+
+                        if(tileCenterX % 2 === 0)
+                            tileCenterX -= 1;
+                        if(tileCenterY % 2 === 0)
+                            tileCenterY -= 1;
+
+                        tile.x -= Math.floor(tileCenterX / 2);
+                        tile.y -= Math.floor(tileCenterY / 2);
+
                         // Check if the current tile is occupied or not
                         if (!tileMap.inGrid(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight'))) {
                             return;
@@ -436,7 +456,16 @@ var Client = IgeClass.extend({
 
 				// Hook mouse events
 				self.mouseMoveHandle = tileMap.on('mouseMove', function (event, evc, data) {
-					var tile = tileMap.mouseToTile();
+					var tile = tileMap.mouseToTile(),
+                        tileCenterX = objectTileWidth, tileCenterY = objectTileHeight;
+
+                    if(tileCenterX % 2 === 0)
+                        tileCenterX -= 1;
+                    if(tileCenterY % 2 === 0)
+                        tileCenterY -= 1;
+
+                    tile.x -= Math.floor(tileCenterX / 2);
+                    tile.y -= Math.floor(tileCenterY / 2);
 
 					// Check that the tiles this object will occupy if moved are
 					// not already occupied
@@ -464,7 +493,16 @@ var Client = IgeClass.extend({
                             / tileMap._tileHeight),
                         player = ige.$('bob'),
                         playerTile = player.currentTile(),
-                        tile = tileMap.mouseToTile();
+                        tile = tileMap.mouseToTile(),
+                        tileCenterX = objectTileWidth, tileCenterY = objectTileHeight;
+
+                    if(tileCenterX % 2 === 0)
+                        tileCenterX -= 1;
+                    if(tileCenterY % 2 === 0)
+                        tileCenterY -= 1;
+
+                    tile.x -= Math.floor(tileCenterX / 2);
+                    tile.y -= Math.floor(tileCenterY / 2);
 
                     if (!tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
                         return;
@@ -666,7 +704,16 @@ var Client = IgeClass.extend({
 
                 // Hook mouse events
                 self.mouseMoveHandle = tileMap.on('mouseMove', function (event, evc, data) {
-                    var tile = tileMap.mouseToTile();
+                    var tile = tileMap.mouseToTile(),
+                        tileCenterX = objectTileWidth, tileCenterY = objectTileHeight;
+
+                    if(tileCenterX % 2 === 0)
+                        tileCenterX -= 1;
+                    if(tileCenterY % 2 === 0)
+                        tileCenterY -= 1;
+
+                    tile.x -= Math.floor(tileCenterX / 2);
+                    tile.y -= Math.floor(tileCenterY / 2);
 
                     // Check that the tiles this object will occupy if moved are
                     // not already occupied
@@ -687,7 +734,16 @@ var Client = IgeClass.extend({
                 });
 
                 self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
-                    var tile = tileMap.mouseToTile();
+                    var tile = tileMap.mouseToTile(),
+                        tileCenterX = objectTileWidth, tileCenterY = objectTileHeight;
+
+                    if(tileCenterX % 2 === 0)
+                        tileCenterX -= 1;
+                    if(tileCenterY % 2 === 0)
+                        tileCenterY -= 1;
+
+                    tile.x -= Math.floor(tileCenterX / 2);
+                    tile.y -= Math.floor(tileCenterY / 2);
 
                     if (!tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
                         return;
@@ -1033,7 +1089,7 @@ var Client = IgeClass.extend({
     createNewCursorObject: function(data){
         var self = this,
             tileMap = ige.$('tileMapEditor'),
-            tile, tx, ty, objectTileWidth, objectTileHeight;
+            tile, tx, ty, objectTileWidth, objectTileHeight, tileCenterX, tileCenterY;
 
         tile = tileMap.mouseToTile();
 
@@ -1041,17 +1097,28 @@ var Client = IgeClass.extend({
             .mount(tileMap)
             .layer(24);
 
+        objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
+            / tileMap._tileWidth);
+        objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+            / tileMap._tileHeight);
+
+        tileCenterX = objectTileWidth;
+        tileCenterY = objectTileHeight;
+
+        if(tileCenterX % 2 === 0)
+            tileCenterX -= 1;
+        if(tileCenterY % 2 === 0)
+            tileCenterY -= 1;
+
+        tile.x -= Math.floor(tileCenterX / 2);
+        tile.y -= Math.floor(tileCenterY / 2);
+
         tx = tile.x + ige.client.cursorObject._tileAdjustX;
         ty = tile.y + ige.client.cursorObject._tileAdjustY;
         ige.client.cursorObject.translateToTile(tx, ty);
         ige.$('outlineEntity').translateToTile(tile.x, tile.y);
 
         ige.client.cursorObjectData = data;
-
-        objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                / tileMap._tileWidth);
-        objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
-                / tileMap._tileHeight);
 
         if (tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
             var isFree = !tileMap.isTileOccupied(
