@@ -904,25 +904,29 @@ var Client = IgeClass.extend({
 			callback(false);
 		});
 
-		// Load game audio and textures
-        for(var i=0; i<GameAssets.assets.length;i++){
-            if(GameAssets.assets[i].enabled === "FALSE")
-                continue;
-            var asset = GameAssets.assets[i]
-            if(asset.type === "CellSheet")
-                this[asset.attachTo][asset.name] = new IgeCellSheet(asset.url,parseInt(asset.horizontalCells),parseInt(asset.verticalCells));
-            else if(asset.type === "Audio")
-                this[asset.attachTo][asset.name] = new IgeAudio(asset.url);
-            else if(asset.type === "Texture")
-                this[asset.attachTo][asset.name] = new IgeTexture(asset.url);
-            else if(asset.type === "FontSheet")
-                this[asset.attachTo][asset.name] = new IgeFontSheet(asset.url);
-        }
+        var combinedPromise = $.when(getGameCatalog(), getGameEarnings(), getGameGoals(), getGameAssets())
+        // function will be called when getGameCatalog, getGameEarnings, getGameGoals and getGameAssets resolve
+        combinedPromise.done(function(gameCatalogData, gameEarningsData, gameGoalsData, gameAssetsData) {
+            // Load game audio and textures
+            for(var i=0; i<GameAssets.assets.length;i++){
+                if(GameAssets.assets[i].enabled === "FALSE")
+                    continue;
+                var asset = GameAssets.assets[i]
+                if(asset.type === "CellSheet")
+                    self[asset.attachTo][asset.name] = new IgeCellSheet(asset.url,parseInt(asset.horizontalCells),parseInt(asset.verticalCells));
+                else if(asset.type === "Audio")
+                    self[asset.attachTo][asset.name] = new IgeAudio(asset.url);
+                else if(asset.type === "Texture")
+                    self[asset.attachTo][asset.name] = new IgeTexture(asset.url);
+                else if(asset.type === "FontSheet")
+                    self[asset.attachTo][asset.name] = new IgeFontSheet(asset.url);
+            }
 
-        for(var key in GameObjects.gameObjectTextures) {
-            var tex = GameObjects.gameObjectTextures[key]
-            this.textures[key] = new IgeCellSheet(tex[0], tex[1], 1)
-        }
+            for(var key in GameObjects.gameObjectTextures) {
+                var tex = GameObjects.gameObjectTextures[key]
+                self.textures[key] = new IgeCellSheet(tex[0], tex[1], 1)
+            }
+        });
 
 		ige.ui.style('.dialog', {
 			left: 0,
