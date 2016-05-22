@@ -1,4 +1,4 @@
-application: villagegamedev
+application: villagegamedev2
 version: 1
 runtime: python27
 api_version: 1
@@ -16,8 +16,15 @@ handlers:
   static_files: client/index.html
   upload: client/index.html
 
+- url: /favicon.ico
+  static_files: client/favicon.ico
+  upload: client/favicon.ico
+
 - url: /client/
   static_dir: client
+
+- url: /client/mailchimp/.*
+  static_dir: client/mailchimp
 
 - url: /ige
   static_dir: ige

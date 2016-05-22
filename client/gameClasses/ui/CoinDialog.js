@@ -6,88 +6,100 @@ var CoinDialog = Dialog.extend({
 
         var self = this
 
-		new IgeUiElement()
-			.id('coinDialogImage')
-			.layer(0)
-            //.backgroundColor('white')
-            .width(400)
-            .height(300)
-			.texture(ige.client.textures.marketMenuBack)
-			.dimensionsFromTexture()
-			.mount(this);
+        var panel = new IgeUiElement()
+            .id('coinDialogImage')
+            .layer(0)
+            .texture(ige.client.textures.coinMenuBackground)
+            .dimensionsFromTexture()
+            .mount(this);
 
-        var pageEnt = new IgeUiElement()
-			.id('coinDialog_page0')
-			.layer(1)
-			.width(560)
-			.height(380)
-			.translateTo(0, 21, 0)
-			.mount(this);
+        var coins = GameConfig.config['coinDialogCoins'].split(",").map(parseFloat);
+        var pay = GameConfig.config['coinDialogPays'].split(",").map(parseFloat);
+        for(var i=0; i < 5; i ++) {
+            var offset = i * 173;
+            var base =  new IgeUiLabel()
+                .id('bCoin' + i)
+                .left(40 + offset)
+                .top(80)
+                .width(146)
+                .height(284)
+                .drawBounds(true)
+                .mount(panel);
 
-        for(var i=0; i < 2; i++) { (function() {
-            var cash = (i + 1) * 10
-            var coins = (i + 1) * 10
+            new IgeUiLabel()
+                .value( coins[i] + " Coins")
+                .font('13px Verdana')
+                .top(13)
+                .left(30)
+                .width(150)
+                .applyStyle({color: 'black'})
+                .mount(base);
 
-            var itemEnt = new IgeUiElement()
-			    .texture(ige.client.textures.marketItemBack)
-                .center((i - 1) * 150)
-                .top(20)
-			    .dimensionsFromTexture();
+            new IgeUiLabel()
+                .value( pay[i] + " VCash")
+                .font('13px Verdana')
+                .bottom(13)
+                .left(35)
+                .width(150)
+                .applyStyle({color: 'white'})
+                .mount(base);
 
-            var cashIcon = new IgeUiElement()
-			    .id('coinDialog_cashIcon' + i)
-			    .texture(ige.client.textures.cash)
-			    .dimensionsFromTexture()
-			    .left(10)
-			    .bottom(5)
-			    .mount(itemEnt);
+            (function(i) {
+                base.mouseUp(function() {
+                    ige.input.stopPropagation();
+                    ige.client.audio.normClick.play();
+                    self.hide();
 
-            new IgeFontEntity()
-			    .id('coinDialog_cash' + i)
-			    .layer(2)
-			    .textAlignX(0)
-			    .colorOverlay('#000000')
-			    .nativeFont('10px Verdana')
-			    .nativeStroke(0.5)
-			    .nativeStrokeColor('#666666')
-			    .textLineSpacing(0)
-			    .text(cash + '')
-			    .width(20)
-			    .center(20)
-			    .mount(cashIcon);
+                    var price = {
+                        cash: pay[i],
+                        coins: 0
+                    };
 
-            var coinIcon = new IgeUiElement()
-			    .id('coinDialog_coinIcon' + i)
-			    .texture(ige.client.textures.coin)
-			    .dimensionsFromTexture()
-			    .left(50)
-			    .bottom(5)
-			    .mount(itemEnt);
+                    var message = 'Buy ' + coins[i] + ' coins for ' + pay[i] + ' villagebucks?';
 
-            new IgeFontEntity()
-			    .id('coinDialog_coin' + i)
-			    .layer(2)
-			    .textAlignX(0)
-			    .colorOverlay('#000000')
-			    .nativeFont('10px Verdana')
-			    .nativeStroke(0.5)
-			    .nativeStrokeColor('#666666')
-			    .textLineSpacing(0)
-			    .text(coins + '')
-			    .width(20)
-			    .center(20)
-			    .mount(coinIcon);
+                    var callBack = function() {
+                        if(!API.reduceAssets(
+                            {coins: parseInt(price.coins, 10),
+                                cash: parseInt(price.cash, 10)})) {
+                            // Not enough money?
+                            mixpanel.track("Not enough money");
+                            ige.$('cashDialog').show();
+                            return;
+                        }
+                        API.addCoins(parseInt(coins[i], 10));
+                    }
 
-            itemEnt.mouseUp(function() {
-                ige.input.stopPropagation();
-                ige.client.audio.normClick.play();
-                self.hide()
+                    if(price.cash > API.state.cash){
+                        // Not enough money?
+                        mixpanel.track("Not enough money");
+                        message = GameConfig.config['notEnoughCashString'];
+                        callBack = function() {
+                            ige.$('cashDialog').show();
+                        }
+                    }
 
-                Buy.buy({cash: cash, coins: coins})
-            })
+                    var cashDialog = new BuyConfirm(message,callBack)
+                        .layer(1)
+                        .show()
+                        .mount(ige.$('uiScene'));
+                })
+            })(i);
+        }
 
-            itemEnt.mount(pageEnt)
-        })() }
-
+        this.closeButton.translateTo(423,-139,0);
     },
+
+    show: function () {
+        var self = this;
+
+        ige.client.fsm.enterState('coinDialog', null, function (err) {
+            if (!err) {
+                Dialog.prototype.show.call(self);
+                ige.client.audio.normClick.play();
+            }
+        });
+
+        return this;
+    }
 })
+

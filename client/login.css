@@ -43,3 +43,22 @@ body {
 .dialog.pay {
     background: white;
 }
+
+#paybutton {
+    margin-top: 0.5em;
+}
+
+#paybutton button {
+    font-size: 1.4em;
+    padding: 0.3em 1.5em;
+}
+
+#loading {
+    font-size: 1.4em;
+    color: #aaa;
+    margin: 2em;
+}
+
+#notloading {
+    display: none;
+}

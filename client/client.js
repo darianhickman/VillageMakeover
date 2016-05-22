@@ -1,4 +1,4 @@
-var gameScale = 1.5
+var gameScale = parseFloat(GameConfig.config['gameScale'])
 var uniqueCounter = 0
 
 var Client = IgeClass.extend({
@@ -17,13 +17,368 @@ var Client = IgeClass.extend({
 		// Define the fsm states
 		this.fsm.defineState('select', {
             enter: function(data, completeCallback) {
-				// Hook mouse events
-				completeCallback();
-			},
+                // Hook mouse events
+                var self = this,
+                    tileMap = ige.$('tileMap1');
+
+                ige.$('vp1')
+                    .mousePan.enabled(true)
+                    .scrollZoom.enabled(true)
+
+                ige.$('outlineEntity').mount(ige.$('tileMap1'));
+
+                self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+                    if (!ige.client.data('moveItem')) {
+                        // We're not already moving an item so check if the user
+                        // just clicked on a building
+                        var tile = tileMap.mouseToTile(),
+                            item = ige.client.itemAt('tileMap1',tile.x, tile.y);
+
+                        if (item) {
+                            if(item.type === "Crop" && API.stateObjectsLookup[item.id()].buildCompleted){
+                                ige.client.eventEmitter.emit('harvest', {"id":item.classId(), "type":item.type});
+                                item._buildStarted = Date.now();
+                                API.resetBuildTimes(item, item._buildStarted);
+                                item.place();
+                            }else{
+                                // The user clicked on a building so set this as the
+                                // building we are moving.
+                                ige.client.data('moveItem', item);
+                                ige.client.data('moveItemX', item.data('tileX'));
+                                ige.client.data('moveItemY', item.data('tileY'));
+
+                                //set initial position to lastmoveX-Y data
+                                item.data('lastMoveX', item.data('tileX'));
+                                item.data('lastMoveY', item.data('tileY'));
+
+                                ige.$('outlineEntity').tileWidth = item.data('tileWidth');
+                                ige.$('outlineEntity').tileHeight = item.data('tileHeight');
+                                ige.$('outlineEntity').isFeasible = true;
+                                ige.$('outlineEntity').translateToTile(item.data('tileX'), item.data('tileY'));
+
+                                ige.client.showGrid('tileMap1');
+                            }
+                        }else {
+                            ige.$('bob').walkToTile(tile.x, tile.y);
+                        }
+                    } else {
+                        // We are already moving a building, place this building
+                        // down now
+                        var item = ige.client.data('moveItem'),
+                            moveX = item.data('lastMoveX'),
+                            moveY = item.data('lastMoveY');
+
+                        item.moveTo(moveX, moveY);
+                        // Clear the data
+                        ige.client.data('moveItem', '');
+
+                        ige.client.hideGrid('tileMap1');
+
+                        API.updateObject(item, moveX, moveY)
+                    }
+                });
+
+                self.mouseMoveHandle = tileMap.on('mouseMove', function (event, evc, data) {
+                    var item = ige.client.data('moveItem'),
+                        map = tileMap.map,
+                        tile = tileMap.mouseToTile();
+
+                    if (item) {
+                        var tileCenterX = item.data('tileWidth'), tileCenterY = item.data('tileHeight');
+
+                        if(tileCenterX % 2 === 0)
+                            tileCenterX -= 1;
+                        if(tileCenterY % 2 === 0)
+                            tileCenterY -= 1;
+
+                        tile.x -= Math.floor(tileCenterX / 2);
+                        tile.y -= Math.floor(tileCenterY / 2);
+
+                        // Check if the current tile is occupied or not
+                        if (!tileMap.inGrid(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight'))) {
+                            return;
+                        }
+
+                        if (!map.collision(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight')) || map.collisionWithOnly(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight'), item)) {
+                            // We are currently moving an item so update it's
+                            // translation
+                            var tx = tile.x + item._tileAdjustX;
+                            var ty = tile.y + item._tileAdjustY;
+
+                            item.translateToTile(tx, ty);
+                            ige.$('outlineEntity').translateToTile(tile.x, tile.y);
+
+                            // Store the last position we accepted
+                            item.data('lastMoveX', tile.x);
+                            item.data('lastMoveY', tile.y);
+                        }
+                    }
+                });
+
+
+                completeCallback();
+            },
             exit: function(data, completeCallback) {
-				// Un-hook mouse events
-				completeCallback();
-			}
+                // Un-hook mouse events
+                var self = this,
+                    tileMap = ige.$('tileMap1');
+
+                tileMap.off('mouseUp', self.mouseUpHandle);
+                tileMap.off('mouseMove', self.mouseMoveHandle);
+
+                if (ige.client.data('moveItem')) {
+                    // We are moving a building, place this building
+                    // down before changing state
+                    var item = ige.client.data('moveItem'),
+                        moveX = item.data('lastMoveX'),
+                        moveY = item.data('lastMoveY');
+
+                    item.moveTo(moveX, moveY);
+                    // Clear the data
+                    ige.client.data('moveItem', '');
+
+                    ige.client.hideGrid('tileMap1');
+
+                    API.updateObject(item, moveX, moveY)
+                }
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('editor', {
+            enter: function(data, completeCallback) {
+                mixpanel.track("Open editor");
+
+                // Hook mouse events
+                var self = this,
+                    tileMap = ige.$('tileMapEditor');
+
+                ige.$('vp1')
+                    .mousePan.enabled(true)
+                    .scrollZoom.enabled(true)
+
+                ige.$('outlineEntity').mount(ige.$('tileMapEditor'));
+
+                self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+                    if (!ige.client.data('moveItem')) {
+                        // We're not already moving an item so check if the user
+                        // just clicked on a building
+                        var tile = tileMap.mouseToTile(),
+                            item = ige.client.itemAt('tileMapEditor',tile.x, tile.y);
+
+                        if (item) {
+
+                            // The user clicked on a building so set this as the
+                            // building we are moving.
+                            ige.client.data('moveItem', item);
+                            ige.client.data('moveItemX', item.data('tileX'));
+                            ige.client.data('moveItemY', item.data('tileY'));
+
+                            //set initial position to lastmoveX-Y data
+                            item.data('lastMoveX', item.data('tileX'));
+                            item.data('lastMoveY', item.data('tileY'));
+
+                            ige.$('outlineEntity').tileWidth = item.data('tileWidth');
+                            ige.$('outlineEntity').tileHeight = item.data('tileHeight');
+                            ige.$('outlineEntity').isFeasible = true;
+                            ige.$('outlineEntity').translateToTile(item.data('tileX'), item.data('tileY'));
+
+                            ige.client.showGrid('tileMapEditor');
+
+                        }
+                    } else {
+                        // We are already moving a building, place this building
+                        // down now
+                        var item = ige.client.data('moveItem'),
+                            moveX = item.data('lastMoveX'),
+                            moveY = item.data('lastMoveY');
+
+                        item.moveTo(moveX, moveY);
+                        // Clear the data
+                        ige.client.data('moveItem', '');
+
+                        ige.client.hideGrid('tileMapEditor');
+
+                        ige.client.editorManager.updateObject(item, moveX, moveY)
+                    }
+                });
+
+                self.mouseMoveHandle = tileMap.on('mouseMove', function (event, evc, data) {
+                    var item = ige.client.data('moveItem'),
+                        map = tileMap.map,
+                        tile = tileMap.mouseToTile();
+
+                    if (item) {
+                        var tileCenterX = item.data('tileWidth'), tileCenterY = item.data('tileHeight');
+
+                        if(tileCenterX % 2 === 0)
+                            tileCenterX -= 1;
+                        if(tileCenterY % 2 === 0)
+                            tileCenterY -= 1;
+
+                        tile.x -= Math.floor(tileCenterX / 2);
+                        tile.y -= Math.floor(tileCenterY / 2);
+
+                        // Check if the current tile is occupied or not
+                        if (!tileMap.inGrid(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight'))) {
+                            return;
+                        }
+
+                        if (!map.collision(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight')) || map.collisionWithOnly(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight'), item)) {
+                            // We are currently moving an item so update it's
+                            // translation
+                            var tx = tile.x + item._tileAdjustX;
+                            var ty = tile.y + item._tileAdjustY;
+
+                            item.translateToTile(tx, ty);
+                            ige.$('outlineEntity').translateToTile(tile.x, tile.y);
+
+                            // Store the last position we accepted
+                            item.data('lastMoveX', tile.x);
+                            item.data('lastMoveY', tile.y);
+                        }
+                    }
+                });
+
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                // Un-hook mouse events
+                var self = this,
+                    tileMap = ige.$('tileMapEditor');
+
+                if(tileMap){
+                    tileMap.off('mouseUp', self.mouseUpHandle);
+                    tileMap.off('mouseMove', self.mouseMoveHandle);
+                }
+
+                if(!ige.client.isEditorOn)
+                    ige.client.editorManager = null;
+
+                if (ige.client.data('moveItem')) {
+                    // We are moving a building, place this building
+                    // down before changing state
+                    var item = ige.client.data('moveItem'),
+                        moveX = item.data('lastMoveX'),
+                        moveY = item.data('lastMoveY');
+
+                    item.moveTo(moveX, moveY);
+                    // Clear the data
+                    ige.client.data('moveItem', '');
+
+                    ige.client.hideGrid('tileMapEditor');
+
+                    ige.client.editorManager.updateObject(item, moveX, moveY)
+                }
+
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('view', {
+            enter: function(data, completeCallback) {
+                mixpanel.track("View village");
+
+                // Add base scene data
+                ige.addGraph('IgeBaseScene');
+
+                ige.$('vp1')
+                    .addComponent(IgeMousePanComponent)
+                    .addComponent(ScrollZoomComponent)
+                    .addComponent(ScaleToPointComponent)
+                    //.addComponent(PinchZoomComponent)
+                    .addComponent(LimitZoomPanComponent, {
+                        boundsX: 0,
+                        boundsY: 0,
+                        boundsWidth: parseInt(GameConfig.config['boundsWidth']),
+                        boundsHeight: parseInt(GameConfig.config['boundsHeight'])
+                    })
+
+                    .mousePan.enabled(true)
+                    .scrollZoom.enabled(true)
+                    .autoSize(true)
+                    .drawBounds(false) // Switch this to true to draw all bounding boxes
+                    .drawBoundsData(false) // Switch this to true to draw all bounding boxes
+                    .scene(ige.$('baseScene'))
+                    .mount(ige);
+
+                ige.addGraph('GraphView');
+                ige.client.currentTileMap = ige.$("tileMapView");
+
+                $("#dropDownIcon").hide();
+
+                $( "#savingDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+                $( "#savingDialog" ).dialog( "open" );
+
+                $( "#savingContent" )
+                    .html( "<div style='padding-top:80px'><p>Loading village, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
+
+                $.ajax({
+                    dataType: 'json',
+                    url: '/api/village/' + ige.client.viewVillageID ,
+                    error: function(response){
+                        $( "#savingContent" )
+                            .html( "<div style='padding-top:80px'><p>There was an error contacting the server!<br />Please try again.</p>" +
+                            "<p><button id='refreshPageButton'>Refresh</button></p></div>" );
+
+                        $('#refreshPageButton').on('click', function(){
+                            location.reload();
+                        });
+                    },
+                    success: function(response) {
+                        if(response.viewable === "false"){
+                            $( "#savingContent" )
+                                .html( "<div style='padding-top:80px'><p>Village is not viewable, sorry.</p></div>" );
+                            return;
+                        }
+                        for(var i = 0; i < response.data.length; i++){
+                            ClientHelpers.addObject(response.data[i],"tileMapView")
+                        }
+                        $( "#savingDialog" ).dialog( "close" );
+                    }
+                })
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('tutorial', {
+            enter: function(data, completeCallback) {
+                mixpanel.track("Open tutorial");
+
+                ige.$('vp1')
+                    .mousePan.enabled(false)
+                    .scrollZoom.enabled(false)
+                    .camera.translateTo(0, 0, 0)
+                    .camera.scaleTo(1.0,1.0,0);
+
+                ige.$('level1').hide();
+                ige.addGraph('GraphTutorial');
+
+                $("#dropDownIcon").hide();
+                $("#fullscreenIcon").hide();
+
+                self.tutorial = new Tutorial();
+                self.tutorial.gotoStep('initialStep');
+
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                ige.$('level1').show();
+                ige.removeGraph('GraphTutorial');
+
+                $("#dropDownIcon").show();
+                $("#fullscreenIcon").show();
+
+                self.tutorial = null;
+
+                self.eventEmitter = self.eventEmitter || new EventEmitter()
+                self.gameLogic = self.gameLogic || new GameLogic()
+
+                completeCallback();
+            }
         });
 
 		this.fsm.defineState('buildDialog', {
@@ -33,6 +388,42 @@ var Client = IgeClass.extend({
             exit: function(data, completeCallback) {
 				completeCallback();
 			}
+        });
+
+        this.fsm.defineState('editorDialog', {
+            enter: function(data, completeCallback) {
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('cashDialog', {
+            enter: function(data, completeCallback) {
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('coinDialog', {
+            enter: function(data, completeCallback) {
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('goalDialog', {
+            enter: function(data, completeCallback) {
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                completeCallback();
+            }
         });
 
         var clientSelf = this
@@ -51,49 +442,30 @@ var Client = IgeClass.extend({
 				ige.client.cursorObjectData = data;
 
 				var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                                                / tileMap._tileWidth);
-				var objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+                                                / tileMap._tileWidth),
+                    objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
                                              / tileMap._tileHeight);
 
-                var HiEntity = IgeEntity.extend({
-			         classId: 'HiEntity' + (uniqueCounter ++),
-			         tick: function (ctx) {
-				         IgeEntity.prototype.tick.call(this, ctx);
-                         for(var x_=-100; x_ < 300; x_ ++) {
-                             for(var y_=-100; y_ < 300; y_ ++) {
-                                 var x = x_ * 20;
-                                 var y = y_ * 20;
-                                 var tx = Math.ceil(x / tileMap._tileWidth);
-                                 var ty = Math.ceil(y / tileMap._tileHeight);
-                                 if(!tileMap.inGrid(tx, ty, 1, 1)) continue;
+                ige.client.cursorObject.data('tileWidth', objectTileWidth)
+                    .data('tileHeight', objectTileHeight);
 
-                                 var isFree = !tileMap.isTileOccupied(
-						             tx,
-						             ty,
-						             objectTileWidth,
-						             objectTileHeight);
+                ige.$('outlineEntity').tileWidth = objectTileWidth;
+                ige.$('outlineEntity').tileHeight = objectTileHeight;
 
-                                 if(isFree)
-				                     ctx.fillStyle = '#3f3';
-                                 else
-                                     ctx.fillStyle = 'red';
-
-                                 var point = new IgePoint3d(x, y, 0);
-                                 var p = point.toIso();
-                                 ctx.fillRect(p.x, p.y, 3, 3);
-                             }
-                         }
-			         }
-		         });
-
-                var hientity = new HiEntity()
-                    .layer(20)
-                    .translateTo(0, 0, 0)
-                    .mount(tileMap);
+                ige.client.showGrid('tileMap1');
 
 				// Hook mouse events
 				self.mouseMoveHandle = tileMap.on('mouseMove', function (event, evc, data) {
-					var tile = tileMap.mouseToTile();
+					var tile = tileMap.mouseToTile(),
+                        tileCenterX = objectTileWidth, tileCenterY = objectTileHeight;
+
+                    if(tileCenterX % 2 === 0)
+                        tileCenterX -= 1;
+                    if(tileCenterY % 2 === 0)
+                        tileCenterY -= 1;
+
+                    tile.x -= Math.floor(tileCenterX / 2);
+                    tile.y -= Math.floor(tileCenterY / 2);
 
 					// Check that the tiles this object will occupy if moved are
 					// not already occupied
@@ -104,19 +476,40 @@ var Client = IgeClass.extend({
 						    objectTileWidth,
 						    objectTileHeight);
                         ige.client.cursorObject.opacity(isFree ? 1 : 0.5);
+                        ige.$('outlineEntity').isFeasible = isFree;
 						// Move our cursor object to the tile
                         var tx = tile.x + ige.client.cursorObject._tileAdjustX;
                         var ty = tile.y + ige.client.cursorObject._tileAdjustY;
 						ige.client.cursorObject.translateToTile(tx, ty);
+                        ige.$('outlineEntity').translateToTile(tile.x, tile.y);
 						self.cursorTile = tile;
 					}
 				});
 
 				self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+                    var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
+                            / tileMap._tileWidth),
+                        objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+                            / tileMap._tileHeight),
+                        player = ige.$('bob'),
+                        playerTile = player.currentTile(),
+                        tile = tileMap.mouseToTile(),
+                        tileCenterX = objectTileWidth, tileCenterY = objectTileHeight;
 
-                    hientity.unMount();
+                    if(tileCenterX % 2 === 0)
+                        tileCenterX -= 1;
+                    if(tileCenterY % 2 === 0)
+                        tileCenterY -= 1;
 
-                    var tile = tileMap.mouseToTile();
+                    tile.x -= Math.floor(tileCenterX / 2);
+                    tile.y -= Math.floor(tileCenterY / 2);
+
+                    if (!tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
+                        return;
+                    }
+
+                    ige.client.hideGrid('tileMap1');
+
                     if(tileMap.isTileOccupied(
 						    tile.x,
 						    tile.y,
@@ -137,21 +530,26 @@ var Client = IgeClass.extend({
                         {coins: parseInt(ige.client.cursorObjectData.coins, 10),
                         cash: parseInt(ige.client.cursorObjectData.cash, 10)})) {
                         // Not enough money?
+                        mixpanel.track("Not enough money");
                         ige.client.cursorObject.destroy();
                         ige.client.cursorObject = null;
 					    ige.client.cursorObjectData = null;
 
-                        ige.$('coinDialog').show();
+                        var message = GameConfig.config['notEnoughCoinsString'];
+
+                        var cashDialog = new BuyConfirm(message,
+                            function() {
+                                ige.$('coinDialog').show();
+                            })
+                            .layer(1)
+                            .show()
+                            .mount(ige.$('uiScene'));
+                        
                         clientSelf.fsm.enterState('select')
                         return;
                     }
 
-					var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                                                    / tileMap._tileWidth),
-						objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
-                                                     / tileMap._tileHeight),
-						player = ige.$('bob'),
-						playerTile = player.currentTile();
+
 
 					// Play the audio
 					ige.client.audio.monster_footstep.play();
@@ -165,13 +563,22 @@ var Client = IgeClass.extend({
 						objectTileHeight
 					);
 
+                    ige.client.cursorObject.data('tileX', self.cursorTile.x)
+                        .data('tileY', self.cursorTile.y)
+                        .data('tileWidth', objectTileWidth)
+                        .data('tileHeight', objectTileHeight);
+
                     var objinfo = {
+                        id: ige.client.cursorObject.id(),
                         x: self.cursorTile.x,
 						y: self.cursorTile.y,
 						w: objectTileWidth,
 						h: objectTileHeight,
                         name: cursorClassId,
+                        buildStarted: Date.now()
                     }
+
+                    ige.client.cursorObject._buildStarted = objinfo.buildStarted;
 
                     API.createObject(objinfo)
 
@@ -191,50 +598,55 @@ var Client = IgeClass.extend({
 					// Set initial state of object by calling the place() method
 					ige.client.cursorObject.place();
 
-					// Create a cash value rising from placement that fades out
-					var coinAnim;
+                    //we don't need a coin animation and particle effect for zero coin
+					if(ige.client.cursorObjectData.coins > 0){
+                        // Create a cash value rising from placement that fades out
+                        var coinAnim;
 
-					coinAnim = new IgeEntity()
-						.layer(10)
-						.texture(ige.client.textures.coin)
-						.dimensionsFromCell()
-						.scaleTo(1, 1, 1)
-						.translateToPoint(buildPoint)
-						.translateBy(-10, -50, 0)
-						.mount(ige.$('tileMap1'));
+                        coinAnim = new IgeEntity()
+                            .layer(10)
+                            .texture(ige.client.textures.coin)
+                            .dimensionsFromCell()
+                            .scaleTo(1, 1, 1)
+                            .translateToPoint(buildPoint)
+                            .translateBy(-10, -50, 0)
+                            .mount(ige.$('tileMap1'));
 
-					new IgeFontEntity()
-						.layer(2)
-						.textAlignX(0)
-						.colorOverlay('#ffffff')
-						.nativeFont('12px Verdana')
-						.textLineSpacing(0)
-						.text('-' + ige.client.cursorObjectData.coins)
-						.width(24)
-						.center(20)
-						.mount(coinAnim);
+                        new IgeFontEntity()
+                            .layer(2)
+                            .textAlignX(0)
+                            .colorOverlay('#ffffff')
+                            .nativeFont('12px Verdana')
+                            .textLineSpacing(0)
+                            .text('-' + ige.client.cursorObjectData.coins)
+                            .width(45)
+                            .center(28)
+                            .mount(coinAnim);
 
-					coinAnim
-						._translate.tween(
-							{y: buildPoint.y - 100},
-							2000
-						)
-						.start(200);
+                        coinAnim
+                            ._translate.tween(
+                                {y: buildPoint.y - 100},
+                                2000
+                            )
+                            .start(200);
 
-					coinAnim.tween(
-							{_opacity: 0},
-							2000,
-							{easing: 'inQuad'}
-						)
-						.afterTween(function () {
-							coinAnim.destroy();
-						})
-						.start(200);
+                        coinAnim.tween(
+                                {_opacity: 0},
+                                2000,
+                                {easing: 'inQuad'}
+                            )
+                            .afterTween(function () {
+                                coinAnim.destroy();
+                            })
+                            .start(200);
 
-					// Play the coin particle effect
-					ige.$('coinEmitter')
-						.quantityMax(parseInt(ige.client.cursorObjectData.coins, 10))
-						.start();
+                        // Play the coin particle effect
+                        ige.$('coinEmitter')
+                            .quantityMax(parseInt(ige.client.cursorObjectData.coins, 10))
+                            .start();
+                    }
+
+                    ige.client.eventEmitter.emit('build', {"id":cursorClassId, "type":ige.client.cursorObject.type, "unlocks":ige.client.cursorObject.unlocks})
 
 					// Remove reference to the object
 					ige.client.cursorObject = null;
@@ -263,8 +675,212 @@ var Client = IgeClass.extend({
 				tileMap.off('mouseUp', self.mouseUpHandle);
 				tileMap.off('mouseMove', self.mouseMoveHandle);
 
-				completeCallback();
+                ige.client.hideGrid('tileMap1');
+
+                if (ige.client.cursorObject) {
+                    ige.client.cursorObject.destroy();
+                    delete ige.client.cursorObject;
+                }
+
+                completeCallback();
 			}
+        });
+
+        this.fsm.defineState('editorBuild', {
+            enter: function(data, completeCallback) {
+                var self = this,
+                    tileMap = ige.$('tileMapEditor'),
+                    cursorClassId = data.classId,
+                    objectTileWidth, objectTileHeight;
+
+                ige.client.createNewCursorObject(data);
+
+                objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
+                        / tileMap._tileWidth);
+                objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+                        / tileMap._tileHeight);
+
+                ige.client.showGrid('tileMapEditor');
+
+                // Hook mouse events
+                self.mouseMoveHandle = tileMap.on('mouseMove', function (event, evc, data) {
+                    var tile = tileMap.mouseToTile(),
+                        tileCenterX = objectTileWidth, tileCenterY = objectTileHeight;
+
+                    if(tileCenterX % 2 === 0)
+                        tileCenterX -= 1;
+                    if(tileCenterY % 2 === 0)
+                        tileCenterY -= 1;
+
+                    tile.x -= Math.floor(tileCenterX / 2);
+                    tile.y -= Math.floor(tileCenterY / 2);
+
+                    // Check that the tiles this object will occupy if moved are
+                    // not already occupied
+                    if (tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
+                        var isFree = !tileMap.isTileOccupied(
+                            tile.x,
+                            tile.y,
+                            objectTileWidth,
+                            objectTileHeight);
+                        ige.client.cursorObject.opacity(isFree ? 1 : 0.5);
+                        ige.$('outlineEntity').isFeasible = isFree;
+                        // Move our cursor object to the tile
+                        var tx = tile.x + ige.client.cursorObject._tileAdjustX;
+                        var ty = tile.y + ige.client.cursorObject._tileAdjustY;
+                        ige.client.cursorObject.translateToTile(tx, ty);
+                        ige.$('outlineEntity').translateToTile(tile.x, tile.y);
+                    }
+                });
+
+                self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+                    var tile = tileMap.mouseToTile(),
+                        tileCenterX = objectTileWidth, tileCenterY = objectTileHeight;
+
+                    if(tileCenterX % 2 === 0)
+                        tileCenterX -= 1;
+                    if(tileCenterY % 2 === 0)
+                        tileCenterY -= 1;
+
+                    tile.x -= Math.floor(tileCenterX / 2);
+                    tile.y -= Math.floor(tileCenterY / 2);
+
+                    if (!tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
+                        return;
+                    }
+
+                    if(tileMap.isTileOccupied(
+                            tile.x,
+                            tile.y,
+                            objectTileWidth,
+                            objectTileHeight)) {
+
+                        return;
+                    }
+
+                    // Play the audio
+                    ige.client.audio.monster_footstep.play();
+
+                    // Build the cursorObject by releasing it from our control
+                    // and switching state
+                    ige.client.cursorObject.occupyTile(
+                        tile.x,
+                        tile.y,
+                        objectTileWidth,
+                        objectTileHeight
+                    );
+
+                    ige.client.cursorObject.data('tileX', tile.x)
+                        .data('tileY', tile.y)
+                        .data('tileWidth', objectTileWidth)
+                        .data('tileHeight', objectTileHeight);
+
+                    var objinfo = {
+                        id: ige.client.cursorObject.id(),
+                        x: tile.x,
+                        y: tile.y,
+                        w: objectTileWidth,
+                        h: objectTileHeight,
+                        name: cursorClassId,
+                        buildStarted: Date.now(),
+                        buildCompleted: Date.now()
+                    }
+
+                    ige.client.cursorObject._buildStarted = objinfo.buildStarted;
+                    ige.client.cursorObject._buildCompleted = objinfo.buildCompleted;
+
+                    ige.client.editorManager.createObject(objinfo)
+
+                    // Set initial state of object by calling the place() method
+                    ige.client.cursorObject.place(true);
+
+                    // Remove reference to the object
+                    ige.client.cursorObject = null;
+
+                    //Continue with new cursor object
+                    ige.client.createNewCursorObject(ige.client.cursorObjectData)
+                });
+
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                // Clear our mouse listeners
+                var self = this,
+                    tileMap = ige.$('tileMapEditor');
+
+                if(tileMap) {
+                    tileMap.off('mouseUp', self.mouseUpHandle);
+                    tileMap.off('mouseMove', self.mouseMoveHandle);
+                }
+
+                ige.client.hideGrid('tileMapEditor');
+
+                if (ige.client.cursorObject) {
+                    ige.client.cursorObject.destroy();
+                    delete ige.client.cursorObject;
+                }
+
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('editorDelete', {
+            enter: function(data, completeCallback) {
+                // Hook mouse events
+                var self = this,
+                    tileMap = ige.$('tileMapEditor');
+
+                var mp = ige.$('uiSceneEditor').mousePos();
+
+                ige.client.deleteCursorObject = new IgeEntity()
+                    .texture(ige.client.textures.xbutton)
+                    .isometric(false)
+                    .dimensionsFromTexture()
+                    .mount(ige.$('uiSceneEditor'))
+                    .translateTo(mp.x, mp.y, 0);
+
+                self.mouseMoveHandle = ige.$('vp1').on('mouseMove', function (event, evc, data) {
+                    $('#igeFrontBuffer').css("cursor","none");
+                    var mp = ige.$('uiSceneEditor').mousePos();
+                    ige.client.deleteCursorObject.translateTo(mp.x, mp.y, 0);
+                });
+                self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+                    // check if the user
+                    // just clicked on a building
+                    var tile = tileMap.mouseToTile(),
+                        item = ige.client.itemAt('tileMapEditor',tile.x, tile.y);
+
+                    if (item) {
+                        item.unOccupyTile(
+                            item.data('tileX'),
+                            item.data('tileY'),
+                            item.data('tileWidth'),
+                            item.data('tileHeight')
+                        );
+
+                        item.destroy();
+                        ige.client.editorManager.deleteObject(item);
+                    }
+                });
+
+                completeCallback();
+            },
+            exit: function(data, completeCallback) {
+                var self = this,
+                    tileMap = ige.$('tileMapEditor');
+
+                $('#igeFrontBuffer').css("cursor","default");
+
+                if(tileMap){
+                    tileMap.off('mouseUp', self.mouseUpHandle);
+                }
+                ige.$('vp1').off('mouseMove', self.mouseMoveHandle);
+
+                ige.client.deleteCursorObject.destroy();
+                ige.client.deleteCursorObject = null;
+
+                completeCallback();
+            }
         });
 
 		this.fsm.defineState('pan', {
@@ -288,57 +904,29 @@ var Client = IgeClass.extend({
 			callback(false);
 		});
 
-		// Load game audio
-		this.audio.select = new IgeAudio('./assets/audio/select.mp3');
-        this.audio.normClick = new IgeAudio('./assets/audio/generalclick04.wav');
-		//this.audio.construct = new IgeAudio('./assets/audio/construct.mp3');
-        this.audio.monster_footstep = new IgeAudio('./assets/audio/creatur_footstep_large.mp3');
-		this.audio.dialogOpen = new IgeAudio('./assets/audio/dialogOpen.mp3');
+        var combinedPromise = $.when(getGameCatalog(), getGameEarnings(), getGameGoals(), getGameAssets())
+        // function will be called when getGameCatalog, getGameEarnings, getGameGoals and getGameAssets resolve
+        combinedPromise.done(function(gameCatalogData, gameEarningsData, gameGoalsData, gameAssetsData) {
+            // Load game audio and textures
+            for(var i=0; i<GameAssets.assets.length;i++){
+                if(GameAssets.assets[i].enabled === "FALSE")
+                    continue;
+                var asset = GameAssets.assets[i]
+                if(asset.type === "CellSheet")
+                    self[asset.attachTo][asset.name] = new IgeCellSheet(asset.url,parseInt(asset.horizontalCells),parseInt(asset.verticalCells));
+                else if(asset.type === "Audio")
+                    self[asset.attachTo][asset.name] = new IgeAudio(asset.url);
+                else if(asset.type === "Texture")
+                    self[asset.attachTo][asset.name] = new IgeTexture(asset.url);
+                else if(asset.type === "FontSheet")
+                    self[asset.attachTo][asset.name] = new IgeFontSheet(asset.url);
+            }
 
-		// Load a game texture here
-		this.textures.greenBackground = new IgeTexture('./assets/textures/backgrounds/greenBackground.png');
-        this.textures.valleyBackground = new IgeTexture('./assets/textures/backgrounds/valleyBackground.png')
-		this.textures.dirtBackground = new IgeTexture('./assets/textures/backgrounds/dirtBackground.png');
-
-		this.textures.moneyMenuBackground = new IgeTexture('./assets/textures/ui/CashMenuTemplate.png');
-        this.textures.mainMenuBackground = new IgeTexture('./assets/textures/ui/mainMenuBackground.png');
-		this.textures.marketItemBack = new IgeTexture('./assets/textures/ui/marketItemBack.png');
-		this.textures.buildButton = new IgeTexture('./assets/textures/ui/build.png');
-        this.textures.greenPlus = new IgeTexture('./assets/textures/ui/green+.png');
-		this.textures.giftButton = new IgeTexture('./assets/textures/ui/giftButton.png');
-		this.textures.actionButtonBack = new IgeTexture('./assets/textures/ui/actionButtonBack.png');
-		this.textures.actionIconSelect = new IgeTexture('./assets/textures/ui/actionIconSelect.png');
-		this.textures.friendTile = new IgeTexture('./assets/textures/ui/friendTile.png');
-		this.textures.marketMenuBack = new IgeTexture('./assets/textures/ui/marketMenuBack.png');
-		this.textures.cashBar = new IgeTexture('./assets/textures/ui/cashBar.png');
-		this.textures.coinsBar = new IgeTexture('./assets/textures/ui/coinsBar.png');
-		this.textures.energyBar = new IgeTexture('./assets/textures/ui/energyBar.png');
-		this.textures.xpBar = new IgeTexture('./assets/textures/ui/xpBar.png');
-		this.textures.coin = new IgeTexture('./assets/textures/ui/coin.png');
-		this.textures.cash = new IgeTexture('./assets/textures/ui/cash.png');
-        this.textures.star = new IgeTexture('./assets/textures/ui/star.png');
-
-		this.textures.leftButton1 = new IgeTexture('./assets/textures/ui/leftButton1.png');
-		this.textures.leftButton2 = new IgeTexture('./assets/textures/ui/leftButton2.png');
-		this.textures.leftButton3 = new IgeTexture('./assets/textures/ui/leftButton3.png');
-
-		this.textures.rightButton1 = new IgeTexture('./assets/textures/ui/rightButton1.png');
-		this.textures.rightButton2 = new IgeTexture('./assets/textures/ui/rightButton2.png');
-		this.textures.rightButton3 = new IgeTexture('./assets/textures/ui/rightButton3.png');
-
-        for(var key in GameObjects.gameObjectTextures) {
-            var tex = GameObjects.gameObjectTextures[key]
-            this.textures[key] = new IgeCellSheet(tex[0], tex[1], 1)
-        }
-
-		this.textures.villager1 = new IgeCellSheet('./assets/textures/sprites/villager.png', 3, 2);
-		this.textures.flowerPot1 = new IgeTexture('./assets/textures/sprites/flowerPot1.png');
-		this.textures.fenceSW = new IgeTexture('./assets/textures/sprites/fenceSW.png');
-		this.textures.clothingLine = new IgeTexture('./assets/textures/sprites/clothingLine.png');
-		this.textures.wallSE = new IgeTexture('./assets/textures/sprites/wallSE.png');
-
-		this.textures.greenDot = new IgeTexture('./assets/textures/greendot.png');
-		this.textures.redDot = new IgeTexture('./assets/textures/reddot.png');
+            for(var key in GameObjects.gameObjectTextures) {
+                var tex = GameObjects.gameObjectTextures[key]
+                self.textures[key] = new IgeCellSheet(tex[0], tex[1], 1)
+            }
+        });
 
 		ige.ui.style('.dialog', {
 			left: 0,
@@ -348,6 +936,14 @@ var Client = IgeClass.extend({
 		});
 
         ige.ui.style('#topNav', {
+            'top': 10,
+            'left': 10,
+            'right': 10,
+            'width': 1000,
+            'height': 50
+        });
+
+        ige.ui.style('#topNavEditor', {
             'top': 10,
             'left': 10,
             'right': 10,
@@ -371,8 +967,8 @@ var Client = IgeClass.extend({
 			    ige.createFrontBuffer(true);
             } else {
                 var canvas = $('<canvas id=gameCanvas>').appendTo('body')
-                var width = 971 * gameScale
-                var height = 470 * gameScale
+                var width = parseInt(GameConfig.config['canvasWidth']) * gameScale
+                var height = parseInt(GameConfig.config['canvasHeight']) * gameScale
                 canvas.attr('width', width)
                 canvas.attr('height', height)
                 var baseSize = Math.min($(window).width() / width, $(window).height() / height)
@@ -391,12 +987,13 @@ var Client = IgeClass.extend({
 			// Start the engine
 			ige.start(function (success) {
 				// Check if the engine started successfully
-				function postinit() {
+				function postinit(isTutorialShown) {
 					// Add base scene data
 					ige.addGraph('IgeBaseScene');
 
 					// Add level1 graph
 					ige.addGraph('GraphLevel1');
+                    ige.client.currentTileMap = ige.$("tileMap1");
 
 					// Add ui graph
 					ige.addGraph('GraphUi');
@@ -413,38 +1010,139 @@ var Client = IgeClass.extend({
                         .addComponent(IgeMousePanComponent)
 						.addComponent(ScrollZoomComponent)
 						.addComponent(ScaleToPointComponent)
-						.addComponent(PinchZoomComponent)
+						//.addComponent(PinchZoomComponent)
 						.addComponent(LimitZoomPanComponent, {
 							boundsX: 0,
 							boundsY: 0,
-							boundsWidth: 2627,
-							boundsHeight: 1545
+							boundsWidth: parseInt(GameConfig.config['boundsWidth']),
+							boundsHeight: parseInt(GameConfig.config['boundsHeight'])
 						})
 
-						.mousePan.enabled(true)
-						.scrollZoom.enabled(true)
+						.mousePan.enabled(false)
+						.scrollZoom.enabled(false)
 						.autoSize(true)
                         .drawBounds(false) // Switch this to true to draw all bounding boxes
 			            .drawBoundsData(false) // Switch this to true to draw all bounding boxes
 						.scene(ige.$('baseScene'))
 						.mount(ige);
 
-
-
+                    ige.$('vp1').mousePan.on('panMove', function(){
+                        clientSelf.fsm.enterState('pan');
+                    });
+                    ige.$('vp1').mousePan.on('panEnd', function(){
+                        if(ige.client.isEditorOn !== undefined && ige.client.isEditorOn === true)
+                            ige.client.fsm.enterState('editor');
+                        else
+                            clientSelf.fsm.enterState('select');
+                    });
 
 					new Villager()
 						.id('bob')
 						.mount(ige.$('tileMap1'))
 
-					// Set the initial fsm state
-					self.fsm.initialState('select');
+                    if(isTutorialShown === true){
+                        // Set the initial fsm state
+                        self.fsm.initialState('select');
+                    }else{
+					    // Set the initial fsm state
+                        self.fsm.initialState('tutorial');
+                    }
 				}
                 if (success) {
-                    API.init(postinit);
+                    var villageID = getParameterByName(location.search, 'v')
+                    if(villageID){
+                        ige.client.viewVillageID = villageID;
+                        self.fsm.initialState('view');
+                    }else
+                        API.init(postinit);
                 }
 			});
 		});
-	}
+	},
+
+    /**
+     * Returns the item occupying the tile co-ordinates of the tile map.
+     * @param tileX
+     * @param tileY
+     */
+    itemAt: function (tileMap, tileX, tileY) {
+        // Return the data at the map's tile co-ordinates
+        return ige.$(tileMap).map.tileData(tileX, tileY);
+    },
+    showGrid: function(tileMap){
+        ige.$(tileMap).drawGrid(true);
+        ige.$(tileMap).highlightOccupied(true);
+        ige.$('outlineEntity').show();
+    },
+    hideGrid: function(tileMap){
+        if(ige.$(tileMap)){
+            ige.$(tileMap).drawGrid(false);
+            ige.$(tileMap).highlightOccupied(false);
+        }
+        ige.$('outlineEntity').hide();
+    },
+    setGameBoardPostTutorial: function (tutorialObjects){
+        if(!API.state.objects){
+            for(var i=0;i<tutorialObjects.length;i++){
+                ClientHelpers.addObject(tutorialObjects[i],"tileMap1")
+                ClientHelpers.moveOutPlayer()
+                API.createObject(tutorialObjects[i])
+            }
+        }
+    },
+    createNewCursorObject: function(data){
+        var self = this,
+            tileMap = ige.$('tileMapEditor'),
+            tile, tx, ty, objectTileWidth, objectTileHeight, tileCenterX, tileCenterY;
+
+        tile = tileMap.mouseToTile();
+
+        ige.client.cursorObject = new ige.newClassInstance(data.classId)
+            .mount(tileMap)
+            .layer(24);
+
+        objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
+            / tileMap._tileWidth);
+        objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
+            / tileMap._tileHeight);
+
+        tileCenterX = objectTileWidth;
+        tileCenterY = objectTileHeight;
+
+        if(tileCenterX % 2 === 0)
+            tileCenterX -= 1;
+        if(tileCenterY % 2 === 0)
+            tileCenterY -= 1;
+
+        tile.x -= Math.floor(tileCenterX / 2);
+        tile.y -= Math.floor(tileCenterY / 2);
+
+        tx = tile.x + ige.client.cursorObject._tileAdjustX;
+        ty = tile.y + ige.client.cursorObject._tileAdjustY;
+        ige.client.cursorObject.translateToTile(tx, ty);
+        ige.$('outlineEntity').translateToTile(tile.x, tile.y);
+
+        ige.client.cursorObjectData = data;
+
+        if (tileMap.inGrid(tile.x, tile.y, objectTileWidth, objectTileHeight)) {
+            var isFree = !tileMap.isTileOccupied(
+                tile.x,
+                tile.y,
+                objectTileWidth,
+                objectTileHeight);
+            ige.client.cursorObject.opacity(isFree ? 1 : 0.5);
+            ige.$('outlineEntity').isFeasible = isFree;
+        }else{
+            ige.client.cursorObject.opacity(0.5);
+            ige.$('outlineEntity').isFeasible = false;
+        }
+
+        ige.client.cursorObject.data('tileWidth', objectTileWidth)
+            .data('tileHeight', objectTileHeight);
+
+        ige.$('outlineEntity').tileWidth = objectTileWidth;
+        ige.$('outlineEntity').tileHeight = objectTileHeight;
+    }
 });
 
 if (typeof(module) !== 'undefined' && typeof(module.exports) !== 'undefined') { module.exports = Client; }

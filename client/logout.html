@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset=utf-8>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
+    </script>
+    <script src="https://apis.google.com/js/client:platform.js" async defer>
+    </script>
+  <link href="login.css" rel=stylesheet>
+</head>
+<body>
+<script>
+    $(document).ready(function() {
+        $.ajax({
+            dataType: 'json',
+            url: '/getclientid',
+            success: function(data) {
+                gapi.load('auth2', function() {
+                    auth2 = gapi.auth2.init({
+                        client_id: data.client_id,
+                        // Scopes to request in addition to 'profile' and 'email'
+                        scope: 'https://www.googleapis.com/auth/groups https://www.googleapis.com/auth/plus.me'
+                    }).then(function(){
+                        signOut();
+                    });
+                });
+            }
+        })
+    });
+    function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+            location.href = '/';
+        });
+    }
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-5656121-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+</body>
+</html>

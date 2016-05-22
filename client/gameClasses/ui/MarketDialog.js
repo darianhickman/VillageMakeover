@@ -15,46 +15,60 @@ var MarketDialog = Dialog.extend({
 		this._items = [];
 		this._pageItems = [];
 
-        var self = this
+        this.closeButton.translateTo(300,-200,0);
+	},
 
-        for(var i=0; i<3; i++) {
-		    var pageEnt = new IgeUiElement()
-			    .id('marketDialog_page' + i)
-			    .layer(1)
-			    .width(560)
-			    .height(380)
-			    .translateTo(0, 21, 0)
-                .mount(this)
+	createSinglePage: function() {
+		var self = this,
+			index = this._pages.length;
 
-            new IgeUiElement()
-                .id('marketDialogRight_' + i)
-                .layer(2)
-                .texture(ige.client.textures.rightButton1)
-                .dimensionsFromTexture()
-                .bottom(55)
-                .right(65)
-                .mount(pageEnt)
-                .mouseUp(function () {
-                    self.changePage(1)
-                })
+		var pageEnt = new IgeUiElement()
+			.id('marketDialog_page' + index)
+			.layer(1)
+			.width(560)
+			.height(380)
+			.translateTo(0, 21, 0)
+			.mount(this)
+			.hide()
 
-            new IgeUiElement()
-                .id('marketDialogLeft_' + i)
-                .layer(2)
-                .texture(ige.client.textures.leftButton1)
-                .dimensionsFromTexture()
-                .bottom(55)
-                .left(65)
-                .mount(pageEnt)
-                .mouseUp(function () {
-                    self.changePage(-1)
-                })
+		new IgeUiElement()
+			.id('marketDialogRight_' + index)
+			.layer(2)
+			.texture(ige.client.textures.rightButton1)
+			.dimensionsFromTexture()
+			.bottom(55)
+			.right(65)
+			.mount(pageEnt)
+			.mouseUp(function () {
+				self.changePage(1)
+			})
 
-		    this._pages.push(pageEnt);
-        }
+		new IgeUiElement()
+			.id('marketDialogLeft_' + index)
+			.layer(2)
+			.texture(ige.client.textures.leftButton1)
+			.dimensionsFromTexture()
+			.bottom(55)
+			.left(65)
+			.mount(pageEnt)
+			.mouseUp(function () {
+				self.changePage(-1)
+			})
+
+		this._pages.push(pageEnt);
+
+	},
+
+	createPages: function(totalPages) {
+		var self = this
+
+		for(var i=0; i<totalPages; i++) {
+			self.createSinglePage()
+		}
 
 		this._activePageIndex = 0;
-        this._pages[0].mount(this)
+		this._pages[0].mount(this)
+			.show()
 	},
 
     changePage: function(dir) {
@@ -106,49 +120,53 @@ var MarketDialog = Dialog.extend({
 				.dimensionsFromTexture();
 
 		// Create coin and cash icons
-		var coinIcon = new IgeUiElement()
-			.id(itemData.id + '_coinIcon')
-			.texture(ige.client.textures.coin)
-			.dimensionsFromTexture()
-			.center(-40)
-			.bottom(5)
-			.mount(itemEnt);
+        var coinIcon = new IgeUiElement()
+            .id(itemData.id + '_coinIcon')
+            .texture(ige.client.textures.coin)
+            .dimensionsFromTexture()
+            .center(-40)
+            .bottom(5)
+            .mount(itemEnt);
+        if(itemData.coins != 0){
 
-		new IgeFontEntity()
-			.id(itemData.id + '_coins')
-			.layer(2)
-			.textAlignX(0)
-			.colorOverlay('#000000')
-			.nativeFont('10px Verdana')
-			.nativeStroke(0.5)
-			.nativeStrokeColor('#666666')
-			.textLineSpacing(0)
-			.text(itemData.coins)
-			.width(20)
-			.center(20)
-			.mount(coinIcon);
+		    new IgeFontEntity()
+                .id(itemData.id + '_coins')
+                .layer(2)
+                .textAlignX(0)
+                .colorOverlay('#000000')
+                .nativeFont('10px Verdana')
+                .nativeStroke(0.5)
+                .nativeStrokeColor('#666666')
+                .textLineSpacing(0)
+                .text(itemData.coins)
+                .width(20)
+                .center(20)
+                .mount(coinIcon);
+        }
+        
+	    if(itemData.cash != 0) {
+            new IgeUiElement()
+                .id(itemData.id + '_cashIcon')
+                .texture(ige.client.textures.cash)
+                .dimensionsFromTexture()
+                .center(10)
+                .bottom(5)
+                .mount(itemEnt);
 
-		new IgeUiElement()
-			.id(itemData.id + '_cashIcon')
-			.texture(ige.client.textures.cash)
-			.dimensionsFromTexture()
-			.center(10)
-			.bottom(5)
-			.mount(itemEnt);
-
-        new IgeFontEntity()
-			.id(itemData.id + '_cash')
-			.layer(2)
-			.textAlignX(0)
-			.colorOverlay('#000000')
-			.nativeFont('10px Verdana')
-			.nativeStroke(0.5)
-			.nativeStrokeColor('#666666')
-			.textLineSpacing(0)
-			.text(itemData.cash)
-			.width(20)
-			.center(70)
-			.mount(coinIcon);
+            new IgeFontEntity()
+                .id(itemData.id + '_cash')
+                .layer(2)
+                .textAlignX(0)
+                .colorOverlay('#000000')
+                .nativeFont('10px Verdana')
+                .nativeStroke(0.5)
+                .nativeStrokeColor('#666666')
+                .textLineSpacing(0)
+                .text(itemData.cash)
+                .width(20)
+                .center(70)
+                .mount(coinIcon);
+        }
 
 		// Create an entity to represent this item
 		var itemPic = new IgeEntity()
@@ -248,5 +266,14 @@ var MarketDialog = Dialog.extend({
 		});
 
 		return itemEnt;
+	},
+
+	getItemByID: function(id){
+		for(var i = 0; i < this._items.length; i++){
+			if(this._items[i].id == id){
+				return this._items[i];
+			}
+		}
+		return null;
 	}
 });

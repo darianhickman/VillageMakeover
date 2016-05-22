@@ -1,8 +1,17 @@
 
 var Buy = {
+
+    // need some details on how this works.
     buy: function(assets) {
+        ige.$('buyStatus').startTransaction()
         Buy.pay(assets, function() {
+            mixpanel.track("Cash buy");
             Buy._addAssets(assets);
+            ige.$('buyStatus').transactionSuccess()
+        }, function() {
+            ige.$('buyStatus').transactionFailed(function() {
+                location.href = 'pay.html?param=' + Buy.createReason(assets);
+            })
         });
     },
 
@@ -15,22 +24,24 @@ var Buy = {
         return hash.toString() + '-' + window.btoa(msg);
     },
 
-    pay: function(assets, success) {
+    pay: function(assets, success, fail) {
         console.log('buy ', assets);
         $.ajax({
             url: '/api/pay',
             data: {amount: Buy._getAmount(assets),
-                   csrf: API.user.csrf},
+                   csrf: API.user.csrf,
+                   id: API.user.id,
+                   loginStatus: API.loginStatus},
             dataType: 'json',
             type: 'POST',
             success: function(ret) {
                 console.log('pay -> ', ret);
                 if(ret.status == 'register')
-                    location.href = 'pay.html?param=' + Buy.createReason(assets);
+                    location.href = 'pay.html?param=' + Buy.createReason(assets) + '&loginStatus=' + API.loginStatus + '&userID=' + API.user.id;
                 else if(ret.status == 'ok')
                     success()
                 else
-                    console.log('Transaction failed.');
+                    fail()
             }
         })
     },
@@ -55,7 +66,7 @@ var Buy = {
     _getAmount: function(assets) {
         if(!(0 <= assets.coins && 0 <= assets.cash)) // also catch NaNs
             throw "error " + JSON.stringify(assets);
-        return assets.coins * 0.01 + assets.cash * 0.2;
+        return JSON.stringify(assets);
     },
 
     getQueryVariable: function(query, variable) {
