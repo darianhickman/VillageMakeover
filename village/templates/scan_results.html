@@ -1,0 +1,9 @@
+<!doctype html>
+<title>Config Scan Results</title>
+
+<table>
+    <tr><th>Key</th><th>Result</th></tr>
+    {% for item in results %}
+    <tr><td>{{ item }}</td><td>{{ results[item] }}</td></tr>
+    {% endfor %}
+</table>
