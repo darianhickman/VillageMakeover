@@ -5,6 +5,9 @@ import json
 import braintree
 import urllib
 import logging
+import os
+import io
+from flask import render_template
 import config as config_module
 from .app_common import config
 from .config import get_config, get_catalog, get_news_feed, get_secret_key, get_config_assets, get_config_earnings, get_goals_data, get_goals_tasks, get_goals_settings
@@ -119,3 +122,31 @@ def flush_memcache(cache_id):
         method = getattr(config_module, cache_dict[cache_id])
         method.remove_cache()
     return flask.Response('ok')
+
+@root.route('/scanConfig/<config_key>')
+def scan_config(config_key):
+    client_dir = os.path.join(os.path.dirname(__file__),'../client')
+    exclude_client_files = ['game.js','MailChimpTemplate.html', 'crypto-js-hmac.js']
+    client_files = [os.path.join(root, name) for root, dirs, files in os.walk(client_dir) for name in files if name.endswith(("js",".html", ".htm")) and name not in exclude_client_files]
+    village_files = [fn for fn in os.listdir(os.path.dirname(__file__)) if fn.endswith('.py')]
+    files = client_files + village_files
+
+    sheet_config = dict(get_config())
+    found_dict = {}
+    for fn in files:
+        with io.open(os.path.join(os.path.dirname(__file__), fn), 'r', encoding='utf-8') as file:
+            if config_key == 'all':
+                for line in file:
+                    for key, value in sheet_config.items():
+                        found_dict[key] = 'not found'
+                        if key in line:
+                            found_dict[key] = file.name
+                            sheet_config.pop(key, None)
+            else:
+                found_dict[config_key] = 'not found'
+                for line in file:
+                    if config_key in line:
+                        found_dict[config_key] = file.name
+                        return render_template('scan_results.html', results=found_dict)
+
+    return render_template('scan_results.html', results=found_dict)
