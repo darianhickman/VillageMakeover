@@ -84,7 +84,7 @@ var Goals = IgeEventingClass.extend({
 
         questRef.items(itemsArray)
             .complete(function () {
-                self.emitGoalAsComplete(goalID, goal.Title, goal.Congrats_Message)
+                self.emitGoalAsComplete(goalID, goal.Title, goal.Congrats_Message, goal.Reward)
             })
             // Start the quest now (activates event listeners)
             .start();
@@ -112,8 +112,8 @@ var Goals = IgeEventingClass.extend({
         return gameGoalObj;
     },
 
-    emitGoalAsComplete: function(goalID, title, message){
-        this.emit('goalComplete',{"goalID":goalID, "title":title, "message":message});
+    emitGoalAsComplete: function(goalID, title, message, reward){
+        this.emit('goalComplete',{"goalID":goalID, "title":title, "message":message, "reward":reward});
     },
 
     loadGoal: function(goalID,goalState){

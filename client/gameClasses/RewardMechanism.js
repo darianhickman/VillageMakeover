@@ -18,7 +18,7 @@ var RewardMechanism = IgeEventingClass.extend({
             _translateObj = translateObj || {x:-self.uiScene._renderPos.x,y:-self.uiScene._renderPos.y,z:0};
 
         _translateObj.x += self.uiScene._renderPos.x;
-        _translateObj.y += self.uiScene._renderPos.y - 30;
+        _translateObj.y += self.uiScene._renderPos.y;
 
         switch(assetName){
             case "xp":

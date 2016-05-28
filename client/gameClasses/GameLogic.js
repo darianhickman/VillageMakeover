@@ -44,6 +44,19 @@ var GameLogic = IgeObject.extend({
         //on goal complete load next goal
         self.goals.on("goalComplete",function(data){
             //add reward assets
+            var rewardsArr = data.reward.split(","),
+                rewardsObj = {}, assets, totalAssets, startX, distribution = 75;//pixels
+
+            for(var i = 0; i < rewardsArr.length; i++){
+                assets = rewardsArr[i].split(":");
+                rewardsObj[assets[0]] = assets[1];
+            }
+            totalAssets = Object.keys(rewardsObj).length;
+            startX = ( (totalAssets - 1) * -distribution / 2 ) -distribution;
+            for(var item in rewardsObj){
+                startX += distribution;
+                self.rewardMechanism.claimReward(item, rewardsObj[item],{x:(-ige.$('uiScene')._renderPos.x + startX),y:200,z:0});
+            }
 
             API.setGoalAsComplete(data.goalID)
 
