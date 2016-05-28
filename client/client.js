@@ -36,7 +36,7 @@ var Client = IgeClass.extend({
 
                         if (item) {
                             if(item.type === "Crop" && API.stateObjectsLookup[item.id()].buildCompleted){
-                                ige.client.eventEmitter.emit('harvest', {"id":item.classId(), "type":item.type});
+                                ige.client.eventEmitter.emit('harvest', {"id":item.classId(), "type":item.type, "positionX" : item.screenPosition().x, "positionY" : item.screenPosition().y});
                                 item._buildStarted = Date.now();
                                 API.resetBuildTimes(item, item._buildStarted);
                                 item.place();

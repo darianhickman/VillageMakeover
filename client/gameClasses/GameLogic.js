@@ -82,8 +82,15 @@ var GameLogic = IgeObject.extend({
             var arr = GameEarnings.earnings[item]
             for(var i = 0; i < arr.length; i++){
                 (function(i, arr){
-                    ige.client.eventEmitter.on(item, function(){
-                        self.rewardMechanism.claimReward(arr[i].asset, arr[i].amount)
+                    ige.client.eventEmitter.on(item, function(data){
+                        var translateObj = null;
+                        if(data.positionX || data.positionY){
+                            translateObj = {};
+                            translateObj.x = data.positionX || 0;
+                            translateObj.y = data.positionY || 0;
+                            translateObj.z = 0;
+                        }
+                        self.rewardMechanism.claimReward(arr[i].asset, arr[i].amount, translateObj)
                     })
                 })(i, arr)
             }
