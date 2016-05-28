@@ -3,7 +3,7 @@
 
 <table>
     <tr><th>Key</th><th>Result</th></tr>
-    {% for item in results %}
+    {% for item in results|sort %}
     <tr><td>{{ item }}</td><td>{{ results[item] }}</td></tr>
     {% endfor %}
 </table>
