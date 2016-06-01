@@ -37,6 +37,15 @@ def save_state(userid, state):
     model.data = json.dumps(state)
     model.put()
 
+def get_state_data(key_id):
+    try:
+        state = State.get_by_id(int(key_id))
+        if state:
+            return json.loads(state.data)
+        return None
+    except ValueError:
+        return None
+
 class Villages(ndb.Model):
     village_id = ndb.StringProperty()
     spreadsheet_docid = ndb.StringProperty()

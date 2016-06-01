@@ -6,9 +6,14 @@ var API = {
             dataType: 'json',
             success: function(result) {
                 API.user = result
+                if(ige.client.viewVillageID && ige.client.viewVillageID !== API.user.key_id){
+                    ige.client.fsm.initialState('view');
+                    return;
+                }
                 if(result.status === 'ok') {
                     mixpanel.track("Online user");
                     API.loginStatus = "online"
+                    history.replaceState({'villageID':API.user.key_id},"load_village",'?v='+API.user.key_id+location.hash);
                 } else if(result.status === 'fail'){
                     location.href = result.login_url
                 } else {

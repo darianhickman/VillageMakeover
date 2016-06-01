@@ -1052,9 +1052,8 @@ var Client = IgeClass.extend({
                     var villageID = getParameterByName(location.search, 'v')
                     if(villageID){
                         ige.client.viewVillageID = villageID;
-                        self.fsm.initialState('view');
-                    }else
-                        API.init(postinit);
+                    }
+                    API.init(postinit);
                 }
 			});
 		});

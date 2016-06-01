@@ -40,6 +40,7 @@ def get_user():
         response_email = flask.g.user['email']
         response_name = flask.g.user['name']
         response_id = flask.g.user['id']
+        response_key_id = flask.g.user['key_id']
         response_picture_url = flask.g.user['image_url']
         response_editor_enabled = flask.g.user['editor_enabled']
     else:
@@ -53,6 +54,7 @@ def get_user():
             response_email = 'offline'
             response_name = 'offline'
             response_id = 'offline'
+            response_key_id = 'offline'
             response_picture_url = 'no-picture'
             response_editor_enabled = 'false'
 
@@ -66,6 +68,7 @@ def get_user():
         'email': response_email,
         'name': response_name,
         'id': response_id,
+        'key_id': response_key_id,
         'picture_url': response_picture_url,
         'editor_enabled': response_editor_enabled,
         'csrf': csrf})
@@ -100,12 +103,16 @@ def get_village(village_id):
     if flask.g.user:
         editor_enabled = flask.g.user['editor_enabled']
     village = models.get_village_model(village_id)
-    if editor_enabled == "false" and not village.viewable:
+    if editor_enabled == "false" and village.viewable is not None and not village.viewable:
         return JSONResponse({'viewable': 'false'})
     if village.spreadsheet_docid:
         data = get_village_sheet(village.spreadsheet_docid)
     else:
-        data = ''
+        data = models.get_state_data(village_id)
+        if data is not None:
+            data = data.get('objects','')
+        else:
+            data = ''
     return JSONResponse({'village_id': village.village_id, 'title': village.title, 'viewable': 'true', 'data': data})
 
 @root.route('/api/village/<village_id>', methods=['POST'])
@@ -267,7 +274,7 @@ def login_post_route():
     state.put()
     # Add the user to the current session
     image_url = user['image'].get('url')
-    flask.session['user'] = dict(id=user['id'],name=user['displayName'],email=email,provider='google',editor_enabled=editor_enabled,image_url=image_url)
+    flask.session['user'] = dict(key_id=str(state.key.id()),id=user['id'],name=user['displayName'],email=email,provider='google',editor_enabled=editor_enabled,image_url=image_url)
 
     return JSONResponse({'status': 'ok'})
 

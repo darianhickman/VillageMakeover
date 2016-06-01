@@ -362,6 +362,8 @@ var EditorManager = IgeEventingClass.extend({
                 self.villageIsViewable =  response.viewable;
                 self.gotoStep('editModeOn')
                 self.isSaved = true;
+
+                history.replaceState({'villageID':villageID},"load_village",'?v='+villageID);
             }
         })
     },
@@ -451,6 +453,8 @@ var EditorManager = IgeEventingClass.extend({
         }
 
         $("#dropDownIcon").show();
+
+        history.replaceState({'villageID':API.user.key_id},"load_village",'?v='+API.user.key_id);
 
         ige.client.fsm.enterState('select');
     }
