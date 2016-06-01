@@ -123,7 +123,6 @@ def flush_memcache(cache_id):
         method.remove_cache()
     return flask.Response('ok')
 
-@root.route('/scanConfig/<config_key>')
 def scan_config(config_key):
     client_dir = os.path.join(os.path.dirname(__file__),'../client')
     exclude_client_files = ['game.js','MailChimpTemplate.html', 'crypto-js-hmac.js']
@@ -147,6 +146,16 @@ def scan_config(config_key):
                 for line in file:
                     if config_key in line:
                         found_dict[config_key] = file.name
-                        return render_template('scan_results.html', results=found_dict)
+                        return found_dict
 
+    return found_dict
+
+@root.route('/config/scan')
+def scan_config_all():
+    found_dict = scan_config('all')
     return render_template('scan_results.html', results=found_dict)
+
+@root.route('/config/scan/<config_key>')
+def scan_config_by_key(config_key):
+    found_dict = scan_config(config_key)
+    return render_template('single_key_scan_results.html', results=found_dict)

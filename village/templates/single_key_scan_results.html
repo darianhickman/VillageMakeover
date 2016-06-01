@@ -4,6 +4,6 @@
 <table>
     <tr><th>Key</th><th>Result</th></tr>
     {% for item in results|sort %}
-    <tr><td><a href="./scan/{{ item }}">{{ item }}</a></td><td>{{ results[item] }}</td></tr>
+    <tr><td>{{ item }}</td><td>{{ results[item] }}</td></tr>
     {% endfor %}
 </table>
