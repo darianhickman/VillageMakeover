@@ -1,0 +1,422 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"pr",
+				"Print	 ƒ"
+			],
+			[
+				"sql",
+				"sqlString	string ν"
+			],
+			[
+				"P",
+				"Println	n int, err error ƒ"
+			],
+			[
+				"sq",
+				"squareNum	int ν"
+			],
+			[
+				"func",
+				"func main	func main {...} ʂ"
+			],
+			[
+				"Std",
+				"Stderr	*os.File ν"
+			],
+			[
+				"Prin",
+				"Println	n int, err error ƒ"
+			],
+			[
+				"Respon",
+				"ResponseWriter	interface ¡"
+			],
+			[
+				"H",
+				"Handler	interface ¡"
+			],
+			[
+				"Fp",
+				"Fprintf	n int, err error ƒ"
+			],
+			[
+				"Re",
+				"ResponseWriter	interface ¡"
+			],
+			[
+				"Sp",
+				"Sprintf	string ƒ"
+			],
+			[
+				"No",
+				"Now	time.Time ƒ"
+			],
+			[
+				"en",
+				"EncodeAll	error ƒ"
+			],
+			[
+				"Float",
+				"Float64	float64 ƒ"
+			],
+			[
+				"Read",
+				"ReadFile	[]byte, error ƒ"
+			],
+			[
+				"St",
+				"Stderr	*os.File ν"
+			],
+			[
+				"Op",
+				"OpenFile	*os.File, error ƒ"
+			],
+			[
+				"Pri",
+				"Printf	n int, err error ƒ"
+			],
+			[
+				"New",
+				"NewScanner	*bufio.Scanner ƒ"
+			],
+			[
+				"Print",
+				"PrintHello	 ƒ"
+			],
+			[
+				"print",
+				"Println	n int, err error ƒ"
+			],
+			[
+				"File",
+				"FileInfo"
+			],
+			[
+				"proc",
+				"procjar"
+			],
+			[
+				"comput",
+				"computeService"
+			],
+			[
+				"err",
+				"error"
+			],
+			[
+				"io",
+				"ioutil"
+			],
+			[
+				"string",
+				"stringutil"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "gosu",
+		"selected_items":
+		[
+			[
+				"gosu",
+				"GoSublime: Run Tests"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 467.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/darianhickman/gowork/src/github.com/darianhickman/DataBrowser/angular2-quickstart/app/index.html",
+		"/Users/darianhickman/gowork/src/github.com/darianhickman/DataBrowser/angular2-quickstart/app/main.js",
+		"/Users/darianhickman/gowork/src/github.com/darianhickman/DataBrowser/angular2-quickstart/app/app.component.js",
+		"/Users/darianhickman/gowork/src/github.com/darianhickman/DataBrowser/angular2-quickstart/package.json",
+		"/Users/darianhickman/Documents/DataBrowser/vendor/PapaParse/player/player.html",
+		"/Users/darianhickman/Documents/DataBrowser/vendor/PapaParse/player/notes.txt",
+		"/Users/darianhickman/Documents/DataBrowser/vendor/PapaParse/player/player.js",
+		"/Users/darianhickman/Documents/DataBrowser/vendor/PapaParse/player/sample.csv",
+		"/Users/darianhickman/gowork/src/bitbucket.org/darianhickman/ingestionpipeline/hello.go",
+		"/Users/darianhickman/gowork/src/bitbucket.org/darianhickman/ingestionpipeline/sql.tmpl",
+		"/Users/darianhickman/gowork/src/bitbucket.org/darianhickman/ingestionpipeline/IngestionPipeline.go",
+		"/Users/darianhickman/gowork/src/bitbucket.org/darianhickman/ingestionpipeline/README.md",
+		"/Users/darianhickman/Library/Application Support/Sublime Text 3/Packages/GoSublime/CHANGELOG.md",
+		"/Users/darianhickman/WindowsETLStudio.py",
+		"/Users/darianhickman/Documents/DataBrowser/vendor/PapaParse/package.json",
+		"/Users/darianhickman/Documents/DataBrowser/vendor/PapaParse/Gruntfile.js",
+		"/Users/darianhickman/Documents/DataBrowser/vendor/PapaParse/bower.json",
+		"/Users/darianhickman/Documents/DataBrowser/bin/config.json",
+		"/Users/darianhickman/Documents/DataBrowser/bin/caddy.txt",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/wordcountexample1.sh",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/mapslices.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/structembed.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/DataBrowser.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/conversions.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/surface.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/server3.go",
+		"/Users/darianhickman/Desktop/Sample urls that say it all.",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/jarcompress.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/parallel.go",
+		"/Users/darianhickman/Desktop/learning papaparser",
+		"/Users/darianhickman/Desktop/Ideas for Making Code Easier to Understand",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/fetchall.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/webserver.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/review.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/animatedgif.go",
+		"/Users/darianhickman/www/index.html",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/httpExample.go",
+		"/Users/darianhickman/Library/Application Support/Sublime Text 3/Packages/GoSublime/9o.md",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/pipeline.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/serial.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/bounded.go",
+		"/Users/darianhickman/Desktop/caddy.conf",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/mapoffunctionsexample.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/defer.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/testauth.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/drive.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/goroutines.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/channelwork.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/animal.go",
+		"/Users/darianhickman/gowork/src/github.com/golang/example/appengine-hello/app.go",
+		"/Users/darianhickman/go_appengine/demos/helloworld/helloworld.go",
+		"/Users/darianhickman/go_appengine/demos/guestbook/guestbook.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/hello/hello.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/stringutil/reverse.go",
+		"/Users/darianhickman/gowork/src/github.com/darian311/stringutil/reverse_test.go",
+		"/gocode/hello.go",
+		"/Users/darianhickman/gowork/src/github.com/hello/hello.go",
+		"/Users/darianhickman/gowork/src/github.com/hello/reverse.go",
+		"/Users/darianhickman/Desktop/TalendFile.xsd.html",
+		"/Users/darianhickman/Desktop/Reminders.ics",
+		"/Users/darianhickman/Downloads/client_secret_319445283462-u5jceq8bmj5uu10q2qf7doas1f5rtaet.apps.googleusercontent.com (1).json",
+		"/Users/darianhickman/gspread_test/main.py",
+		"/Users/darianhickman/FocusAffirm/manifest.json",
+		"/Users/darianhickman/Desktop/stocks.log",
+		"/Users/darianhickman/Documents/black list.selfcontrol",
+		"/Users/darianhickman/Documents/Quantstart/data/amex_schema.xml",
+		"/Users/darianhickman/Downloads/darianhickman-6a4c4f6f5381.json",
+		"/Users/darianhickman/Jts/dbulgkhywk/Fri.audit.xml",
+		"/Users/darianhickman/Downloads/talendforge.html",
+		"/Users/darianhickman/Talend/TOS_BD-20150702_1326-V6.0.0/features/org.eclipse.gef_3.9.101.201408150207/feature.properties",
+		"/Users/darianhickman/Documents/Quantstart/results/TenDownFiveUp_all.txt",
+		"/Users/darianhickman/Documents/Quantstart/IB Individual darian423.xml",
+		"/Users/darianhickman/Documents/Quantstart/results/TenDownFiveUp_all-2.txt",
+		"/Users/darianhickman/Desktop/bac_results.txt",
+		"/Users/darianhickman/Documents/Quantstart/mmm results.txt",
+		"/Users/darianhickman/Documents/Quantstart/cvs results.txt",
+		"/Users/darianhickman/Desktop/Aurora Colorado Shooter",
+		"/Users/darianhickman/Downloads/client_secret_257139645459.apps.googleusercontent.com.json",
+		"/Users/darianhickman/Downloads/config.yaml",
+		"/Users/darianhickman/Documents/Journal April 20th 2015",
+		"/Users/darianhickman/Hickolo/manifest",
+		"/Users/darianhickman/Desktop/LandingPage/index.html",
+		"/Users/darianhickman/Desktop/archive/Zynga/Privacy Policy   Zynga_files/jquery.min.js",
+		"/Users/darianhickman/Desktop/CPU-20150326T125426.cpuprofile",
+		"/Users/darianhickman/Village/VillageMakeoverGitHub/config.yaml",
+		"/Users/darianhickman/Desktop/config.yaml",
+		"/Users/darianhickman/Village/VillageMakeover/village-makeover/ige/examples/CameraStuff/ScrollZoomComponent.js",
+		"/gocode/src/github.com/user/hello/hello.go",
+		"/gocode/src/bitbucket.com/darian_hickman/hickolo/hickolo.go",
+		"/gocode/src/github.com/user/stringutil/reverse.go",
+		"/Users/darianhickman/TourGo/maing.go",
+		"/Users/darianhickman/TourGo/gotour.go",
+		"/Users/darianhickman/Village/VillageMakeover/config.yaml",
+		"/Users/darianhickman/village_files.csv",
+		"/Users/darianhickman/Desktop/frametest.html",
+		"/Users/darianhickman/Documents/learning go/src/learning/readexcel.go",
+		"/Users/darianhickman/Downloads/client_secret_983992219406-era22vmtoa7dkil0jl2m26654sgdc9ju.apps.googleusercontent.com.json",
+		"/Users/darianhickman/Documents/learning go/json.go",
+		"/Users/darianhickman/Documents/learning go/src/learning/package main.go"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"addREs",
+			"input",
+			"console",
+			"	\n",
+			"io",
+			" \n",
+			"entry",
+			"_\"",
+			"\"_",
+			"_",
+			"\"",
+			",,",
+			"   ",
+			"     ",
+			"                          ",
+			"                                                                ",
+			"                                      ",
+			"                                               "
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"\"",
+			"",
+			","
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.9o:///Users/darianhickman/gowork/src/github.com/darian311/hello":
+	{
+		"height": 229.0
+	},
+	"output.GoSublime-main-output":
+	{
+		"height": 100.0
+	},
+	"output.GoSublime-output":
+	{
+		"height": 100.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "config.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/gowork/src/bitbucket.org/darianhickman/ingestionpipeline/IngestionPipeline.go"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 394.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
