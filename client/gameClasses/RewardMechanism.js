@@ -32,7 +32,7 @@ var RewardMechanism = IgeEventingClass.extend({
                 break;
         }
 
-        self.showVillageDashFont(self.textureListLookup[assetName].mount, amount);
+        self.showVillageDashFont(self.textureListLookup[assetName].mount, amount, parseInt(self.textureListLookup[assetName].fontAnchorX), parseInt(self.textureListLookup[assetName].fontAnchorY));
 
         var animation = new AssetAnimation(assetName, self.textureListLookup[assetName].texture, self.textureListLookup[assetName].mount)
             .drawBounds(true)
@@ -48,12 +48,12 @@ var RewardMechanism = IgeEventingClass.extend({
         });
     },
 
-    showVillageDashFont: function(mountTo, amount){
+    showVillageDashFont: function(mountTo, amount, anchorX, anchorY){
         var valueFontEntity = new IgeFontEntity()
             .texture(ige.client.textures.villagedashFont)
             .text(amount)
             .width(200)
-            .translateTo(20,50,0)
+            .translateTo(anchorX,anchorY,0)
             .mount(ige.$(mountTo))
 
         valueFontEntity._translate.tween()

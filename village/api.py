@@ -296,7 +296,7 @@ def calculate_amount(amount):
     assets = json.loads(amount)
 
     cash_prices = dict(zip(
-        [500, 1200, 2500, 6500, 14000], [4.99, 9.99, 19.99, 49.99, 99.99]))
+        map(int, sheet_config['cashDialogBucks'].split(',')), map(float, sheet_config['cashDialogPays'].split(','))))
 
     return cash_prices[assets['cash']]
 
