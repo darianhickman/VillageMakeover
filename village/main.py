@@ -111,19 +111,24 @@ def create_client():
 def news_feed_route():
     return flask.Response(json.dumps(get_news_feed()),content_type='application/json')
 
-@root.route('/flushCache/<cache_id>')
-def flush_memcache(cache_id):
+@root.route('/cache/flush')
+def flush_memcache_all():
     cache_dict = {'config':'get_config','assets':'get_config_assets','earnings':'get_config_earnings','goalsdata':'get_goals_data','goalstasks':'get_goals_tasks','goalssettings':'get_goals_settings','catalog':'get_catalog'}
-    if cache_id == 'all':
-        for item in cache_dict.values():
-            method = getattr(config_module, item)
-            method.remove_cache()
-    else:
+    for item in cache_dict.values():
+        method = getattr(config_module, item)
+        method.remove_cache()
+    return flask.Response('Removed all caches')
+
+@root.route('/cache/flush/<cache_id>')
+def flush_memcache_by_key(cache_id):
+    cache_dict = {'config':'get_config','assets':'get_config_assets','earnings':'get_config_earnings','goalsdata':'get_goals_data','goalstasks':'get_goals_tasks','goalssettings':'get_goals_settings','catalog':'get_catalog'}
+    try:
         method = getattr(config_module, cache_dict[cache_id])
         method.remove_cache()
-    return flask.Response('ok')
+    except KeyError:
+        return flask.Response('Cache not found for ' + cache_id)
+    return flask.Response('Removed cache for ' + cache_id)
 
-@root.route('/scanConfig/<config_key>')
 def scan_config(config_key):
     client_dir = os.path.join(os.path.dirname(__file__),'../client')
     exclude_client_files = ['game.js','MailChimpTemplate.html', 'crypto-js-hmac.js']
@@ -147,6 +152,16 @@ def scan_config(config_key):
                 for line in file:
                     if config_key in line:
                         found_dict[config_key] = file.name
-                        return render_template('scan_results.html', results=found_dict)
+                        return found_dict
 
+    return found_dict
+
+@root.route('/config/scan')
+def scan_config_all():
+    found_dict = scan_config('all')
     return render_template('scan_results.html', results=found_dict)
+
+@root.route('/config/scan/<config_key>')
+def scan_config_by_key(config_key):
+    found_dict = scan_config(config_key)
+    return render_template('single_key_scan_results.html', results=found_dict)

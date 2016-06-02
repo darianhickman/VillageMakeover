@@ -44,6 +44,19 @@ var GameLogic = IgeObject.extend({
         //on goal complete load next goal
         self.goals.on("goalComplete",function(data){
             //add reward assets
+            var rewardsArr = data.reward.split(","),
+                rewardsObj = {}, assets, totalAssets, startX, distribution = 75;//pixels
+
+            for(var i = 0; i < rewardsArr.length; i++){
+                assets = rewardsArr[i].split(":");
+                rewardsObj[assets[0]] = assets[1];
+            }
+            totalAssets = Object.keys(rewardsObj).length;
+            startX = ( (totalAssets - 1) * -distribution / 2 ) -distribution;
+            for(var item in rewardsObj){
+                startX += distribution;
+                self.rewardMechanism.claimReward(item, rewardsObj[item],{x:(-ige.$('uiScene')._renderPos.x + startX),y:200,z:0});
+            }
 
             API.setGoalAsComplete(data.goalID)
 
@@ -82,8 +95,15 @@ var GameLogic = IgeObject.extend({
             var arr = GameEarnings.earnings[item]
             for(var i = 0; i < arr.length; i++){
                 (function(i, arr){
-                    ige.client.eventEmitter.on(item, function(){
-                        self.rewardMechanism.claimReward(arr[i].asset, arr[i].amount)
+                    ige.client.eventEmitter.on(item, function(data){
+                        var translateObj = null;
+                        if(data.positionX || data.positionY){
+                            translateObj = {};
+                            translateObj.x = data.positionX || 0;
+                            translateObj.y = data.positionY || 0;
+                            translateObj.z = 0;
+                        }
+                        self.rewardMechanism.claimReward(arr[i].asset, arr[i].amount, translateObj)
                     })
                 })(i, arr)
             }

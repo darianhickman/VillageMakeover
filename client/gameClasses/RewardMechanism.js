@@ -15,7 +15,10 @@ var RewardMechanism = IgeEventingClass.extend({
 
     claimReward: function(assetName, amount, translateObj){
         var self = this
-            _translateObj = translateObj || {x:0,y:0,z:0};
+            _translateObj = translateObj || {x:-self.uiScene._renderPos.x,y:-self.uiScene._renderPos.y,z:0};
+
+        _translateObj.x += self.uiScene._renderPos.x;
+        _translateObj.y += self.uiScene._renderPos.y;
 
         switch(assetName){
             case "xp":
