@@ -66,7 +66,7 @@ var AssetAnimation = IgeEntity.extend({
                 self.objects[i]._translate.tween()
                     .stepTo({
                         x: ige.$(self._moveTo).translate().x() - self.translate().x(),
-                        y: ige.$('topNav').translate().y() - self.translate().y()
+                        y: ige.$('topNav').translate().y() + ige.$(self._moveTo).translate().y() - self.translate().y()
                     },500,'inSine')
                     .afterTween(function(tween){
                         self.objects[i].hide()})
