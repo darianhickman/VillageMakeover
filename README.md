@@ -81,3 +81,10 @@ Consider updating:
   - loginGroupEmail
   - driveFolderID
   - all of the spreadsheet and app script docids
+
+Helper Routes
+-----------
+  - /config/scan -> Lists files containing config keys if found.
+  - /config/scan/<config_key> -> Lists file containing this key if found.
+  - /cache/flush -> Removes caches for all items.
+  - /cache/flush/<cache_id> -> Removes cache for the given id. List of ids: config assets earnings goalsdata goalstasks goalssettings catalog
