@@ -56,6 +56,7 @@ def get_sheet(docid):
     return login().open_by_key(docid).sheet1.get_all_values()
 
 def copy_village_sheet(title):
+    sheet_config = get_config()
     conf = local_config['spreadsheet']
     credentials = SignedJwtAssertionCredentials(conf['client_email'], conf['private_key'], scope)
 
@@ -169,6 +170,7 @@ def get_config_earnings():
 
 @memcached('goals_data')
 def get_goals_data():
+    sheet_config = get_config()
     goals_docid = sheet_config['goals_docid']
     data = get_worksheet(goals_docid,"goals")
     headers = data[0]
@@ -180,6 +182,7 @@ def get_goals_data():
 
 @memcached('goals_tasks')
 def get_goals_tasks():
+    sheet_config = get_config()
     goals_docid = sheet_config['goals_docid']
     data = get_worksheet(goals_docid,"tasks")
     headers = data[0]
@@ -191,6 +194,7 @@ def get_goals_tasks():
 
 @memcached('goals_settings')
 def get_goals_settings():
+    sheet_config = get_config()
     goals_docid = sheet_config['goals_docid']
     data = get_worksheet(goals_docid,"settings")
     d = {}
@@ -213,9 +217,9 @@ def get_config():
     logging.info(d)
     return d
 
-sheet_config = get_config()
 
 def get_news_feed():
+    sheet_config = get_config()
     news_feed_docid = sheet_config['news_feed_docid']
     data = get_sheet(news_feed_docid)
     headers = data[0]
@@ -233,6 +237,7 @@ def get_secret_key():
 
 @memcached('catalog')
 def get_catalog():
+    sheet_config = get_config()
     catalog_docid = sheet_config['catalog_docid']
     data = get_sheet(catalog_docid)
     headers = data[0]
