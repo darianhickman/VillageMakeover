@@ -16,6 +16,11 @@
 
 .ui-dialog .ui-dialog-content {
     padding: 0;
+    background-image: url('/client/assets/textures/backgrounds/fadebluebackground.png');
+
+}
+
+.ui-dialog {
 }
 
 .ui-dialog .ui-dialog-content ul{

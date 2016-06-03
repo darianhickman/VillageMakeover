@@ -17,8 +17,8 @@ handlers:
   upload: client/index.html
 
 - url: /favicon.ico
-  static_files: client/favicon.ico
-  upload: client/favicon.ico
+  static_files: assets/textures/ui/faviconlogo.svg
+  upload: assets/textures/ui/faviconlogo.svg
 
 - url: /client/
   static_dir: client

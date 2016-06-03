@@ -30,11 +30,11 @@ body {
 
 .loadingLogo {
 	position: relative;
-	width: 60px;
-	height: 60px;
-	left: 10px;
-	top: 10px;
-	background-image: url(/client/assets/textures/ui/logo_circle.png);
+	width: 55px;
+	height: 55px;
+	left: 5px;
+	top: 5px;
+	background-image: url(/client/assets/textures/ui/loadinglogo.png);
 }
 
 .loadingCircle {
