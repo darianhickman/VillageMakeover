@@ -603,7 +603,7 @@ var Client = IgeClass.extend({
                         // Create a cash value rising from placement that fades out
                         var coinAnim;
 
-                        coinAnim = new IgeEntity()
+                        coinAnim = new IgeEntity
                             .layer(10)
                             .texture(ige.client.textures.coin)
                             .dimensionsFromCell()
@@ -616,7 +616,7 @@ var Client = IgeClass.extend({
                             .layer(2)
                             .textAlignX(0)
                             .colorOverlay('#ffffff')
-                            .nativeFont('12px Verdana')
+                            .nativeFont('12px Press Start 2P')
                             .textLineSpacing(0)
                             .text('-' + ige.client.cursorObjectData.coins)
                             .width(45)

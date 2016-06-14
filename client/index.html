@@ -8,7 +8,7 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
         <meta name="game-engine-origin" content="http://www.isogenicengine.com">
         <meta http-equiv="X-UA-Compatible" content="IE=9" >
-        <title>Village The Game</title>
+        <title>Village Makeover</title>
         <!-- STYLES -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/smoothness/jquery-ui.css">
@@ -25,19 +25,21 @@
     </head>
     <body>
         <div class="igeLoading loadingFloat">
-            <div class="loadingLogo"></div>
-            <div class="loadingCircle"></div>
-            <div class="loadingCircleInner"></div>
+            <div class="loadingTitle" >Village Makeover </div>
+            
+            <div class="loadingCircle">
+                <div class="loadingCircleInner">
+                    <div class="loadingLogo"></div>
+                </div>
+            </div>
+            
             <div class="loadingText">
                 Loading
             </div>
         </div>
-        <div class="igeLoading loadingLink">
-            Powered By Isogenic Game Engine
-            <a href="http://www.isogenicengine.com" target="_blank">http://www.isogenicengine.com</a>
-        </div>
-        <img id="dropDownIcon" src="assets/textures/ui/menu_icon.png" style="cursor: pointer; position: fixed; top: 25px; right: 100px; width: 28px; height: 28px;display:none;" >
-        <img id="fullscreenIcon" src="assets/textures/ui/Expand-48.png" style="cursor: pointer; position: fixed; top: 23px; left: 380px; width: 28px; height: 28px;display:none;" >
+        
+        <img class="igeButton" id="dropDownIcon" src="assets/textures/ui/menu_icon.png" style="background-color: #fff; border-radius: 3px; padding:2px; cursor: pointer; position: fixed; top: 25px; right: 100px; width: 35px; height: 35px;display:none;" >
+        <img class="igeButton" id="fullscreenIcon" src="assets/textures/ui/Expand-48.png" style="cursor: pointer; position: fixed; top: 23px; left: 380px; width: 28px; height: 28px;display:none;" >
         <div id="dialog" title="Help Video" style="overflow-y: hidden; display:none"><iframe width="640" height="360" src="https://www.youtube.com/embed/Vc4CNPdRSes?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen scrolling="no"
         seamless="seamless"></iframe></div>
         <div id="newsFeedDialog" title="News Feed" style="display:none"><ul id="newsList"></ul></div>
