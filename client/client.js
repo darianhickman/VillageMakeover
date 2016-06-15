@@ -603,7 +603,7 @@ var Client = IgeClass.extend({
                         // Create a cash value rising from placement that fades out
                         var coinAnim;
 
-                        coinAnim = new IgeEntity
+                        coinAnim = new IgeEntity()
                             .layer(10)
                             .texture(ige.client.textures.coin)
                             .dimensionsFromCell()
