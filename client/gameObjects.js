@@ -196,6 +196,7 @@ var GameObjects = {
 
                     if(progress >= 100) {
                         API.saveObjectBuiltDate(this, Date.now())
+                        ige.client.eventEmitter.emit('buildCompleted', {"id":classId, "type":this.type})
                         this._buildProgressBar.destroy()
                         this._buildProgressBar = null
                         this._buildProgressTime.destroy()
