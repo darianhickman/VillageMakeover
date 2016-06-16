@@ -73,6 +73,8 @@ var GameObjects = {
                 this.cell(options.cell)
 
                 this.type = options.type;
+                this.xTiles = parseInt(options.xTiles);
+                this.yTiles = parseInt(options.yTiles);
                 this.dependency = options.dependency;
                 this.unlocks = options.unlocks;
                 this.mouseOverText = options.description;

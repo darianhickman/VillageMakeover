@@ -441,10 +441,8 @@ var Client = IgeClass.extend({
 
 				ige.client.cursorObjectData = data;
 
-				var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                                                / tileMap._tileWidth),
-                    objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
-                                             / tileMap._tileHeight);
+				var objectTileWidth = ige.client.cursorObject.xTiles,
+                    objectTileHeight = ige.client.cursorObject.yTiles;
 
                 ige.client.cursorObject.data('tileWidth', objectTileWidth)
                     .data('tileHeight', objectTileHeight);
@@ -487,10 +485,8 @@ var Client = IgeClass.extend({
 				});
 
 				self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
-                    var objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                            / tileMap._tileWidth),
-                        objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
-                            / tileMap._tileHeight),
+                    var objectTileWidth = ige.client.cursorObject.xTiles,
+                        objectTileHeight = ige.client.cursorObject.yTiles,
                         player = ige.$('bob'),
                         playerTile = player.currentTile(),
                         tile = tileMap.mouseToTile(),
@@ -695,10 +691,8 @@ var Client = IgeClass.extend({
 
                 ige.client.createNewCursorObject(data);
 
-                objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-                        / tileMap._tileWidth);
-                objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
-                        / tileMap._tileHeight);
+                objectTileWidth = ige.client.cursorObject.xTiles;
+                objectTileHeight = ige.client.cursorObject.yTiles;
 
                 ige.client.showGrid('tileMapEditor');
 
@@ -1100,10 +1094,8 @@ var Client = IgeClass.extend({
             .mount(tileMap)
             .layer(24);
 
-        objectTileWidth = Math.ceil(ige.client.cursorObject._bounds3d.x
-            / tileMap._tileWidth);
-        objectTileHeight = Math.ceil(ige.client.cursorObject._bounds3d.y
-            / tileMap._tileHeight);
+        objectTileWidth = ige.client.cursorObject.xTiles;
+        objectTileHeight = ige.client.cursorObject.yTiles;
 
         tileCenterX = objectTileWidth;
         tileCenterY = objectTileHeight;

@@ -311,8 +311,8 @@ var Tutorial = IgeEventingClass.extend({
 
                 self.mapItemButton.translateToTile(self.items['item'+self.currentBuildStep].mapX+self.mapItemButton._tileAdjustX,self.items['item'+self.currentBuildStep].mapY+self.mapItemButton._tileAdjustY)
 
-                objectTileWidth = Math.ceil(self.mapItemButton._bounds3d.x / tileMap._tileWidth);
-                objectTileHeight = Math.ceil(self.mapItemButton._bounds3d.y / tileMap._tileHeight);
+                objectTileWidth = self.mapItemButton.xTiles;
+                objectTileHeight = self.mapItemButton.yTiles;
 
                 objinfo = {
                     id: ige.newIdHex(),
@@ -680,8 +680,8 @@ var Tutorial = IgeEventingClass.extend({
                 .mouseMove(function(){})
                 .mouseUp(function(){});
 
-            objectTileWidth = Math.ceil(newItem._bounds3d.x / tileMap._tileWidth);
-            objectTileHeight = Math.ceil(newItem._bounds3d.y / tileMap._tileHeight);
+            objectTileWidth = newItem.xTiles;
+            objectTileHeight = newItem.yTiles;
             offsetX += objectTileWidth
             if(i === 4){
                 offsetX = 0
@@ -716,8 +716,8 @@ var Tutorial = IgeEventingClass.extend({
                 .mouseMove(function(){})
                 .mouseUp(function(){});
 
-            objectTileWidth = Math.ceil(newItem._bounds3d.x / tileMap._tileWidth);
-            objectTileHeight = Math.ceil(newItem._bounds3d.y / tileMap._tileHeight);
+            objectTileWidth = newItem.xTiles;
+            objectTileHeight = newItem.yTiles;
             offsetX += objectTileWidth
 
             newItem.translateToTile(self.items['item2'].mapX + newItem._tileAdjustX + offsetX,self.items['item2'].mapY + newItem._tileAdjustY)
