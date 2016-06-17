@@ -144,8 +144,8 @@ var GraphUi = IgeSceneGraph.extend({
             resizable: false,
             draggable: false,
             closeOnEscape: false,
-            width: 360,
-            height: 200,
+            width: parseInt(DropDownMenu.width),
+            height: parseInt(DropDownMenu.height),
             modal: false,
             autoOpen: false,
             position: { my: "left top", at: "left bottom", of: "#dropDownIcon" },
@@ -156,7 +156,14 @@ var GraphUi = IgeSceneGraph.extend({
         });
 
         $("#dropDownContent")
-            .html('<div style="display: table-row;"><div style="float:left;padding-left: 10px;padding-top: 10px;"><img id="loginPicture" width="75px" height="75px"></div><div id="loginID" style="float: left;padding-left: 10px;padding-top:10px;">Offline</div></div><div style="height: 49px;background-color:white;padding-left: 10px;padding-top: 16px;margin-top: 30px;"><span id="loginLink" style="cursor: pointer">' + GameConfig.config['loginString'] + '</span><span id="logoutLink" style="cursor: pointer">' + GameConfig.config['logoutString'] + '</span> | <span id="helpLink" style="cursor: pointer">' + GameConfig.config['helpString'] + '</span> | <span id="feedbackLink" style="cursor: pointer">' + GameConfig.config['feedbackString'] + '</span><span id="editorLink" style="cursor: pointer"> | ' + GameConfig.config['openEditorString'] + '</span><span id="shareMyVillageLink" style="cursor: pointer"> | ' + GameConfig.config['shareMyVillageString'] + '</span></div>');
+            .html(DropDownMenu.dropDownContent);
+
+        $("#dropDownLinksList")
+            .html(DropDownMenu.dropDownLinksList);
+
+        for(var i = 0; i < DropDownMenu.links.length; i++){
+            $('#' + DropDownMenu.links[i].id).html(DropDownMenu.links[i].string);
+        }
 
         $(window).resize(function() {
             $("#dropDownDialog").dialog("option", "position", { my: "left top", at: "left bottom", of: "#dropDownIcon" });

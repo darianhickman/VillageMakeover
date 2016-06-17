@@ -144,6 +144,18 @@ def get_worksheet(sheet_docid,worksheet_name):
     sheet = login().open_by_key(sheet_docid)
     return sheet.worksheet(worksheet_name).get_all_values()
 
+@memcached('dropdown_menu')
+def get_dropdown_menu():
+    sheet_config = get_config()
+    dropdown_menu_docid = sheet_config['dropdown_menu_docid']
+    data = get_sheet(dropdown_menu_docid)
+    headers = data[0]
+    items = []
+    for row in data[2:]:
+        if row and row[0]:
+            items.append(dict(zip(headers, row)))
+    return items
+
 @memcached('config_assets')
 def get_config_assets():
     conf = local_config['spreadsheet']

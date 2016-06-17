@@ -36,6 +36,7 @@ var igeClientConfig = {
 		'./GameAssets.js',
 		'./GameEarnings.js',
 		'./GameGoals.js',
+		'./DropDownMenu.js',
         './clientApiSupport.js',
         './clientBuy.js',
         './clientHelpers.js',

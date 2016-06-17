@@ -898,9 +898,9 @@ var Client = IgeClass.extend({
 			callback(false);
 		});
 
-        var combinedPromise = $.when(getGameCatalog(), getGameEarnings(), getGameGoals(), getGameAssets())
+        var combinedPromise = $.when(getGameCatalog(), getGameEarnings(), getGameGoals(), getGameAssets(), getDropDownMenu())
         // function will be called when getGameCatalog, getGameEarnings, getGameGoals and getGameAssets resolve
-        combinedPromise.done(function(gameCatalogData, gameEarningsData, gameGoalsData, gameAssetsData) {
+        combinedPromise.done(function(gameCatalogData, gameEarningsData, gameGoalsData, gameAssetsData, gameDropDownMenuData) {
             // Load game audio and textures
             for(var i=0; i<GameAssets.assets.length;i++){
                 if(GameAssets.assets[i].enabled === "FALSE")
