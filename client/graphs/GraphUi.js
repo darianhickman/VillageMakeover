@@ -170,7 +170,7 @@ var GraphUi = IgeSceneGraph.extend({
         });
 
         if(API.user.picture_url === 'no-picture'){
-            $("#loginPicture").attr("src", "assets/textures/ui/No_Image_Available_75.png");
+            $("#loginPicture").attr("src", DropDownMenu.offlinePictureURL);
         }
         else{
             $("#loginPicture").attr("src", API.user.picture_url);
