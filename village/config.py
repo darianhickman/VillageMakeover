@@ -53,7 +53,10 @@ def get_session():
     return session
 
 def get_sheet(docid):
-    return login().open_by_key(docid).sheet1.get_all_values()
+    try:
+        return login().open_by_key(docid).sheet1.get_all_values()
+    except Exception:
+        logging.error(['requested spreadsheet docid: ', docid])
 
 def copy_village_sheet(title):
     sheet_config = get_config()
@@ -141,8 +144,11 @@ def save_village_sheet(village_docid, data):
     return "success"
 
 def get_worksheet(sheet_docid,worksheet_name):
-    sheet = login().open_by_key(sheet_docid)
-    return sheet.worksheet(worksheet_name).get_all_values()
+    try:
+        sheet = login().open_by_key(sheet_docid)
+        return sheet.worksheet(worksheet_name).get_all_values()
+    except Exception:
+        logging.error(['requested spreadsheet docid: ', sheet_docid])
 
 @memcached('dropdown_menu')
 def get_dropdown_menu():
