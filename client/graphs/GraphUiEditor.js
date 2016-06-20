@@ -25,52 +25,16 @@ var GraphUiEditor = IgeSceneGraph.extend({
 
         GameObjects.setupEditor(editorDialog)
 
-        var quitButtonEditor = new IgeFontEntity()
-            .id('quitButtonEditor')
-            .text('Quit')
-            .colorOverlay('white')
-            .texture(ige.client.textures.pressStartFont)
-            .width(70)
-            .right(600)
-            .textAlignX(1)
-            .mount(topNav)
+        $('#editorTopNavBar').css('display','')
 
-        var saveButtonEditor = new IgeFontEntity()
-            .id('saveButtonEditor')
-            .text('Save')
-            .colorOverlay('white')
-            .texture(ige.client.textures.pressStartFont)
-            .width(70)
-            .right(450)
-            .textAlignX(1)
-            .mount(topNav)
-
-        var selectButtonEditor = new IgeFontEntity()
-            .id('selectButtonEditor')
-            .text('Select')
-            .colorOverlay('white')
-            .texture(ige.client.textures.pressStartFont)
-            .width(70)
-            .right(300)
-            .textAlignX(1)
-            .mount(topNav)
-
-        var deleteButtonEditor = new IgeFontEntity()
-            .id('deleteButtonEditor')
-            .text('Delete')
-            .colorOverlay('white')
-            .texture(ige.client.textures.pressStartFont)
-            .width(70)
-            .right(150)
-            .textAlignX(1)
-            .mount(topNav)
-
-        var buildButtonEditor = new IgeUiElement()
-			.id('buildButtonEditor')
-			.texture(self.textures.buildButton)
-			.dimensionsFromTexture()
-            .right(10)
-			.mount(topNav);
+        if($('#editorTopNavList').is(':empty')){
+            $('#editorTopNavList').append($('<li id="quitButtonEditor"/>').text('Quit'),
+                $('<li id="saveButtonEditor"/>').text('Save'),
+                $('<li id="selectButtonEditor"/>').text('Select'),
+                $('<li id="deleteButtonEditor"/>').text('Delete'),
+                $('<li id="buildButtonEditor"/>').text('Build')
+            )
+        }
 
 		this.addActions();
 
@@ -79,31 +43,31 @@ var GraphUiEditor = IgeSceneGraph.extend({
 	addActions: function () {
         var self = this;
 
-        ige.$('quitButtonEditor')
-            .mouseUp(function(){
+        $('#quitButtonEditor')
+            .click(function(){
                 ige.client.editorManager.gotoStep("closeEditor");
             })
 
-        ige.$('saveButtonEditor')
-            .mouseUp(function(){
+        $('#saveButtonEditor')
+            .click(function(){
                 ige.client.editorManager.saveVillageData();
             })
 
-        ige.$('selectButtonEditor')
-            .mouseUp(function(){
+        $('#selectButtonEditor')
+            .click(function(){
                 ige.client.fsm.enterState('editor');
             })
 
-        ige.$('deleteButtonEditor')
-            .mouseUp(function(){
+        $('#deleteButtonEditor')
+            .click(function(){
                 ige.client.fsm.enterState('editorDelete');
             })
 
-		ige.$('buildButtonEditor')
-            .mouseOver(function(){
+        $('#buildButtonEditor')
+            .mouseover(function(){
                 ige.client.audio.select.play();
             })
-			.mouseUp(function () {
+			.click(function () {
                 mixpanel.track("Open editor dialog");
                 ige.$('editorDialog').show();
 			});

@@ -452,6 +452,7 @@ var EditorManager = IgeEventingClass.extend({
             ige.client.data('moveItem', '');
         }
 
+        $('#editorTopNavBar').css('display','none')
         $("#dropDownIcon").show();
 
         history.replaceState({'villageID':API.user.key_id},"load_village",'?v='+API.user.key_id);
