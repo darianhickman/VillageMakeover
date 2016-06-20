@@ -612,7 +612,7 @@ var Client = IgeClass.extend({
                             .layer(2)
                             .textAlignX(0)
                             .colorOverlay('#ffffff')
-                            .nativeFont('12px Press Start 2P')
+                            .nativeFont('12px Verdana')
                             .textLineSpacing(0)
                             .text('-' + ige.client.cursorObjectData.coins)
                             .width(45)

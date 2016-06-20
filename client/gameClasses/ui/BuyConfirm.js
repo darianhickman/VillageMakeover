@@ -14,14 +14,14 @@ var BuyConfirm = Dialog.extend({
         this.label =
             new IgeFontEntity()
             .colorOverlay('black')
-            .nativeFont('22px Times New Roman')
+            .nativeFont('Verdana')
             .width(600)
             .mount(base)
             .text(message);
 
         new IgeFontEntity()
             .colorOverlay('black')
-            .nativeFont('25px Times New Roman')
+            .nativeFont('Verdana')
             .left(34).bottom(25).width(50)
             .mount(base)
             .text(GameConfig.config['yesString'])
@@ -33,7 +33,7 @@ var BuyConfirm = Dialog.extend({
 
         new IgeFontEntity()
             .colorOverlay('black')
-            .nativeFont('25px Times New Roman')
+            .nativeFont('Verdana')
             .right(30).bottom(25).width(50)
             .mount(base)
             .text(GameConfig.config['noString'])

@@ -50,7 +50,7 @@ var RewardMechanism = IgeEventingClass.extend({
 
     showVillageDashFont: function(mountTo, amount, anchorX, anchorY){
         var valueFontEntity = new IgeFontEntity()
-            .texture(ige.client.textures.villagedashFont)
+            .texture(ige.client.textures.pressStartFont)
             .text(amount)
             .width(200)
             .translateTo(anchorX,anchorY,0)

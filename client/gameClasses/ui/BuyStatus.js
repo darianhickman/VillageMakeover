@@ -12,7 +12,7 @@ var BuyStatus = Dialog.extend({
         this.label =
             new IgeFontEntity()
             .colorOverlay('white')
-            .nativeFont('30px Times New Roman')
+            .texture(ige.client.textures.pressStartFont)
             .width(300)
             .mount(base);
 

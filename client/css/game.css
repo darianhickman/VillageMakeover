@@ -15,7 +15,7 @@
 .ui-widget-header {
     border: none;
     background: none;
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Verdana', cursive;
     font-style: #fff;
     padding: 10px;
     font-size: 14px;
@@ -25,7 +25,7 @@
     background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
 }
 .ui-dialog {
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Verdana', cursive;
     font-style: #fff;
 
     background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
@@ -37,7 +37,7 @@
     margin: 0;
 }
 .ui-dialog .ui-dialog-content ul li {
-    font-family: 'Press Start 2P', cursive;
+    font-family: 'Verdana', cursive;
     font-style: #fff;
 
     font-size: 14px;

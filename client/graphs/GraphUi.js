@@ -62,7 +62,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.mount(cashBar);
 
         cashProgress.render = function(ctx){
-            ctx.font = '11px Verdana';
+            ctx.font = '13px Verdana';
             IgeUiProgressBar.prototype.render.call(this,ctx);
         }
 
@@ -93,7 +93,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.mount(coinsBar);
 
         coinsProgress.render = function(ctx){
-            ctx.font = '11px Verdana';
+            ctx.font = '13px Verdana';
             IgeUiProgressBar.prototype.render.call(this,ctx);
         }
 
@@ -210,7 +210,7 @@ var GraphUi = IgeSceneGraph.extend({
         var goalButtonFontEntity = new IgeFontEntity()
             .id('goalButtonFontEntity')
             .colorOverlay('black')
-            .nativeFont('23px Times New Roman')
+            .texture(ige.client.textures.pressStartFont)
             .backgroundColor('#D3D3D3')
             .borderColor('#FFFFFF')
             .borderWidth(2)

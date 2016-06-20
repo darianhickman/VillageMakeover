@@ -154,7 +154,7 @@ var Tutorial = IgeEventingClass.extend({
 
         self.skipButton = new IgeFontEntity()
             .colorOverlay('white')
-            .nativeFont('24px Times New Roman')
+            .texture(ige.client.textures.pressStartFont)
             .width(180)
             .height(50)
             .right(10)
@@ -523,7 +523,7 @@ var Tutorial = IgeEventingClass.extend({
 
                 self.dummyMoneyButton.fontEntity = new IgeFontEntity()
                     .colorOverlay('white')
-                    .nativeFont('15px Times New Roman')
+                    .texture(ige.client.textures.pressStartFont)
                     .width(400)
                     .height(50)
                     .translateTo(50,80,0)
@@ -601,7 +601,7 @@ var Tutorial = IgeEventingClass.extend({
 
                 self.dummyCoinsButton.fontEntity = new IgeFontEntity()
                     .colorOverlay('black')
-                    .nativeFont('15px Times New Roman')
+                    .texture(ige.client.textures.pressStartFont)
                     .width(400)
                     .height(50)
                     .translateTo(50,-80,0)
