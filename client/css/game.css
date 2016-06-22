@@ -39,11 +39,15 @@
 .ui-dialog .ui-dialog-content ul li {
     font-family: 'Verdana', cursive;
     font-style: #fff;
-
+    cursor: pointer;
     font-size: 14px;
     padding: 10px;
     border-bottom: 1px solid #ddd;
     background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
+}
+.ui-dialog .ui-dialog-content ul li:hover
+{
+    color:#fff;
 }
 .ui-dialog-no-titlebar .ui-dialog-titlebar {
     display: none;
@@ -63,4 +67,8 @@
     border: 2px solid;
     border-radius: 5px;
     background-color: green;
+}
+
+#objectClickContent{
+    text-align: center;
 }
