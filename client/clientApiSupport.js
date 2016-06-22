@@ -193,6 +193,11 @@ var API = {
         API.saveState()
     },
 
+    saveObjectState: function(obj, state) {
+        API.stateObjectsLookup[obj.id()].currentState = state
+        API.saveState()
+    },
+
     setTutorialAsShown: function() {
         console.log("tutorial is shown")
         API.state.isTutorialShown = true

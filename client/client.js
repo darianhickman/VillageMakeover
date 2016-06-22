@@ -35,12 +35,31 @@ var Client = IgeClass.extend({
                             item = ige.client.itemAt('tileMap1',tile.x, tile.y);
 
                         if (item) {
-                            if(item.type === "Crop" && API.stateObjectsLookup[item.id()].buildCompleted){
-                                ige.client.eventEmitter.emit('harvest', {"id":item.classId(), "type":item.type, "positionX" : item.screenPosition().x, "positionY" : (item.screenPosition().y - 30)});
-                                item._buildStarted = Date.now();
-                                API.resetBuildTimes(item, item._buildStarted);
-                                item.place();
-                            }else{
+                            $( "#objectClickDialogPositionItem" ).css("position","fixed");
+                            $( "#objectClickDialogPositionItem" ).css("top",item.screenPosition().y);
+                            $( "#objectClickDialogPositionItem" ).css("left",item.screenPosition().x);
+
+                            $( "#objectClickDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar',
+                                position: { my: "center", at: "center", of: "#objectClickDialogPositionItem" },
+                                closeOnEscape: false, width: 'auto', height: 'auto', modal: false, autoOpen: false });
+
+                            $( "#objectClickDialog" ).dialog( "open" );
+                            $( "#objectClickDialog" ).css("min-height","");
+
+                            $( "#objectClickContent" ).html( ' <li id="moveObjectButton">Move Object</li> ' );
+
+                            if(item.specialEvent !== "None" && API.stateObjectsLookup[item.id()].buildCompleted){
+                                $( "#objectClickContent" ).append( ' <li id="specialEventButton">' + item.specialEventDisplayName + '</li> ' );
+                            }
+
+                            if(!API.stateObjectsLookup[item.id()].buildCompleted){
+                                $( "#objectClickContent" ).append( ' <li id="speedProgressButton">Speed Progress</li> ' );
+                            }
+
+                            $( "#objectClickContent" ).append( ' <li id="cancelObjectClickButton">Cancel</li> ' );
+
+                            $('#moveObjectButton').on('click', function(){
+                                $( "#objectClickDialog" ).dialog( "close" );
                                 // The user clicked on a building so set this as the
                                 // building we are moving.
                                 ige.client.data('moveItem', item);
@@ -57,7 +76,26 @@ var Client = IgeClass.extend({
                                 ige.$('outlineEntity').translateToTile(item.data('tileX'), item.data('tileY'));
 
                                 ige.client.showGrid('tileMap1');
-                            }
+                            });
+
+                            $('#specialEventButton').on('click', function(){
+                                $( "#objectClickDialog" ).dialog( "close" );
+                                ige.client.eventEmitter.emit(item.specialEvent, {"id":item.classId(), "type":item.type, "positionX" : item.screenPosition().x, "positionY" : (item.screenPosition().y - 30)});
+                                item._buildStarted = Date.now();
+                                API.resetBuildTimes(item, item._buildStarted);
+                                item.currentState = "waitingSpecialEvent";
+                                API.saveObjectState(item, item.currentState);
+                                item.place();
+                            });
+
+                            $('#speedProgressButton').on('click', function(){
+                                item.speedProgress();
+                                $( "#objectClickDialog" ).dialog( "close" );
+                            });
+
+                            $('#cancelObjectClickButton').on('click', function(){
+                                $( "#objectClickDialog" ).dialog( "close" );
+                            });
                         }else {
                             ige.$('bob').walkToTile(tile.x, tile.y);
                         }
@@ -571,7 +609,8 @@ var Client = IgeClass.extend({
 						w: objectTileWidth,
 						h: objectTileHeight,
                         name: cursorClassId,
-                        buildStarted: Date.now()
+                        buildStarted: Date.now(),
+                        currentState: "building"
                     }
 
                     ige.client.cursorObject._buildStarted = objinfo.buildStarted;
@@ -592,6 +631,7 @@ var Client = IgeClass.extend({
 						).start();
 
 					// Set initial state of object by calling the place() method
+                    ige.client.cursorObject.currentState = "building"
 					ige.client.cursorObject.place();
 
                     //we don't need a coin animation and particle effect for zero coin

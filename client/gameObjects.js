@@ -80,6 +80,13 @@ var GameObjects = {
                 this.mouseOverText = options.description;
                 this.buildTime = options.buildTime;
                 this.buildTimeMilliseconds = convertTimeFormatToMilliseconds(this.buildTime);
+                this.buildTimeSpeedValue = parseInt(options.buildTimeSpeedValue);
+                this.specialEvent = options.specialEvent;
+                this.specialEventDisplayName = options.specialEventDisplayName;
+                this.specialEventTime = options.specialEventTime;
+                this.specialEventTimeMilliseconds = convertTimeFormatToMilliseconds(this.specialEventTime);
+                this.specialEventStartCell = parseInt(options.specialEventStartCell);
+                this.specialEventSpeedValue = parseInt(options.specialEventSpeedValue);
 
                 this.mouseOver(function(){
                     if(ige.client.fsm.currentStateName() === "select" && !ige.client.data('moveItem')){
@@ -156,9 +163,9 @@ var GameObjects = {
                         remainingDays,
                         progressText = '';
 
-                    progress = Math.floor((100 / this.buildTimeMilliseconds) * (Date.now() - this._buildStarted));
+                    progress = Math.floor((100 / this.getCurrentStateFinishTime()) * (Date.now() - this._buildStarted));
 
-                    remainingMilliseconds = this.buildTimeMilliseconds - (Date.now() - this._buildStarted)
+                    remainingMilliseconds = this.getCurrentStateFinishTime() - (Date.now() - this._buildStarted)
 
                     remainingDays = Math.floor(remainingMilliseconds / 864e5);
                     remainingHours = Math.floor((remainingMilliseconds % 864e5) / 36e5);
@@ -195,19 +202,82 @@ var GameObjects = {
                     this._buildProgressTime.text(progressText);
 
                     if(progress >= 100) {
-                        API.saveObjectBuiltDate(this, Date.now())
-                        ige.client.eventEmitter.emit('buildCompleted', {"id":classId, "type":this.type})
-                        this._buildProgressBar.destroy()
-                        this._buildProgressBar = null
-                        this._buildProgressTime.destroy()
-                        this._buildProgressTime = null
-                        this.cell(options.cell)
+                        this.finishProgress();
                     } else {
-                        var cellno = Math.ceil(progress / 100 * (options.cell - 1))
+                        var cellno = this.getCurrentStateCellNo(progress);
+                        //console.log(cellno)
                         if(cellno == 0) cellno = 1
                         this.cell(cellno)
                     }
                 }
+            },
+
+            getCurrentStateFinishTime: function(){
+                switch(this.currentState){
+                    case 'building':
+                        return this.buildTimeMilliseconds;
+                    case 'waitingSpecialEvent':
+                        return this.specialEventTimeMilliseconds;
+                }
+            },
+
+            getCurrentStateCellNo: function(progress){
+                switch(this.currentState){
+                    case 'building':
+                        return Math.ceil(progress / 100 * (options.cell - 1));
+                    case 'waitingSpecialEvent':
+                        return Math.floor(progress / 100 * (options.cell - this.specialEventStartCell)) + this.specialEventStartCell;
+                }
+            },
+
+            getCurrentStateSpeedValue: function(progress){
+                switch(this.currentState){
+                    case 'building':
+                        return this.buildTimeSpeedValue;
+                    case 'waitingSpecialEvent':
+                        return this.specialEventSpeedValue;
+                }
+            },
+
+            finishProgress: function(){
+                API.saveObjectBuiltDate(this, Date.now())
+                if(this.currentState === "building")
+                    ige.client.eventEmitter.emit('buildCompleted', {"id":classId, "type":this.type})
+                this.currentState = "ready";
+                API.saveObjectState(this, this.currentState);
+                this._buildProgressBar.destroy()
+                this._buildProgressBar = null
+                this._buildProgressTime.destroy()
+                this._buildProgressTime = null
+                this.cell(options.cell)
+            },
+
+            speedProgress: function(){
+                var message, callback, price = {coins:0}, self = this;
+
+                price.cash = this.getCurrentStateSpeedValue();
+
+                //show are you sure and reduce assets
+                message  = 'Speed progress for ' + price.cash + ' villagebucks?';
+
+                callBack = function() {
+                    if(!API.reduceAssets(
+                            {coins: parseInt(price.coins, 10),
+                                cash: parseInt(price.cash, 10)})) {
+                        // Not enough money?
+                        mixpanel.track("Not enough money");
+                        ige.$('cashDialog').show();
+                        return;
+                    }
+                    self.finishProgress();
+                }
+
+                var cashDialog = new BuyConfirm(message,callBack)
+                    .layer(1)
+                    .show()
+                    .mount(ige.$('uiScene'));
+
+
             }
         });
     }

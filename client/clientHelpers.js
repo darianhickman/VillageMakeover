@@ -12,6 +12,7 @@ var ClientHelpers = {
         console.log("add object", data.name)
         var obj = new ige.newClassInstance(data.name)
         obj.id(data.id)
+        obj.currentState = data.currentState;
 	    obj.mount(ige.$(tileMap))
         console.log("create", data, obj)
         obj.occupyTile(
