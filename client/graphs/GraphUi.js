@@ -151,7 +151,7 @@ var GraphUi = IgeSceneGraph.extend({
             position: { my: "left top", at: "left bottom", of: "#dropDownIcon" },
             open: function(event, ui) {
                 $(this).dialog('widget').find('div.ui-dialog-titlebar').css('padding','4px');
-                $(this).css('height','184px');
+                $(this).css('height','auto');
             }
         });
 
