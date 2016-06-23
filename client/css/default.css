@@ -17,38 +17,47 @@ body {
     background-size: 100%;
     background-repeat: no-repeat;
 }
-.loadingFloat {
-    padding:20px;
-    position: absolute;
-    left: 50%;
-    top: 48%;
-    background: rgba(34,34,34,0.50);
-    width:220px;
-    filter: blur(10px);
-    margin-left: -35px;
-    margin-top: -35px;
+
+
+ul li{
+        list-style-type: none;
+        margin: 0 auto;
+        padding: 5px;
 }
+
+.loadingFloat {
+    /* margin: 10px; */
+    padding: 20px;
+    border-radius: 15px;
+    position: absolute;
+    left: 40%;
+    top: 25%;
+    background: rgba(34,34,34,0.80);
+    /* width: 280px; */
+    filter: blur(10px);
+    /* margin-left: -35px; */
+    /* margin-top: -35px; */
+}
+
 .loadingTitle {
-    position: relative;
     font-family: 'Verdana', cursive;
     color:#fff;
     font-size: 28px;
-    font-style: #fff;
- 
-    width: 200px;
-    height: 90px;
 
 }
 
 .loadingLogo {
-    position: relative;
     width: 55px;
     height: 55px;
-    left: 5px;
-    top: 5px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 30px;
     background-image: url(/client/assets/textures/ui/loadinglogo.png);
 }
 .loadingCircle {
+    left:-15px;
+    top:-10px;
+    position: relative;
     background-color: rgba(0, 0, 0, 0);
     border: 5px solid rgba(0, 183, 229, 0.9);
     opacity: .9;
@@ -56,15 +65,16 @@ body {
     border-left: 5px solid rgba(0, 0, 0, 0);
     border-radius: 50px;
     box-shadow: 0 0 205px #2187e7;
-    width: 70px;
-    height: 70px;
-    margin: 0 auto;
-    position: relative;
-    top: -60px;
+    width: 80px;
+    height: 80px;
+    /* position: relative; */
     -moz-animation: spinPulse 2s infinite ease-in-out;
     -webkit-animation: spinPulse 2s infinite linear;
 }
 .loadingCircleInner {
+    position: relative;
+    left:-8px;
+    top:-93px;
     background-color: rgba(0, 0, 0, 0);
     border: 5px solid rgba(0, 183, 229, 0.9);
     opacity: .9;
@@ -72,27 +82,25 @@ body {
     border-right: 5px solid rgba(0, 0, 0, 0);
     border-radius: 50px;
     box-shadow: 0 0 35px #2187e7;
-    width: 55px;
-    height: 55px;
-    margin: 0 auto;
-    position: relative;
-    top: -132px;
-    left: 0px;
+    width: 65px;
+    height: 65px;
+    /* margin: 0 auto; */
+    /* position: relative; */
+    /* top: -132px; */
+    /* left: 0px; */
     -moz-animation: spinoffPulse 1s infinite linear;
     -webkit-animation: spinoffPulse 1s infinite linear;
 }
 .loadingText {
-    top: 90px;
     color: white;
     font-family: 'Verdana', cursive;
     font-size: 14px;
     text-align: center;
-    width: 250px;
     font-variant: small-caps;
     -moz-animation: fadePulse 1s infinite linear;
     -webkit-animation: fadePulse 1s infinite linear;
-    left: -85px;
 }
+
 #loadingProgress {
     width: 200px;
     height: 7px;
