@@ -13,14 +13,22 @@ var GameLogic = IgeObject.extend({
             var item = API.state.objects[i],
                 options = GameObjects.catalogLookup[item.name]
 
-            if(options.enabled && marketDialog.getItemByID(item.name) === null)
-                self.addItemToMarketDialog(options);
+            if(options.enabled)
+                self.unlockMarketDialogItem(marketDialog.getItemByID(item.name));
 
-            if(options.unlocks !== "none" && marketDialog.getItemByID(options.unlocks) === null){
+            if(options.unlocks !== "none"){
                 var unlockedOptions = GameObjects.catalogLookup[options.unlocks]
                 if(unlockedOptions.enabled)
-                    self.addItemToMarketDialog(unlockedOptions);
+                    self.unlockMarketDialogItem(marketDialog.getItemByID(options.unlocks));
             }
+        }
+
+        //add unlocked market items based on unlockedItems in user state
+        for(var i in API.state.unlockedItems){
+            var itemID = API.state.unlockedItems[i];
+            var itemData = marketDialog.getItemByID(itemID);
+
+            this.unlockMarketDialogItem(itemData);
         }
 
         self.goals = new Goals()
@@ -111,37 +119,20 @@ var GameLogic = IgeObject.extend({
 
         //on item build unlock new item
         ige.client.eventEmitter.on('build', function(data){
-            if(data.unlocks !== "none" && marketDialog.getItemByID(data.unlocks) === null){
+            if(data.unlocks !== "none" && API.getUnlockedItem(data.unlocks) === null){
                 var options = GameObjects.catalogLookup[data.unlocks]
-                if(options.enabled)
-                    self.addItemToMarketDialog(options);
+                if(options.enabled && options.dependency !== "none"){
+                    self.unlockMarketDialogItem(marketDialog.getItemByID(data.unlocks));
+                    marketDialog.showUnlockMessage(options.name);
+                }
             }
         })
     },
 
-    //add unlocked item to market dialog
-    addItemToMarketDialog: function(options){
-        var marketDialog = ige.$('marketDialog'),
-            pageIndex = 0;
+    unlockMarketDialogItem: function(itemData){
+        var marketDialog = ige.$('marketDialog');
 
-        //check for page availability, if not create new page
-        while (marketDialog._pageItems[pageIndex] && marketDialog._pageItems[pageIndex].length === 6) {
-            pageIndex++;
-        }
-        if(!marketDialog._pages[pageIndex])
-            marketDialog.createSinglePage();
-
-        //add item to market dialog
-        marketDialog.addItem({
-            'id': options.id,
-            'classId': options.id,
-            'title': options.name,
-            'texture': ige.client.textures[options.id],
-            'coins': options.coins,
-            'cash': options.cash,
-            'cell': options.cell,
-            'scale': options.scale,
-            'scaleValue': options.scaleValue
-        });
+        marketDialog.removeItemCover(itemData);
+        API.addUnlockedItem(itemData.id);
     }
 })

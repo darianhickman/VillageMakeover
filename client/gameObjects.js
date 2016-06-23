@@ -41,7 +41,7 @@ var GameObjects = {
     createGameObjectClass: function(classId, options) {
         GameObjects.gameObjectTextures[classId] = [options.textureUrl, options.cellCount || 1]
 
-        if(options.enabled && options.dependency === "none") GameObjects._marketCallbacks.push(function(marketDialog) {
+        if(options.enabled) GameObjects._marketCallbacks.push(function(marketDialog) {
             marketDialog.addItem({
 			    'id': classId,
 			    'classId': classId,
@@ -51,7 +51,9 @@ var GameObjects = {
 			    'cash': options.cash,
 			    'cell': options.cell,
 			    'scale': options.scale,
-			    'scaleValue': options.scaleValue
+			    'scaleValue': options.scaleValue,
+                'dependency': options.dependency,
+                'unlockValue': parseInt(options.unlockValue)
 		    });
         })
 
@@ -77,6 +79,7 @@ var GameObjects = {
                 this.yTiles = parseInt(options.yTiles);
                 this.dependency = options.dependency;
                 this.unlocks = options.unlocks;
+                this.unlockValue = parseInt(options.unlockValue);
                 this.mouseOverText = options.description;
                 this.buildTime = options.buildTime;
                 this.buildTimeMilliseconds = convertTimeFormatToMilliseconds(this.buildTime);

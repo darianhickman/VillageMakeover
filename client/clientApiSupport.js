@@ -235,6 +235,24 @@ var API = {
         API.saveState()
     },
 
+    addUnlockedItem: function(itemID){
+        API.state.unlockedItems = API.state.unlockedItems || [];
+        if(API.state.unlockedItems.indexOf(itemID) === -1){
+            mixpanel.track("Add unlocked item to state");
+            API.state.unlockedItems.push(itemID);
+            API.saveState()
+        }
+    },
+
+    getUnlockedItem: function(itemID){
+        API.state.unlockedItems = API.state.unlockedItems || [];
+        var index = API.state.unlockedItems.indexOf(itemID);
+        if(index === -1)
+            return null;
+        else
+            return API.state.unlockedItems[index];
+    },
+
     state: {coins: parseInt(GameConfig.config['startCoins']), cash: parseInt(GameConfig.config['startCash']) },
     stateObjectsLookup: {},
     stateGoalsLookup: {},

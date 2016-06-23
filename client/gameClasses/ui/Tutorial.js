@@ -316,6 +316,7 @@ var Tutorial = IgeEventingClass.extend({
 
                 objinfo = {
                     id: ige.newIdHex(),
+                    classID: catalogItem.id,
                     x: self.items['item'+self.currentBuildStep].mapX,
                     y: self.items['item'+self.currentBuildStep].mapY,
                     w: objectTileWidth,
@@ -692,6 +693,7 @@ var Tutorial = IgeEventingClass.extend({
 
             objinfo = {
                 id: ige.newIdHex(),
+                classID: GameConfig.config['tutorialItem3'],
                 x: self.items['item3'].mapX + offsetX,
                 y: self.items['item3'].mapY + offsetY,
                 w: objectTileWidth,
@@ -724,6 +726,7 @@ var Tutorial = IgeEventingClass.extend({
 
             objinfo = {
                 id: ige.newIdHex(),
+                classID: GameConfig.config['tutorialItem2'],
                 x: self.items['item2'].mapX + offsetX,
                 y: self.items['item2'].mapY,
                 w: objectTileWidth,

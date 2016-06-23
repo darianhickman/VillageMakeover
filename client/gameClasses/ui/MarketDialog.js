@@ -197,6 +197,52 @@ var MarketDialog = Dialog.extend({
 			itemPic.height(60, true);
 		}
 
+		if(itemData.dependency !== "none"){
+			var itemCoverEnt = new IgeUiElement()
+				.texture(ige.client.textures.marketItemBack)
+				.dimensionsFromTexture()
+				.layer(100)
+				.top(0)
+				.left(0)
+				.opacity(0.8)
+				.mount(itemEnt);
+
+			new IgeFontEntity()
+				.layer(102)
+				.textAlignX(1)
+				.colorOverlay('#000000')
+				.nativeFont('14px Verdana')
+				.nativeStroke(0.5)
+				.nativeStrokeColor('#666666')
+				.textLineSpacing(0)
+				.text('LOCKED')
+				.top(45)
+				.left(0)
+				.right(0)
+				.height(20)
+				.mount(itemCoverEnt);
+
+			new IgeFontEntity()
+				.layer(102)
+				.textAlignX(1)
+				.colorOverlay('#000000')
+				.nativeFont('14px Verdana')
+				.nativeStroke(1)
+				.nativeStrokeColor('#000')
+				.textLineSpacing(0)
+				.text('Unlock')
+				.top(75)
+				.left(0)
+				.right(0)
+				.height(20)
+				.mouseUp(function(){
+					self.unlockItemByCash(itemData);
+				})
+				.mount(itemCoverEnt);
+
+			itemData.coverEntity = itemCoverEnt;
+		}
+
 		itemData.entity = itemEnt;
 
 		this._items.push(itemData);
@@ -266,6 +312,46 @@ var MarketDialog = Dialog.extend({
 		});
 
 		return itemEnt;
+	},
+
+	unlockItemByCash: function(itemData){
+		var message, callback, price = {coins:0}, self = this;
+
+		price.cash = itemData.unlockValue;
+
+		//show are you sure and reduce assets
+		message  = 'Unlock ' + itemData.title + ' for ' + price.cash + ' villagebucks?';
+
+		callBack = function() {
+			if(!API.reduceAssets(
+					{coins: parseInt(price.coins, 10),
+						cash: parseInt(price.cash, 10)})) {
+				// Not enough money?
+				mixpanel.track("Not enough money");
+				ige.$('cashDialog').show();
+				self.hide();
+				return;
+			}
+			self.removeItemCover(itemData);
+			self.showUnlockMessage(itemData.title);
+			API.addUnlockedItem(itemData.id);
+		}
+
+		var cashDialog = new BuyConfirm(message,callBack)
+			.layer(100)
+			.show()
+			.mount(ige.$('uiScene'));
+	},
+
+	removeItemCover:function(itemData){
+		if(itemData.coverEntity){
+			itemData.coverEntity.destroy();
+			itemData.coverEntity = null;
+		}
+	},
+
+	showUnlockMessage: function(itemName){
+		ClientHelpers.showMessage(itemName + ' is unlocked!');
 	},
 
 	getItemByID: function(id){

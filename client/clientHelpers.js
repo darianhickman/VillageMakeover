@@ -53,5 +53,23 @@ var ClientHelpers = {
 			// Move our player away from the tile
 			ige.$('bob').walkToTile(playerTile.x + 1, playerTile.y - 1);
 		}
+    },
+
+    showMessage: function(message){
+        if(this.messageTimeout){
+            this.messageTimeout.cancel();
+            this.messageTimeout = null;
+        }
+        ige.$('messageFontEntity').text(message)
+            .opacity(1)
+            .show()
+            .translateTo(ige.$('uiScene')._renderPos.x + 270, ige.$('uiScene')._renderPos.y + 150, 0)
+            ._translate.tween()
+            .stepTo({
+                y: (ige.$('uiScene')._renderPos.y + 80)
+            },500,'inOutSine')
+            .start();
+
+        this.messageTimeout = new IgeTimeout(function () { ige.$('messageFontEntity').hide(); }, 3 * 1000);
     }
 }

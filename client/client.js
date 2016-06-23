@@ -1120,6 +1120,7 @@ var Client = IgeClass.extend({
                 ClientHelpers.addObject(tutorialObjects[i],"tileMap1")
                 ClientHelpers.moveOutPlayer()
                 API.createObject(tutorialObjects[i])
+                API.addUnlockedItem(tutorialObjects[i].classID);
             }
         }
     },
