@@ -330,14 +330,13 @@ var GraphUi = IgeSceneGraph.extend({
         })
 
         $('#shareMyVillageLink').on('click',function(){
-            $( "#shareMyVillageDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+            $( "#shareMyVillageDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
             $( "#shareMyVillageDialog" ).dialog( "open" );
 
             $( "#shareMyVillageContent" )
                 .html( '<div style="padding-top:45px"><p>Share My Village:</p><div><textarea id="shareMyVillageTextArea" style="width:428px;"></textarea>' +
                 '<div id="shareMyVillageErrorField" class="ui-state-error" style="display:none;font-size:14px;">Your browser doesn\'t support copying. Please copy manually</div>' +
-                '<button id="copyMyVillageClipboardButton">Copy to Clipboard</button></div>' +
-                '<p><button id="cancelShareMyVillageButton">Close</button></p></div>' );
+                '<button id="copyMyVillageClipboardButton">Copy to Clipboard</button></div></div>' );
 
             var url = window.location.href;
             var arr = url.split("/");
@@ -359,10 +358,6 @@ var GraphUi = IgeSceneGraph.extend({
                     console.log('Oops, unable to copy');
                     $('#shareMyVillageErrorField').css('display','')
                 }
-            });
-
-            $('#cancelShareMyVillageButton').on('click', function(){
-                $( "#shareMyVillageDialog" ).dialog( "close" );
             });
         })
 
