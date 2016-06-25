@@ -12,4 +12,4 @@ if [ "$APPCFG" = "" ]; then
 fi
 
 ./synclibs.sh
-$APPCFG update --application=villagegamedev2 --no_cookies --oauth2 . 2>&1 | grep -v 'Cannot upload both <filename>\.py and <filename>\.pyc' | grep -v 'Could not guess mimetype for'
+$APPCFG update --application=villagegamedev2 --oauth2 . 2>&1 | grep -v 'Cannot upload both <filename>\.py and <filename>\.pyc' | grep -v 'Could not guess mimetype for'
