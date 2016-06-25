@@ -72,3 +72,10 @@
 #objectClickContent{
     text-align: center;
 }
+
+.goalTaskImage{
+    margin-top: -7px;
+    margin-left: 8px;
+    height: 30px; /*this should be a px value for calculation reasons*/
+    position: absolute;
+}

@@ -72,7 +72,7 @@ var Goals = IgeEventingClass.extend({
             if(goalStateLookup[tasksArray[i]])
                 percent = Math.floor(goalStateLookup[tasksArray[i]].value * 100 / task.Task_Value)
 
-            gameGoalObj.tasks.push({"taskID":tasksArray[i],"title":task.Title,"percent":percent})
+            gameGoalObj.tasks.push({"taskID":tasksArray[i],"targetOBJ":task.Target_Object,"title":task.Title,"percent":percent})
 
             if(goalStateLookup[tasksArray[i]] && goalStateLookup[tasksArray[i]].value === parseInt(task.Task_Value))
                 continue;
