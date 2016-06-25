@@ -7,6 +7,7 @@
 /.venv
 /client/deploy
 /.idea
+/client/index_deploy.csstest.html
 **/.DS_Store
-update_prod.sh`
+update_prod.sh
 villagegamedev2_deploy.sh
