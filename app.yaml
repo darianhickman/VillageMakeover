@@ -47,3 +47,4 @@ skip_files:
 - (.*).pack$
 - \(
 - ^ige/
+- (.*)/.DS_Store
