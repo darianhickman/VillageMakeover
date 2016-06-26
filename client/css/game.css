@@ -4,6 +4,7 @@ background-color: #8EAEEE;
 
 #topToolbar {
 	position:absolute;
+	overflow: hidden;
 	width:100%;
 	top: 2%;
 	list-style-type: none;
@@ -22,15 +23,24 @@ margin:		inherit;
 */
 
 #topToolbar li {
+	opacity: .9;
 border: 2px solid white;
 background-color: white;
 display: inline-block;
+margin:16px;
 cursor: pointer;
 border-radius: 5px;
 box-shadow: 2px 2px 5px #000;
 }
 
+#topToolbar li:hover{
+	opacity: 1;
+	/* width:1.1em;  weird jitter */ 
+	/* height: 1.1em; weird formatting */
+
+}
 .igeButton {
+	float:right; /* not sure why but this line fixes issues with white border */
 background-image: url('/client/assets/textures/ui/beigefade.png');
 background-repeat: no-repeat;
 background-size: 100% 100%;
@@ -39,12 +49,13 @@ border-radius: 5px;
 
 width:25px;
 height: 25px;
-float:right;
 }
 
 #dropDownIcon{
-float:right;
+	position: relative;
+	right: 0px;
 }
+
 .ui-dialog .ui-dialog-titlebar {
 padding: 10px;
 }
