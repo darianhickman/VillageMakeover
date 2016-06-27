@@ -396,9 +396,6 @@ var Client = IgeClass.extend({
                 ige.$('level1').hide();
                 ige.addGraph('GraphTutorial');
 
-                $("#topToolbar").children().hide();
-                $("#topToolbar").children().children().hide();
-
                 /* $("#dropDownIcon").hide();
                 $("#fullscreenIcon").hide();
                 */
