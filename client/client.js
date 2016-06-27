@@ -396,8 +396,12 @@ var Client = IgeClass.extend({
                 ige.$('level1').hide();
                 ige.addGraph('GraphTutorial');
 
-                $("#dropDownIcon").hide();
+                $("#topToolbar").children().hide();
+                $("#topToolbar").children().children().hide();
+
+                /* $("#dropDownIcon").hide();
                 $("#fullscreenIcon").hide();
+                */
 
                 self.tutorial = new Tutorial();
                 self.tutorial.gotoStep('initialStep');
@@ -408,9 +412,12 @@ var Client = IgeClass.extend({
                 ige.$('level1').show();
                 ige.removeGraph('GraphTutorial');
 
+
+                $("topToolbar").children().show();
+                /*
                 $("#dropDownIcon").show();
                 $("#fullscreenIcon").show();
-
+                */
                 self.tutorial = null;
 
                 self.eventEmitter = self.eventEmitter || new EventEmitter()

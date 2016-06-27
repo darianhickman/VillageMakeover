@@ -1,150 +1,129 @@
 #igeFrontBuffer {
-background-color: #8EAEEE;
+    background-color: #8EAEEE;
 }
-
 #topToolbar {
-	position:absolute;
-	overflow: hidden;
-	width: 500px;
-	top: 2%;
-	list-style-type: none;
-	padding:0;
-	margin:0;
-	margin-left: 370px;
-	margin-right: 50px;
+    position: absolute;
+    overflow: hidden;
+    width: 500px;
+    top: 2%;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    margin-left: 370px;
+    margin-right: 50px;
 }
-
-/*
-#topToolbar *{
-height:		100%;
-padding:	inherit;
-margin:		inherit;
-}
-*/
 
 #topToolbar li {
-	opacity: .9;
-border: 2px solid white;
-background-color: white;
-display: inline-block;
-margin:16px;
-cursor: pointer;
-border-radius: 5px;
-box-shadow: 2px 2px 5px #000;
+    opacity: .9;
+    border: 2px solid white;
+    background-color: white;
+    display: inline-block;
+    margin: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px #000;
 }
+#topToolbar li:hover {
+    opacity: 1; 
+    /* width:1.1em;  weird jitter */
 
-#topToolbar li:hover{
-	opacity: 1;
-
-	/* width:1.1em;  weird jitter */ 
-	/* height: 1.1em; weird formatting */
-
+    /* height: 1.1em; weird formatting */
 }
-.igeButton {
-	float:right; /* not sure why but this line fixes issues with white border */
-background-image: url('/client/assets/textures/ui/beigefade.png');
-background-repeat: no-repeat;
-background-size: 100% 100%;
-border:2px solid #99ccff;
-border-radius: 5px;
-
-width:25px;
-height: 25px;
+#topToolbar img {
+    float: right;  /* not sure why but this line fixes issues with white border */
+    background-image: url('/client/assets/textures/ui/beigefade.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border: 2px solid #99ccff;
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
 }
-
-#dropDownIcon{
-	position: relative;
-	right: 0px;
+#dropDownIcon {
+    position: relative;
+    right: 0px;
 }
-
 .ui-dialog .ui-dialog-titlebar {
-padding: 10px;
+    padding: 10px;
 }
 .ui-widget-header {
-border: none;
-background: none;
-font-family: 'Verdana', cursive;
-font-style: #fff;
-padding: 10px;
-font-size: 14px;
+    border: none;
+    background: none;
+    font-family: 'Verdana', cursive;
+    font-style: #fff;
+    padding: 10px;
+    font-size: 14px;
 }
 .ui-dialog .ui-dialog-content {
-padding: 0;
-background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
+    padding: 0;
+    background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
 }
 .ui-dialog {
-font-family: 'Verdana', cursive;
-font-style: #fff;
-background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
-background-color: #0c0;
+    font-family: 'Verdana', cursive;
+    font-style: #fff;
+    background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
+    background-color: #0c0;
 }
 .ui-dialog .ui-dialog-content ul {
-list-style-type: none;
-padding: 0;
-margin: 0;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 .ui-dialog .ui-dialog-content ul li {
-font-family: 'Verdana', cursive;
-font-style: #fff;
-cursor: pointer;
-font-size: 14px;
-padding: 10px;
-border-bottom: 1px solid #ddd;
-background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
+    font-family: 'Verdana', cursive;
+    font-style: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
 }
-
-.ui-dialog .ui-dialog-content ul li:hover
-{
-  color:#cc0000;
-  
+.ui-dialog .ui-dialog-content ul li:hover {
+    color: #cc0000;
 }
-
 .ui-dialog-no-titlebar .ui-dialog-titlebar {
-display: none;
+    display: none;
 }
-
 .ui-dialog-titlebar-close {
-	/* background-image: url('/client/assets/textures/ui/close.png'); */
-	background-color: red;
-	background-size: 100%;
-	width:15px;
 
+    /* background-image: url('/client/assets/textures/ui/close.png'); */
+    background-color: red;
+    background-size: 100%;
+    width: 15px;
 }
 .ui-dialog-titlebar-close:hover {
-	background-color: red;
+    background-color: red;
 }
-.ui-icon-closethick{
-	color: white;
+.ui-icon-closethick {
+    color: white;
 }
 .ui-icon-closethick:hover {
-	background-color: red;
+    background-color: red;
 }
-
-
 .editorTopNavBar ul {
-font-family: 'Press Start 2P', cursive;
-font-size: 14px;
-color: white;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+    color: white;
 }
 .editorTopNavBar ul li {
-display: inline;
-cursor: pointer;
-padding: 10px 30px 10px 30px;
-margin-right: 5px;
-border: 2px solid;
-border-radius: 5px;
-background-color: green;
+    display: inline;
+    cursor: pointer;
+    padding: 10px 30px 10px 30px;
+    margin-right: 5px;
+    border: 2px solid;
+    border-radius: 5px;
+    background-color: green;
 }
-#objectClickContent{
-text-align: center;
+#objectClickContent {
+    text-align: center;
 }
-.goalTaskImage{
-margin-top: -7px;
-margin-left: 8px;
-height: 30px; /*this should be a px value for calculation reasons*/
-position: absolute;
+.goalTaskImage {
+    margin-top: -7px;
+    margin-left: 8px;
+    height: 30px; /*this should be a px value for calculation reasons*/
+    position: absolute;
 }
-.notifyIcon{
+.notifyIcon {
     position: fixed;
     width: 15px;
     height: 20px;
