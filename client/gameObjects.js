@@ -90,6 +90,8 @@ var GameObjects = {
                 this.specialEventTimeMilliseconds = convertTimeFormatToMilliseconds(this.specialEventTime);
                 this.specialEventStartCell = parseInt(options.specialEventStartCell);
                 this.specialEventSpeedValue = parseInt(options.specialEventSpeedValue);
+                this.specialEventNotifyIcon = options.specialEventNotifyIcon;
+                this.specialEventNotifyIconEasing = options.specialEventNotifyIconEasing;
 
                 this.mouseOver(function(){
                     if(ige.client.fsm.currentStateName() === "select" && !ige.client.data('moveItem')){
@@ -156,6 +158,12 @@ var GameObjects = {
 
             update: function() {
                 GameObject.prototype.update.call(this);
+
+                if(this.specialEventNotifyElement) {
+                    if(!this.isNotifyElementAnimating)
+                        this.specialEventNotifyElement.css("top", this.screenPosition().y - 50);
+                    this.specialEventNotifyElement.css("left", this.screenPosition().x - 7);
+                }
 
                 if(this._buildProgressBar) {
                     var progress,
@@ -253,6 +261,24 @@ var GameObjects = {
                 this._buildProgressTime.destroy()
                 this._buildProgressTime = null
                 this.cell(options.cell)
+                this.notifySpecialEvent();
+            },
+
+            notifySpecialEvent: function(){
+                var self = this;
+                if(self.specialEvent !== "None" && self.specialEventNotifyIcon !== "None"){
+                    self.specialEventNotifyElement = $("<img class='notifyIcon' src='" + ige.client.textures[self.specialEventNotifyIcon].url() + "'></img>")
+                        .appendTo("body")
+                        .css("top",self.screenPosition().y-100)
+                        .css("left",self.screenPosition().x-7)
+                        .animate({ top: '+=50px' }, 1000, self.specialEventNotifyIconEasing, function(){self.isNotifyElementAnimating = false});
+                    self.isNotifyElementAnimating = true;
+                }
+            },
+
+            removeNotifyIcon: function(){
+                if(this.specialEventNotifyElement)
+                    this.specialEventNotifyElement.remove();
             },
 
             speedProgress: function(){

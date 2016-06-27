@@ -144,3 +144,8 @@ margin-left: 8px;
 height: 30px; /*this should be a px value for calculation reasons*/
 position: absolute;
 }
+.notifyIcon{
+    position: fixed;
+    width: 15px;
+    height: 20px;
+}

@@ -32,6 +32,7 @@ var ClientHelpers = {
             obj.place()
         }else{
             obj.place(true)
+            setTimeout(function(){obj.notifySpecialEvent();},100);
         }
     },
 

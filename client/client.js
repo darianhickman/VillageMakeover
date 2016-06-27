@@ -86,6 +86,7 @@ var Client = IgeClass.extend({
                                 item.currentState = "waitingSpecialEvent";
                                 API.saveObjectState(item, item.currentState);
                                 item.place();
+                                item.removeNotifyIcon();
                             });
 
                             $('#speedProgressButton').on('click', function(){
