@@ -213,8 +213,13 @@ body {
 }
 .notifyIcon {
     position: fixed;
-    width: 15px;
+    width: 20px;
     height: 20px;
+    background-color: white;
+    /* need control separate from coin itself */
+    opacity: .7;
+    padding: 3px;
+    border-radius: 3px;
 }
 
 
