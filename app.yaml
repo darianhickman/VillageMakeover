@@ -48,3 +48,4 @@ skip_files:
 - \(
 - ^ige/
 - (.*)/.DS_Store
+- (.*)/.meta$

@@ -25,6 +25,7 @@
 }
 #topToolbar li:hover {
     opacity: 1; 
+    border: 2px spotted #8EAEEE;
     /* width:1.1em;  weird jitter */
 
     /* height: 1.1em; weird formatting */
