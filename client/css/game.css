@@ -1,37 +1,179 @@
-#igeFrontBuffer {
-    background-color: #8EAEEE;
-}
-#topToolbar {
-    position: absolute;
-    overflow: hidden;
-    width: 500px;
-    top: 2%;
-    list-style-type: none;
-    padding: 0;
+html {
     margin: 0;
-    margin-left: 370px;
-    margin-right: 50px;
+    padding: 0;
+    font-family: 'Verdana', cursive;
 }
 
+body {
+    background: #000;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden; 
+    background-image: url(/client/assets/textures/ui/fullvillage.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+}
+
+.loadingFloat {
+    /* margin: 10px; */
+    padding: 20px;
+    border-radius: 15px;
+    position: absolute;
+    left: 40%;
+    top: 25%;
+    background: rgba(34,34,34,0.80);
+    /* width: 280px; */
+    /*filter: blur(10px); */
+    /* margin-left: -35px; */
+    /* margin-top: -35px; */
+}
+
+.loadingFloat li{
+        list-style-type: none;
+        margin: 0 auto;
+        padding: 5px;
+}
+
+.loadingTitle {
+    font-family: 'Verdana', cursive;
+    color:#fff;
+    font-size: 28px;
+
+}
+
+.loadingLogo {
+    width: 55px;
+    height: 55px;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    background-image: url(/client/assets/textures/ui/loadinglogo.png);
+}
+.loadingCircle {
+    left:-15px;
+    top:-10px;
+    position: relative;
+    background-color: rgba(0, 0, 0);
+    border: 5px solid rgba(0, 183, 229, 0.9);
+    opacity: .9;
+    border-right: 5px solid rgba(0, 0, 0, 0);
+    border-left: 5px solid rgba(0, 0, 0, 0);
+    border-radius: 50px;
+    box-shadow: 0 0 205px #2187e7;
+    width: 80px;
+    height: 80px;
+    /* position: relative; */
+    -moz-animation: spinPulse 2s infinite ease-in-out;
+    -webkit-animation: spinPulse 2s infinite linear;
+}
+.loadingCircleInner {
+    position: relative;
+    left:-8px;
+    top:-93px;
+    background-color: rgba(0, 0, 0, 0);
+    border: 5px solid rgba(0, 183, 229, 0.9);
+    opacity: .9;
+    border-left: 5px solid rgba(0, 0, 0, 0);
+    border-right: 5px solid rgba(0, 0, 0, 0);
+    border-radius: 50px;
+    box-shadow: 0 0 35px #2187e7;
+    width: 65px;
+    height: 65px;
+    /* margin: 0 auto; */
+    /* position: relative; */
+    /* top: -132px; */
+    /* left: 0px; */
+    -moz-animation: spinoffPulse 1s infinite linear;
+    -webkit-animation: spinoffPulse 1s infinite linear;
+}
+.loadingText {
+    color: white;
+    font-family: 'Verdana', cursive;
+    font-size: 14px;
+    text-align: center;
+    font-variant: small-caps;
+    -moz-animation: fadePulse 1s infinite linear;
+    -webkit-animation: fadePulse 1s infinite linear;
+}
+
+#loadingProgress {
+    width: 200px;
+    height: 7px;
+    position: absolute;
+    top: 120px;
+    left: 50%;
+    margin-left: -100px;
+}
+#loadingProgressBar {
+    width: 0px;
+    height: 1px;
+    background: rgba(0, 183, 229, 0.9);
+}
+.loadingLink {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    color: white;
+    font-family: 'Verdana', cursive;
+    font-size: 12px;
+    font-variant: small-caps;
+    width: 250px;
+    text-align: right;
+    opacity: 1;
+}
+.loadingLink a {
+    color: #ffffff;
+    opacity: 0.7;
+}
+
+#hudcontainer {
+    position: absolute;
+    top: 5px;
+    z-index: 10;
+    width:98%;
+}
+
+#igeFrontBuffer {
+    background-color: #8EAEEE;
+    margin:0px;
+    padding:0px;
+    position: absolute;
+    top:0;
+    left:0;
+}
+#topToolbar {
+
+    max-height: 35px;
+    list-style: none;
+    padding: 0;
+    margin: auto;
+}
 #topToolbar li {
+    /* float: left; */
+    /* position: relative; */
     opacity: .9;
     border: 2px solid white;
     background-color: white;
     display: inline-block;
-    margin: 16px;
+    margin-left: 10px;
+    padding: 0px;
     cursor: pointer;
     border-radius: 5px;
     box-shadow: 2px 2px 5px #000;
 }
 #topToolbar li:hover {
-    opacity: 1; 
-    border: 2px spotted #8EAEEE;
+    opacity: 1;
+    /* border: 2px; */
     /* width:1.1em;  weird jitter */
-
     /* height: 1.1em; weird formatting */
 }
+#topToolbar > li:last-child {
+    float: right;
+}
 #topToolbar img {
-    float: right;  /* not sure why but this line fixes issues with white border */
+    display: block;
     background-image: url('/client/assets/textures/ui/beigefade.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
@@ -44,6 +186,300 @@
     position: relative;
     right: 0px;
 }
+
+
+.editorTopNavBar ul {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 14px;
+    color: white;
+}
+.editorTopNavBar ul li {
+    display: inline;
+    cursor: pointer;
+    padding: 10px 30px 10px 30px;
+    margin-right: 5px;
+    border: 2px solid;
+    border-radius: 5px;
+    background-color: green;
+}
+#objectClickContent {
+    text-align: center;
+}
+.goalTaskImage {
+    margin-top: -7px;
+    margin-left: 8px;
+    height: 30px; /*this should be a px value for calculation reasons*/
+    position: absolute;
+}
+.notifyIcon {
+    position: fixed;
+    width: 15px;
+    height: 20px;
+}
+
+
+@-moz-keyframes fadePulse {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+@-moz-keyframes spinPulse {
+    0% {
+        -moz-transform: rotate(160deg);
+        opacity: 0;
+        box-shadow: 0 0 1px #2187e7;
+    }
+    50% {
+        -moz-transform: rotate(135deg);
+        opacity: 1;
+    }
+    100% {
+        -moz-transform: rotate(-320deg);
+        opacity: 0;
+    }
+}
+@-moz-keyframes spinoffPulse {
+    0% {
+        -moz-transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+@-webkit-keyframes fadePulse {
+    0% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.5;
+    }
+}
+@-webkit-keyframes spinPulse {
+    0% {
+        -webkit-transform: rotate(160deg);
+        opacity: 0;
+        box-shadow: 0 0 1px #2187e7;
+    }
+    50% {
+        -webkit-transform: rotate(135deg);
+        opacity: 1;
+    }
+    100% {
+        -webkit-transform: rotate(-320deg);
+        opacity: 0;
+    }
+}
+@-webkit-keyframes spinoffPulse {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+.sgButton {
+    display: block;
+    float: left;
+    font-variant: small-caps;
+    background-color: #084861;
+    padding: 1px;
+    padding-left: 2px;
+    padding-right: 2px;
+    margin-right: 1px;
+    width: 60px;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+}
+.met {
+    display: block;
+    float: left;
+    text-align: right;
+    font-variant: small-caps;
+    font-size: 13px;
+    background-color: rgba(7, 20, 25, 0.9);
+    padding: 1px;
+    padding-left: 2px;
+    padding-right: 6px;
+    margin-right: 1px;
+    min-width: 75px;
+    white-space: nowrap;
+}
+#igeSgTree {
+    display: block;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 300px;
+    height: 200px;
+    background-color: rgba(7, 20, 25, 0.9);
+    font-family: 'Verdana', cursive;
+    font-size: 11px;
+    color: #ffffff;
+    text-shadow: 1px 1px 3px #000000;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    cursor: default;
+    z-index: 200000;
+    overflow: auto;
+}
+#igeSgTree ul {
+    list-style: none;
+    margin: 0;
+    padding: 0px 0px 0px 14px;
+    white-space: nowrap;
+}
+#igeSgTree li {
+    cursor: pointer;
+    margin: 3px;
+    white-space: nowrap;
+    padding-right: 10px;
+}
+#igeSgTree li.selected {
+    font-weight: bold;
+}
+#igeSgTree li.selected ul {
+    font-weight: normal;
+}
+#igeSgConsoleHolder {
+    display: none;
+    position: absolute;
+    left: 410px;
+    top: 4px;
+    padding: 5px;
+    background-color: rgba(66, 66, 66, 0.9);
+    font-family: 'Verdana', cursive;
+    font-size: 12px;
+    color: #ffffff;
+}
+#igeSgConsoleHolder a {
+    color: #ffffff;
+}
+#igeSgConsole {
+    width: 800px;
+}
+#igeSgDocPage {
+    width: 800px;
+    height: 400px;
+    display: none;
+    background-color: #ffffff;
+}
+#igeSgItemClassChain {
+    display: none;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+#igeSgEditorRoot {
+    display: block;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    bottom: 30px;
+    width: 400px;
+    background-color: rgba(7, 20, 25, 0.9);
+    font-family: 'Verdana', cursive;
+    font-size: 11px;
+    color: #ffffff;
+    text-shadow: 1px 1px 3px #000000;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    cursor: default;
+    z-index: 200000;
+    overflow: auto;
+}
+#igeSgEditorRoot .content {
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#igeSgEditorRoot .content .span1 {
+    width: 11.11%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#igeSgEditorRoot .content .span2 {
+    width: 22.22%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#igeSgEditorRoot .content .span3 {
+    width: 33.33%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#igeSgEditorRoot .content .span4 {
+    width: 44.44%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#igeSgEditorRoot .content .span5 {
+    width: 55.55%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#igeSgEditorRoot .content .span6 {
+    width: 66.66%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#igeSgEditorRoot .content .span7 {
+    width: 77.77%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#igeSgEditorRoot .content .span8 {
+    width: 88.88%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#igeSgEditorRoot .content .span9 {
+    width: 99.99%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+#igeSgEditorRoot .label {
+    font-weight: bold;
+}
+.igeEditorGroup {
+    font-family: 'Verdana', cursive;
+    font-size: 12px;
+    color: #ffffff;
+    position: relative;
+    background-color: #333;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 5px;
+}
+.igeEditorGroup .label {
+    font-weight: bold;
+    font-size: 14px;
+}
+.igeEditorProperty .label {
+    font-weight: bold;
+    font-size: 12px;
+}
+
 .ui-dialog .ui-dialog-titlebar {
     padding: 10px;
 }
@@ -100,32 +536,4 @@
 }
 .ui-icon-closethick:hover {
     background-color: red;
-}
-.editorTopNavBar ul {
-    font-family: 'Press Start 2P', cursive;
-    font-size: 14px;
-    color: white;
-}
-.editorTopNavBar ul li {
-    display: inline;
-    cursor: pointer;
-    padding: 10px 30px 10px 30px;
-    margin-right: 5px;
-    border: 2px solid;
-    border-radius: 5px;
-    background-color: green;
-}
-#objectClickContent {
-    text-align: center;
-}
-.goalTaskImage {
-    margin-top: -7px;
-    margin-left: 8px;
-    height: 30px; /*this should be a px value for calculation reasons*/
-    position: absolute;
-}
-.notifyIcon {
-    position: fixed;
-    width: 15px;
-    height: 20px;
 }
