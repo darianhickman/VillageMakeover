@@ -1,0 +1,74 @@
+/* states and images */
+.ui-icon {
+    text-indent: -99999px;
+    background-repeat: no-repeat;
+}
+
+.ui-dialog {
+    background-color: rgba(200,200, 200, .85);
+    margin:auto;
+    border-radius:20px;
+    border: 5px solid white;
+    padding:5px;
+}
+.ui-widget-content{
+    /*
+    background: transparent;
+    background-image: none;
+    */
+}
+
+.ui-widget-header {
+    background: transparent;
+    background-image: none;
+    border: none;
+    font-size: 20px;
+}
+.ui-dialog .ui-dialog-content {
+    padding: 0;
+}
+.ui-dialog .ui-dialog-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.ui-dialog .ui-dialog-content ul li {
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+.ui-dialog .ui-dialog-content ul li:last-child{
+    border-bottom: none;
+}
+
+.ui-dialog .ui-dialog-content ul li:hover {
+
+}
+
+
+.ui-dialog .ui-dialog-titlebar-close {
+    position: absolute;
+    visibility: visible;
+    display: inline-block;
+    top: -5px;
+    right: -10px;
+    margin-top: -10px;
+    margin-right:-10px;
+    /* margin: -10px 0 0 0; */
+    padding: 0;
+    overflow:visible;
+}
+
+
+.ui-icon-closethick{
+    visibility: hidden;
+}
+
+.ui-dialog-titlebar-close{
+    background-size: 100%;
+    width:30px;
+    height:30px;
+    background-image: url(/client/assets/textures/ui/close.png);
+}
+

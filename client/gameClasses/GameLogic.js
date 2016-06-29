@@ -80,7 +80,7 @@ var GameLogic = IgeObject.extend({
             API.setGoalAsComplete(data.goalID)
 
             //popup congrats message
-            $('#goalDialogContent').html("<p style='text-align:center; padding-top:40px;'>" + data.message + "</p>");
+            $('#goalDialogContent').html("<p>" + data.message + "</p>");
             $( "#goalDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, title: data.title, close: function( event, ui ) {self.goals.loadNextGoal(data.goalID)}, width: 400, height: 250, modal: true, autoOpen: false });
             $( "#goalDialog" ).dialog( "open" );
         })
