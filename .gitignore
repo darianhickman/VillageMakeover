@@ -8,7 +8,7 @@
 /client/deploy
 /.idea
 /client/index_deploy.csstest.html
-**/.DS_Store
-**/.meta
+.DS_Store
+*.meta
 update_prod.sh
 villagegamedev2_deploy.sh
