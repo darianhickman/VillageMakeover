@@ -37,7 +37,7 @@ var MarketDialog = Dialog.extend({
 
 		self.pageTemplate = $('#marketDialogPageTemplate');
 
-		$('.pagination').jqPagination({
+		$('#marketDialogPagination').jqPagination({
 			max_page: totalPages,
 			paged: function(page) {
 				self.changeToPage(page);
