@@ -192,6 +192,8 @@ var Client = IgeClass.extend({
                 var self = this,
                     tileMap = ige.$('tileMapEditor');
 
+                $("#topToolbar").hide();
+
                 ige.$('vp1')
                     .mousePan.enabled(true)
                     .scrollZoom.enabled(true)
@@ -344,7 +346,7 @@ var Client = IgeClass.extend({
                 ige.addGraph('GraphView');
                 ige.client.currentTileMap = ige.$("tileMapView");
 
-                $("#dropDownIcon").hide();
+                $("#topToolbar").hide();
 
                 $( "#savingDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
                 $( "#savingDialog" ).dialog( "open" );
@@ -395,11 +397,7 @@ var Client = IgeClass.extend({
 
                 ige.$('level1').hide();
                 ige.addGraph('GraphTutorial');
-                $('topToolbar').hide();
-                $('topToolbar').children.hide();
-                /* $("#dropDownIcon").hide();
-                $("#fullscreenIcon").hide();
-                */
+                $('#topToolbar').hide();
 
                 self.tutorial = new Tutorial();
                 self.tutorial.gotoStep('initialStep');
@@ -410,12 +408,8 @@ var Client = IgeClass.extend({
                 ige.$('level1').show();
                 ige.removeGraph('GraphTutorial');
 
+                $("#topToolbar").show();
 
-                $("topToolbar").children().show();
-                /*
-                $("#dropDownIcon").show();
-                $("#fullscreenIcon").show();
-                */
                 self.tutorial = null;
 
                 self.eventEmitter = self.eventEmitter || new EventEmitter()
