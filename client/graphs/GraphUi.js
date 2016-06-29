@@ -137,8 +137,7 @@ var GraphUi = IgeSceneGraph.extend({
                 .mount(topNav);
         }
 
-        $("#dropDownIcon").show();
-        $("#fullscreenIcon").show();
+        $("#topToolbar").show();
 
         $("#dropDownDialog").dialog({
             resizable: false,
@@ -316,8 +315,6 @@ var GraphUi = IgeSceneGraph.extend({
             ige.$('level1').hide();
             ige.addGraph('GraphEditor');
             ige.addGraph('GraphUiEditor');
-
-            $("#dropDownIcon").hide();
 
             ige.client.fsm.enterState('editor');
         })
