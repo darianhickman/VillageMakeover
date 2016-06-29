@@ -498,12 +498,10 @@ body {
 }
 .ui-dialog .ui-dialog-content {
     padding: 0;
-    background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
 }
 .ui-dialog {
     font-family: 'Verdana', cursive;
     font-style: #fff;
-    background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
     background-color: #0c0;
 }
 .ui-dialog .ui-dialog-content ul {
@@ -512,13 +510,13 @@ body {
     margin: 0;
 }
 .ui-dialog .ui-dialog-content ul li {
+
     font-family: 'Verdana', cursive;
     font-style: #fff;
     cursor: pointer;
     font-size: 14px;
     padding: 10px;
     border-bottom: 1px solid #ddd;
-    background-image: url('/client/assets/textures/backgrounds/greenBackground.png');
 }
 .ui-dialog .ui-dialog-content ul li:hover {
     color: #cc0000;
@@ -527,18 +525,7 @@ body {
     display: none;
 }
 .ui-dialog-titlebar-close {
-
-    /* background-image: url('/client/assets/textures/ui/close.png'); */
-    background-color: red;
     background-size: 100%;
     width: 15px;
 }
-.ui-dialog-titlebar-close:hover {
-    background-color: red;
-}
-.ui-icon-closethick {
-    color: white;
-}
-.ui-icon-closethick:hover {
-    background-color: red;
-}
+
