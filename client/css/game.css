@@ -186,6 +186,11 @@ body {
     right: 0px;
 }
 
+#objectClickDialog{
+    max-width:300px;
+    min-width:100px;
+}
+
 #dropDownDialog{
     position:relative;
     right:0px;

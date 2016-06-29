@@ -142,7 +142,7 @@ var GraphUi = IgeSceneGraph.extend({
 
         $("#dropDownDialog").dialog({
             resizable: false,
-            draggable: false,
+            draggable: true,
             closeOnEscape: false,
             width: parseInt(DropDownMenu.width),
             height: parseInt(DropDownMenu.height),
@@ -281,7 +281,7 @@ var GraphUi = IgeSceneGraph.extend({
         })
 
         $('#fullscreenIcon').on('mouseover',function(){
-            ige.client.audio.select.play();
+           // ige.client.audio.select.play();
         })
 
         $('#loginLink').on('click',function(){
