@@ -227,7 +227,30 @@ body {
     padding: 3px;
     border-radius: 3px;
 }
-
+.marketDialogItem{
+    position: relative;
+}
+.marketItemImage{
+    position: absolute;
+    height: 20px;
+}
+.marketCoinIcon{
+    width: 20px;
+    height: 20px;
+}
+.marketCashIcon{
+    width: 20px;
+    height: 20px;
+}
+.marketItemCover{
+    text-align: center;
+    position: absolute;
+    background-color: yellow;
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    top: 0px;
+}
 
 @-moz-keyframes fadePulse {
     0% {

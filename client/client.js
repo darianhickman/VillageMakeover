@@ -427,6 +427,7 @@ var Client = IgeClass.extend({
 
 		this.fsm.defineState('buildDialog', {
             enter: function(data, completeCallback) {
+                $("#dropDownDialog").dialog("close");
 				completeCallback();
 			},
             exit: function(data, completeCallback) {

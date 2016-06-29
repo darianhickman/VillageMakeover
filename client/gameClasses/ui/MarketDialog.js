@@ -4,89 +4,62 @@ var MarketDialog = Dialog.extend({
 	init: function () {
 		Dialog.prototype.init.call(this);
 
-		var background = new IgeUiElement()
-			.id('marketDialogImage')
-			.layer(0)
-			.texture(ige.client.textures.marketMenuBack)
-			.dimensionsFromTexture()
-			.mount(this);
-
-		this._pages = [];
+		this._pageRefs = [];
 		this._items = [];
 		this._pageItems = [];
+		this._pageCount = 0;
+		this._activePageNo = 1;
 
-        this.closeButton.translateTo(300,-200,0);
+        this.closeButton.hide();
+		this._underlay.hide();
 	},
 
 	createSinglePage: function() {
 		var self = this,
-			index = this._pages.length;
+			pageRef;
 
-		var pageEnt = new IgeUiElement()
-			.id('marketDialog_page' + index)
-			.layer(1)
-			.width(560)
-			.height(380)
-			.translateTo(0, 21, 0)
-			.mount(this)
-			.hide()
+		pageRef = $("#marketDialogPageTemplate").clone().prop({ id: "marketDialogPage" + self._pageCount})
+			.insertBefore("#marketDialogPagination")
+			.hide();
 
-		new IgeUiElement()
-			.id('marketDialogRight_' + index)
-			.layer(2)
-			.texture(ige.client.textures.rightButton1)
-			.dimensionsFromTexture()
-			.bottom(55)
-			.right(65)
-			.mount(pageEnt)
-			.mouseUp(function () {
-				self.changePage(1)
-			})
+		$("#marketDialogPage" + self._pageCount + " li").remove();
 
-		new IgeUiElement()
-			.id('marketDialogLeft_' + index)
-			.layer(2)
-			.texture(ige.client.textures.leftButton1)
-			.dimensionsFromTexture()
-			.bottom(55)
-			.left(65)
-			.mount(pageEnt)
-			.mouseUp(function () {
-				self.changePage(-1)
-			})
-
-		this._pages.push(pageEnt);
-
+		self._pageRefs["marketDialogPage" + self._pageCount] = pageRef;
 	},
 
 	createPages: function(totalPages) {
 		var self = this
 
 		for(var i=0; i<totalPages; i++) {
+			self._pageCount++;
 			self.createSinglePage()
 		}
 
-		this._activePageIndex = 0;
-		this._pages[0].mount(this)
-			.show()
+		self.pageTemplate = $('#marketDialogPageTemplate');
+
+		$('.pagination').jqPagination({
+			max_page: totalPages,
+			paged: function(page) {
+				self.changeToPage(page);
+			}
+		});
+
+		self._pageRefs["marketDialogPage" + self._activePageNo].show();
 	},
 
-    changePage: function(dir) {
-        console.log(dir, this._activePageIndex)
-        this._pages[this._activePageIndex].hide()
-        this._activePageIndex += dir
-        if(this._activePageIndex < 0)
-            this._activePageIndex = 0
-        if(this._activePageIndex >= this._pages.length)
-            this._activePageIndex = this._pages.length - 1
-        this._pages[this._activePageIndex].show()
-    },
+	changeToPage: function(pageNo){
+		this._pageRefs["marketDialogPage" + this._activePageNo].hide();
+		this._activePageNo = pageNo
+		this._pageRefs["marketDialogPage" + pageNo].show();
+	},
 
 	show: function () {
 		var self = this;
 
 		ige.client.fsm.enterState('buildDialog', null, function (err) {
 			if (!err) {
+				$( "#marketDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
+				$( "#marketDialog" ).dialog( "open" );
 				Dialog.prototype.show.call(self);
 				ige.client.audio.normClick.play();
 			}
@@ -101,10 +74,14 @@ var MarketDialog = Dialog.extend({
 		if (ige.client.fsm.currentStateName === 'buildDialog') {
 			ige.client.fsm.exitState(function (err) {
 				if (!err) {
+					$("#marketDialog").dialog();
+					$( "#marketDialog" ).dialog( "close" );
 					Dialog.prototype.hide.call(self);
 				}
 			});
 		} else {
+			$("#marketDialog").dialog();
+			$( "#marketDialog" ).dialog( "close" );
 			Dialog.prototype.hide.call(self);
 		}
 
@@ -114,187 +91,46 @@ var MarketDialog = Dialog.extend({
 	addItem: function (itemData) {
 		// Create backing tile for item
 		var self = this,
-			pageIndex = 0,
-			itemEnt = new IgeUiElement()
-				.texture(ige.client.textures.marketItemBack)
-				.dimensionsFromTexture();
+			pageIndex = 1,
+			clonedItem, options, dummyElem, imgWidth, imgHeight;
 
-		// Create coin and cash icons
-        var coinIcon = new IgeUiElement()
-            .id(itemData.id + '_coinIcon')
-            .texture(ige.client.textures.coin)
-            .dimensionsFromTexture()
-            .center(-40)
-            .bottom(5)
-            .mount(itemEnt);
-        if(itemData.coins != 0){
+		clonedItem = $('#marketDialogPageTemplate ul li').first().clone();
+		clonedItem.find(".marketItemTitle").first().text(itemData.title);
 
-		    new IgeFontEntity()
-                .id(itemData.id + '_coins')
-                .layer(2)
-                .textAlignX(0)
-                .colorOverlay('#000000')
-           		.nativeFont('14px Verdana')
-                .nativeStroke(0.5)
-                .nativeStrokeColor('#666666')
-                .textLineSpacing(0)
-                .text(itemData.coins)
-                .width(20)
-                .center(20)
-                .mount(coinIcon);
-        }
-        
-	    if(itemData.cash != 0) {
-            new IgeUiElement()
-                .id(itemData.id + '_cashIcon')
-                .texture(ige.client.textures.cash)
-                .dimensionsFromTexture()
-                .center(10)
-                .bottom(5)
-                .mount(itemEnt);
+		options = GameObjects.catalogLookup[itemData.id]
+		dummyElem = $("<div class='marketItemImage'></div>").hide().appendTo("body");
+		imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
+		imgWidth = ige.client.textures[itemData.id]._sizeX / (ige.client.textures[itemData.id]._sizeY / imgHeight)
+		dummyElem.remove();
 
-            new IgeFontEntity()
-                .id(itemData.id + '_cash')
-                .layer(2)
-                .textAlignX(0)
-                .colorOverlay('#000000')
-     	        .nativeFont('14px Verdana')
-                .nativeStroke(0.5)
-                .nativeStrokeColor('#666666')
-                .textLineSpacing(0)
-                .text(itemData.cash)
-                .width(20)
-                .center(70)
-                .mount(coinIcon);
-        }
+		clonedItem.find(".marketItemImage").first().css("background-image","url(" + options.textureUrl + ")")
+			.css("width", imgWidth / ige.client.textures[itemData.id]._cellColumns + "px")
+			.css("background-size", imgWidth + "px " + imgHeight + "px")
+			.css("background-position-x", imgWidth / ige.client.textures[itemData.id]._cellColumns + "px");
 
-		// Create an entity to represent this item
-		var itemPic = new IgeEntity()
-			.layer(1)
-			.id(itemData.id)
-			.texture(itemData.texture)
-			.cell(itemData.cell)
-			.dimensionsFromCell()
-			.mount(itemEnt);
+		if(itemData.coins != 0)
+			clonedItem.find(".marketItemCoins").contents().last()[0].textContent=itemData.coins;
+		else
+			clonedItem.find(".marketItemCoins").first().remove();
+		if(itemData.cash != 0)
+			clonedItem.find(".marketItemCash").contents().last()[0].textContent=itemData.cash;
+		else
+			clonedItem.find(".marketItemCash").first().remove();
 
-		var itemTitle = new IgeFontEntity()
-			.id(itemData.id + '_title')
-			.layer(2)
-			.textAlignX(1)
-			.colorOverlay('#000000')
-            .nativeFont('14px Verdana')
-			.nativeStroke(0.5)
-			.nativeStrokeColor('#666666')
-			.textLineSpacing(0)
-			.text(itemData.title)
-			.top(5)
-			.left(0)
-			.right(0)
-			.height(20)
-			.mount(itemEnt);
+		itemData.coverEntity = clonedItem.find(".marketItemCover").first();
 
-		if (itemData.scale) {
-			itemPic.height(60, true);
+		if(itemData.dependency === "none") {
+			itemData.coverEntity.remove();
+			itemData.coverEntity = null;
+		}else{
+			itemData.coverEntity.click(function (event) {
+				event.stopPropagation();
+				self.hide();
+				self.unlockItemByCash(itemData);
+			});
 		}
 
-		if(itemData.dependency !== "none"){
-			var itemCoverEnt = new IgeUiElement()
-				.texture(ige.client.textures.marketItemBack)
-				.dimensionsFromTexture()
-				.layer(100)
-				.top(0)
-				.left(0)
-				.opacity(0.8)
-				.mount(itemEnt);
-
-			new IgeFontEntity()
-				.layer(102)
-				.textAlignX(1)
-				.colorOverlay('#000000')
-				.nativeFont('14px Verdana')
-				.nativeStroke(0.5)
-				.nativeStrokeColor('#666666')
-				.textLineSpacing(0)
-				.text('LOCKED')
-				.top(45)
-				.left(0)
-				.right(0)
-				.height(20)
-				.mount(itemCoverEnt);
-
-			new IgeFontEntity()
-				.layer(102)
-				.textAlignX(1)
-				.colorOverlay('#000000')
-				.nativeFont('14px Verdana')
-				.nativeStroke(1)
-				.nativeStrokeColor('#000')
-				.textLineSpacing(0)
-				.text('Unlock')
-				.top(75)
-				.left(0)
-				.right(0)
-				.height(20)
-				.mouseUp(function(){
-					self.unlockItemByCash(itemData);
-				})
-				.mount(itemCoverEnt);
-
-			itemData.coverEntity = itemCoverEnt;
-		}
-
-		itemData.entity = itemEnt;
-
-		this._items.push(itemData);
-
-		while (this._pageItems[pageIndex] && this._pageItems[pageIndex].length === 6) {
-			pageIndex++;
-		}
-
-		// Add the item to the free page
-		this._pageItems[pageIndex] = this._pageItems[pageIndex] || [];
-		this._pageItems[pageIndex].push(itemEnt);
-
-		if (this._pageItems[pageIndex].length === 1) {
-			itemEnt
-				.center(-150)
-				.top(20);
-		}
-
-		if (this._pageItems[pageIndex].length === 2) {
-			itemEnt
-				.center(0)
-				.top(20);
-		}
-
-		if (this._pageItems[pageIndex].length === 3) {
-			itemEnt
-				.center(150)
-				.top(20);
-		}
-
-		if (this._pageItems[pageIndex].length === 4) {
-			itemEnt
-				.center(-150)
-				.top(160);
-		}
-
-		if (this._pageItems[pageIndex].length === 5) {
-			itemEnt
-				.center(0)
-				.top(160);
-		}
-
-		if (this._pageItems[pageIndex].length === 6) {
-			itemEnt
-				.center(150)
-				.top(160);
-		}
-
-		itemEnt.mount(this._pages[pageIndex]);
-		//itemEnt.compositeCache(true);
-
-		itemEnt.mouseUp(function () {
+		clonedItem.click(function () {
 			ige.input.stopPropagation();
 
 			// Play the audio
@@ -307,11 +143,23 @@ var MarketDialog = Dialog.extend({
 			ige.client.fsm.enterState('build', {
 				classId: itemData.classId,
 				coins: itemData.coins,
-                cash: itemData.cash,
+				cash: itemData.cash,
 			});
 		});
 
-		return itemEnt;
+		this._items.push(itemData);
+
+		while (this._pageItems[pageIndex] && this._pageItems[pageIndex].length === 6) {
+			pageIndex++;
+		}
+
+		$('#marketDialogPage' + pageIndex + ' ul').append(clonedItem);
+
+		// Add the item to the free page
+		this._pageItems[pageIndex] = this._pageItems[pageIndex] || [];
+		this._pageItems[pageIndex].push(itemData);
+
+		return clonedItem;
 	},
 
 	unlockItemByCash: function(itemData){
@@ -345,7 +193,7 @@ var MarketDialog = Dialog.extend({
 
 	removeItemCover:function(itemData){
 		if(itemData.coverEntity){
-			itemData.coverEntity.destroy();
+			itemData.coverEntity.remove();
 			itemData.coverEntity = null;
 		}
 	},
