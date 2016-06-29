@@ -1,5 +1,6 @@
 var gameScale = parseFloat(GameConfig.config['gameScale'])
 var uniqueCounter = 0
+// does client know about howler.js??
 
 var Client = IgeClass.extend({
 	classId: 'Client',

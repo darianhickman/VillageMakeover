@@ -17,11 +17,10 @@
     background: transparent;
     background-image: none;
     */
+
+  /*
     it's already in code: position: { my: "left top", at: "left bottom", of: "#dropDownIcon" } GraphUi.js line 151;;
-;it's already in code: position: { my: "left top", at: "left bottom", of: "#dropDownIcon";}
-    GraphUi.js line 151;
-it's already in code: position: { my: "left top", at: "left bottom", of: "#dropDownIcon" } GraphUi.js line 151;;
-;;;;;max-width: 300px;;;;;;
+*/
 }
 
 .ui-widget-header {
