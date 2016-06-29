@@ -186,6 +186,13 @@ body {
     right: 0px;
 }
 
+#dropDownDialog{
+    position:relative;
+    right:0px;
+
+    max-width:300px;
+    min-width:100px;
+}
 
 .editorTopNavBar ul {
     font-family: 'Press Start 2P', cursive;
