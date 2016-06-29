@@ -19,6 +19,7 @@ var Client = IgeClass.extend({
 		this.fsm.defineState('select', {
             enter: function(data, completeCallback) {
                 // Hook mouse events
+                console.log('entering state this.fsm.select');
                 var self = this,
                     tileMap = ige.$('tileMap1');
 
@@ -160,6 +161,8 @@ var Client = IgeClass.extend({
             },
             exit: function(data, completeCallback) {
                 // Un-hook mouse events
+                console.log('exiting state this.fsm.select');
+
                 var self = this,
                     tileMap = ige.$('tileMap1');
 
@@ -187,6 +190,8 @@ var Client = IgeClass.extend({
 
         this.fsm.defineState('editor', {
             enter: function(data, completeCallback) {
+                console.log('entering state this.fsm.editor');
+
                 mixpanel.track("Open editor");
 
                 // Hook mouse events
@@ -284,6 +289,8 @@ var Client = IgeClass.extend({
             },
             exit: function(data, completeCallback) {
                 // Un-hook mouse events
+                console.log('exiting state this.fsm.editor');
+
                 var self = this,
                     tileMap = ige.$('tileMapEditor');
 
@@ -317,6 +324,8 @@ var Client = IgeClass.extend({
 
         this.fsm.defineState('view', {
             enter: function(data, completeCallback) {
+                console.log('entering state this.fsm.view');
+
                 mixpanel.track("View village");
 
                 // Add base scene data
@@ -380,12 +389,16 @@ var Client = IgeClass.extend({
                 completeCallback();
             },
             exit: function(data, completeCallback) {
+                console.log('exiting state this.fsm.view');
+
                 completeCallback();
             }
         });
 
         this.fsm.defineState('tutorial', {
             enter: function(data, completeCallback) {
+                console.log('entering state this.fsm.tutorial');
+
                 mixpanel.track("Open tutorial");
 
                 ige.$('vp1')
@@ -408,6 +421,8 @@ var Client = IgeClass.extend({
                 completeCallback();
             },
             exit: function(data, completeCallback) {
+                console.log('exiting state this.fsm.tutorial');
+
                 ige.$('level1').show();
                 ige.removeGraph('GraphTutorial');
 
@@ -428,54 +443,76 @@ var Client = IgeClass.extend({
 
 		this.fsm.defineState('buildDialog', {
             enter: function(data, completeCallback) {
-				completeCallback();
+                console.log('entering state this.fsm.buildDialog');
+
+                completeCallback();
 			},
             exit: function(data, completeCallback) {
-				completeCallback();
+                console.log('exiting state this.fsm.buildDialog');
+
+                completeCallback();
 			}
         });
 
         this.fsm.defineState('editorDialog', {
             enter: function(data, completeCallback) {
+                console.log('entering state this.fsm.editorDialog');
+
                 completeCallback();
             },
             exit: function(data, completeCallback) {
+                console.log('exiting state this.fsm.editorDialog');
+
                 completeCallback();
             }
         });
 
         this.fsm.defineState('cashDialog', {
             enter: function(data, completeCallback) {
+                console.log('entering state this.fsm.cashDialog');
+
                 completeCallback();
             },
             exit: function(data, completeCallback) {
+                console.log('exiting state this.fsm.cashDialog');
+
                 completeCallback();
             }
         });
 
         this.fsm.defineState('coinDialog', {
             enter: function(data, completeCallback) {
+                console.log('entering state this.fsm.coinDialog');
+
                 completeCallback();
             },
             exit: function(data, completeCallback) {
+                console.log('exiting state this.fsm.cashDialog');
+
                 completeCallback();
             }
         });
 
         this.fsm.defineState('goalDialog', {
             enter: function(data, completeCallback) {
+                console.log('entering state this.fsm.goalDialog');
+
                 completeCallback();
             },
             exit: function(data, completeCallback) {
+                console.log('exiting state this.fsm.goalDialog');
+
                 completeCallback();
             }
         });
 
-        var clientSelf = this
+        var clientSelf = this;
 
 		this.fsm.defineState('build', {
             enter: function(data, completeCallback) {
-				var self = this,
+                console.log('entering state this.fsm.build');
+
+                var self = this,
 					tileMap = ige.$('tileMap1');
 
 				// Create a new instance of the object we are going to build
@@ -731,6 +768,8 @@ var Client = IgeClass.extend({
 
         this.fsm.defineState('editorBuild', {
             enter: function(data, completeCallback) {
+                console.log('entering state this.fsm.editorBuild');
+
                 var self = this,
                     tileMap = ige.$('tileMapEditor'),
                     cursorClassId = data.classId,
@@ -845,6 +884,8 @@ var Client = IgeClass.extend({
                 completeCallback();
             },
             exit: function(data, completeCallback) {
+                console.log('exiting state this.fsm.build');
+
                 // Clear our mouse listeners
                 var self = this,
                     tileMap = ige.$('tileMapEditor');
@@ -867,6 +908,8 @@ var Client = IgeClass.extend({
 
         this.fsm.defineState('editorDelete', {
             enter: function(data, completeCallback) {
+                console.log('entering state this.fsm.editorDelete');
+
                 // Hook mouse events
                 var self = this,
                     tileMap = ige.$('tileMapEditor');
@@ -907,6 +950,9 @@ var Client = IgeClass.extend({
                 completeCallback();
             },
             exit: function(data, completeCallback) {
+                console.log('exiting state this.fsm.editorDelete');
+
+
                 var self = this,
                     tileMap = ige.$('tileMapEditor');
 
@@ -926,10 +972,14 @@ var Client = IgeClass.extend({
 
 		this.fsm.defineState('pan', {
             enter: function(data, completeCallback) {
-				completeCallback();
+                console.log('entering state this.fsm.pan');
+
+                completeCallback();
 			},
             exit: function(data, completeCallback) {
-				completeCallback();
+                console.log('exiting state this.fsm.pan');
+
+                completeCallback();
 			}
         });
 

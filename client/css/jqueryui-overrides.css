@@ -12,15 +12,18 @@
     border: 5px solid white;
     padding:5px;
 }
+
+
 .ui-widget-content{
     /*
-    background: transparent;
-    background-image: none;
+        background: transparent;
+        background-image: none;
     */
 
-  /*
-    it's already in code: position: { my: "left top", at: "left bottom", of: "#dropDownIcon" } GraphUi.js line 151;;
-*/
+
+    /*
+        it's already in code: position: { my: "left top", at: "left bottom", of: "#dropDownIcon" } GraphUi.js line 151;;
+    */
 }
 
 .ui-widget-header {
