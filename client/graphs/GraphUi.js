@@ -188,13 +188,6 @@ var GraphUi = IgeSceneGraph.extend({
             $("#editorLink").hide();
         }
 
-        var buildButton = new IgeUiElement()
-			.id('buildButton')
-			.texture(self.textures.buildButton)
-			.dimensionsFromTexture()
-            .right(10)
-			.mount(topNav);
-
         var goalButton = new IgeUiElement()
             .id('goalButton')
             .top(80)
@@ -361,11 +354,11 @@ var GraphUi = IgeSceneGraph.extend({
             });
         })
 
-		ige.$('buildButton')
-            .mouseOver(function(){
+		$('#buildButton')
+            .mouseover(function(){
                 ige.client.audio.select.play();
             })
-			.mouseUp(function () {
+			.click(function () {
 				// Open the build menu
                 mixpanel.track("Open market dialog");
 				ige.$('marketDialog').show();

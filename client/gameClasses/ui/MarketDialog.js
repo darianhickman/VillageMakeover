@@ -11,6 +11,7 @@ var MarketDialog = Dialog.extend({
 		this._activePageNo = 1;
 
         this.closeButton.hide();
+		this._underlay.hide();
 	},
 
 	createSinglePage: function() {
