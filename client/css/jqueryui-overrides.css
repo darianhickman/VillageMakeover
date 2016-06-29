@@ -46,13 +46,18 @@
 
 }
 
+.ui-dialog-titlebar {
+    margin-top:10px;
+    margin-left:5px;
+    margin-bottom: 5px;
+}
 
 .ui-dialog .ui-dialog-titlebar-close {
     position: absolute;
     visibility: visible;
     display: inline-block;
     top: -5px;
-    right: -10px;
+    right: -5px;
     margin-top: -10px;
     margin-right:-10px;
     /* margin: -10px 0 0 0; */
@@ -69,6 +74,6 @@
     background-size: 100%;
     width:30px;
     height:30px;
-    background-image: url(/client/assets/textures/ui/close.png);
+    background-image: url(/client/assets/textures/ui/Cancel.png);
 }
 
