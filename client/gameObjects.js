@@ -268,7 +268,7 @@ var GameObjects = {
                 var self = this;
                 if(self.specialEvent !== "None" && self.specialEventNotifyIcon !== "None"){
                     self.specialEventNotifyElement = $("<img class='notifyIcon' src='" + ige.client.textures[self.specialEventNotifyIcon].url() + "'></img>")
-                        .appendTo("body")
+                        .appendTo("#notifyIconContainer")
                         .css("top",self.screenPosition().y-100)
                         .css("left",self.screenPosition().x-7)
                         .animate({ top: '+=50px' }, 1000, self.specialEventNotifyIconEasing, function(){self.isNotifyElementAnimating = false});

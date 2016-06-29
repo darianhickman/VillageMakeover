@@ -138,6 +138,7 @@ var GraphUi = IgeSceneGraph.extend({
         }
 
         $("#topToolbar").show();
+        $("#notifyIconContainer").show();
 
         $("#dropDownDialog").dialog({
             resizable: false,

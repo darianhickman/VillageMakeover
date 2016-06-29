@@ -193,6 +193,7 @@ var Client = IgeClass.extend({
                     tileMap = ige.$('tileMapEditor');
 
                 $("#topToolbar").hide();
+                $("#notifyIconContainer").hide();
 
                 ige.$('vp1')
                     .mousePan.enabled(true)
@@ -347,6 +348,7 @@ var Client = IgeClass.extend({
                 ige.client.currentTileMap = ige.$("tileMapView");
 
                 $("#topToolbar").hide();
+                $("#notifyIconContainer").hide();
 
                 $( "#savingDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
                 $( "#savingDialog" ).dialog( "open" );
@@ -398,6 +400,7 @@ var Client = IgeClass.extend({
                 ige.$('level1').hide();
                 ige.addGraph('GraphTutorial');
                 $('#topToolbar').hide();
+                $("#notifyIconContainer").hide();
 
                 self.tutorial = new Tutorial();
                 self.tutorial.gotoStep('initialStep');
@@ -409,6 +412,7 @@ var Client = IgeClass.extend({
                 ige.removeGraph('GraphTutorial');
 
                 $("#topToolbar").show();
+                $("#notifyIconContainer").show();
 
                 self.tutorial = null;
 

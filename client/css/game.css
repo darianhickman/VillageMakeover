@@ -251,6 +251,9 @@ body {
     left: 0px;
     top: 0px;
 }
+.notifyIconContainer{
+    display: none;
+}
 
 @-moz-keyframes fadePulse {
     0% {
