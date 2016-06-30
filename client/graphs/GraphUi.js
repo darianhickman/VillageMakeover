@@ -42,67 +42,15 @@ var GraphUi = IgeSceneGraph.extend({
 			.hide()
 			.mount(uiScene);
 
-		var cashBar = new IgeUiElement()
-			.id('cashBar')
-			.texture(ige.client.textures.cashBar)
-			.dimensionsFromTexture()
-            .left(0)
-			.mount(topNav);
+        $( "#cashbarProgress" ).progressbar({
+            max:100000,
+            value: 0
+        });
 
-        var cashProgress = new IgeUiProgressBar()
-			.id('cashProgress')
-			.barColor('#69f22f')
-			.min(0)
-			.max(100000)
-			.progress(80)
-			.width(87)
-			.height(18)
-			.right(17)
-            .barText('$', '', 'black')
-			.mount(cashBar);
-
-        cashProgress.render = function(ctx){
-            ctx.font = '13px Verdana';
-            IgeUiProgressBar.prototype.render.call(this,ctx);
-        }
-
-        var cashButton = new IgeUiElement()
-			.id('cashButton')
-			.texture(self.textures.greenPlus)
-			.dimensionsFromTexture(80)
-            .right(-40)
-			.mount(cashProgress);
-
-		var coinsBar = new IgeUiElement()
-			.id('coinsBar')
-			.texture(ige.client.textures.coinsBar)
-			.dimensionsFromTexture()
-            .left(175)
-			.mount(topNav);
-
-        var coinsProgress = new IgeUiProgressBar()
-			.id('coinsProgress')
-			.barColor('#69f22f')
-			.min(0)
-			.max(1000000)
-			.progress(80)
-			.width(87)
-			.height(18)
-			.right(17)
-            .barText('', ' coins', 'black')
-			.mount(coinsBar);
-
-        coinsProgress.render = function(ctx){
-            ctx.font = '13px Verdana';
-            IgeUiProgressBar.prototype.render.call(this,ctx);
-        }
-
-        var coinsButton = new IgeUiElement()
-            .id('coinsButton')
-            .texture(self.textures.greenPlus)
-            .dimensionsFromTexture(80)
-            .right(-40)
-            .mount(coinsProgress);
+        $( "#coinbarProgress" ).progressbar({
+            max:1000000,
+            value: 0
+        });
 
 		if(GameConfig.config['xpFeature'] === "on"){
             var xpBar = new IgeUiElement()
@@ -345,44 +293,17 @@ var GraphUi = IgeSceneGraph.extend({
                 ige.client.fsm.enterState('goalDialog');
             });
 
-        ige.$('cashBar')
-            .mouseUp(function() {
+        $('#cashbar')
+            .click(function() {
                 mixpanel.track("Open cash dialog");
                 ige.$('cashDialog').show();
             });
-        ige.$('cashProgress')
-            .mouseUp(function() {
-                mixpanel.track("Open cash dialog");
-                ige.$('cashDialog').show();
-            });
-        ige.$('cashButton')
-            .mouseOver(function(){
-                ige.client.audio.select.play();
-            })
-            .mouseUp(function() {
-                mixpanel.track("Open cash dialog");
-                ige.$('cashDialog').show();
-            })
 
-        ige.$('coinsBar')
-            .mouseUp(function() {
+        $('#coinbar')
+            .click(function() {
                 mixpanel.track("Open coin dialog");
                 ige.$('coinDialog').show();
             });
-        ige.$('coinsProgress')
-            .mouseUp(function() {
-                mixpanel.track("Open coin dialog");
-                ige.$('coinDialog').show();
-            });
-        ige.$('coinsButton')
-            .mouseOver(function(){
-                ige.client.audio.select.play();
-            })
-            .mouseUp(function() {
-                mixpanel.track("Open coin dialog");
-                ige.$('coinDialog').show();
-            })
-
 	},
 
 	/**
