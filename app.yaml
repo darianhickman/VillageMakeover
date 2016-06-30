@@ -20,6 +20,9 @@ handlers:
   static_files: assets/textures/ui/faviconlogo.svg
   upload: assets/textures/ui/faviconlogo.svg
 
+- url: /js
+  static_dir: client/js
+
 - url: /client/
   static_dir: client
 
