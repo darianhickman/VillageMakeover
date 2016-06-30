@@ -215,6 +215,17 @@ body {
 #objectClickContent {
     text-align: center;
 }
+#goalButton{
+    display: table;
+}
+
+#goalButton *{
+    float:left;
+    display: table-cell;
+    /*white-space: nowrap;*/
+    /* vertical-align: middle; */
+}
+
 .goalTaskImage {
     margin-top: -7px;
     margin-left: 8px;
@@ -256,10 +267,17 @@ body {
     top: 0px;
 }
 .notifyIconContainer{
-    display: none;
+    display: inline-block;
+
+    /*display: none;*/
 }
+
+
 .newGoalNotification{
-    display: none;
+    margin-left:5px;
+    vertical-align: middle;
+    text-align: center;
+    /*display: none;*/
 }
 
 @-moz-keyframes fadePulse {
