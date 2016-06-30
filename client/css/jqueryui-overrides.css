@@ -7,14 +7,22 @@
 .ui-dialog {
     background-color: rgba(200,200, 200, .85);
     margin:auto;
+    width: 300px;
     border-radius:20px;
     border: 5px solid white;
     padding:5px;
 }
+
+
 .ui-widget-content{
     /*
-    background: transparent;
-    background-image: none;
+        background: transparent;
+        background-image: none;
+    */
+
+
+    /*
+        it's already in code: position: { my: "left top", at: "left bottom", of: "#dropDownIcon" } GraphUi.js line 151;;
     */
 }
 

@@ -1,116 +1,190 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <link href='https://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <meta name="game-engine-origin" content="http://www.isogenicengine.com">
-        <meta http-equiv="X-UA-Compatible" content="IE=9" >
-        <title>Village Makeover</title>
-        <!-- STYLES -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <link href="/client/css/game.css" rel="stylesheet" type="text/css" />
-        <link rel="stylesheet" href="/client/css/jqueryui-overrides.css" type="text/css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-        <script src="jquery.fullscreen.js"></script>
-        <script src="jquery.easing.1.3.js"></script>
-        <script src="jquery.jqpagination.js"></script>
-        <link rel="shortcut icon" href="/favicon.ico?v=2">
-        <!-- Isogenic Loader -->
-        <script type="text/javascript">var igeRoot = '../ige/engine/';</script>
-        <script id="gameConfig" data-location="deploy" type="text/javascript" src="./GameConfig.js"></script>
-        <!-- start Mixpanel --><script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
-        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
-        mixpanel.init("e41b5d967889a16cba9aebd273dc4b3a");</script><!-- end Mixpanel -->
-    </head>
-    <body>
-        <ul class="igeLoading loadingFloat">
-            <li class="loadingTitle" >Village Makeover</li>
-            <li>
-                <div class="loadingLogo">
-                    <div class="loadingCircle"></div>
-                    <div class="loadingCircleInner"></div>
-                </div>
-                
-            </li>
-            <li class="loadingText">
-                Loading
-            </li>
-        </ul>
-        
-        <div id="hudcontainer">
-            <ul id="topToolbar">
-                <li id="cashbar"><img src="assets/textures/ui/Banknotes.png" /></li>
-                <li id="coinbar"><img src="assets/textures/ui/Coin1.png" /></li>
-                <li id="fullscreenIcon"><img src="assets/textures/ui/Expand_2.png" /></li>
-                <li id="buildButton"><img  src="assets/textures/ui/Shop.png"/></li>
-                <li id="goalButton" ><img  src="assets/textures/ui/star.png"/></li>
-                <li id="dropDownIcon"  class="rightli"><img src="assets/textures/ui/Menu.png" /></li>
-            </ul>
-            <div id="marketDialog" title="Market" style="display:none">
-                <!--Pages are created based on this template-->
-                <div class="marketDialogPage" id="marketDialogPageTemplate" style="display:none;">
-                    <!--This ul is populated by catalog items. Number of items per page is set in cofig sheet-->
-                    <ul class="marketDialogList">
-                        <li class="marketDialogItem">
-                            <span class="marketItemTitle">Title</span>
-                            <span class="marketItemImage"></span>
-                            <span class="marketItemCoins"><img class="marketCoinIcon" src="assets/textures/ui/Coin1.png">0</span>
-                            <span class="marketItemCash"><img class="marketCashIcon" src="assets/textures/ui/Banknotes.png">0</span>
-                            <span class="marketItemCover">Click to Unlock</span>
-                        </li>
-                </div>
-                <div class="pagination" id="marketDialogPagination">
-                    <a href="#" class="first" data-action="first">&laquo;</a>
-                    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
-                    <input type="text" readonly="readonly" />
-                    <a href="#" class="next" data-action="next">&rsaquo;</a>
-                    <a href="#" class="last" data-action="last">&raquo;</a>
-                </div>
-            </div>
-            <div id="editorMarketDialog" title="Market" style="display:none">
-                <!--Pages are created based on this template-->
-                <div class="marketDialogPage" id="editorMarketDialogPageTemplate" style="display:none;">
-                    <!--This ul is populated by catalog items. Number of items per page is set in cofig sheet-->
-                    <ul class="marketDialogList">
-                        <li class="marketDialogItem">
-                            <span class="marketItemTitle">Title</span>
-                            <span class="marketItemImage"></span>
-                        </li>
-                </div>
-                <div class="pagination" id="editorMarketDialogPagination">
-                    <a href="#" class="first" data-action="first">&laquo;</a>
-                    <a href="#" class="previous" data-action="previous">&lsaquo;</a>
-                    <input type="text" readonly="readonly" />
-                    <a href="#" class="next" data-action="next">&rsaquo;</a>
-                    <a href="#" class="last" data-action="last">&raquo;</a>
-                </div>
-            </div>
-            <div class="editorTopNavBar" id="editorTopNavBar" style="display:none;"><ul class="editorTopNavList" id="editorTopNavList"></ul></div>
-            <div id="newsFeedDialog" title="News Feed" style="display:none"><ul id="newsList"></ul></div>
-            <div id="goalDialog" title="" style="display:none"><div id="goalDialogContent"></div></div>
-            <div id="mouseOverDialog" title="About Object" style="display:none"><div id="mouseOverObjectText"></div></div>
-            <div id="tutorialDialog" title="Tutorial" style="display:none"><div id="tutorialContent"></div></div>
-            <div id="editorDialog" title="Editor" style="display:none"><div id="editorContent"></div></div>
-            <div id="shareMyVillageDialog" title="Share Village" style="display:none"><div id="shareMyVillageContent"></div></div>
-            <div id="dropDownDialog" title="" style="display:none"><div id="dropDownContent"></div></div>
-            <div id="objectClickDialogPositionItem" ></div>
-            <div id="objectClickDialog" title="" style="display:none"><ul id="objectClickContent"></ul></div>
-            <div id="savingDialog" title="Saving" style="display:none"><div id="savingContent"></div></div>
-            <div class="notifyIconContainer" id="notifyIconContainer"></div>
-        </div> <!-- End hudcontainer -->
-        <script>
-        mixpanel.track("Main Page Load")
-        </script>
-        <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-5656121-3', 'auto');
-        ga('send', 'pageview');
-        </script>
-    </body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href='https://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="game-engine-origin" content="http://www.isogenicengine.com">
+    <meta http-equiv="X-UA-Compatible" content="IE=9">
+    <title>Village Makeover</title>
+    <!-- STYLES -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <link href="/client/css/game.css" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="/client/css/jqueryui-overrides.css" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+    <script src="/client/js/howler.min.js"></script>
+    <script src="/client/js/jquery.fullscreen.js"></script>
+    <script src="/client/js/jquery.easing.1.3.js"></script>
+    <link rel="shortcut icon" href="/favicon.ico?v=2">
+    <!-- Isogenic Loader -->
+    <script type="text/javascript">var igeRoot = '/ige/engine/';</script>
+
+    <script id="gameConfig" data-location="deploy" type="text/javascript" src="./GameConfig.js"></script>
+    <script>
+        // move this to a js file when it grows too much.
+        //intentional global variable to avoid namespace collisions.
+        var vlg = {};
+
+        //maybe don't need $(document).ready . some bloggers say putting scripts at bottom of page is good enough.
+        $(document).ready(function () {
+            vlg.sfx = {};  // sound effects
+            vlg.music = {};  // sound tracks or music to play at stages of gameplay.
+            //ideal design is that events in the game
+            vlg.sfx['select'] = new Howl({urls: ['/client/assets/audio/click.mp3']});
+            vlg.sfx['cancel'] = new Howl({urls: ['/client/assets/audio/cancel.mp3']});
+
+            vlg.music['welcome'] = new Howl({
+                urls: ['/client/assets/audio/music/Welcome.wav'],
+                autoplay: false,
+                loop: false,
+                volume: 1.0
+            });
+
+            vlg.music['levelfull1'] = new Howl({
+                urls: ['/client/assets/audio/music/Level1Full.wav'],
+                autoplay: false,
+                loop: false,
+                volume: 1.0
+            });
+
+            // play intro music.  If the load screen is part of game fsm then we can control this inside the FSM in
+            // client.js  for better organization.
+            vlg.music['welcome'].fadeIn(1.0, 2000);
+
+            //bind click all the buttons in topToolBar
+            // awesome if this works ... no coding the iteration. yay!!! it works!!
+
+            $('#topToolbar').children().click(function () {
+                vlg.sfx['select'].play();
+            });
+
+            // bind sfx to all the close buttons.
+            $('.ui-icon-closethick').click(function () {
+                vlg.sfx['cancel'].play();
+            });
+
+
+        }); // end document ready
+
+
+    </script>
+    <!-- start Mixpanel -->
+    <script type="text/javascript">(function (f, b) {
+        if (!b.__SV) {
+            var a, e, i, g;
+            window.mixpanel = b;
+            b._i = [];
+            b.init = function (a, e, d) {
+                function f(b, h) {
+                    var a = h.split(".");
+                    2 == a.length && (b = b[a[0]], h = a[1]);
+                    b[h] = function () {
+                        b.push([h].concat(Array.prototype.slice.call(arguments, 0)))
+                    }
+                }
+
+                var c = b;
+                "undefined" !== typeof d ? c = b[d] = [] : d = "mixpanel";
+                c.people = c.people || [];
+                c.toString = function (b) {
+                    var a = "mixpanel";
+                    "mixpanel" !== d && (a += "." + d);
+                    b || (a += " (stub)");
+                    return a
+                };
+                c.people.toString = function () {
+                    return c.toString(1) + ".people (stub)"
+                };
+                i = "disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+                for (g = 0; g < i.length; g++)f(c, i[g]);
+                b._i.push([a, e, d])
+            };
+            b.__SV = 1.2;
+            a = f.createElement("script");
+            a.type = "text/javascript";
+            a.async = !0;
+            a.src = "undefined" !== typeof MIXPANEL_CUSTOM_LIB_URL ? MIXPANEL_CUSTOM_LIB_URL : "//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";
+            e = f.getElementsByTagName("script")[0];
+            e.parentNode.insertBefore(a, e)
+        }
+    })(document, window.mixpanel || []);
+    mixpanel.init("e41b5d967889a16cba9aebd273dc4b3a");</script><!-- end Mixpanel -->
+</head>
+<body>
+<ul class="igeLoading loadingFloat">
+    <li class="loadingTitle">Village Makeover</li>
+    <li>
+        <div class="loadingLogo">
+            <div class="loadingCircle"></div>
+            <div class="loadingCircleInner"></div>
+        </div>
+
+    </li>
+    <li class="loadingText">
+        Loading
+    </li>
+</ul>
+
+<div id="hudcontainer">
+    <ul id="topToolbar">
+        <li id="cashbar"><img src="assets/textures/ui/Banknotes.png"/></li>
+        <li id="coinbar"><img src="assets/textures/ui/Coin1.png"/></li>
+        <li id="fullscreenIcon"><img src="assets/textures/ui/Expand_2.png"/></li>
+        <li id="buildButton"><img src="assets/textures/ui/Shop.png"/></li>
+        <li id="goalButton"><img src="assets/textures/ui/star.png"/></li>
+        <li id="dropDownIcon" class="rightli"><img src="assets/textures/ui/Menu.png"/></li>
+    </ul>
+    <div class="editorTopNavBar" id="editorTopNavBar" style="display:none;">
+        <ul class="editorTopNavList" id="editorTopNavList"></ul>
+    </div>
+    <div id="newsFeedDialog" title="News Feed" style="display:none">
+        <ul id="newsList"></ul>
+    </div>
+    <div id="goalDialog" title="" style="display:none">
+        <div id="goalDialogContent"></div>
+    </div>
+    <div id="mouseOverDialog" title="About Object" style="display:none">
+        <div id="mouseOverObjectText"></div>
+    </div>
+    <div id="tutorialDialog" title="Tutorial" style="display:none">
+        <div id="tutorialContent"></div>
+    </div>
+    <div id="editorDialog" title="Editor" style="display:none">
+        <div id="editorContent"></div>
+    </div>
+    <div id="shareMyVillageDialog" title="Share Village" style="display:none">
+        <div id="shareMyVillageContent"></div>
+    </div>
+    <div id="dropDownDialog" title="" style="display:none">
+        <div id="dropDownContent"></div>
+    </div>
+    <div id="objectClickDialogPositionItem"></div>
+    <div id="objectClickDialog" title="" style="display:none">
+        <ul id="objectClickContent"></ul>
+    </div>
+    <div id="savingDialog" title="Saving" style="display:none">
+        <div id="savingContent"></div>
+    </div>
+</div> <!-- End hudcontainer -->
+<script>
+    mixpanel.track("Main Page Load")
+</script>
+<script>
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', 'UA-5656121-3', 'auto');
+    ga('send', 'pageview');
+</script>
+</body>
 </html>
