@@ -1,11 +1,13 @@
 
 var ClientHelpers = {
     guiSetCoins: function(value) {
-        ige.$('coinsProgress').progress(value);
+        $('#coinbarProgress').progressbar("value",value);
+        $('#coinbarProgress').text(value);
     },
 
     guiSetCash: function(value) {
-        ige.$('cashProgress').progress(value);
+        $('#cashbarProgress').progressbar("value",value);
+        $('#cashbarProgress').text(value);
     },
 
     addObject: function(data, tileMap) {

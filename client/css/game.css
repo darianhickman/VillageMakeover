@@ -226,6 +226,36 @@ body {
     /* vertical-align: middle; */
 }
 
+#cashbar{
+    display: table;
+}
+
+#cashbar *{
+    float:left;
+    display: table-cell;
+    /*white-space: nowrap;*/
+    /* vertical-align: middle; */
+}
+
+.cashbarProgress{
+    width: 100px;
+}
+
+#coinbar{
+    display: table;
+}
+
+#coinbar *{
+    float:left;
+    display: table-cell;
+    /*white-space: nowrap;*/
+    /* vertical-align: middle; */
+}
+
+.coinbarProgress{
+    width: 100px;
+}
+
 .goalTaskImage {
     margin-top: -7px;
     margin-left: 8px;
