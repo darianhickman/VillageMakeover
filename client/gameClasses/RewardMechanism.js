@@ -32,7 +32,7 @@ var RewardMechanism = IgeEventingClass.extend({
                 break;
         }
 
-        self.showVillageDashFont(self.textureListLookup[assetName].mount, amount, parseInt(self.textureListLookup[assetName].fontAnchorX), parseInt(self.textureListLookup[assetName].fontAnchorY));
+        //self.showVillageDashFont(self.textureListLookup[assetName].mount, amount, parseInt(self.textureListLookup[assetName].fontAnchorX), parseInt(self.textureListLookup[assetName].fontAnchorY));
 
         var animation = new AssetAnimation(assetName, self.textureListLookup[assetName].texture, self.textureListLookup[assetName].mount)
             .drawBounds(true)
