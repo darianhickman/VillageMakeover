@@ -33,6 +33,10 @@ var GameLogic = IgeObject.extend({
 
         self.goals = new Goals()
 
+        $('#goalDialogContent').html("There is no active goal at the moment!");
+        //jquery prepare dialog
+        $( "#goalDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, title: "Goals", close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 400, height: 250, modal: true, autoOpen: false });
+
         //on goal load prepare ui
         self.goals.on("goalLoaded",function(data){
             //jquery fill ul with task titles
@@ -56,8 +60,7 @@ var GameLogic = IgeObject.extend({
             $( "#goalDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, title: data.gameGoalObj.goalTitle, close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 400, height: 250, modal: true, autoOpen: false });
             //ui show goal button
             if(data.isNewGoal)
-                ige.$('goalButtonFontEntity').show()
-            ige.$('goalButton').show()
+                $('#newGoalNotification').show()
         })
 
         //on goal complete load next goal

@@ -259,6 +259,9 @@ body {
 .notifyIconContainer{
     display: none;
 }
+.newGoalNotification{
+    display: none;
+}
 
 @-moz-keyframes fadePulse {
     0% {

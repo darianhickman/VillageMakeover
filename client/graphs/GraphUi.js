@@ -188,35 +188,6 @@ var GraphUi = IgeSceneGraph.extend({
             $("#editorLink").hide();
         }
 
-        var goalButton = new IgeUiElement()
-            .id('goalButton')
-            .top(80)
-            .right(23)
-            .mount(topNav)
-            .hide();
-
-        var goalButtonTexture = new IgeEntity()
-            .texture(self.textures.star)
-            .dimensionsFromTexture()
-            .mount(goalButton)
-
-        var goalButtonFontEntity = new IgeFontEntity()
-            .id('goalButtonFontEntity')
-            .colorOverlay('black')
-            .texture(ige.client.textures.pressStartFont)
-            .backgroundColor('#D3D3D3')
-            .borderColor('#FFFFFF')
-            .borderWidth(2)
-            .right(25)
-            .top(8)
-            .width(140)
-            .height(30)
-            .textAlignX(0)
-            .paddingLeft(10)
-            .mount(goalButton)
-            .text(GameConfig.config['newGoalString'])
-            .hide();
-
         var messageFontEntity = new IgeFontEntity()
             .id('messageFontEntity')
             .layer(500)
@@ -362,14 +333,14 @@ var GraphUi = IgeSceneGraph.extend({
 				ige.$('marketDialog').show();
 			});
 
-        ige.$('goalButton')
-            .mouseOver(function(){
+        $('#goalButton')
+            .mouseover(function(){
                 ige.client.audio.select.play();
             })
-            .mouseUp(function () {
+            .click(function () {
                 // Open the goal dialog
                 mixpanel.track("Open goal dialog");
-                ige.$('goalButtonFontEntity').hide();
+                $('#newGoalNotification').hide();
                 $( "#goalDialog" ).dialog( "open" );
                 ige.client.fsm.enterState('goalDialog');
             });
