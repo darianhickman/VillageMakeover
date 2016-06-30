@@ -238,7 +238,10 @@ body {
 }
 
 .cashbarProgress{
+    margin-left:3px;
     width: 100px;
+    max-height: 19px;
+    border:none;
 }
 
 #coinbar{
@@ -253,7 +256,11 @@ body {
 }
 
 .coinbarProgress{
+    margin-left:3px;
     width: 100px;
+    max-height: 19px;
+    border:none;
+
 }
 
 .goalTaskImage {
