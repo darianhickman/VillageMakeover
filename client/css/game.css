@@ -110,6 +110,7 @@ body {
     height: 1px;
     background: rgba(0, 183, 229, 0.9);
 }
+
 .loadingLink {
     position: absolute;
     right: 10px;
@@ -238,8 +239,8 @@ body {
 }
 
 .cashbarProgress{
-    margin-left:3px;
-    width: 100px;
+    margin: 3px;
+    min-width: 40px;
     max-height: 19px;
     border:none;
 }
@@ -256,8 +257,8 @@ body {
 }
 
 .coinbarProgress{
-    margin-left:3px;
-    width: 100px;
+    margin: 3px;
+    min-width: 40px;
     max-height: 19px;
     border:none;
 
@@ -311,7 +312,8 @@ body {
 
 
 .newGoalNotification{
-    margin-left:5px;
+    margin: 3px;
+    min-width: 40px;
     vertical-align: middle;
     text-align: center;
     /*display: none;*/
