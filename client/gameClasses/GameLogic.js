@@ -122,7 +122,7 @@ var GameLogic = IgeObject.extend({
                             translateObj.y = data.positionY || 0;
                             translateObj.z = 0;
                         }
-                        self.rewardMechanism.claimReward(arr[i].asset, arr[i].amount, translateObj)
+                        self.rewardMechanism.claimReward(arr[i].asset, arr[i].amount, translateObj, data.itemRef)
                     })
                 })(i, arr)
             }

@@ -82,7 +82,7 @@ var Client = IgeClass.extend({
 
                             $('#specialEventButton').on('click', function(){
                                 $( "#objectClickDialog" ).dialog( "close" );
-                                ige.client.eventEmitter.emit(item.specialEvent, {"id":item.classId(), "type":item.type, "positionX" : item.screenPosition().x, "positionY" : (item.screenPosition().y - 30)});
+                                ige.client.eventEmitter.emit(item.specialEvent, {"id":item.classId(), "type":item.type, "positionX" : item.screenPosition().x, "positionY" : (item.screenPosition().y - 30), "itemRef": item});
                                 item._buildStarted = Date.now();
                                 API.resetBuildTimes(item, item._buildStarted);
                                 item.currentState = "waitingSpecialEvent";
