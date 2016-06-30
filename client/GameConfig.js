@@ -14,7 +14,7 @@ $.ajax({
         var loaderScript = document.createElement('script'),
             loaderLocation = document.getElementById("gameConfig").getAttribute("data-location");
         if(loaderLocation === "localhost")
-            loaderScript.src = '../ige/engine/loader.js';
+            loaderScript.src = '/ige/engine/loader.js';
         else if(loaderLocation === "deploy")
             loaderScript.src = 'deploy/game.js';
 
