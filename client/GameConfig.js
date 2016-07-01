@@ -11,6 +11,10 @@ $.ajax({
                 GameConfig.config[item] = GameConfig.config[item].replace(/\\n/g, "\n")
             }
         }
+        // load material not using ige api
+       vlg.soundinit();  // makes call to sound lib howler
+        
+        // load material for ige controlled content.
         var loaderScript = document.createElement('script'),
             loaderLocation = document.getElementById("gameConfig").getAttribute("data-location");
         if(loaderLocation === "localhost")

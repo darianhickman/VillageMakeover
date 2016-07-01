@@ -180,6 +180,11 @@ var GraphUi = IgeSceneGraph.extend({
             self.toggleDropDownMenu();
         })
 
+        $('#dropDownIcon').on('mouseover',function(){
+            // ige.client.audio.select.play();
+            //vlg.sfx['select'].play();
+
+        })
 
 
         $('#fullscreenIcon').on('click',function(){
@@ -189,6 +194,11 @@ var GraphUi = IgeSceneGraph.extend({
             }else{
                 $('body').requestFullScreen();
             }
+        })
+
+        $('#fullscreenIcon').on('mouseover',function(){
+            // No sound for now mouseover.
+           // ige.client.audio.select.play();
         })
 
         $('#loginLink').on('click',function(){

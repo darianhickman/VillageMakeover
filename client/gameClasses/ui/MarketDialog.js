@@ -63,7 +63,9 @@ var MarketDialog = Dialog.extend({
 				$( "#marketDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
 				$( "#marketDialog" ).dialog( "open" );
 				Dialog.prototype.show.call(self);
-				ige.client.audio.normClick.play();
+				// ige.client.audio.normClick.play();
+				vlg.sfx['select'].play();
+
 			}
 		});
 
@@ -136,7 +138,8 @@ var MarketDialog = Dialog.extend({
 			ige.input.stopPropagation();
 
 			// Play the audio
-			ige.client.audio.normClick.play();
+			// ige.client.audio.normClick.play();
+			vlg.sfx['select'].play();
 
 			// Hide the build dialog
 			self.hide();

@@ -18,7 +18,8 @@ var CashDialog = Dialog.extend({
             (function(i) {
                 clonedItem.click(function() {
                     ige.input.stopPropagation();
-                    ige.client.audio.normClick.play();
+                    // ige.client.audio.normClick.play();
+                    vlg.sfx['select'].play();
 
                     self.hide();
                     $( "#cashBuyDialog" ).dialog( "close" );
@@ -58,7 +59,9 @@ var CashDialog = Dialog.extend({
                 $( "#cashBuyDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
                 $( "#cashBuyDialog" ).dialog( "open" );
                 Dialog.prototype.show.call(self);
-                ige.client.audio.normClick.play();
+                // ige.client.audio.normClick.play();
+                vlg.sfx['select'].play();
+
             }
         });
 
