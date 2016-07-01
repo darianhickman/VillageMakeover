@@ -4,53 +4,26 @@ var CoinDialog = Dialog.extend({
 	init: function () {
 		Dialog.prototype.init.call(this);
 
-        var self = this
+        var self = this,
+            coins, pay, clonedItem;
 
-        var panel = new IgeUiElement()
-            .id('coinDialogImage')
-            .layer(0)
-            .texture(ige.client.textures.coinMenuBackground)
-            .dimensionsFromTexture()
-            .mount(this);
+        coins = GameConfig.config['coinDialogCoins'].split(",").map(parseFloat);
+        pay = GameConfig.config['coinDialogPays'].split(",").map(parseFloat);
 
-        var coins = GameConfig.config['coinDialogCoins'].split(",").map(parseFloat);
-        var pay = GameConfig.config['coinDialogPays'].split(",").map(parseFloat);
         for(var i=0; i < 5; i ++) {
-            var offset = i * 173;
-            var base =  new IgeUiLabel()
-                .id('bCoin' + i)
-                .left(40 + offset)
-                .top(80)
-                .width(146)
-                .height(284)
-                .drawBounds(true)
-                .mount(panel);
-
-            new IgeUiLabel()
-                .value( coins[i] + " Coins")
-                .font('13px Verdana')
-                .top(13)
-                .left(30)
-                .width(150)
-                .applyStyle({color: 'black'})
-                .mount(base);
-
-            new IgeUiLabel()
-                .value( pay[i] + " VCash")
-                .font('13px Verdana')
-                .bottom(13)
-                .left(35)
-                .width(150)
-                .applyStyle({color: 'white'})
-                .mount(base);
+            clonedItem = $('#coinAssetList li').first().clone();
+            clonedItem.find(".assetAmount").first().text(coins[i] + " Coins for ");
+            clonedItem.find(".assetPay").first().text(pay[i] + " VCash");
 
             (function(i) {
-                base.mouseUp(function() {
+                clonedItem.click(function() {
                     ige.input.stopPropagation();
-                    // ige.client.audio.normClick.play();
                     vlg.sfx['select'].play();
 
+
                     self.hide();
+                    $( "#coinBuyDialog" ).dialog( "close" );
+                    self.closeMe();
 
                     var price = {
                         cash: pay[i],
@@ -86,9 +59,13 @@ var CoinDialog = Dialog.extend({
                         .mount(ige.$('uiScene'));
                 })
             })(i);
-        }
 
-        this.closeButton.translateTo(423,-139,0);
+            $('#coinAssetList').append(clonedItem);
+        }
+        $('#coinAssetList li').first().hide();
+
+        this.closeButton.hide();
+        this._underlay.hide();
     },
 
     show: function () {
@@ -96,6 +73,8 @@ var CoinDialog = Dialog.extend({
 
         ige.client.fsm.enterState('coinDialog', null, function (err) {
             if (!err) {
+                $( "#coinBuyDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
+                $( "#coinBuyDialog" ).dialog( "open" );
                 Dialog.prototype.show.call(self);
                 // ige.client.audio.normClick.play();
                 vlg.sfx['select'].play();

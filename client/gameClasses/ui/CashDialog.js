@@ -1,47 +1,29 @@
 var CashDialog = Dialog.extend({
 	classId: 'CashDialog',
+
     init: function () {
         Dialog.prototype.init.call(this);
 
-        var self = this
+        var self = this,
+            bucks, pay, clonedItem;
 
-         var panel = new IgeUiElement()
-            .id('cashDialogImage')
-            .layer(0)
-            .texture(ige.client.textures.moneyMenuBackground)
-            .dimensionsFromTexture()
-            .mount(this);
+        bucks = GameConfig.config['cashDialogBucks'].split(",").map(parseFloat);
+        pay = GameConfig.config['cashDialogPays'].split(",").map(parseFloat);
 
-        var bucks = GameConfig.config['cashDialogBucks'].split(",").map(parseFloat);
-        var pay = GameConfig.config['cashDialogPays'].split(",").map(parseFloat);
         for(var i=0; i < 5; i ++) {
-            var offset = i * 173;
-            var base =  new IgeUiLabel()
-                .id('b' + i)
-                .left(40 + offset)
-                .top(80)
-                .width(146)
-                .height(284)
-                .drawBounds(true)
-                .mount(panel);
-
-            var j = i + 1;
-            new IgeUiLabel()
-                .value( bucks[i] + " villagebucks\nfor $" + pay[i] + " USD")
-                .font('11px Verdana')
-                .bottom(15)
-                .left(15)
-                .width(150)
-                .applyStyle({color: 'white'})
-                .mount(base);
+            clonedItem = $('#cashAssetList li').first().clone();
+            clonedItem.find(".assetAmount").first().text(bucks[i] + " villagebucks for ");
+            clonedItem.find(".assetPay").first().text("$" + pay[i] + "  USD");
 
             (function(i) {
-                base.mouseUp(function() {
+                clonedItem.click(function() {
                     ige.input.stopPropagation();
                     // ige.client.audio.normClick.play();
                     vlg.sfx['select'].play();
 
                     self.hide();
+                    $( "#cashBuyDialog" ).dialog( "close" );
+                    self.closeMe();
 
                     var price = {
                         cash: bucks[i],
@@ -60,9 +42,13 @@ var CashDialog = Dialog.extend({
 			            .mount(ige.$('uiScene'));
                 })
             })(i);
-        }
 
-        this.closeButton.translateTo(423,-139,0);
+            $('#cashAssetList').append(clonedItem);
+        }
+        $('#cashAssetList li').first().hide();
+
+        this.closeButton.hide();
+        this._underlay.hide();
     },
 
     show: function () {
@@ -70,6 +56,8 @@ var CashDialog = Dialog.extend({
 
         ige.client.fsm.enterState('cashDialog', null, function (err) {
             if (!err) {
+                $( "#cashBuyDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
+                $( "#cashBuyDialog" ).dialog( "open" );
                 Dialog.prototype.show.call(self);
                 // ige.client.audio.normClick.play();
                 vlg.sfx['select'].play();

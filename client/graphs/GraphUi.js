@@ -87,6 +87,7 @@ var GraphUi = IgeSceneGraph.extend({
 
         $("#topToolbar").show();
         $("#notifyIconContainer").show();
+        $("#newGoalNotification").hide();
 
         $("#dropDownDialog").dialog({
             resizable: false,
