@@ -64,9 +64,6 @@ var GraphUiEditor = IgeSceneGraph.extend({
             })
 
         $('#buildButtonEditor')
-            .mouseover(function(){
-                ige.client.audio.select.play();
-            })
 			.click(function () {
                 mixpanel.track("Open editor dialog");
                 ige.$('editorDialog').show();
