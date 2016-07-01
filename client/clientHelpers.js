@@ -10,6 +10,24 @@ var ClientHelpers = {
         $('#cashbarProgress').text(value);
     },
 
+    guiAnimateCoins: function(startValue, addValue) {
+        $('#coinbarProgress').prop('number', startValue)
+            .animateNumber(
+            {
+                number: (startValue + addValue)
+            }
+        );
+    },
+
+    guiAnimateCash: function(startValue, addValue) {
+        $('#cashbarProgress').prop('number', startValue)
+            .animateNumber(
+            {
+                number: (startValue + addValue)
+            }
+        );
+    },
+
     addObject: function(data, tileMap) {
         console.log("add object", data.name)
         var obj = new ige.newClassInstance(data.name)

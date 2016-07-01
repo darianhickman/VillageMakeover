@@ -96,25 +96,26 @@ var API = {
         if(assets.cash > API.state.cash)
             return false
 
+        ClientHelpers.guiAnimateCoins(API.state.coins, -assets.coins)
+        ClientHelpers.guiAnimateCash(API.state.cash, -assets.cash)
         API.state.cash -= assets.cash
         API.state.coins -= assets.coins
-        API.reloadState()
         API.saveState()
         return true
     },
 
     addCoins: function(by) {
         mixpanel.track("Add Coins");
+        ClientHelpers.guiAnimateCoins(API.state.coins, by)
         API.state.coins += by
-        API.reloadState()
         API.saveState()
         return true
     },
 
     addCash: function(by) {
         mixpanel.track("Add Cash");
+        ClientHelpers.guiAnimateCash(API.state.cash, by)
         API.state.cash += by
-        API.reloadState()
         API.saveState()
         return true
     },
