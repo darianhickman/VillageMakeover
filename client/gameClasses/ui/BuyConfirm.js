@@ -5,43 +5,28 @@ var BuyConfirm = Dialog.extend({
 
         var self = this;
 
-        var base = new IgeUiElement()
-            .width(400)
-            .height(300)
-			.texture(ige.client.textures.marketMenuBack)
-            .mount(this);
-
-        this.label =
-            new IgeFontEntity()
-            .colorOverlay('black')
-            .nativeFont('Verdana')
-            .width(600)
-            .mount(base)
-            .text(message);
-
-        new IgeFontEntity()
-            .colorOverlay('black')
-            .nativeFont('Verdana')
-            .left(34).bottom(25).width(50)
-            .mount(base)
-            .text(GameConfig.config['yesString'])
-            .mouseUp(function() {
+        $("#buyConfirmMessage").html(message);
+        $("#buyConfirmYes")
+            .click(function() {
                 mixpanel.track("Confirm buy");
+                $("#buyConfirmYes").unbind("click");
+                $( "#buyConfirmDialog" ).dialog( "close" );
                 self.closeMe();
                 callback();
             });
 
-        new IgeFontEntity()
-            .colorOverlay('black')
-            .nativeFont('Verdana')
-            .right(30).bottom(25).width(50)
-            .mount(base)
-            .text(GameConfig.config['noString'])
-            .mouseUp(function() {
+        $("#buyConfirmNo")
+            .click(function() {
                 mixpanel.track("Cancel buy");
+                $("#buyConfirmYes").unbind("click");
+                $( "#buyConfirmDialog" ).dialog( "close" );
                 self.closeMe();
             });
 
-        this.closeButton.translateTo(189,-125,0);
+        $( "#buyConfirmDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {$("#buyConfirmYes").unbind("click");self.closeMe();} });
+        $( "#buyConfirmDialog" ).dialog( "open" );
+
+        this.closeButton.hide();
+        this._underlay.hide();
     },
 })
