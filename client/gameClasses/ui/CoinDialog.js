@@ -47,7 +47,9 @@ var CoinDialog = Dialog.extend({
             (function(i) {
                 base.mouseUp(function() {
                     ige.input.stopPropagation();
-                    ige.client.audio.normClick.play();
+                    // ige.client.audio.normClick.play();
+                    vlg.sfx['select'].play();
+
                     self.hide();
 
                     var price = {
@@ -95,7 +97,9 @@ var CoinDialog = Dialog.extend({
         ige.client.fsm.enterState('coinDialog', null, function (err) {
             if (!err) {
                 Dialog.prototype.show.call(self);
-                ige.client.audio.normClick.play();
+                // ige.client.audio.normClick.play();
+                vlg.sfx['select'].play();
+
             }
         });
 

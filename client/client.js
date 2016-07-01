@@ -1,5 +1,7 @@
 var gameScale = parseFloat(GameConfig.config['gameScale'])
 var uniqueCounter = 0
+// so by now GameConfig from /config has definitely loaded otherwise this doesn't get called. 
+
 // does client know about howler.js??
 
 var Client = IgeClass.extend({
@@ -7,8 +9,8 @@ var Client = IgeClass.extend({
 
 	init: function () {
 		//ige.addComponent(IgeEditorComponent);
-		ige.addComponent(IgeAudioComponent);
-
+		// ige.addComponent(IgeAudioComponent);
+        
 		// Load our textures
 		var self = this;
 		this.audio = {};
@@ -630,7 +632,9 @@ var Client = IgeClass.extend({
 
 
 					// Play the audio
-					ige.client.audio.monster_footstep.play();
+					// ige.client.audio.monster_footstep.play();
+                    vlg.sfx['build'].play();
+                    
 
 					// Build the cursorObject by releasing it from our control
 					// and switching state
@@ -839,7 +843,9 @@ var Client = IgeClass.extend({
                     }
 
                     // Play the audio
-                    ige.client.audio.monster_footstep.play();
+                    // ige.client.audio.monster_footstep.play();
+                    vlg.sfx['build'].play();
+
 
                     // Build the cursorObject by releasing it from our control
                     // and switching state
@@ -1006,7 +1012,9 @@ var Client = IgeClass.extend({
                 if(asset.type === "CellSheet")
                     self[asset.attachTo][asset.name] = new IgeCellSheet(asset.url,parseInt(asset.horizontalCells),parseInt(asset.verticalCells));
                 else if(asset.type === "Audio")
-                    self[asset.attachTo][asset.name] = new IgeAudio(asset.url);
+                    continue;
+                    // working through moving Audio to outside Ige entirely.
+                    //self[asset.attachTo][asset.name] = new IgeAudio(asset.url);
                 else if(asset.type === "Texture")
                     self[asset.attachTo][asset.name] = new IgeTexture(asset.url);
                 else if(asset.type === "FontSheet")

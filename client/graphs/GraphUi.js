@@ -180,8 +180,11 @@ var GraphUi = IgeSceneGraph.extend({
         })
 
         $('#dropDownIcon').on('mouseover',function(){
-            ige.client.audio.select.play();
+            // ige.client.audio.select.play();
+            //vlg.sfx['select'].play();
+
         })
+
 
         $('#fullscreenIcon').on('click',function(){
             mixpanel.track("Go fullscreen");
@@ -193,6 +196,7 @@ var GraphUi = IgeSceneGraph.extend({
         })
 
         $('#fullscreenIcon').on('mouseover',function(){
+            // No sound for now mouseover.
            // ige.client.audio.select.play();
         })
 
@@ -272,9 +276,6 @@ var GraphUi = IgeSceneGraph.extend({
         })
 
 		$('#buildButton')
-            .mouseover(function(){
-                ige.client.audio.select.play();
-            })
 			.click(function () {
 				// Open the build menu
                 mixpanel.track("Open market dialog");
@@ -282,9 +283,6 @@ var GraphUi = IgeSceneGraph.extend({
 			});
 
         $('#goalButton')
-            .mouseover(function(){
-                ige.client.audio.select.play();
-            })
             .click(function () {
                 // Open the goal dialog
                 mixpanel.track("Open goal dialog");
