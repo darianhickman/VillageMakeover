@@ -270,8 +270,11 @@ body {
     height: 30px; /*this should be a px value for calculation reasons*/
     position: absolute;
 }
-.notifyIcon {
+.notifyIconWrapper{
     position: fixed;
+}
+.notifyIcon {
+    position: absolute;
     width: 20px;
     height: 20px;
     background-color: white;

@@ -160,8 +160,7 @@ var GameObjects = {
                 GameObject.prototype.update.call(this);
 
                 if(this.specialEventNotifyElement) {
-                    if(!this.isNotifyElementAnimating)
-                        this.specialEventNotifyElement.css("top", this.screenPosition().y - 50);
+                    this.specialEventNotifyElement.css("top", this.screenPosition().y - 100);
                     this.specialEventNotifyElement.css("left", this.screenPosition().x - 7);
                 }
 
@@ -267,12 +266,13 @@ var GameObjects = {
             notifySpecialEvent: function(){
                 var self = this;
                 if(self.specialEvent !== "None" && self.specialEventNotifyIcon !== "None"){
-                    self.specialEventNotifyElement = $("<img class='notifyIcon' src='" + ige.client.textures[self.specialEventNotifyIcon].url() + "'></img>")
+                    self.specialEventNotifyElement = $("<span class='notifyIconWrapper'></span>")
                         .appendTo("#notifyIconContainer")
                         .css("top",self.screenPosition().y-100)
-                        .css("left",self.screenPosition().x-7)
-                        .animate({ top: '+=50px' }, 1000, self.specialEventNotifyIconEasing, function(){self.isNotifyElementAnimating = false});
-                    self.isNotifyElementAnimating = true;
+                        .css("left",self.screenPosition().x-7);
+                    $("<img class='notifyIcon' src='" + ige.client.textures[self.specialEventNotifyIcon].url() + "'></img>")
+                        .appendTo(self.specialEventNotifyElement)
+                        .animate({ top: '+=50px' }, 1000, self.specialEventNotifyIconEasing);
                 }
             },
 
