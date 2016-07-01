@@ -31,6 +31,19 @@ var GameLogic = IgeObject.extend({
             this.unlockMarketDialogItem(itemData);
         }
 
+        //add notify icons for special events
+        for(var i in API.state.objects) {
+            var item = API.state.objects[i];
+
+            if(item.buildCompleted){
+                (function(item){
+                    setTimeout(function(){
+                        ige.$(item.id).notifySpecialEvent();
+                    },100);
+                })(item);
+            }
+        }
+
         self.goals = new Goals()
 
         $('#goalDialogContent').html("There is no active goal at the moment!");
