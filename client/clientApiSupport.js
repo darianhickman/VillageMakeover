@@ -183,7 +183,7 @@ var API = {
     },
 
     saveObjectBuiltDate: function(obj, buildCompleted) {
-        console.log("ige update object", obj)
+        vlg.log.debug("ige update object", obj)
         API.stateObjectsLookup[obj.id()].buildCompleted = buildCompleted
         API.saveState()
     },

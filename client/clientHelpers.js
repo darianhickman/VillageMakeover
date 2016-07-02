@@ -29,12 +29,12 @@ var ClientHelpers = {
     },
 
     addObject: function(data, tileMap) {
-        console.log("add object", data.name)
+        vlg.log.debug("add object", data.name)
         var obj = new ige.newClassInstance(data.name)
         obj.id(data.id)
         obj.currentState = data.currentState;
 	    obj.mount(ige.$(tileMap))
-        console.log("create", data, obj)
+        vlg.log.debug("create", data, obj)
         obj.occupyTile(
             parseInt(data.x), parseInt(data.y), Math.ceil(parseFloat(data.w)), Math.ceil(parseFloat(data.h))
 		)

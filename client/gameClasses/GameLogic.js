@@ -48,7 +48,7 @@ var GameLogic = IgeObject.extend({
 
         $('#goalDialogContent').html("There is no active goal at the moment!");
         //jquery prepare dialog
-        $( "#goalDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, title: "Goals", close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 400, height: 250, modal: true, autoOpen: false });
+        $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: "Goals", close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 400, height: 250, modal: true, autoOpen: false });
 
         //on goal load prepare ui
         self.goals.on("goalLoaded",function(data){
@@ -70,7 +70,7 @@ var GameLogic = IgeObject.extend({
             });
             $('#goalDialogContent').html("<ul id='taskList'>" + items.join('') + "</ul>");
             //jquery prepare dialog
-            $( "#goalDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, title: data.gameGoalObj.goalTitle, close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 400, height: 250, modal: true, autoOpen: false });
+            $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: data.gameGoalObj.goalTitle, close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 400, height: 250, modal: true, autoOpen: false });
             //ui show goal button
             if(data.isNewGoal)
                 $('#newGoalNotification').show()
@@ -97,7 +97,7 @@ var GameLogic = IgeObject.extend({
 
             //popup congrats message
             $('#goalDialogContent').html("<p>" + data.message + "</p>");
-            $( "#goalDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: true, title: data.title, close: function( event, ui ) {self.goals.loadNextGoal(data.goalID)}, width: 400, height: 250, modal: true, autoOpen: false });
+            $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: data.title, close: function( event, ui ) {self.goals.loadNextGoal(data.goalID)}, width: 400, height: 250, modal: true, autoOpen: false });
             $( "#goalDialog" ).dialog( "open" );
         })
 

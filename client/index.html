@@ -13,20 +13,29 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/themes/smoothness/jquery-ui.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+        <script src="/js/log4javascript.js"></script>
+        <script type="text/javascript">
+            var vlg = {};
+            vlg.log = log4javascript.getLogger();
+            appender = new log4javascript.BrowserConsoleAppender();
+            appender.setThreshold(log4javascript.Level.INFO);
+            vlg.log.addAppender(appender);
+            vlg.log.info('vlg.log is global logger ref.');
+
+        </script>
         <script src="/js/jquery.fullscreen.js"></script>
         <script src="/js/howler.js"></script>
         <script src="/js/jquery.easing.1.3.js"></script>
         <script src="/js/jquery.jqpagination.js"></script>
         <script src="/js/jquery.animateNumber.min.js"></script>
+
         <link href="/client/css/game.css" rel="stylesheet" type="text/css" />
         <link rel="shortcut icon" href="/favicon.ico?v=2">
         <!-- Isogenic Loader -->
-        <script type="text/javascript">var igeRoot = '../ige/engine/';</script>
-        <script id="gameConfig" data-location="localhost" type="text/javascript" src="/client/GameConfig.js"></script>
-        <script type="text/javascript">
-            var vlg = {};
+        <script type="text/javascript">var igeRoot = '/ige/engine/';</script>
 
-        </script>
+        <script id="gameConfig" data-location="localhost" type="text/javascript" src="/client/GameConfig.js"></script>
+
         <script src="/js/usehowler.js"></script>
 
     </head>

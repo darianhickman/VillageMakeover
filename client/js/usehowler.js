@@ -10,7 +10,6 @@
 //maybe don't need $(document).ready . some bloggers say putting scripts at bottom of page is good enough.
 
 
-
 function soundinit() {
     vlg.sfx = {};  // sound effects
     vlg.music = {};  // sound tracks or music to play at stages of gameplay.
@@ -40,7 +39,7 @@ function soundinit() {
     vlg.music['levelfull1'] = new Howl({
         urls: ['/client/assets/audio/music/Level1Full.wav'],
         autoplay: false,
-        loop: false,
+        loop: true,
         volume: 1.0
     });
 
