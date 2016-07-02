@@ -18,7 +18,7 @@
             var vlg = {};
             vlg.log = log4javascript.getLogger();
             appender = new log4javascript.BrowserConsoleAppender();
-            appender.setThreshold(log4javascript.Level.INFO);
+            appender.setThreshold(log4javascript.Level.DEBUG);
             vlg.log.addAppender(appender);
             vlg.log.info('vlg.log is global logger ref.');
 

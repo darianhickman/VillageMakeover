@@ -21,6 +21,8 @@ var Client = IgeClass.extend({
         this.fsm.defineState('loaded', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.loaded');
+                vlg.bindSounds();
+                // start Level Music.
                 vlg.music['welcome'].fadeOut(0, 2000);
                 vlg.music['levelfull1'].fadeIn(1.0, 2000);
                 //hope this works this simply.
