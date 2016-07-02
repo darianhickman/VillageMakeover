@@ -276,7 +276,7 @@ var GraphUi = IgeSceneGraph.extend({
             });
         })
 
-		$('#buildButton')
+		$('#marketButton')
 			.click(function () {
 				// Open the build menu
                 mixpanel.track("Open market dialog");

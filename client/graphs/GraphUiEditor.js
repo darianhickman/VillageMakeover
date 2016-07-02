@@ -32,7 +32,7 @@ var GraphUiEditor = IgeSceneGraph.extend({
                 $('<li id="saveButtonEditor"/>').text('Save'),
                 $('<li id="selectButtonEditor"/>').text('Select'),
                 $('<li id="deleteButtonEditor"/>').text('Delete'),
-                $('<li id="buildButtonEditor"/>').text('Build')
+                $('<li id="marketButtonEditor"/>').text('Build')
             )
         }
 
@@ -63,7 +63,7 @@ var GraphUiEditor = IgeSceneGraph.extend({
                 ige.client.fsm.enterState('editorDelete');
             })
 
-        $('#buildButtonEditor')
+        $('#marketButtonEditor')
 			.click(function () {
                 mixpanel.track("Open editor dialog");
                 ige.$('editorDialog').show();

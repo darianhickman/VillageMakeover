@@ -40,9 +40,9 @@ var Tutorial = IgeEventingClass.extend({
                 .startTime(ige._currentTime)
                 .start();
 
-        self.buildButtonTutorial = new IgeUiElement()
+        self.marketButtonTutorial = new IgeUiElement()
             .layer(50)
-            .texture(ige.client.textures.buildButton)
+            .texture(ige.client.textures.marketButton)
             .dimensionsFromTexture()
             .top(3)
             .right(20)
@@ -208,7 +208,7 @@ var Tutorial = IgeEventingClass.extend({
                     .html( self.tutorialViews.getViewByID('welcomeScreen').view );
 
                 $('#dialogButton').on('click', function(){
-                    self.gotoStep('showBuildButton')
+                    self.gotoStep('showmarketButton')
                 });
             },
             exit: function(){
@@ -216,9 +216,9 @@ var Tutorial = IgeEventingClass.extend({
             }
         }
 
-        self.steps['showBuildButton'] = {
+        self.steps['showmarketButton'] = {
             enter: function(){
-                self.buildButtonTutorial
+                self.marketButtonTutorial
                     .show()
                     .mouseUp(function () {
                         self.gotoStep('showMarketDialog')
@@ -226,12 +226,12 @@ var Tutorial = IgeEventingClass.extend({
 
                 self.tutorialArrow
                     .scaleTo(.5,.5,.5)
-                    .translateTo(self.buildButtonTutorial._translate.x - 60, self.buildButtonTutorial._translate.y, self.buildButtonTutorial._translate.z)
+                    .translateTo(self.marketButtonTutorial._translate.x - 60, self.marketButtonTutorial._translate.y, self.marketButtonTutorial._translate.z)
                     .show()
 
             },
             exit: function(){
-                self.buildButtonTutorial.mouseUp(function () {});
+                self.marketButtonTutorial.mouseUp(function () {});
             }
         }
 
@@ -375,7 +375,7 @@ var Tutorial = IgeEventingClass.extend({
                         });
                         break;
                     case 2:
-                        self.gotoStep('showBuildButton');
+                        self.gotoStep('showmarketButton');
                         break;
                     case 3:
                         self.tutorialArrow.hide();
@@ -432,7 +432,7 @@ var Tutorial = IgeEventingClass.extend({
 
                         $('#dialogButton').on('click', function(){
                             $( "#tutorialDialog" ).dialog( "close" );
-                            self.gotoStep('showBuildButton')
+                            self.gotoStep('showmarketButton')
                         });
                         break;
                     case 2:
@@ -450,7 +450,7 @@ var Tutorial = IgeEventingClass.extend({
 
                         $('#dialogButton').on('click', function(){
                             $( "#tutorialDialog" ).dialog( "close" );
-                            self.gotoStep('showBuildButton')
+                            self.gotoStep('showmarketButton')
                         });
                         break;
                     case 4:
@@ -558,7 +558,7 @@ var Tutorial = IgeEventingClass.extend({
                 $('#dialogButton').on('click', function(){
                     self.isMoneyAdded = true;
                     self.cashProgress.progress(500);
-                    self.gotoStep('showBuildButton')
+                    self.gotoStep('showmarketButton')
                 });
             },
             exit: function(){
