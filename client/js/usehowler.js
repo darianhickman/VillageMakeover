@@ -14,6 +14,7 @@
 function soundinit() {
     vlg.sfx = {};  // sound effects
     vlg.music = {};  // sound tracks or music to play at stages of gameplay.
+    vlg.muted = false;
     //ideal design is that events in the game know the sounds that go with their trigger.
 
 
@@ -97,7 +98,30 @@ function bindSounds() {
     });
 }
 
-// call sound init on first load.
-$(document).ready(soundinit());
+function toggleSound(){
+    vlg.log.info('toggling Sound ', vlg.muted);
+    if (vlg.muted){
+        Howler.unmute();
+        vlg.muted = false;
+    } else{
+        Howler.mute();
+        vlg.muted = true;
+    }
+    vlg.log.info('now ', vlg.muted);
+
+    return vlg.muted;
+}
+
+
 vlg.soundinit = soundinit;
 vlg.bindSounds = bindSounds;
+vlg.toggleSound = toggleSound;
+
+
+// call sound init on first load.
+$(document).ready(function (){
+    vlg.log.info('Enabling sound and mute');
+
+    vlg.soundinit();
+    $('#volume').children().click( vlg.toggleSound); // enable mute button right away
+});
