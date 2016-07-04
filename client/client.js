@@ -480,16 +480,16 @@ var Client = IgeClass.extend({
             }
         });
 
-        this.fsm.defineState('buildDialog', {
+        this.fsm.defineState('marketDialog', {
             enter: function (data, completeCallback) {
                 $("#dropDownDialog").dialog("close");
 
-                vlg.log.info('entering state this.fsm.buildDialog');
+                vlg.log.info('entering state this.fsm.marketDialog');
 
                 completeCallback();
             },
             exit: function (data, completeCallback) {
-                vlg.log.info('exiting state this.fsm.buildDialog');
+                vlg.log.info('exiting state this.fsm.marketDialog');
 
                 completeCallback();
             }
@@ -1033,7 +1033,7 @@ var Client = IgeClass.extend({
             }
         });
 
-        this.fsm.defineTransition('build', 'buildDialog', function (data, callback) {
+        this.fsm.defineTransition('build', 'marketDialog', function (data, callback) {
             // Ensure that the item we were building is removed because
             // it was not placed
             if (ige.client.cursorObject) {
