@@ -121,7 +121,10 @@ vlg.toggleSound = toggleSound;
 // call sound init on first load.
 $(document).ready(function (){
     vlg.log.info('Enabling sound and mute');
-
     vlg.soundinit();
-    $('#volume').children().click( vlg.toggleSound); // enable mute button right away
+    $('#volume').children().click( vlg.toggleSound); // enable mute button right away\
+    vlg.log.debug('#volume', $('#volume'));
+    vlg.log.debug('#volume kids', $('#volume').children());
+    vlg.log.debug('toogleSound ', vlg.toggleSound);
+
 });
