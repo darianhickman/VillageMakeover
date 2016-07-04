@@ -2,7 +2,8 @@ var gameScale = parseFloat(GameConfig.config['gameScale'])
 var uniqueCounter = 0
 // so by now GameConfig from /config has definitely loaded otherwise this doesn't get called. 
 
-// does client know about howler.js??
+// For all code outside of ige THE global variable is vlg.  That's how we'll pass references across different libraries.
+
 
 var Client = IgeClass.extend({
     classId: 'Client',
