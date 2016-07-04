@@ -9,7 +9,7 @@ var igeClientConfig = {
 		'./gameClasses/EditorManager.js',
 		'./gameClasses/ui/Dialog.js',
 		'./gameClasses/ui/MarketDialog.js',
-		'./gameClasses/ui/EditorDialog.js',
+		'./gameClasses/ui/EditorMarketDialog.js',
 		'./gameClasses/ui/CoinParticle.js',
         './gameClasses/ui/CashDialog.js',
         './gameClasses/ui/CoinDialog.js',

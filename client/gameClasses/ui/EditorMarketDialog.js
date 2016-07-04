@@ -1,8 +1,9 @@
-var EditorDialog = Dialog.extend({
-	classId: 'EditorDialog',
+var EditorMarketDialog = Dialog.extend({
+	classId: 'EditorMarketDialog',
 
 	init: function () {
 		Dialog.prototype.init.call(this);
+		EditorMarketDialog.prototype.isMarketSet = EditorMarketDialog.prototype.isMarketSet || false;
 
 		this._pageRefs = [];
 		this._items = [];
@@ -58,7 +59,7 @@ var EditorDialog = Dialog.extend({
 	show: function () {
 		var self = this;
 
-		ige.client.fsm.enterState('editorDialog', null, function (err) {
+		ige.client.fsm.enterState('editorMarketDialog', null, function (err) {
 			if (!err) {
 				$( "#editorMarketDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
 				$( "#editorMarketDialog" ).dialog( "open" );
@@ -75,7 +76,7 @@ var EditorDialog = Dialog.extend({
 	hide: function () {
 		var self = this;
 
-		if (ige.client.fsm.currentStateName === 'editorDialog') {
+		if (ige.client.fsm.currentStateName === 'editorMarketDialog') {
 			ige.client.fsm.exitState(function (err) {
 				if (!err) {
 					$("#editorMarketDialog").dialog();
