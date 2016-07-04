@@ -1140,7 +1140,6 @@ var Client = IgeClass.extend({
 
                     // Add ui graph
                     ige.addGraph('GraphUi');
-                    ige.client.fsm.enterState('loaded');
 
                     // Mouse pan with limits
                     //ige.$('vp1')
