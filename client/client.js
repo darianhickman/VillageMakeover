@@ -1170,7 +1170,7 @@ var Client = IgeClass.extend({
                         .scene(ige.$('baseScene'))
                         .mount(ige);
 
-                    ige.$('vp1').mousePan.on('panMove', function () {
+                    ige.$('vp1').mousePan.on('panStart', function () {
                         clientSelf.fsm.enterState('pan');
                     });
                     ige.$('vp1').mousePan.on('panEnd', function () {
