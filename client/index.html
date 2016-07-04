@@ -39,8 +39,11 @@
                 if(vlg.music['welcome']){
                     vlg.music['welcome'].fadeIn(1.0, 2000);
                 }
-
+                $('#volume').click(vlg.toggleSound);
             });
+
+
+
         </script>
 
         <script id="gameConfig" data-location="localhost" type="text/javascript" src="/client/GameConfig.js"></script>
