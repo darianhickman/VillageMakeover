@@ -63,6 +63,8 @@ var Client = IgeClass.extend({
                             item = ige.client.itemAt('tileMap1', tile.x, tile.y);
 
                         if (item) {
+                            ClientHelpers.closeAllDialogsButThis('objectClickDialog');
+
                             $("#objectClickDialogPositionItem").css("position", "fixed");
                             $("#objectClickDialogPositionItem").css("top", item.screenPosition().y);
                             $("#objectClickDialogPositionItem").css("left", item.screenPosition().x);
@@ -234,6 +236,8 @@ var Client = IgeClass.extend({
 
                 $("#topToolbar").hide();
                 $("#notifyIconContainer").hide();
+                $("#mouseOverDialog").dialog();
+                $("#mouseOverDialog").dialog("close");
 
                 ige.$('vp1')
                     .mousePan.enabled(true)
@@ -484,7 +488,7 @@ var Client = IgeClass.extend({
 
         this.fsm.defineState('marketDialog', {
             enter: function (data, completeCallback) {
-                $("#dropDownDialog").dialog("close");
+                ClientHelpers.closeAllDialogsButThis('marketDialog');
 
                 vlg.log.info('entering state this.fsm.marketDialog');
 
@@ -513,7 +517,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('cashDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.cashDialog');
-
+                ClientHelpers.closeAllDialogsButThis('cashBuyDialog');
                 completeCallback();
             },
             exit: function (data, completeCallback) {
@@ -526,7 +530,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('coinDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.coinDialog');
-
+                ClientHelpers.closeAllDialogsButThis('coinBuyDialog');
                 completeCallback();
             },
             exit: function (data, completeCallback) {
@@ -539,7 +543,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('goalDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.goalDialog');
-
+                ClientHelpers.closeAllDialogsButThis('goalDialog');
                 completeCallback();
             },
             exit: function (data, completeCallback) {

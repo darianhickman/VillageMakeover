@@ -91,5 +91,17 @@ var ClientHelpers = {
             .start();
 
         this.messageTimeout = new IgeTimeout(function () { ige.$('messageFontEntity').hide(); }, 3 * 1000);
+    },
+
+    closeAllDialogsButThis: function(dialogID){
+        var dialogList = ["dropDownDialog","marketDialog","goalDialog","cashBuyDialog","coinBuyDialog","mouseOverDialog","objectClickDialog","shareMyVillageDialog"];
+        for(var i = 0; i < dialogList.length; i++){
+            if(dialogList[i] === dialogID)
+                continue;
+            else {
+                $("#" + dialogList[i]).dialog();
+                $("#" + dialogList[i]).dialog("close");
+            }
+        }
     }
 }

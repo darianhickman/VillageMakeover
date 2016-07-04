@@ -177,6 +177,7 @@ var GraphUi = IgeSceneGraph.extend({
         var self = this;
 
         $('#dropDownIcon').on('click',function(){
+            ClientHelpers.closeAllDialogsButThis('dropDownDialog');
             self.toggleDropDownMenu();
         })
 
@@ -245,6 +246,7 @@ var GraphUi = IgeSceneGraph.extend({
         })
 
         $('#shareMyVillageLink').on('click',function(){
+            ClientHelpers.closeAllDialogsButThis('shareMyVillageDialog');
             $( "#shareMyVillageDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
             $( "#shareMyVillageDialog" ).dialog( "open" );
 
