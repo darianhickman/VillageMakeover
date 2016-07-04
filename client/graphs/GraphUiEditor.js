@@ -6,7 +6,7 @@ var GraphUiEditor = IgeSceneGraph.extend({
 	 * @param options
 	 */
 	addGraph: function (options) {
-		var self = ige.client,
+		var self = this,
 			uiScene = ige.$('uiSceneEditor');
 
         var topNav = new IgeUiElement()
@@ -17,13 +17,16 @@ var GraphUiEditor = IgeSceneGraph.extend({
             .height(50)
             .mount(uiScene)
 
-        var editorDialog = new EditorDialog()
-            .id('editorDialog')
+        var editorMarketDialog = new EditorMarketDialog()
+            .id('editorMarketDialog')
             .layer(1)
             .hide()
             .mount(uiScene);
 
-        GameObjects.setupEditor(editorDialog)
+        if(!EditorMarketDialog.prototype.isMarketSet) {
+            EditorMarketDialog.prototype.isMarketSet = true;
+            GameObjects.setupEditorMarket(editorMarketDialog)
+        }
 
         $('#editorTopNavBar').css('display','')
 
@@ -34,10 +37,9 @@ var GraphUiEditor = IgeSceneGraph.extend({
                 $('<li id="deleteButtonEditor"/>').text('Delete'),
                 $('<li id="marketButtonEditor"/>').text('Build')
             )
+
+            self.addActions();
         }
-
-		this.addActions();
-
 	},
 
 	addActions: function () {
@@ -66,7 +68,7 @@ var GraphUiEditor = IgeSceneGraph.extend({
         $('#marketButtonEditor')
 			.click(function () {
                 mixpanel.track("Open editor dialog");
-                ige.$('editorDialog').show();
+                ige.$('editorMarketDialog').show();
 			});
 
 	},

@@ -495,14 +495,14 @@ var Client = IgeClass.extend({
             }
         });
 
-        this.fsm.defineState('editorDialog', {
+        this.fsm.defineState('editorMarketDialog', {
             enter: function (data, completeCallback) {
-                vlg.log.info('entering state this.fsm.editorDialog');
+                vlg.log.info('entering state this.fsm.editorMarketDialog');
 
                 completeCallback();
             },
             exit: function (data, completeCallback) {
-                vlg.log.info('exiting state this.fsm.editorDialog');
+                vlg.log.info('exiting state this.fsm.editorMarketDialog');
 
                 completeCallback();
             }
