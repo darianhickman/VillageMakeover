@@ -6,20 +6,12 @@ var ClientHelpers = {
     },
     
     hideDialogs: function(){
-        // not sure how to iterate over all dialogs hard code for now. Change to class select at some point.  
-        $('#goalDialog').dialog('close');
-        $('#marketDialog').dialog('close');
-        $('#editorMarketDialog').dialog('close');
-        $('#cashBuyDialog').dialog('close');
-        $('#coinBuyDialog').dialog('close');
-        $('#tutorialDialog').dialog('close');
-        $('#newsFeedDialog').dialog('close');
-        $('#shareMyVillageDialog').dialog('close');
-        $('#dropDownDialog').dialog('close');
-        $('#savingDialog').dialog('close');
-        $('#buyConfirmDialog').dialog('close');
-
-
+        // not sure how to iterate over all dialogs hard code for now. Change to class select at some point.
+        var dialogList = ["goalDialog","marketDialog","editorMarketDialog","cashBuyDialog","coinBuyDialog","tutorialDialog","newsFeedDialog","shareMyVillageDialog","dropDownDialog","savingDialog","buyConfirmDialog"];
+        for(var i = 0; i < dialogList.length; i++){
+            $("#" + dialogList[i]).dialog();
+            $("#" + dialogList[i]).dialog("close");
+        }
     },
 
     guiSetCash: function(value) {
