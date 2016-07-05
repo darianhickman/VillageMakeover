@@ -21,6 +21,7 @@ var Client = IgeClass.extend({
         // probably should just create a state called game loaded.
         this.fsm.defineState('loaded', {
             enter: function (data, completeCallback) {
+                // ClientHelpers.hideDialogs();
                 vlg.log.info('entering state this.fsm.loaded');
                 vlg.bindSounds();
                 $('#volume').click(vlg.toggleSound);
@@ -43,6 +44,8 @@ var Client = IgeClass.extend({
         // Define the fsm states
         this.fsm.defineState('select', {
             enter: function (data, completeCallback) {
+                ClientHelpers.hideDialogs();
+
                 // Hook mouse events
                 vlg.log.info('entering state this.fsm.select');
 
@@ -225,6 +228,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('editor', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editor');
+                ClientHelpers.hideDialogs();
 
                 mixpanel.track("Open editor");
 
@@ -362,6 +366,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('view', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.view');
+                ClientHelpers.hideDialogs();
 
                 mixpanel.track("View village");
 
@@ -445,6 +450,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('tutorial', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.tutorial');
+                ClientHelpers.hideDialogs();
 
                 mixpanel.track("Open tutorial");
 
@@ -485,6 +491,9 @@ var Client = IgeClass.extend({
         this.fsm.defineState('marketDialog', {
             enter: function (data, completeCallback) {
                 $("#dropDownDialog").dialog("close");
+                ClientHelpers.hideDialogs();
+
+                //where is call to open the marketdialog?????
 
                 vlg.log.info('entering state this.fsm.marketDialog');
 
@@ -500,6 +509,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('editorMarketDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editorMarketDialog');
+                ClientHelpers.hideDialogs();
 
                 completeCallback();
             },
@@ -513,6 +523,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('cashDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.cashDialog');
+                ClientHelpers.hideDialogs();
 
                 completeCallback();
             },
@@ -526,6 +537,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('coinDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.coinDialog');
+                ClientHelpers.hideDialogs();
 
                 completeCallback();
             },
@@ -539,7 +551,9 @@ var Client = IgeClass.extend({
         this.fsm.defineState('goalDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.goalDialog');
-
+                ClientHelpers.hideDialogs();
+                //where is  call to open goalDiaglog????
+                
                 completeCallback();
             },
             exit: function (data, completeCallback) {
@@ -554,6 +568,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('build', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.build');
+                ClientHelpers.hideDialogs();
 
                 var self = this,
                     tileMap = ige.$('tileMap1');
@@ -819,6 +834,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('editorBuild', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editorBuild');
+                ClientHelpers.hideDialogs();
 
                 var self = this,
                     tileMap = ige.$('tileMapEditor'),
@@ -961,6 +977,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('editorDelete', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editorDelete');
+                ClientHelpers.hideDialogs();
 
                 // Hook mouse events
                 var self = this,
@@ -1025,6 +1042,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('pan', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.pan');
+                ClientHelpers.hideDialogs();
 
                 completeCallback();
             },

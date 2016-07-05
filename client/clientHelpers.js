@@ -4,6 +4,23 @@ var ClientHelpers = {
         $('#coinbarProgress').progressbar("value",value);
         $('#coinbarProgress').text(value);
     },
+    
+    hideDialogs: function(){
+        // not sure how to iterate over all dialogs hard code for now. Change to class select at some point.  
+        $('#goalDialog').dialog('close');
+        $('#marketDialog').dialog('close');
+        $('#editorMarketDialog').dialog('close');
+        $('#cashBuyDialog').dialog('close');
+        $('#coinBuyDialog').dialog('close');
+        $('#tutorialDialog').dialog('close');
+        $('#newsFeedDialog').dialog('close');
+        $('#shareMyVillageDialog').dialog('close');
+        $('#dropDownDialog').dialog('close');
+        $('#savingDialog').dialog('close');
+        $('#buyConfirmDialog').dialog('close');
+
+
+    },
 
     guiSetCash: function(value) {
         $('#cashbarProgress').progressbar("value",value);
