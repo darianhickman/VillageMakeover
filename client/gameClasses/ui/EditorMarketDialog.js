@@ -61,7 +61,7 @@ var EditorMarketDialog = Dialog.extend({
 
 		ige.client.fsm.enterState('editorMarketDialog', null, function (err) {
 			if (!err) {
-				$( "#editorMarketDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
+				$( "#editorMarketDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
 				$( "#editorMarketDialog" ).dialog( "open" );
 				Dialog.prototype.show.call(self);
 				// ige.client.audio.normClick.play();

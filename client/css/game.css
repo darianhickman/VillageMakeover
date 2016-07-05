@@ -266,11 +266,16 @@ body {
 }
 
 .goalTaskImage {
+    position: absolute;
+    clip: rect(0, 30px, 30px, 0);
     margin-top: -7px;
     margin-left: 8px;
-    height: 30px; /*this should be a px value for calculation reasons*/
     position: absolute;
+    overflow:hidden;
+    width:40px;
+    height: 100%;
 }
+
 .notifyIconWrapper{
     position: fixed;
 }

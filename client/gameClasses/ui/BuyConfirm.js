@@ -23,7 +23,7 @@ var BuyConfirm = Dialog.extend({
                 self.closeMe();
             });
 
-        $( "#buyConfirmDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {$("#buyConfirmYes").unbind("click");self.closeMe();} });
+        $( "#buyConfirmDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {$("#buyConfirmYes").unbind("click");self.closeMe();} });
         $( "#buyConfirmDialog" ).dialog( "open" );
 
         this.closeButton.hide();

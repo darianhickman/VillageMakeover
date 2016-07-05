@@ -11,7 +11,7 @@ var EditorManager = IgeEventingClass.extend({
             if(settings.sentFrom !== "editor")
                 return;
 
-            $( "#savingDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+            $( "#savingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
             $( "#savingDialog" ).dialog( "open" );
 
             $( "#savingContent" )
@@ -55,7 +55,7 @@ var EditorManager = IgeEventingClass.extend({
 
         self.steps['init'] = {
             enter: function(){
-                $( "#editorDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
+                $( "#editorDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
                 $( "#editorDialog" ).dialog( "open" );
 
                 $( "#editorContent" )
@@ -81,7 +81,7 @@ var EditorManager = IgeEventingClass.extend({
 
         self.steps['new'] = {
             enter: function(){
-                $( "#editorDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
+                $( "#editorDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
                 $( "#editorDialog" ).dialog( "open" );
 
                 $( "#editorContent" )
@@ -114,7 +114,7 @@ var EditorManager = IgeEventingClass.extend({
 
         self.steps['load'] = {
             enter: function(){
-                $( "#editorDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 800, height: 500, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
+                $( "#editorDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 800, height: 500, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
                 $( "#editorDialog" ).dialog( "open" );
 
                 $("#editorContent")
@@ -165,7 +165,7 @@ var EditorManager = IgeEventingClass.extend({
                     villageOrganization,
                     villageIsViewable;
 
-                $( "#editorDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
+                $( "#editorDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
                 $( "#editorDialog" ).dialog( "open" );
 
                 $( "#editorContent" )
@@ -201,7 +201,7 @@ var EditorManager = IgeEventingClass.extend({
 
         self.steps['delete'] = {
             enter: function(data){
-                $( "#editorDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
+                $( "#editorDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
                 $( "#editorDialog" ).dialog( "open" );
 
                 $("#editorContent")
@@ -234,7 +234,7 @@ var EditorManager = IgeEventingClass.extend({
 
         self.steps['share'] = {
             enter: function(data){
-                $( "#editorDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
+                $( "#editorDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('closeEditor',{forceQuit:true});} });
                 $( "#editorDialog" ).dialog( "open" );
 
                 $("#editorContent")
@@ -291,7 +291,7 @@ var EditorManager = IgeEventingClass.extend({
 
         self.steps['warnBeforeQuit'] = {
             enter: function(){
-                $( "#editorDialog" ).dialog({ resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('editModeOn');} });
+                $( "#editorDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false, close: function( event, ui ) {self.gotoStep('editModeOn');} });
                 $( "#editorDialog" ).dialog( "open" );
 
                 $("#editorContent")

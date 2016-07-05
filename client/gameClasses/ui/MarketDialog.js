@@ -60,7 +60,7 @@ var MarketDialog = Dialog.extend({
 
 		ige.client.fsm.enterState('marketDialog', null, function (err) {
 			if (!err) {
-				$( "#marketDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
+				$( "#marketDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
 				$( "#marketDialog" ).dialog( "open" );
 				Dialog.prototype.show.call(self);
 				// ige.client.audio.normClick.play();

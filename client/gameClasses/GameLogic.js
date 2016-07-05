@@ -66,7 +66,7 @@ var GameLogic = IgeObject.extend({
                     dummyElem.remove();
                     itemImg = "<span class='goalTaskImage' style='background-image: url(" + options.textureUrl + ");width:" + imgWidth / ige.client.textures[itemID]._cellColumns + "px;background-size:" + imgWidth + "px " + imgHeight + "px;background-position-x: "+ imgWidth / ige.client.textures[itemID]._cellColumns +"px;'></span>";
                 }
-                items.push('<li>' + value.title + " " + itemImg + "<span id='task" + value.taskID + "' style='float:right;'>" + value.percent + "%</span></li>");
+                items.push('<li>' + itemImg + " "+ value.title  +  "<span id='task" + value.taskID + "' style='float:right;'>" + value.percent + "%</span></li>");
             });
             $('#goalDialogContent').html("<ul id='taskList'>" + items.join('') + "</ul>");
             //jquery prepare dialog
@@ -78,7 +78,7 @@ var GameLogic = IgeObject.extend({
 
         //on goal complete load next goal
         // on goal complete this should trigger ige.fsm to enterstate goalDialog, which would then handle showing
-        // goalDialog.
+        // D
         self.goals.on("goalComplete",function(data){
             //add reward assets
             var rewardsArr = data.reward.split(","),

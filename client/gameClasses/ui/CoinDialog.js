@@ -73,7 +73,7 @@ var CoinDialog = Dialog.extend({
 
         ige.client.fsm.enterState('coinDialog', null, function (err) {
             if (!err) {
-                $( "#coinBuyDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
+                $( "#coinBuyDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
                 $( "#coinBuyDialog" ).dialog( "open" );
                 Dialog.prototype.show.call(self);
                 // ige.client.audio.normClick.play();

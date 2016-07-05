@@ -44,7 +44,7 @@ var Client = IgeClass.extend({
         // Define the fsm states
         this.fsm.defineState('select', {
             enter: function (data, completeCallback) {
-                ClientHelpers.hideDialogs();
+                // ClientHelpers.hideDialogs();
 
                 // Hook mouse events
                 vlg.log.info('entering state this.fsm.select');
@@ -73,7 +73,7 @@ var Client = IgeClass.extend({
                             $("#objectClickDialogPositionItem").css("left", item.screenPosition().x);
 
                             $("#objectClickDialog").dialog({
-                                resizable: false, draggable: false, dialogClass: 'ui-dialog-no-titlebar',
+                                resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar',
                                 position: {my: "center", at: "center", of: "#objectClickDialogPositionItem"},
                                 closeOnEscape: false, width: 'auto', height: 'auto', modal: false, autoOpen: false
                             });
@@ -230,7 +230,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('editor', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editor');
-                ClientHelpers.hideDialogs();
+                // ClientHelpers.hideDialogs();
 
                 mixpanel.track("Open editor");
 
@@ -370,7 +370,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('view', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.view');
-                ClientHelpers.hideDialogs();
+                // ClientHelpers.hideDialogs();
 
                 mixpanel.track("View village");
 
@@ -405,7 +405,7 @@ var Client = IgeClass.extend({
 
                 $("#savingDialog").dialog({
                     resizable: false,
-                    draggable: false,
+                    draggable: true,
                     dialogClass: 'ui-dialog-no-titlebar',
                     closeOnEscape: false,
                     width: 500,
@@ -454,7 +454,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('tutorial', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.tutorial');
-                ClientHelpers.hideDialogs();
+                // ClientHelpers.hideDialogs();
 
                 mixpanel.track("Open tutorial");
 
@@ -509,7 +509,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('editorMarketDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editorMarketDialog');
-                ClientHelpers.hideDialogs();
+                // ClientHelpers.hideDialogs();
 
                 completeCallback();
             },
@@ -566,7 +566,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('build', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.build');
-                ClientHelpers.hideDialogs();
+                // ClientHelpers.hideDialogs();
 
                 var self = this,
                     tileMap = ige.$('tileMap1');
@@ -832,7 +832,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('editorBuild', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editorBuild');
-                ClientHelpers.hideDialogs();
+                // ClientHelpers.hideDialogs();
 
                 var self = this,
                     tileMap = ige.$('tileMapEditor'),
@@ -975,7 +975,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('editorDelete', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editorDelete');
-                ClientHelpers.hideDialogs();
+                // ClientHelpers.hideDialogs();
 
                 // Hook mouse events
                 var self = this,
@@ -1040,7 +1040,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('pan', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.pan');
-                ClientHelpers.hideDialogs();
+                // ClientHelpers.hideDialogs();
 
                 completeCallback();
             },

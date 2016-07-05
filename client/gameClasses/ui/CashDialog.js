@@ -56,7 +56,7 @@ var CashDialog = Dialog.extend({
 
         ige.client.fsm.enterState('cashDialog', null, function (err) {
             if (!err) {
-                $( "#cashBuyDialog" ).dialog({ resizable: false, draggable: false, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
+                $( "#cashBuyDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
                 $( "#cashBuyDialog" ).dialog( "open" );
                 Dialog.prototype.show.call(self);
                 // ige.client.audio.normClick.play();
