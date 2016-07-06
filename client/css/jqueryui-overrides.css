@@ -51,6 +51,9 @@
 }
 
 .ui-dialog .ui-dialog-content ul li:hover {
+    color: #ffffff;
+    background-color: #3E87E3;
+    /*font-size: 1.1em;*/
 
 }
 
