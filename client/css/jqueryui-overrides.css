@@ -62,15 +62,16 @@
 
 .ui-dialog .ui-dialog-titlebar-close {
     position: absolute;
+    /* z-index: 4000; */
     visibility: visible;
-    display: inline-block;
+    /* display: inline-block; */
     top: -5px;
-    right: -5px;
+    /* right: -5px; */
     margin-top: -10px;
     margin-right:-10px;
     /* margin: -10px 0 0 0; */
     padding: 0;
-    overflow:visible;
+    /* overflow:visible; */
 }
 
 
