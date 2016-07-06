@@ -103,8 +103,10 @@ var MarketDialog = Dialog.extend({
 
 		options = GameObjects.catalogLookup[itemData.id]
 		dummyElem = $("<div class='marketItemImage'></div>").hide().appendTo("body");
-		imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
-		imgWidth = ige.client.textures[itemData.id]._sizeX / (ige.client.textures[itemData.id]._sizeY / imgHeight)
+		// imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
+		imgHeight = 30
+		// imgWidth = ige.client.textures[itemData.id]._sizeX / (ige.client.textures[itemData.id]._sizeY / imgHeight)
+		imgWidth = 30
 		dummyElem.remove();
 
 		clonedItem.find(".marketItemImage").first().css("background-image","url(" + options.textureUrl + ")")

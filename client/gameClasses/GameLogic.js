@@ -61,8 +61,10 @@ var GameLogic = IgeObject.extend({
                     itemID = value.targetOBJ.substr(2);
                     options = GameObjects.catalogLookup[itemID]
                     dummyElem = $("<div class='goalTaskImage'></div>").hide().appendTo("body");
-                    imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
-                    imgWidth = ige.client.textures[itemID]._sizeX / (ige.client.textures[itemID]._sizeY / imgHeight)
+                    // imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
+                    imgHeight = 30
+                    // imgWidth = ige.client.textures[itemID]._sizeX / (ige.client.textures[itemID]._sizeY / imgHeight)
+                    imgWidth = 30
                     dummyElem.remove();
                     itemImg = "<span class='goalTaskImage' style='background-image: url(" + options.textureUrl + ");width:" + imgWidth / ige.client.textures[itemID]._cellColumns + "px;background-size:" + imgWidth + "px " + imgHeight + "px;background-position-x: "+ imgWidth / ige.client.textures[itemID]._cellColumns +"px;'></span>";
                 }

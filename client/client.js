@@ -68,9 +68,9 @@ var Client = IgeClass.extend({
                         if (item) {
                             ClientHelpers.closeAllDialogsButThis('objectClickDialog');
 
-                            $("#objectClickDialogPositionItem").css("position", "fixed");
-                            $("#objectClickDialogPositionItem").css("top", item.screenPosition().y);
-                            $("#objectClickDialogPositionItem").css("left", item.screenPosition().x);
+                            // $("#objectClickDialogPositionItem").css("position", "fixed");
+                            // $("#objectClickDialogPositionItem").css("top", item.screenPosition().y);
+                            // $("#objectClickDialogPositionItem").css("left", item.screenPosition().x);
 
                             $("#objectClickDialog").dialog({
                                 resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar',
@@ -79,7 +79,7 @@ var Client = IgeClass.extend({
                             });
 
                             $("#objectClickDialog").dialog("open");
-                            $("#objectClickDialog").css("min-height", "");
+                            // $("#objectClickDialog").css("min-height", "");
 
                             $("#objectClickContent").html(' <li id="moveObjectButton">Move Object</li> ');
 
@@ -991,7 +991,7 @@ var Client = IgeClass.extend({
                     .translateTo(mp.x, mp.y, 0);
 
                 self.mouseMoveHandle = ige.$('vp1').on('mouseMove', function (event, evc, data) {
-                    $('#igeFrontBuffer').css("cursor", "none");
+                    // $('#igeFrontBuffer').css("cursor", "none");
                     var mp = ige.$('uiSceneEditor').mousePos();
                     ige.client.deleteCursorObject.translateTo(mp.x, mp.y, 0);
                 });
@@ -1023,7 +1023,7 @@ var Client = IgeClass.extend({
                 var self = this,
                     tileMap = ige.$('tileMapEditor');
 
-                $('#igeFrontBuffer').css("cursor", "default");
+                // $('#igeFrontBuffer').css("cursor", "default");
 
                 if (tileMap) {
                     tileMap.off('mouseUp', self.mouseUpHandle);
@@ -1135,12 +1135,12 @@ var Client = IgeClass.extend({
                 var baseSize = Math.min($(window).width() / width, $(window).height() / height)
                 canvas.width(width * baseSize)
                 canvas.height(height * baseSize)
-                canvas.css({
-                    position: 'absolute',
-                    left: ($(window).width() - width * baseSize) / 2,
-                    top: ($(window).height() - height * baseSize) / 2
-                })
-                $('body').css('background-color', '#407c03')
+                // canvas.css({
+                //     position: 'absolute',
+                //     left: ($(window).width() - width * baseSize) / 2,
+                //     top: ($(window).height() - height * baseSize) / 2
+                // })
+                // $('body').css('background-color', '#407c03')
             }
 
             ige.canvas(document.getElementById('gameCanvas'));

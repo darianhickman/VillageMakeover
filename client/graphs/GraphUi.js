@@ -99,8 +99,8 @@ var GraphUi = IgeSceneGraph.extend({
             autoOpen: false,
             position: { my: "left top", at: "left bottom", of: "#dropDownIcon" },
             open: function(event, ui) {
-                $(this).dialog('widget').find('div.ui-dialog-titlebar').css('padding','4px');
-                $(this).css('height','auto');
+                // $(this).dialog('widget').find('div.ui-dialog-titlebar').css('padding','4px');
+                // $(this).css('height','auto');
             }
         });
 
@@ -181,11 +181,7 @@ var GraphUi = IgeSceneGraph.extend({
             self.toggleDropDownMenu();
         })
 
-        $('#dropDownIcon').on('mouseover',function(){
-            // ige.client.audio.select.play();
-            //vlg.sfx['select'].play();
 
-        })
 
 
         $('#fullscreenIcon').on('click',function(){
