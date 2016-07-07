@@ -18,6 +18,8 @@ var Client = IgeClass.extend({
         this.textures = {};
         this.fsm = new IgeFSM();
 
+        $("body").disableSelection();
+
         // probably should just create a state called game loaded.
         this.fsm.defineState('loaded', {
             enter: function (data, completeCallback) {
@@ -458,6 +460,8 @@ var Client = IgeClass.extend({
 
                 mixpanel.track("Open tutorial");
 
+                ClientHelpers.closeAllDialogsButThis('');
+
                 ige.$('vp1')
                     .mousePan.enabled(false)
                     .scrollZoom.enabled(false)
@@ -468,6 +472,21 @@ var Client = IgeClass.extend({
                 ige.addGraph('GraphTutorial');
                 $('#topToolbar').hide();
                 $("#notifyIconContainer").hide();
+
+                var topToolbarTutorial = $("#topToolbar").clone(true,true)
+                $(topToolbarTutorial).find("[id]").add(topToolbarTutorial).each(function() {
+                    this.id = this.id + "Tutorial";
+                })
+                topToolbarTutorial.insertAfter("#topToolbar");
+
+                $('#topToolbarTutorial').children().hide();
+                $('#topToolbarTutorial').children().unbind("click");
+                $('#topToolbarTutorial').show();
+
+                $('#cashbarProgressTutorial').progressbar("value",0);
+                $('#cashbarProgressTutorial').text(0);
+                $('#coinbarProgressTutorial').progressbar("value",1000);
+                $('#coinbarProgressTutorial').text(1000);
 
                 self.tutorial = new Tutorial();
                 self.tutorial.gotoStep('initialStep');
@@ -480,6 +499,7 @@ var Client = IgeClass.extend({
                 ige.$('level1').show();
                 ige.removeGraph('GraphTutorial');
 
+                $('#topToolbarTutorial').remove();
                 $("#topToolbar").show();
                 $("#notifyIconContainer").show();
 
