@@ -61,7 +61,7 @@ var MarketDialog = Dialog.extend({
 
 		ige.client.fsm.enterState('marketDialog', null, function (err) {
 			if (!err) {
-				$( "#marketDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
+				$( "#marketDialog" ).dialog({ resizable: true, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
 				$( "#marketDialog" ).dialog( "open" );
 				Dialog.prototype.show.call(self);
 				// ige.client.audio.normClick.play();
@@ -97,7 +97,7 @@ var MarketDialog = Dialog.extend({
 		// Create backing tile for item
 		var self = this,
 			pageIndex = 1,
-			clonedItem, options, dummyElem, imgWidth, imgHeight, offset;
+			clonedItem, options, dummyElem, imgWidth, imgHeight;
 
 		clonedItem = $('#marketDialogPageTemplate ul li').first().clone();
 		clonedItem.show().find(".marketItemTitle").first().text(itemData.title);
@@ -105,11 +105,8 @@ var MarketDialog = Dialog.extend({
 		options = GameObjects.catalogLookup[itemData.id]
 		dummyElem = $("<div class='marketItemImage'></div>").hide().appendTo("body");
 		imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
-		// imgHeight = 30
 		imgWidth = ige.client.textures[itemData.id]._sizeX / (ige.client.textures[itemData.id]._sizeY / imgHeight)
-		// imgWidth = 30
 		dummyElem.remove();
-		// offset = itemData.texture._cellWidth*2;
 		clonedItem.find(".marketItemImage").first().css("background-image","url(" + options.textureUrl + ")")
 			.css("width", imgWidth / ige.client.textures[itemData.id]._cellColumns + "px")
 			.css("background-size", imgWidth + "px " + imgHeight + "px")
@@ -124,13 +121,20 @@ var MarketDialog = Dialog.extend({
 		else
 			clonedItem.find(".marketItemCash").first().remove();
 
-		itemData.coverEntity = clonedItem.find(".marketItemCover").first();
+		// how does this work without being wrapped in a condition block ???
+		itemData.unlockButton = clonedItem.find(".unlock").first();
 
-		if(itemData.dependency === "none") {
-			itemData.coverEntity.remove();
-			itemData.coverEntity = null;
+		// need to update to no dependencies or unlocked.
+		if(itemData.dependency === "none" || $.inArray(itemData.id, API.state.unlockedItems)>= 0) {
+			itemData.unlockButton.remove();
+			itemData.unlockButton = null;
+			clonedItem.removeClass('locked');
 		}else{
-			itemData.coverEntity.click(function (event) {
+			clonedItem.addClass("locked");
+			// display price.  		price.cash = itemData.unlockValue;
+			itemData.unlockButton.append(itemData.unlockValue);
+			itemData.unlockButton.prepend('')
+			itemData.unlockButton.click(function (event) {
 				event.stopPropagation();
 				self.hide();
 				self.unlockItemByCash(itemData);
@@ -176,7 +180,7 @@ var MarketDialog = Dialog.extend({
 		price.cash = itemData.unlockValue;
 
 		//show are you sure and reduce assets
-		message  = 'Unlock ' + itemData.title + ' for ' + price.cash + ' villagebucks?';
+		message  = 'Unlock ' + itemData.title + ' for ' + price.cash + ' vbucks?';
 
 		callBack = function() {
 			if(!API.reduceAssets(
@@ -200,9 +204,9 @@ var MarketDialog = Dialog.extend({
 	},
 
 	removeItemCover:function(itemData){
-		if(itemData.coverEntity){
-			itemData.coverEntity.remove();
-			itemData.coverEntity = null;
+		if(itemData.unlockButton){
+			itemData.unlockButton.remove();
+			itemData.unlockButton = null;
 		}
 	},
 

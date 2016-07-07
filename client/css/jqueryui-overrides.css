@@ -11,14 +11,12 @@
     border-radius:20px;
     border: 5px solid white;
     /*padding:5px;*/
-    overflow: visible;
 }
 
 .ui-dialog *{
     /*background-color: rgba(200,200, 200, .85);*/
-    padding:0;
-    margin:0;
-
+    /* padding:0; */
+    /*margin:0;*/
 }
 
 .ui-widget-content{
