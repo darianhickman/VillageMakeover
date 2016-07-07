@@ -2,7 +2,7 @@
 var GameObjects = {
     gameObjectTextures: {},
     setupMarket: function(marketDialog) {
-        var pageCount = Math.ceil(GameObjects._marketCallbacks.length / 6);
+        var pageCount = Math.ceil(GameObjects._marketCallbacks.length / marketDialog.itemCount);
         marketDialog.createPages(pageCount);
 
         for(var i in GameObjects._marketCallbacks) {
@@ -10,7 +10,7 @@ var GameObjects = {
         }
     },
     setupEditorMarket: function(editorMarketDialog) {
-        var pageCount = Math.ceil(GameObjects.catalog.length / 6);
+        var pageCount = Math.ceil(GameObjects.catalog.length / parseInt(GameConfig.config['itemCount']));
         editorMarketDialog.createPages(pageCount);
 
         for(var i in GameObjects.catalog) {

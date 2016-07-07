@@ -4,7 +4,7 @@ var EditorMarketDialog = Dialog.extend({
 	init: function () {
 		Dialog.prototype.init.call(this);
 		EditorMarketDialog.prototype.isMarketSet = EditorMarketDialog.prototype.isMarketSet || false;
-
+		this.itemCount = parseInt(GameConfig.config['itemcount']);
 		this._pageRefs = [];
 		this._items = [];
 		this._pageItems = [];
@@ -109,7 +109,6 @@ var EditorMarketDialog = Dialog.extend({
 		dummyElem.remove();
 
 		clonedItem.find(".marketItemImage").first().css("background-image","url(" + options.textureUrl + ")")
-			.css("width", imgWidth / ige.client.textures[itemData.classId]._cellColumns + "px")
 			.css("background-size", imgWidth + "px " + imgHeight + "px")
 			.css("background-position-x", imgWidth / ige.client.textures[itemData.classId]._cellColumns + "px");
 
@@ -133,7 +132,7 @@ var EditorMarketDialog = Dialog.extend({
 
 		this._items.push(itemData);
 
-		while (this._pageItems[pageIndex] && this._pageItems[pageIndex].length === 6) {
+		while (this._pageItems[pageIndex] && this._pageItems[pageIndex].length === this.itemCount) {
 			pageIndex++;
 		}
 

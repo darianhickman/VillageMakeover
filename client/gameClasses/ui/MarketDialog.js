@@ -3,7 +3,7 @@ var MarketDialog = Dialog.extend({
 
 	init: function () {
 		Dialog.prototype.init.call(this);
-
+		this.itemCount = parseInt(GameConfig.config['itemCount']);
 		this._pageRefs = [];
 		this._items = [];
 		this._pageItems = [];
@@ -17,6 +17,7 @@ var MarketDialog = Dialog.extend({
 	},
 
 	createSinglePage: function() {
+		// So no loop over itemCount ???  how is this hardcoded to 6 now? 
 		var self = this,
 			pageRef;
 
@@ -96,19 +97,19 @@ var MarketDialog = Dialog.extend({
 		// Create backing tile for item
 		var self = this,
 			pageIndex = 1,
-			clonedItem, options, dummyElem, imgWidth, imgHeight;
+			clonedItem, options, dummyElem, imgWidth, imgHeight, offset;
 
 		clonedItem = $('#marketDialogPageTemplate ul li').first().clone();
 		clonedItem.show().find(".marketItemTitle").first().text(itemData.title);
 
 		options = GameObjects.catalogLookup[itemData.id]
 		dummyElem = $("<div class='marketItemImage'></div>").hide().appendTo("body");
-		// imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
-		imgHeight = 30
-		// imgWidth = ige.client.textures[itemData.id]._sizeX / (ige.client.textures[itemData.id]._sizeY / imgHeight)
-		imgWidth = 30
+		imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
+		// imgHeight = 30
+		imgWidth = ige.client.textures[itemData.id]._sizeX / (ige.client.textures[itemData.id]._sizeY / imgHeight)
+		// imgWidth = 30
 		dummyElem.remove();
-
+		// offset = itemData.texture._cellWidth*2;
 		clonedItem.find(".marketItemImage").first().css("background-image","url(" + options.textureUrl + ")")
 			.css("width", imgWidth / ige.client.textures[itemData.id]._cellColumns + "px")
 			.css("background-size", imgWidth + "px " + imgHeight + "px")
@@ -156,7 +157,7 @@ var MarketDialog = Dialog.extend({
 
 		this._items.push(itemData);
 
-		while (this._pageItems[pageIndex] && this._pageItems[pageIndex].length === 6) {
+		while (this._pageItems[pageIndex] && this._pageItems[pageIndex].length === this.itemCount) {
 			pageIndex++;
 		}
 
