@@ -337,9 +337,30 @@ body {
     background-size: 100% 100%;
     min-width: 25px;
     max-height: 30px;
-    max-width: 50px;
-    min-height: 25px;
+    max-width: 100px;
     border-radius: 3px;
+    overflow-y: hidden;
+}
+
+.unlock *{
+    /* display: inline-block; */
+    /* overflow: hidden; */
+    margin-left: 2px;
+    padding-left: 0;
+    vertical-align: top;
+}
+
+.unlock span{
+    display: inline-block;
+    margin:0px;
+    padding: 0px;
+    max-height: 30px;
+    min-width: 25px;
+}
+
+.unlock img{
+    width: 25px;
+    height: 25px;
 }
 
 .unlock:hover {
