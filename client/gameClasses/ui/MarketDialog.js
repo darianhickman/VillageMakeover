@@ -123,7 +123,7 @@ var MarketDialog = Dialog.extend({
 
 		// how does this work without being wrapped in a condition block ???
 		itemData.unlockButton = clonedItem.find(".unlock").first();
-
+		itemData.unlockprice = itemData.unlockButton.find(".unlockprice").first();
 		// need to update to no dependencies or unlocked.
 		if(itemData.dependency === "none" || $.inArray(itemData.id, API.state.unlockedItems)>= 0) {
 			itemData.unlockButton.remove();
@@ -132,8 +132,7 @@ var MarketDialog = Dialog.extend({
 		}else{
 			clonedItem.addClass("locked");
 			// display price.  		price.cash = itemData.unlockValue;
-			itemData.unlockButton.append(itemData.unlockValue);
-			itemData.unlockButton.prepend('')
+			itemData.unlockprice.text(itemData.unlockValue);
 			itemData.unlockButton.click(function (event) {
 				event.stopPropagation();
 				self.hide();
