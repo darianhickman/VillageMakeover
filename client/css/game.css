@@ -338,14 +338,102 @@ body {
 
     /*display: none;*/
 }
-
-
 .newGoalNotification{
     margin: 3px;
     min-width: 40px;
     vertical-align: middle;
     text-align: center;
     /*display: none;*/
+}
+/*Tutorial Mode CSS*/
+#topToolbarTutorial {
+    max-height: 35px;
+    list-style: none;
+    padding: 0;
+    margin: auto;
+}
+#topToolbarTutorial li {
+    /* float: left; */
+    /* position: relative; */
+    opacity: .9;
+    border: 2px solid white;
+    background-color: white;
+    display: inline-block;
+    margin-left: 10px;
+    padding: 0px;
+    cursor: pointer;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px #000;
+}
+#topToolbarTutorial li:hover {
+      opacity: 1;
+      /* border: 2px; */
+      /* width:1.1em; weird jitter */
+      /* height: 1.1em; weird formatting */
+}
+#topToolbarTutorial > li:last-child {
+    float: right;
+}
+#topToolbarTutorial img {
+    display: block;
+    background-image: url('/client/assets/textures/ui/beigefade.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border: 2px solid #99ccff;
+    border-radius: 5px;
+    width: 25px;
+    height: 25px;
+}
+#goalButtonTutorial{
+    display: table;
+}
+#goalButtonTutorial *{
+    float:left;
+    display: table-cell;
+    /*white-space: nowrap;*/
+    /* vertical-align: middle; */
+}
+#cashbarTutorial{
+    display: table;
+}
+#cashbarTutorial *{
+    float:left;
+    display: table-cell;
+    /*white-space: nowrap;*/
+    /* vertical-align: middle; */
+}
+#coinbarTutorial{
+    display: table;
+}
+#coinbarTutorial *{
+    float:left;
+    display: table-cell;
+    /*white-space: nowrap;*/
+    /* vertical-align: middle; */
+}
+.tutorialMarketDialogItem{
+    height: 50px;
+    position: relative;
+}
+.tutorialMarketImage{
+    position: absolute;
+    height: 50px;
+}
+#tutorialContent{
+    text-align: center;
+}
+#tutorialArrowSpan{
+    position:fixed;
+    width: 31px;
+    height: 33px;
+    z-index: 1000;
+}
+#tutorialArrowImage{
+    position:relative;
+}
+#skipTutorial{
+    position:absolute;
+    cursor: pointer;
 }
 
 @-moz-keyframes fadePulse {

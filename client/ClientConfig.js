@@ -17,7 +17,7 @@ var igeClientConfig = {
         './gameClasses/ui/BuyConfirm.js',
 		'./gameClasses/ui/TutorialViews.js',
 		'./gameClasses/ui/EditorViews.js',
-		'./gameClasses/ui/Tutorial.js',
+		'./gameClasses/Tutorial.js',
 
         './util.js',
         './crypto-js-hmac.js',

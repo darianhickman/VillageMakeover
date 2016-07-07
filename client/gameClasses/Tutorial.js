@@ -4,7 +4,6 @@ var Tutorial = IgeEventingClass.extend({
     init: function () {
 
         var self = this,
-            uiScene = ige.$('uiSceneTutorial'),
             tileMap = ige.$('tileMapTutorial');
 
         self.steps = [];
@@ -13,160 +12,27 @@ var Tutorial = IgeEventingClass.extend({
         self.currentGoalStep = 1;
         self.isMoneyAdded = false;
         self.tutorialViews = new TutorialViews();
+        self.marketItems = $('<ul></ul>')
+        self.tutorialObjects = []
 
-        self.tutorialArrow = new IgeEntity()
-            .layer(100)
-            .width(240)
-            .height(100)
-            .mount(uiScene)
-            .hide()
+        self.tutorialArrow = $("<span id='tutorialArrowSpan'></span>")
+            .appendTo("#hudcontainer").insertAfter("#topToolbarTutorial");
+        $("#tutorialArrowSpan").hide()
 
-        self.tutorialArrow.textureEntity = new IgeEntity()
-            .layer(100)
-            .width(240)
-            .height(100)
-            .texture(ige.client.textures.arrow)
-            .mount(self.tutorialArrow)
-            ._translate.tween()
-                .stepTo({
-                    x: -20,
-                    y: 0
-                }, 500, 'inOutSine')
-                .stepTo({
-                    x: 20,
-                    y: 0
-                }, 500, 'inOutSine')
-                .repeatMode(1, -1)
-                .startTime(ige._currentTime)
-                .start();
+        self.tutorialArrow.image = $("<img id='tutorialArrowImage' src='" + ige.client.textures.tutorialArrow.url() + "'>")
+            .appendTo("#tutorialArrowSpan")
+            .rotate({angle:40});
 
-        self.marketButtonTutorial = new IgeUiElement()
-            .layer(50)
-            .texture(ige.client.textures.marketButton)
-            .dimensionsFromTexture()
-            .top(3)
-            .right(20)
-            .mount(uiScene)
-            .hide()
-
-        self.goalButtonTutorial = new IgeUiElement()
-            .texture(ige.client.textures.star)
-            .dimensionsFromTexture()
-            .top(80)
-            .right(23)
-            .mount(uiScene)
-            .hide()
-
-        self.marketDialogTutorial = new IgeUiElement()
-            .layer(50)
-            .mount(uiScene)
-            .hide()
-
-        new IgeUiElement()
-            .layer(0)
-            .texture(ige.client.textures.marketMenuBack)
-            .dimensionsFromTexture()
-            .mount(self.marketDialogTutorial);
-
-        self.cashDialogTutorial = new IgeUiElement()
-            .layer(50)
-            .mount(uiScene)
-            .hide()
-
-        new IgeUiElement()
-            .layer(0)
-            .texture(ige.client.textures.moneyMenuBackground)
-            .dimensionsFromTexture()
-            .mount(self.cashDialogTutorial);
-
-        self.coinsDialogTutorial = new IgeUiElement()
-            .layer(50)
-            .mount(uiScene)
-            .hide()
-
-        new IgeUiElement()
-            .layer(0)
-            .texture(ige.client.textures.coinMenuBackground)
-            .dimensionsFromTexture()
-            .mount(self.coinsDialogTutorial);
-
-        self.cashBar = new IgeUiElement()
-            .layer(50)
-            .texture(ige.client.textures.cashBar)
-            .dimensionsFromTexture()
-            .left(10)
-            .top(5)
-            .mount(uiScene)
-            .hide();
-
-        self.cashProgress = new IgeUiProgressBar()
-            .barColor('#69f22f')
-            .min(0)
-            .max(100000)
-            .progress(0)
-            .width(87)
-            .height(18)
-            .right(17)
-            .barText('$', '', 'black')
-            .mount(self.cashBar);
-
-        self.cashProgress.render = function(ctx){
-            ctx.font = '11px Verdana';
-            IgeUiProgressBar.prototype.render.call(this,ctx);
-        }
-
-        self.cashButton = new IgeUiElement()
-            .texture(ige.client.textures.greenPlus)
-            .dimensionsFromTexture(80)
-            .right(-40)
-            .mount(self.cashProgress);
-
-        self.coinsBar = new IgeUiElement()
-            .layer(50)
-            .texture(ige.client.textures.coinsBar)
-            .dimensionsFromTexture()
-            .left(185)
-            .top(5)
-            .mount(uiScene)
-            .hide();
-
-        self.coinsProgress = new IgeUiProgressBar()
-            .barColor('#69f22f')
-            .min(0)
-            .max(1000000)
-            .progress(1000)
-            .width(87)
-            .height(18)
-            .right(17)
-            .barText('', ' coins', 'black')
-            .mount(self.coinsBar);
-
-        self.coinsProgress.render = function(ctx){
-            ctx.font = '11px Verdana';
-            IgeUiProgressBar.prototype.render.call(this,ctx);
-        }
-
-        self.coinsButton = new IgeUiElement()
-            .texture(ige.client.textures.greenPlus)
-            .dimensionsFromTexture(80)
-            .right(-40)
-            .mount(self.coinsProgress);
-
-        self.skipButton = new IgeFontEntity()
-            .colorOverlay('white')
-            .texture(ige.client.textures.pressStartFont)
-            .width(180)
-            .height(50)
-            .right(10)
-            .bottom(10)
-            .text(GameConfig.config['skipTutorialString'])
-            .mount(uiScene)
-            .mouseUp(function(){
+        self.skipButton = $("<span id='skipTutorial'>" + GameConfig.config['skipTutorialString'] + "</span>")
+            .appendTo("#hudcontainer")
+            .position({my: "right bottom", at: "right bottom", of: window})
+            .click(function(){
                 mixpanel.track("Skip tutorial");
                 self.gotoStep('finishTutorial');
             });
 
-        self.tutorialObjects = []
+        self.skipButton.css("left", self.skipButton.position().left - 40 + "px")
+        self.skipButton.css("top", self.skipButton.position().top - 40 + "px")
 
         self.items = {
             item1: {
@@ -201,7 +67,14 @@ var Tutorial = IgeEventingClass.extend({
 
         self.steps['initialStep'] = {
             enter: function(){
-                $( "#tutorialDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: false, autoOpen: false });
+                $( "#tutorialDialog" ).dialog({ appendTo: '#hudcontainer', resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 'auto', modal: false, autoOpen: false, create: function() {
+                    $(this).closest('div.ui-dialog')
+                        .find('button.ui-dialog-titlebar-close')
+                        .click(function(e) {
+                            self.gotoStep('finishTutorial');
+                            e.preventDefault();
+                        });
+                } });
                 $( "#tutorialDialog" ).dialog( "open" );
 
                 $( "#tutorialContent" )
@@ -218,68 +91,87 @@ var Tutorial = IgeEventingClass.extend({
 
         self.steps['showmarketButton'] = {
             enter: function(){
-                self.marketButtonTutorial
-                    .show()
-                    .mouseUp(function () {
+                $('#marketButtonTutorial').show()
+                    .click(function () {
                         self.gotoStep('showMarketDialog')
                     });
 
-                self.tutorialArrow
-                    .scaleTo(.5,.5,.5)
-                    .translateTo(self.marketButtonTutorial._translate.x - 60, self.marketButtonTutorial._translate.y, self.marketButtonTutorial._translate.z)
-                    .show()
+                $( "#tutorialArrowSpan").appendTo("#hudcontainer").insertAfter("#topToolbarTutorial");
+                $("#tutorialArrowSpan").css("position","absolute")
+                $("#tutorialArrowSpan").show();
+                $("#tutorialArrowSpan").position({my: "top center", at: "bottom center", of: "#marketButtonTutorial"})
+                $("#tutorialArrowSpan").css("top","");
+                $("#tutorialArrowImage").rotate({angle:40});
+                $('#tutorialArrowImage').stop();
+                $("#tutorialArrowImage").css("margin-top","0px");
+                $("#tutorialArrowImage").css("margin-left","0px");
+                self.animatethis($('#tutorialArrowImage'), 500, 'marginTop');
 
             },
             exit: function(){
-                self.marketButtonTutorial.mouseUp(function () {});
+                $('#marketButtonTutorial').unbind('click');
             }
         }
 
         self.steps['showMarketDialog'] = {
             enter: function(){
-                var catalogItem = GameObjects.catalogLookup[self.items['item'+self.currentBuildStep].name]
+                var itemID, options, dummyElem, imgWidth, imgHeight;
 
-                self.marketItemButton = new IgeEntity()
-                    .layer(1)
-                    .texture(ige.client.textures[self.items['item'+self.currentBuildStep].name])
-                    .cell(catalogItem.cell)
-                    .dimensionsFromCell()
-                    .height(100,true)
-                    .mount(self.marketDialogTutorial)
-                    .translateTo(self.items['item'+self.currentBuildStep].marketX,self.items['item'+self.currentBuildStep].marketY,0)
-                    .mouseUp(function () {
-                        if(self.currentBuildStep === 4 && !self.isMoneyAdded)
-                            self.gotoStep('showPaymentInfo');
-                        else if (self.currentBuildStep === 4 && self.isMoneyAdded){
-                            self.cashProgress.progress(250);
-                            self.gotoStep('buildHouse');
-                        }
-                        else
-                            self.gotoStep('buildHouse');
-                    });
+                $( "#tutorialDialog" ).dialog( "open" );
 
-                if(self.currentBuildStep === 4){
-                    self.marketItemButton.fontEntity = new IgeFontEntity()
-                        .colorOverlay('black')
-                        .nativeFont('15px Times New Roman')
-                        .width(400)
-                        .height(50)
-                        .text(GameConfig.config['tutorialVBString'])
-                        .mount(self.marketItemButton)
-                        .translateTo(-5,50,0)
+                itemID = self.items['item'+self.currentBuildStep].name;
+
+                if(self.marketItems.find("#tutorialMarket" + itemID)[0] === undefined) {
+                    self.newItem = $("<li class='tutorialMarketDialogItem' id='tutorialMarket" + itemID + "'></li>");
+                    if(self.currentBuildStep === 4){
+                        self.newItem.html(GameConfig.config['tutorialVBString']);
+                    }
+                    self.newItem.append($("<span class='tutorialMarketImage'></span>"))
+
+                    options = GameObjects.catalogLookup[itemID]
+                    dummyElem = $("<div class='tutorialMarketImage'></div>").hide().appendTo("body");
+                    imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
+                    imgWidth = ige.client.textures[itemID]._sizeX / (ige.client.textures[itemID]._sizeY / imgHeight)
+                    dummyElem.remove();
+
+                    self.newItem.find(".tutorialMarketImage").first().css("background-image","url(" + options.textureUrl + ")")
+                        .css("width", imgWidth / ige.client.textures[itemID]._cellColumns + "px")
+                        .css("background-size", imgWidth + "px " + imgHeight + "px")
+                        .css("background-position-x", imgWidth / ige.client.textures[itemID]._cellColumns + "px");
+
+
+                    self.marketItems.append(self.newItem)
                 }
 
-                self.tutorialArrow
-                    .scaleTo(.75,.75,.75)
-                    .rotateTo(0,0,3.1415)
-                    .translateTo(self.marketItemButton._translate.x + 90 ,self.marketItemButton._translate.y, self.marketItemButton._translate.z)
-                    .show()
+                $( "#tutorialContent" )
+                    .html( self.marketItems );
 
-                self.marketDialogTutorial.show()
+                $("#tutorialMarket" + self.items['item'+self.currentBuildStep].name).click(function(){
+                    if(self.currentBuildStep === 4 && !self.isMoneyAdded)
+                        self.gotoStep('showPaymentInfo');
+                    else if (self.currentBuildStep === 4 && self.isMoneyAdded){
+                        $('#cashbarProgressTutorial').progressbar("value",250);
+                        $('#cashbarProgressTutorial').text(250);
+                        self.gotoStep('buildHouse');
+                    }
+                    else
+                        self.gotoStep('buildHouse');
+                });
+
+
+                $( "#tutorialArrowSpan").appendTo("body");
+                $("#tutorialArrowSpan").css("position","fixed")
+                $("#tutorialArrowSpan").position({my: "right center", at: "left center", of: "#tutorialMarket" + self.items['item'+self.currentBuildStep].name})
+                $("#tutorialArrowImage").rotate({angle:130});
+                $('#tutorialArrowImage').stop();
+                $("#tutorialArrowImage").css("margin-top","0px");
+                $("#tutorialArrowImage").css("margin-left","0px");
+                self.animatethis($('#tutorialArrowImage'), 500, 'marginLeft');
+
             },
             exit: function(){
-                self.marketDialogTutorial.hide()
-                self.marketItemButton.mouseUp(function () {});
+                $( "#tutorialDialog" ).dialog( "close" );
+                self.newItem.unbind('click');
             }
         }
 
@@ -292,6 +184,7 @@ var Tutorial = IgeEventingClass.extend({
                     catalogItem = GameObjects.catalogLookup[self.items['item'+self.currentBuildStep].name];
 
                 self.mapItemButton = new ige.newClassInstance(self.items['item'+self.currentBuildStep].name)
+                    .id("tutorialTilemapItem" + self.currentBuildStep)
                     .layer(1)
                     .mount(tileMap)
                     .cell(step)
@@ -340,21 +233,13 @@ var Tutorial = IgeEventingClass.extend({
                     .translateTo(0,-60,0)
                     .mount(self.mapItemButton);
 
-                self.tutorialArrow.rotateTo(0,0,0)
-                    .unMount()
-                    .isometric(true)
-                    .mount(tileMap)
-                    .translateTo(self.mapItemButton._translate.x - 70 ,self.mapItemButton._translate.y, self.mapItemButton._translate.z)
-                    .show()
+                $("#tutorialArrowSpan").css("top", self.mapItemButton.screenPosition().y + ige.$('tileMapTutorial')._renderPos.y);
+                $("#tutorialArrowSpan").css("left", self.mapItemButton.screenPosition().x - 100);
+
             },
             exit: function(){
                 self.mapItemButton.buildProgressBar.unMount();
                 self.mapItemButton.mouseUp(function () {});
-
-                self.tutorialArrow
-                    .unMount()
-                    .isometric(false)
-                    .mount(uiScene)
             }
         }
 
@@ -362,7 +247,7 @@ var Tutorial = IgeEventingClass.extend({
             enter: function(){
                 switch (self.currentBuildStep){
                     case 1:
-                        self.tutorialArrow.hide();
+                        $("#tutorialArrowSpan").hide();
 
                         $( "#tutorialDialog" ).dialog( "open" );
 
@@ -378,7 +263,7 @@ var Tutorial = IgeEventingClass.extend({
                         self.gotoStep('showmarketButton');
                         break;
                     case 3:
-                        self.tutorialArrow.hide();
+                        $("#tutorialArrowSpan").hide();
 
                         $( "#tutorialDialog" ).dialog( "open" );
 
@@ -404,26 +289,33 @@ var Tutorial = IgeEventingClass.extend({
 
         self.steps['showGoalButton'] = {
             enter: function(){
-                self.goalButtonTutorial
+                $('#goalButtonTutorial')
                     .show()
-                    .mouseUp(function () {
+                    .click(function () {
                         self.gotoStep('showGoalScreen')
                     });
 
-                self.tutorialArrow
-                    .scaleTo(.5,.5,.5)
-                    .translateTo(self.goalButtonTutorial._translate.x - 50, self.goalButtonTutorial._translate.y, self.goalButtonTutorial._translate.z)
-                    .show()
+                $( "#tutorialArrowSpan").appendTo("#hudcontainer").insertAfter("#topToolbarTutorial");
+                $("#tutorialArrowSpan").css("position","absolute")
+                $("#tutorialArrowSpan").show();
+                $("#tutorialArrowSpan").position({my: "top center", at: "bottom center", of: "#goalButtonTutorial"})
+                $("#tutorialArrowSpan").css("top","");
+
+                $("#tutorialArrowImage").rotate({angle:40});
+                $('#tutorialArrowImage').stop();
+                $("#tutorialArrowImage").css("margin-top","0px");
+                $("#tutorialArrowImage").css("margin-left","0px");
+                self.animatethis($('#tutorialArrowImage'), 500, 'marginTop');
             },
             exit: function(){
-                self.goalButtonTutorial.mouseUp(function () {});
-                self.tutorialArrow.hide()
+                $('#goalButtonTutorial').unbind('click');
+                $("#tutorialArrowSpan").hide();
             }
         }
 
         self.steps['showGoalScreen'] = {
             enter: function(){
-                self.tutorialArrow.hide()
+                $("#tutorialArrowSpan").hide();
 
                 switch (self.currentGoalStep) {
                     case 1:
@@ -464,19 +356,26 @@ var Tutorial = IgeEventingClass.extend({
                         break;
                 }
                 self.currentGoalStep++;
-                $( "#tutorialDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: false, autoOpen: false });
+                $( "#tutorialDialog" ).dialog({ appendTo: '#hudcontainer', resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 'auto', modal: false, autoOpen: false, create: function() {
+                    $(this).closest('div.ui-dialog')
+                        .find('button.ui-dialog-titlebar-close')
+                        .click(function(e) {
+                            self.gotoStep('finishTutorial');
+                            e.preventDefault();
+                        });
+                } });
                 $( "#tutorialDialog" ).dialog( "open" );
             },
             exit: function(){
                 $( "#tutorialDialog" ).dialog( "close" );
-                self.tutorialArrow.hide();
+                $("#tutorialArrowSpan").hide();
             }
         }
 
         self.steps['showPaymentInfo'] = {
             enter: function(){
                 $( "#tutorialDialog" ).dialog( "open" );
-                self.tutorialArrow.hide()
+                $("#tutorialArrowSpan").hide();
 
                 $( "#tutorialContent" )
                     .html( self.tutorialViews.getViewByID('notEnoughMoneyScreen').view );
@@ -493,71 +392,75 @@ var Tutorial = IgeEventingClass.extend({
 
         self.steps['showMoneyButton'] = {
             enter: function(){
-                self.cashBar.show();
-                self.cashButton
-                    .mouseUp(function () {
+                $('#cashbarTutorial').show()
+                    .click(function () {
                         self.gotoStep('showPaymentScreen')
                     });
 
-                self.tutorialArrow
-                    .scaleTo(.5,.5,.5)
-                    .translateTo(self.cashBar._translate.x + 125, self.cashBar._translate.y, self.cashBar._translate.z)
-                    .show()
+                $( "#tutorialArrowSpan").appendTo("#hudcontainer").insertAfter("#topToolbarTutorial");
+                $("#tutorialArrowSpan").css("position","absolute")
+                $("#tutorialArrowSpan").show();
+                $("#tutorialArrowSpan").position({my: "top center", at: "bottom center", of: "#cashbarTutorial"})
+                $("#tutorialArrowSpan").css("top","");
+                $("#tutorialArrowImage").rotate({angle:40});
+                $('#tutorialArrowImage').stop();
+                $("#tutorialArrowImage").css("margin-top","0px");
+                $("#tutorialArrowImage").css("margin-left","0px");
+                self.animatethis($('#tutorialArrowImage'), 500, 'marginTop');
             },
             exit: function(){
-                self.cashButton.mouseUp(function () {});
-                self.tutorialArrow.hide()
+                $('#cashbarTutorial').unbind('click');
+                $("#tutorialArrowSpan").hide()
             }
         }
 
         self.steps['showPaymentScreen'] = {
             enter: function(){
-                self.dummyMoneyButton = new IgeEntity()
-                    .layer(1)
-                    .width(146)
-                    .height(284)
-                    .mount(self.cashDialogTutorial)
-                    .translateTo(-400,40,0)
-                    .mouseUp(function () {
-                        self.gotoStep('fillCreditCard');
-                    });
+                $( "#tutorialDialog" ).dialog( "open" );
 
-                self.dummyMoneyButton.fontEntity = new IgeFontEntity()
-                    .colorOverlay('white')
-                    .texture(ige.client.textures.pressStartFont)
-                    .width(400)
-                    .height(50)
-                    .translateTo(50,80,0)
-                    .text(GameConfig.config['tutorialBuyCashString'])
-                    .mount(self.dummyMoneyButton)
+                $( "#tutorialContent" )
+                    .html( "<ul><li id='tutorialMoneyButton'>" + GameConfig.config['tutorialBuyCashString'] + "</li></ul>" );
 
-                self.tutorialArrow
-                    .scaleTo(.75,.75,.75)
-                    .rotateTo(0,0,0)
-                    .translateTo(self.dummyMoneyButton._translate.x - 50,self.dummyMoneyButton._translate.y, self.dummyMoneyButton._translate.z)
-                    .show()
+                $( "#tutorialMoneyButton").click(function(){
+                    self.gotoStep('fillCreditCard');
+                })
 
-                self.cashDialogTutorial.show()
+                $( "#tutorialArrowSpan").appendTo("body");
+                $("#tutorialArrowSpan").css("position","fixed")
+                $("#tutorialArrowSpan").position({my: "right center", at: "left center", of: "#tutorialMoneyButton"})
+                $("#tutorialArrowSpan").show();
+                $("#tutorialArrowImage").rotate({angle:130});
+                $('#tutorialArrowImage').stop();
+                $("#tutorialArrowImage").css("margin-top","0px");
+                $("#tutorialArrowImage").css("margin-left","0px");
+                self.animatethis($('#tutorialArrowImage'), 500, 'marginLeft');
 
             },
             exit: function(){
-                self.cashDialogTutorial.hide()
-                self.dummyMoneyButton.mouseUp(function () {});
+                $( "#tutorialMoneyButton").unbind("click");
             }
         }
 
         self.steps['fillCreditCard'] = {
             enter: function(){
-                $( "#tutorialDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 400, modal: false, autoOpen: false });
+                $( "#tutorialDialog" ).dialog({ appendTo: '#hudcontainer', resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 'auto', modal: false, autoOpen: false, create: function() {
+                    $(this).closest('div.ui-dialog')
+                        .find('button.ui-dialog-titlebar-close')
+                        .click(function(e) {
+                            self.gotoStep('finishTutorial');
+                            e.preventDefault();
+                        });
+                } });
                 $( "#tutorialDialog" ).dialog( "open" );
-                self.tutorialArrow.hide()
+                $("#tutorialArrowSpan").hide()
 
                 $( "#tutorialContent" )
                     .html( self.tutorialViews.getViewByID('creditCardScreen').view );
 
                 $('#dialogButton').on('click', function(){
                     self.isMoneyAdded = true;
-                    self.cashProgress.progress(500);
+                    $('#cashbarProgressTutorial').progressbar("value",500);
+                    $('#cashbarProgressTutorial').text(500);
                     self.gotoStep('showmarketButton')
                 });
             },
@@ -568,66 +471,61 @@ var Tutorial = IgeEventingClass.extend({
 
         self.steps['showCoinButton'] = {
             enter: function(){
-                self.coinsBar.show();
-                self.coinsButton
-                    .mouseUp(function () {
+                $('#coinbarTutorial').show()
+                    .click(function () {
                         self.gotoStep('showAddCoinsScreen')
                     });
 
-                self.tutorialArrow
-                    .scaleTo(.5,.5,.5)
-                    .rotateTo(0,0,3.1415)
-                    .translateTo(self.coinsBar._translate.x + 125, self.coinsBar._translate.y, self.coinsBar._translate.z)
-                    .show()
+                $( "#tutorialArrowSpan").appendTo("#hudcontainer").insertAfter("#topToolbarTutorial");
+                $("#tutorialArrowSpan").css("position","absolute")
+                $("#tutorialArrowSpan").position({my: "top center", at: "bottom center", of: "#coinbarTutorial"})
+                $("#tutorialArrowSpan").css("top","");
+                $("#tutorialArrowSpan").show();
+                $("#tutorialArrowImage").rotate({angle:40});
+                $('#tutorialArrowImage').stop();
+                $("#tutorialArrowImage").css("margin-top","0px");
+                $("#tutorialArrowImage").css("margin-left","0px");
+                self.animatethis($('#tutorialArrowImage'), 500, 'marginTop');
             },
             exit: function(){
-                self.coinsButton.mouseUp(function () {});
-                self.tutorialArrow.hide()
+                $('#coinbarTutorial').unbind('click');
+                //$("#tutorialArrowSpan").hide()
             }
         }
 
         self.steps['showAddCoinsScreen'] = {
             enter: function(){
-                self.dummyCoinsButton = new IgeEntity()
-                    .layer(1)
-                    .width(146)
-                    .height(284)
-                    .mount(self.coinsDialogTutorial)
-                    .translateTo(-400,40,0)
-                    .mouseUp(function () {
-                        self.coinsProgress.progress(1100);
-                        self.cashProgress.progress(249);
-                        self.gotoStep('completeMessage');
-                    });
+                $( "#tutorialDialog" ).dialog( "open" );
 
-                self.dummyCoinsButton.fontEntity = new IgeFontEntity()
-                    .colorOverlay('black')
-                    .texture(ige.client.textures.pressStartFont)
-                    .width(400)
-                    .height(50)
-                    .translateTo(50,-80,0)
-                    .text(GameConfig.config['tutorialBuyCoinsString'])
-                    .mount(self.dummyCoinsButton)
+                $( "#tutorialContent" )
+                    .html( "<ul><li id='tutorialCoinButton'>" + GameConfig.config['tutorialBuyCoinsString'] + "</li></ul>" );
 
-                self.tutorialArrow
-                    .scaleTo(.75,.75,.75)
-                    .rotateTo(0,0,0)
-                    .translateTo(self.dummyCoinsButton._translate.x - 50,self.dummyCoinsButton._translate.y, self.dummyCoinsButton._translate.z)
-                    .show()
+                $( "#tutorialCoinButton").click(function(){
+                    $('#cashbarProgressTutorial').progressbar("value",249);
+                    $('#cashbarProgressTutorial').text(249);
+                    $('#coinbarProgressTutorial').progressbar("value",1100);
+                    $('#coinbarProgressTutorial').text(1100);
+                    self.gotoStep('completeMessage');
+                })
 
-                self.coinsDialogTutorial.show()
-
+                $( "#tutorialArrowSpan").appendTo("body");
+                $("#tutorialArrowSpan").css("position","fixed")
+                $("#tutorialArrowSpan").position({my: "right center", at: "left center", of: "#tutorialCoinButton"})
+                $("#tutorialArrowImage").rotate({angle:130});
+                $('#tutorialArrowImage').stop();
+                $("#tutorialArrowImage").css("margin-top","0px");
+                $("#tutorialArrowImage").css("margin-left","0px");
+                self.animatethis($('#tutorialArrowImage'), 500, 'marginLeft');
             },
             exit: function(){
-                self.coinsDialogTutorial.hide()
-                self.dummyCoinsButton.mouseUp(function () {});
+                $( "#tutorialCoinButton").unbind("click");
             }
         }
 
         self.steps['completeMessage'] = {
             enter: function(){
                 $( "#tutorialDialog" ).dialog( "open" );
-                self.tutorialArrow.hide()
+                $("#tutorialArrowSpan").hide()
 
                 $( "#tutorialContent" )
                     .html( self.tutorialViews.getViewByID('finishTutorial').view );
@@ -645,6 +543,8 @@ var Tutorial = IgeEventingClass.extend({
         self.steps['finishTutorial'] = {
             enter: function(){
                 $( "#tutorialDialog" ).dialog( "close" );
+                $('#skipTutorial').remove();
+                $('#tutorialArrowSpan').remove();
                 ige.client.setGameBoardPostTutorial(self.tutorialObjects);
                 API.setTutorialAsShown()
                 ige.client.fsm.enterState('select')
@@ -738,5 +638,30 @@ var Tutorial = IgeEventingClass.extend({
 
             self.tutorialObjects.push(objinfo)
         }
+    },
+
+    animatethis: function(targetElement, speed, direction) {
+        var self = this,
+            obj = {};
+        obj[direction] = "+=50px";
+        $(targetElement).animate(obj,
+            {
+                duration: speed,
+                easing: "easeInOutSine",
+                complete: function ()
+                {
+                    obj[direction] = "-=50px";
+                    targetElement.animate(obj,
+                        {
+                            duration: speed,
+                            easing: "easeInOutSine",
+                            complete: function ()
+                            {
+                                self.animatethis(targetElement, speed, direction);
+                            }
+                        });
+                }
+            }
+        );
     }
 })
