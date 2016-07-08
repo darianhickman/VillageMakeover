@@ -19,9 +19,15 @@
         <meta name="game-engine-origin" content="http://www.isogenicengine.com">
         <meta http-equiv="X-UA-Compatible" content="IE=9" >
         <title>Village Makeover</title>
+        <link rel="shortcut icon" href="/favicon.ico?v=2">
+
         <!-- STYLES -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/themes/smoothness/jquery-ui.css">
+        <link href="/client/css/game.css" rel="stylesheet" type="text/css" />
+
+
+        <!--SCRIPTS-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.0/jquery-ui.min.js"></script>
 
         <script src="/js/jquery.fullscreen.js"></script>
@@ -31,13 +37,13 @@
         <script src="/js/jquery.animateNumber.min.js"></script>
         <script src="/js/jQueryRotate.js"></script>
 
-        <link href="/client/css/game.css" rel="stylesheet" type="text/css" />
-        <link rel="shortcut icon" href="/favicon.ico?v=2">
+
+
         <!-- Isogenic Loader -->
         <script type="text/javascript">
             var igeRoot = '/ige/engine/';
             $(document).ready(function () {
-                if(vlg.music['welcome']){
+                    if(typeof vlg.music['welcome'] == typeof {} && vlg.music['welcome'] != null ){
                     vlg.music['welcome'].fadeIn(1.0, 2000);
                 }
                 $('#volume').click(vlg.toggleSound);
@@ -82,14 +88,14 @@
             <div id="marketDialog" title="Market" style="display:none">
                 <!--Pages are created based on this template-->
                 <div class="marketDialogPage" id="marketDialogPageTemplate" >
-                    <!--This ul is populated by catalog items. Number of items per page is set in cofig sheet-->
+                    <!--This ul is populated by catalog items. Number of items per page is set in config sheet-->
                     <ul class="marketDialogList">
                         <li class="marketDialogItem">
+                            <img class="marketItemImage" src="/favicon.ico?v=2" >
                             <span class="marketItemTitle">Title</span>
-                            <span class="marketItemImage"></span>
                             <span class="marketItemCoins"><img class="marketCoinIcon" src="assets/textures/ui/Coin1.png">0</span>
                             <span class="marketItemCash"><img class="marketCashIcon" src="assets/textures/ui/Banknotes.png">0</span>
-                            <span class="marketItemCover unlock">Click to Unlock</span>
+                            <span class="unlock" role="button"> Unlock<img src="assets/textures/ui/Banknotes.png" /><span class="unlockprice"> </span></span>
                         </li>
                     </ul>
                 </div>

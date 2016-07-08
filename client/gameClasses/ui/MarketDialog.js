@@ -61,6 +61,8 @@ var MarketDialog = Dialog.extend({
 
 		ige.client.fsm.enterState('marketDialog', null, function (err) {
 			if (!err) {
+				$('#marketDialogPageTemplate').remove();
+
 				$( "#marketDialog" ).dialog({ resizable: true, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
 				$( "#marketDialog" ).dialog( "open" );
 				Dialog.prototype.show.call(self);
@@ -104,13 +106,15 @@ var MarketDialog = Dialog.extend({
 
 		options = GameObjects.catalogLookup[itemData.id]
 		dummyElem = $("<div class='marketItemImage'></div>").hide().appendTo("body");
-		imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
-		imgWidth = ige.client.textures[itemData.id]._sizeX / (ige.client.textures[itemData.id]._sizeY / imgHeight)
-		dummyElem.remove();
-		clonedItem.find(".marketItemImage").first().css("background-image","url(" + options.textureUrl + ")")
-			.css("width", imgWidth / ige.client.textures[itemData.id]._cellColumns + "px")
-			.css("background-size", imgWidth + "px " + imgHeight + "px")
-			.css("background-position-x", imgWidth / ige.client.textures[itemData.id]._cellColumns + "px");
+		// imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
+		// imgWidth = ige.client.textures[itemData.id]._sizeX / (ige.client.textures[itemData.id]._sizeY / imgHeight)
+		// dummyElem.remove();
+		clonedItem.find(".marketItemImage").first().attr("src", "/client/"+options.textureUrl);
+		//
+		// clonedItem.find(".marketItemImage").first().css("background-image","url(" + options.textureUrl + ")")
+		// 	.css("width", imgWidth / ige.client.textures[itemData.id]._cellColumns + "px")
+		// 	.css("background-size", imgWidth + "px " + imgHeight + "px")
+		// 	.css("background-position-x", imgWidth / ige.client.textures[itemData.id]._cellColumns + "px");
 
 		if(itemData.coins != 0)
 			clonedItem.find(".marketItemCoins").contents().last()[0].textContent=itemData.coins;

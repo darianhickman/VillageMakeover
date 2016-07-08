@@ -312,8 +312,6 @@ body {
     border-radius: 3px;
 }
 
-
-
 .locked {
     /* use js apply class to locked items. */
     background: #dddddd;
@@ -321,46 +319,35 @@ body {
 }
 
 .unlock {
-    margin-right: 10px;
-    margin-top: 3px;
-    margin-bottom: 3px;
+    margin: 0;
     height: 100%;
-    float:right;
-    /*padding: 3px;*/
+    padding-left: 3px;
+    padding-right: 3px; 
+    min-height:25px;
+    max-height: 30px;
+    /*width:100%;*/
+    min-width: 25px;
     opacity: .9;
     border: 2px solid white;
-    background-color: white;
     display: inline-block;
     cursor: pointer;
     background-image: url('/client/assets/textures/ui/beigefade.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    min-width: 25px;
-    max-height: 30px;
-    max-width: 100px;
-    border-radius: 3px;
+    border-radius: 5px;
     overflow-y: hidden;
 }
 
-.unlock *{
-    /* display: inline-block; */
-    /* overflow: hidden; */
-    margin-left: 2px;
-    padding-left: 0;
-    vertical-align: top;
+.iconcell {
+    width: 100px;
+    overflow-x: hidden;
 }
 
-.unlock span{
-    display: inline-block;
-    margin:0px;
-    padding: 0px;
-    max-height: 30px;
-    min-width: 25px;
-}
-
-.unlock img{
+.unlock img {
     width: 25px;
     height: 25px;
+    white-space: nowrap;
+
 }
 
 .unlock:hover {
@@ -371,6 +358,8 @@ body {
     min-width: 400px;
     min-height: 300px;
     height: 100%;
+    padding:0;
+    margin:0;
 }
 
 #marketDialog ul {
@@ -378,31 +367,47 @@ body {
     overflow-x: hidden;
 }
 
-
 .marketDialogItem {
-    max-height:40px;
-    min-height:25px;
+    max-height: 40px;
+    min-height: 25px;
     display: block;
     /*margin:0px;*/
-    padding:0px;
+    padding: 0px;
 }
 
-
-
-.marketDialogItem span{
-    max-height:40px;
-    min-height:25px;
+.marketDialogItem span {
+    max-height: 40px;
+    min-height: 25px;
     vertical-align: middle;
     display: inline-block;
     margin-top: 3px;
     margin-bottom: 3px;
-    height: 100%;}
+    height: 100%;
+}
+
+.marketDialogList{
+    list-style-type: none;
+    margin:0;
+    padding:0;
+}
+.marketDialogList table tr td {
+    padding: 0;
+    margin:0;
+    /* border: none; */
+}
+
+.marketDialogList table{
+    table-layout: fixed;
+    width: 600px;
+}
+
 
 .marketItemImage {
     background-repeat: no-repeat;
     background-position: 0px -200px;
     min-width: 30px;
     height: 30px;
+    /*width:100px;*/
     display: inline-block;
     overflow-x: hidden;
 }
@@ -413,13 +418,22 @@ body {
 
 }
 
+.marketItemTitle{
+    width: 200px;
+}
+
+.marketDialogPage{
+    margin:0;
+    padding:0;
+}
+
 .marketItemCoins {
-    float: right;
+    /*float: right;*/
     text-align: center;
 }
 
 .marketItemCash {
-    float: right;
+    /*float: right;*/
 }
 
 .marketCoinIcon {
@@ -428,7 +442,7 @@ body {
 }
 
 .marketCashIcon {
-    float: right;
+    /*float: right;*/
     width: 20px;
     height: 20px;
 }
@@ -439,25 +453,34 @@ body {
     height: 100%;
 }
 
-#marketDialogPagination{
+#marketDialogPagination {
     margin: auto;
-    min-width:200px;
-    max-width:300px;
+    min-width: 200px;
+    max-width: 300px;
 }
 
-.notifyIconContainer {
-    display: inline-block;
-
-    /*display: none;*/
+.notifyIconWrapper{
+    position: fixed;
+}
+.notifyIcon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: white;
+    /* need control separate from coin itself */
+    opacity: .7;
+    padding: 3px;
+    border-radius: 3px;
 }
 
-.newGoalNotification{
+.newGoalNotification {
     margin: 3px;
     min-width: 40px;
     vertical-align: middle;
     text-align: center;
     /*display: none;*/
 }
+
 /*Tutorial Mode CSS*/
 #topToolbarTutorial {
     max-height: 35px;
@@ -465,6 +488,7 @@ body {
     padding: 0;
     margin: auto;
 }
+
 #topToolbarTutorial li {
     /* float: left; */
     /* position: relative; */
@@ -478,15 +502,18 @@ body {
     border-radius: 5px;
     box-shadow: 2px 2px 5px #000;
 }
+
 #topToolbarTutorial li:hover {
-      opacity: 1;
-      /* border: 2px; */
-      /* width:1.1em; weird jitter */
-      /* height: 1.1em; weird formatting */
+    opacity: 1;
+    /* border: 2px; */
+    /* width:1.1em; weird jitter */
+    /* height: 1.1em; weird formatting */
 }
+
 #topToolbarTutorial > li:last-child {
     float: right;
 }
+
 #topToolbarTutorial img {
     display: block;
     background-image: url('/client/assets/textures/ui/beigefade.png');
@@ -497,55 +524,67 @@ body {
     width: 25px;
     height: 25px;
 }
-#goalButtonTutorial{
+
+#goalButtonTutorial {
     display: table;
 }
-#goalButtonTutorial *{
-    float:left;
+
+#goalButtonTutorial * {
+    float: left;
     display: table-cell;
     /*white-space: nowrap;*/
     /* vertical-align: middle; */
 }
-#cashbarTutorial{
+
+#cashbarTutorial {
     display: table;
 }
-#cashbarTutorial *{
-    float:left;
+
+#cashbarTutorial * {
+    float: left;
     display: table-cell;
     /*white-space: nowrap;*/
     /* vertical-align: middle; */
 }
-#coinbarTutorial{
+
+#coinbarTutorial {
     display: table;
 }
-#coinbarTutorial *{
-    float:left;
+
+#coinbarTutorial * {
+    float: left;
     display: table-cell;
     /*white-space: nowrap;*/
     /* vertical-align: middle; */
 }
-.tutorialMarketDialogItem{
+
+.tutorialMarketDialogItem {
     height: 50px;
     position: relative;
 }
-.tutorialMarketImage{
+
+.tutorialMarketImage {
     position: absolute;
     height: 50px;
 }
-#tutorialContent{
+
+#tutorialContent {
     text-align: center;
 }
-#tutorialArrowSpan{
-    position:fixed;
+
+#tutorialArrowSpan {
+    position: fixed;
     width: 31px;
     height: 33px;
     z-index: 1000;
 }
-#tutorialArrowImage{
-    position:relative;
+
+#tutorialArrowImage {
+    position: relative;
 }
-#skipTutorial{
-    position:absolute;
+
+#skipTutorial {
+    position: absolute;
     cursor: pointer;
 }
 
@@ -841,21 +880,4 @@ body {
 .igeEditorProperty .label {
     font-weight: bold;
     font-size: 12px;
-}
-
-/* These selectors aren't indicated in jquery-ui.css */
-.ui-dialog .ui-dialog-content ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-
-
-.ui-dialog .ui-dialog-content ul li:last-child {
-    border-bottom: none;
-}
-
-.ui-dialog .ui-dialog-content ul li:hover {
-
 }
