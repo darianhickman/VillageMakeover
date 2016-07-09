@@ -287,14 +287,43 @@ body {
 }
 
 .goalTaskImage {
-    position: absolute;
-    clip: rect(0, 30px, 30px, 0);
-    margin-top: -7px;
-    margin-left: 8px;
-    position: absolute;
-    overflow: hidden;
-    width: 40px;
-    height: 100%;
+    display: inline-block;
+    width: 80px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+#taskList{
+    display: block;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#taskList li{
+    display: block;
+}
+
+#taskList li span{
+    display: table-cell;
+    min-width: 60px;
+    min-height: 40px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#goalDialog {
+    padding:0px;
+    margin:0px;
+    height:100%;
+    width: 500px;
+}
+
+#goalDialogContent{
+    margin:0px;
+    padding:0px;
 }
 
 .notifyIconWrapper {
@@ -322,7 +351,7 @@ body {
     margin: 0;
     height: 100%;
     padding-left: 3px;
-    padding-right: 3px; 
+    padding-right: 3px;
     min-height:25px;
     max-height: 30px;
     /*width:100%;*/
