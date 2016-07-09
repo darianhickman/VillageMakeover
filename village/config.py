@@ -57,6 +57,7 @@ def get_sheet(docid):
         return login().open_by_key(docid).sheet1.get_all_values()
     except Exception:
         logging.error(['requested spreadsheet docid: ', docid])
+        raise
 
 def copy_village_sheet(title):
     sheet_config = get_config()
