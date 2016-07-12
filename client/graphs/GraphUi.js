@@ -286,8 +286,12 @@ var GraphUi = IgeSceneGraph.extend({
                 // Open the goal dialog
                 mixpanel.track("Open goal dialog");
                 $('#newGoalNotification').hide();
-                $( "#goalDialog" ).dialog( "open" );
-                ige.client.fsm.enterState('goalDialog');
+                ige.client.fsm.enterState('goalDialog', null, function (err) {
+                    if (!err) {
+                        $( "#goalDialog" ).dialog( "open" );
+                        vlg.sfx['select'].play();
+                    }
+                });
             });
 
         $('#cashbar')

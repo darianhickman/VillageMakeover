@@ -101,8 +101,13 @@ var GameLogic = IgeObject.extend({
 
             //popup congrats message
             $('#goalDialogContent').html("<p>" + data.message + "</p>");
-            $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: data.title, close: function( event, ui ) {self.goals.loadNextGoal(data.goalID)}, width: 400, height: 250, modal: true, autoOpen: false });
-            $( "#goalDialog" ).dialog( "open" );
+
+            ige.client.fsm.enterState('goalDialog', null, function (err) {
+                if (!err) {
+                    $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: data.title, close: function( event, ui ) {self.goals.loadNextGoal(data.goalID)}, width: 400, height: 250, modal: true, autoOpen: false });
+                    $( "#goalDialog" ).dialog( "open" );
+                }
+            });
         })
 
         //on eventComplete update goal dialog percentage

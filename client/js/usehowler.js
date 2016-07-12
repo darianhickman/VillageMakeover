@@ -76,7 +76,6 @@ function bindSounds() {
     // add triggers for sfx.
     $('#goalButton').click(function (e){
         vlg.log.debug('#goalButton click   .', e);
-        vlg.sfx['select'].play(afterplay);
     });
     $('#topToolbar').click(function (e){
        vlg.log.info('toptoolbar click', e);
