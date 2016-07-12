@@ -96,16 +96,7 @@ var Tutorial = IgeEventingClass.extend({
                         self.gotoStep('showMarketDialog')
                     });
 
-                $( "#tutorialArrowSpan").appendTo("#hudcontainer").insertAfter("#topToolbarTutorial");
-                $("#tutorialArrowSpan").css("position","absolute")
-                $("#tutorialArrowSpan").show();
-                $("#tutorialArrowSpan").position({my: "top center", at: "bottom center", of: "#marketButtonTutorial"})
-                $("#tutorialArrowSpan").css("top","");
-                $("#tutorialArrowImage").rotate({angle:40});
-                $('#tutorialArrowImage').stop();
-                $("#tutorialArrowImage").css("margin-top","0px");
-                $("#tutorialArrowImage").css("margin-left","0px");
-                self.animatethis($('#tutorialArrowImage'), 500, 'marginTop');
+                self.setTutorialArrow("#hudcontainer", "#marketButtonTutorial", 40, 'marginTop');
 
             },
             exit: function(){
@@ -159,14 +150,7 @@ var Tutorial = IgeEventingClass.extend({
                 });
 
 
-                $( "#tutorialArrowSpan").appendTo("body");
-                $("#tutorialArrowSpan").css("position","fixed")
-                $("#tutorialArrowSpan").position({my: "right center", at: "left center", of: "#tutorialMarket" + self.items['item'+self.currentBuildStep].name})
-                $("#tutorialArrowImage").rotate({angle:130});
-                $('#tutorialArrowImage').stop();
-                $("#tutorialArrowImage").css("margin-top","0px");
-                $("#tutorialArrowImage").css("margin-left","0px");
-                self.animatethis($('#tutorialArrowImage'), 500, 'marginLeft');
+                self.setTutorialArrow("body", "#tutorialMarket" + self.items['item'+self.currentBuildStep].name, 130, 'marginLeft');
 
             },
             exit: function(){
@@ -295,17 +279,7 @@ var Tutorial = IgeEventingClass.extend({
                         self.gotoStep('showGoalScreen')
                     });
 
-                $( "#tutorialArrowSpan").appendTo("#hudcontainer").insertAfter("#topToolbarTutorial");
-                $("#tutorialArrowSpan").css("position","absolute")
-                $("#tutorialArrowSpan").show();
-                $("#tutorialArrowSpan").position({my: "top center", at: "bottom center", of: "#goalButtonTutorial"})
-                $("#tutorialArrowSpan").css("top","");
-
-                $("#tutorialArrowImage").rotate({angle:40});
-                $('#tutorialArrowImage').stop();
-                $("#tutorialArrowImage").css("margin-top","0px");
-                $("#tutorialArrowImage").css("margin-left","0px");
-                self.animatethis($('#tutorialArrowImage'), 500, 'marginTop');
+                self.setTutorialArrow("#hudcontainer", "#goalButtonTutorial", 40, 'marginTop');
             },
             exit: function(){
                 $('#goalButtonTutorial').unbind('click');
@@ -356,14 +330,7 @@ var Tutorial = IgeEventingClass.extend({
                         break;
                 }
                 self.currentGoalStep++;
-                $( "#tutorialDialog" ).dialog({ appendTo: '#hudcontainer', resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 'auto', modal: false, autoOpen: false, create: function() {
-                    $(this).closest('div.ui-dialog')
-                        .find('button.ui-dialog-titlebar-close')
-                        .click(function(e) {
-                            self.gotoStep('finishTutorial');
-                            e.preventDefault();
-                        });
-                } });
+
                 $( "#tutorialDialog" ).dialog( "open" );
             },
             exit: function(){
@@ -397,16 +364,7 @@ var Tutorial = IgeEventingClass.extend({
                         self.gotoStep('showPaymentScreen')
                     });
 
-                $( "#tutorialArrowSpan").appendTo("#hudcontainer").insertAfter("#topToolbarTutorial");
-                $("#tutorialArrowSpan").css("position","absolute")
-                $("#tutorialArrowSpan").show();
-                $("#tutorialArrowSpan").position({my: "top center", at: "bottom center", of: "#cashbarTutorial"})
-                $("#tutorialArrowSpan").css("top","");
-                $("#tutorialArrowImage").rotate({angle:40});
-                $('#tutorialArrowImage').stop();
-                $("#tutorialArrowImage").css("margin-top","0px");
-                $("#tutorialArrowImage").css("margin-left","0px");
-                self.animatethis($('#tutorialArrowImage'), 500, 'marginTop');
+                self.setTutorialArrow("#hudcontainer", "#cashbarTutorial", 40, 'marginTop');
             },
             exit: function(){
                 $('#cashbarTutorial').unbind('click');
@@ -425,15 +383,7 @@ var Tutorial = IgeEventingClass.extend({
                     self.gotoStep('fillCreditCard');
                 })
 
-                $( "#tutorialArrowSpan").appendTo("body");
-                $("#tutorialArrowSpan").css("position","fixed")
-                $("#tutorialArrowSpan").position({my: "right center", at: "left center", of: "#tutorialMoneyButton"})
-                $("#tutorialArrowSpan").show();
-                $("#tutorialArrowImage").rotate({angle:130});
-                $('#tutorialArrowImage').stop();
-                $("#tutorialArrowImage").css("margin-top","0px");
-                $("#tutorialArrowImage").css("margin-left","0px");
-                self.animatethis($('#tutorialArrowImage'), 500, 'marginLeft');
+                self.setTutorialArrow("body", "#tutorialMoneyButton", 130, 'marginLeft');
 
             },
             exit: function(){
@@ -443,14 +393,6 @@ var Tutorial = IgeEventingClass.extend({
 
         self.steps['fillCreditCard'] = {
             enter: function(){
-                $( "#tutorialDialog" ).dialog({ appendTo: '#hudcontainer', resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 'auto', modal: false, autoOpen: false, create: function() {
-                    $(this).closest('div.ui-dialog')
-                        .find('button.ui-dialog-titlebar-close')
-                        .click(function(e) {
-                            self.gotoStep('finishTutorial');
-                            e.preventDefault();
-                        });
-                } });
                 $( "#tutorialDialog" ).dialog( "open" );
                 $("#tutorialArrowSpan").hide()
 
@@ -476,20 +418,10 @@ var Tutorial = IgeEventingClass.extend({
                         self.gotoStep('showAddCoinsScreen')
                     });
 
-                $( "#tutorialArrowSpan").appendTo("#hudcontainer").insertAfter("#topToolbarTutorial");
-                $("#tutorialArrowSpan").css("position","absolute")
-                $("#tutorialArrowSpan").position({my: "top center", at: "bottom center", of: "#coinbarTutorial"})
-                $("#tutorialArrowSpan").css("top","");
-                $("#tutorialArrowSpan").show();
-                $("#tutorialArrowImage").rotate({angle:40});
-                $('#tutorialArrowImage').stop();
-                $("#tutorialArrowImage").css("margin-top","0px");
-                $("#tutorialArrowImage").css("margin-left","0px");
-                self.animatethis($('#tutorialArrowImage'), 500, 'marginTop');
+                self.setTutorialArrow("#hudcontainer", "#coinbarTutorial", 40, 'marginTop');
             },
             exit: function(){
                 $('#coinbarTutorial').unbind('click');
-                //$("#tutorialArrowSpan").hide()
             }
         }
 
@@ -508,14 +440,7 @@ var Tutorial = IgeEventingClass.extend({
                     self.gotoStep('completeMessage');
                 })
 
-                $( "#tutorialArrowSpan").appendTo("body");
-                $("#tutorialArrowSpan").css("position","fixed")
-                $("#tutorialArrowSpan").position({my: "right center", at: "left center", of: "#tutorialCoinButton"})
-                $("#tutorialArrowImage").rotate({angle:130});
-                $('#tutorialArrowImage').stop();
-                $("#tutorialArrowImage").css("margin-top","0px");
-                $("#tutorialArrowImage").css("margin-left","0px");
-                self.animatethis($('#tutorialArrowImage'), 500, 'marginLeft');
+                self.setTutorialArrow("body", "#tutorialCoinButton", 130, 'marginLeft');
             },
             exit: function(){
                 $( "#tutorialCoinButton").unbind("click");
@@ -663,5 +588,31 @@ var Tutorial = IgeEventingClass.extend({
                 }
             }
         );
+    },
+
+    setTutorialArrow: function (placement, target, angle, margin) {
+        var self = this;
+        switch(placement){
+            case "#hudcontainer":
+                $("#tutorialArrowSpan").appendTo("#hudcontainer")
+                    .insertAfter("#topToolbarTutorial")
+                    .css("position","absolute")
+                    .show()
+                    .position({my: "top center", at: "bottom center", of: target})
+                    .css("top","");
+                break;
+            case "body":
+                $("#tutorialArrowSpan").appendTo("body")
+                    .css("position","fixed")
+                    .position({my: "right center", at: "left center", of: target})
+                    .show();
+                break;
+        }
+        $("#tutorialArrowImage").stop()
+            .css("margin-top","0px")
+            .css("margin-left","0px")
+            .rotate({angle:angle});
+
+        self.animatethis($('#tutorialArrowImage'), 500, margin);
     }
 })
