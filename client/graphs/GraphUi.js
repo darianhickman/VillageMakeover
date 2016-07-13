@@ -9,13 +9,6 @@ var GraphUi = IgeSceneGraph.extend({
 		var self = ige.client,
 			uiScene = ige.$('uiScene');
 
-        var topNav = new IgeUiElement()
-            .id('topNav')
-            .width(900)
-            .top(10)
-            .height(50)
-            .mount(uiScene)
-
 		var marketDialog = new MarketDialog()
 			.id('marketDialog')
 			.layer(1)
@@ -286,8 +279,12 @@ var GraphUi = IgeSceneGraph.extend({
                 // Open the goal dialog
                 mixpanel.track("Open goal dialog");
                 $('#newGoalNotification').hide();
-                $( "#goalDialog" ).dialog( "open" );
-                ige.client.fsm.enterState('goalDialog');
+                ige.client.fsm.enterState('goalDialog', null, function (err) {
+                    if (!err) {
+                        $( "#goalDialog" ).dialog( "open" );
+                        vlg.sfx['select'].play();
+                    }
+                });
             });
 
         $('#cashbar')

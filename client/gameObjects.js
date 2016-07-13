@@ -246,6 +246,8 @@ var GameObjects = {
                         return this.buildTimeSpeedValue;
                     case 'waitingSpecialEvent':
                         return this.specialEventSpeedValue;
+                    case 'ready':
+                        return -1;
                 }
             },
 
@@ -282,31 +284,40 @@ var GameObjects = {
             },
 
             speedProgress: function(){
-                var message, callback, price = {coins:0}, self = this;
+                var message, callBack, price = {coins:0}, self = this, confirmOnly = null;
 
                 price.cash = this.getCurrentStateSpeedValue();
 
-                //show are you sure and reduce assets
-                message  = 'Speed progress for ' + price.cash + ' villagebucks?';
+                if(price.cash === -1){
+                    message  = 'Progress already finished!';
+                    confirmOnly = true;
+                }else{
+                    //show are you sure and reduce assets
+                    message  = 'Speed progress for ' + price.cash + ' villagebucks?';
 
-                callBack = function() {
-                    if(!API.reduceAssets(
-                            {coins: parseInt(price.coins, 10),
-                                cash: parseInt(price.cash, 10)})) {
-                        // Not enough money?
-                        mixpanel.track("Not enough money");
-                        ige.$('cashDialog').show();
-                        return;
+                    callBack = function() {
+                        if(self.getCurrentStateSpeedValue() === -1){
+                            new BuyConfirm('Progress already finished!',null,true)
+                                .layer(1)
+                                .show()
+                                .mount(ige.$('uiScene'));
+                            return;
+                        }
+                        if(!API.reduceAssets(
+                                {coins: parseInt(price.coins, 10),
+                                    cash: parseInt(price.cash, 10)})) {
+                            // Not enough money?
+                            mixpanel.track("Not enough money");
+                            ige.$('cashDialog').show();
+                            return;
+                        }
+                        self.finishProgress();
                     }
-                    self.finishProgress();
                 }
-
-                var cashDialog = new BuyConfirm(message,callBack)
+                new BuyConfirm(message,callBack,confirmOnly)
                     .layer(1)
                     .show()
                     .mount(ige.$('uiScene'));
-
-
             }
         });
     }
