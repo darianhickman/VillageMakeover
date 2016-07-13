@@ -15,7 +15,7 @@ logging.info(['configyaml', local_config])
 is_login_necessary = False
 
 # set the secret key.  keep this really secret:
-secret_key = 'C0Zf73j/4yX R~DHH!juN]LZX/,?SL'
+# secret_key = 'C0Zf73j/4yX R~DHH!juN]LZX/,?SL'
 
 session = None
 
@@ -253,7 +253,7 @@ def get_login_condition():
     return is_login_necessary
 
 def get_secret_key():
-    return secret_key
+    return local_config['spreadsheet']['private_key_id']
 
 @memcached('catalog')
 def get_catalog():

@@ -288,10 +288,13 @@ body {
 
 .goalTaskImage {
     display: inline-block;
-    width: 80px;
-    height: 40px;
+    width:100px;
+    height:40px;
+    min-width: 100px;
+    min-height: 40px;
     background-repeat: no-repeat;
     background-size: 100%;
+    overflow-y: hidden;
 }
 
 #taskList{
@@ -306,12 +309,12 @@ body {
 }
 
 #taskList li span{
-    display: table-cell;
+    display: inline-block;
     min-width: 60px;
     min-height: 40px;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    /*position: relative;*/
+    /*top: 50%;*/
+    /*transform: translateY(-50%);*/
 }
 
 #goalDialog {
