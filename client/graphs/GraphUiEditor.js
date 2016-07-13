@@ -9,14 +9,6 @@ var GraphUiEditor = IgeSceneGraph.extend({
 		var self = this,
 			uiScene = ige.$('uiSceneEditor');
 
-        var topNav = new IgeUiElement()
-            .id('topNavEditor')
-            .width(900)
-            .top(10)
-            .right(10)
-            .height(50)
-            .mount(uiScene)
-
         var editorMarketDialog = new EditorMarketDialog()
             .id('editorMarketDialog')
             .layer(1)

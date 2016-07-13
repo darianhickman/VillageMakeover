@@ -9,13 +9,6 @@ var GraphUi = IgeSceneGraph.extend({
 		var self = ige.client,
 			uiScene = ige.$('uiScene');
 
-        var topNav = new IgeUiElement()
-            .id('topNav')
-            .width(900)
-            .top(10)
-            .height(50)
-            .mount(uiScene)
-
 		var marketDialog = new MarketDialog()
 			.id('marketDialog')
 			.layer(1)

@@ -1116,22 +1116,6 @@ var Client = IgeClass.extend({
             bottom: 0
         });
 
-        ige.ui.style('#topNav', {
-            'top': 10,
-            'left': 10,
-            'right': 10,
-            'width': 1000,
-            'height': 50
-        });
-
-        ige.ui.style('#topNavEditor', {
-            'top': 10,
-            'left': 10,
-            'right': 10,
-            'width': 1000,
-            'height': 50
-        });
-
         ige.ui.style('.underlay', {
             backgroundColor: '#000000',
             opacity: 0.6,
