@@ -288,13 +288,26 @@ body {
 
 .goalTaskImage {
     display: inline-block;
-    width:100px;
-    height:40px;
+    width:80px;
+    /*height:40px;*/
     min-width: 100px;
     min-height: 40px;
     background-repeat: no-repeat;
     background-size: 100%;
-    overflow-y: hidden;
+    /*overflow-y: hidden;*/
+}
+
+.goalTaskTitle{
+ display:inline-block;
+    min-width:100px;
+
+}
+
+.goalTaskPercent{
+    display: inline-block;
+    min-width:30px;
+    float:right;
+    margin:3px auto;
 }
 
 #taskList{
@@ -312,6 +325,7 @@ body {
     display: inline-block;
     min-width: 60px;
     min-height: 40px;
+    margin-top: 5px;
     /*position: relative;*/
     /*top: 50%;*/
     /*transform: translateY(-50%);*/
@@ -320,7 +334,7 @@ body {
 #goalDialog {
     padding:0px;
     margin:0px;
-    height:100%;
+    /*height:100%;*/
     width: 500px;
 }
 

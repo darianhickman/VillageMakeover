@@ -66,9 +66,12 @@ var GameLogic = IgeObject.extend({
                     // imgWidth = ige.client.textures[itemID]._sizeX / (ige.client.textures[itemID]._sizeY / imgHeight)
                     imgWidth = 30
                     dummyElem.remove();
-                    itemImg = "<span class='goalTaskImage' style='background-image: url(" + options.textureUrl + ");width:" + imgWidth / ige.client.textures[itemID]._cellColumns + "px;background-size:" + imgWidth + "px " + imgHeight + "px;background-position-x: "+ imgWidth / ige.client.textures[itemID]._cellColumns +"px;'></span>";
+                    itemImg = "<span class='goalTaskImage'><img class='goalTaskImage' src='"+options.iconUrl+"' /></span>";
+
+                    // itemImg = "<span class='goalTaskImage' style='background-image: url(" + options.textureUrl + ");" +
+                    //     imgHeight + "px;background-position-x: "+ imgWidth / ige.client.textures[itemID]._cellColumns +"px;'></span>";
                 }
-                items.push('<li>' + itemImg + " "+ value.title  +  "<span id='task" + value.taskID + "' style='float:right;'>" + value.percent + "%</span></li>");
+                items.push('<li>' + itemImg + " <span class='goalTaskTitle'>"+ value.title  +  "</span><span class='goalTaskPercent' id='task" + value.taskID + "' >" + value.percent + "%</span></li>");
             });
             $('#goalDialogContent').html("<ul id='taskList'>" + items.join('') + "</ul>");
             //jquery prepare dialog
