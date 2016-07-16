@@ -109,7 +109,7 @@ var MarketDialog = Dialog.extend({
 		// imgHeight = dummyElem.css("height").substr(0,dummyElem.css("height").indexOf('px'));
 		// imgWidth = ige.client.textures[itemData.id]._sizeX / (ige.client.textures[itemData.id]._sizeY / imgHeight)
 		// dummyElem.remove();
-		clonedItem.find(".marketItemImage").first().attr("src", "/client/"+options.textureUrl);
+		clonedItem.find(".marketItemImage").first().attr("src", options.iconUrl);
 		//
 		// clonedItem.find(".marketItemImage").first().css("background-image","url(" + options.textureUrl + ")")
 		// 	.css("width", imgWidth / ige.client.textures[itemData.id]._cellColumns + "px")
