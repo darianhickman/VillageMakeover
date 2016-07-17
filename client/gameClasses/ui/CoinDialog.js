@@ -13,7 +13,7 @@ var CoinDialog = Dialog.extend({
         for(var i=0; i < 5; i ++) {
             clonedItem = $('#coinAssetList li').first().clone();
             clonedItem.find(".assetAmount").first().text(coins[i] + " Coins for ");
-            clonedItem.find(".assetPay").first().text(pay[i] + " VCash");
+            clonedItem.find(".assetPay").first().text(pay[i] + " VBucks");
 
             (function(i) {
                 clonedItem.click(function() {
@@ -30,7 +30,7 @@ var CoinDialog = Dialog.extend({
                         coins: 0
                     };
 
-                    var message = 'Buy ' + coins[i] + ' coins for ' + pay[i] + ' villagebucks?';
+                    var message = 'Buy ' + coins[i] + ' coins for ' + pay[i] + ' VBucks?';
 
                     var callBack = function() {
                         if(!API.reduceAssets(

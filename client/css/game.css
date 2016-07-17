@@ -227,6 +227,15 @@ body {
 
 }
 
+#coinAssetList{
+    list-style-type: none;
+}
+
+#coinAssetList li:hover{
+    background-color: #2187e7;
+    color: white;
+}
+
 .editorTopNavBar ul {
     font-family: 'Press Start 2P', cursive;
     font-size: 14px;
@@ -243,8 +252,28 @@ body {
     background-color: green;
 }
 
+#cashAssetList{
+    list-style-type: none;
+
+}
+
+#cashAssetList li:hover{
+    background-color: #2187e7;
+    color: white;
+}
+
 #objectClickContent {
     text-align: center;
+    margin:0px;
+    padding:0px;
+    list-style-type: none;
+    min-width:100px;
+
+}
+
+#objectClickContent li:hover{
+    background-color: #2187e7;
+    color: white;
 }
 
 #goalButton {
@@ -269,12 +298,34 @@ body {
     /* vertical-align: middle; */
 }
 
+#cashBuyDialog{
+    margin: 0px;
+    padding: 0px;
+}
+
+#coinBuyDialog{
+    margin: 0px;
+    padding: 0px;
+}
+
 .cashbarProgress {
     margin: 3px;
     min-width: 40px;
     max-height: 19px;
     border: none;
 }
+
+
+.coinIcon {
+    width: 20px;
+    height: 20px;
+}
+
+.cashIcon {
+    width: 20px;
+    height: 20px;
+}
+
 
 #coinbar {
     display: table;

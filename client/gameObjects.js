@@ -293,7 +293,7 @@ var GameObjects = {
                     confirmOnly = true;
                 }else{
                     //show are you sure and reduce assets
-                    message  = 'Speed progress for ' + price.cash + ' villagebucks?';
+                    message  = 'Speed progress for ' + price.cash + ' VBucks?';
 
                     callBack = function() {
                         if(self.getCurrentStateSpeedValue() === -1){

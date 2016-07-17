@@ -12,8 +12,8 @@ var CashDialog = Dialog.extend({
 
         for(var i=0; i < 5; i ++) {
             clonedItem = $('#cashAssetList li').first().clone();
-            clonedItem.find(".assetAmount").first().text(bucks[i] + " villagebucks for ");
-            clonedItem.find(".assetPay").first().text("$" + pay[i] + "  USD");
+            clonedItem.find(".assetAmount").first().text(bucks[i] + " VBucks for ");
+            clonedItem.find(".assetPay").first().text( pay[i] + "  USD");
 
             (function(i) {
                 clonedItem.click(function() {
@@ -31,7 +31,7 @@ var CashDialog = Dialog.extend({
                     };
 
 
-                    var message = 'Buy ' + bucks[i] + ' villagebucks for $' + pay[i] + '?';
+                    var message = 'Buy ' + bucks[i] + ' VBucks for ' + pay[i] + '?';
 
                     var cashDialog = new BuyConfirm(message,
                         function() {
