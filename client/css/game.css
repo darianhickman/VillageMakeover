@@ -301,11 +301,13 @@ body {
 #cashBuyDialog{
     margin: 0px;
     padding: 0px;
+    background-color: #F8D2B7;
 }
 
 #coinBuyDialog{
     margin: 0px;
     padding: 0px;
+    background-color: #F8D2B7;
 }
 
 .cashbarProgress {
