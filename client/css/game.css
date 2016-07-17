@@ -698,6 +698,11 @@ body {
     cursor: pointer;
 }
 
+.disabled{
+    cursor: default;
+    opacity: .5;
+}
+
 @-moz-keyframes fadePulse {
     0% {
         opacity: 0.5;
