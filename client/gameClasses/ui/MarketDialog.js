@@ -126,13 +126,13 @@ var MarketDialog = Dialog.extend({
 			clonedItem.find(".marketItemCash").first().remove();
 
 		// how does this work without being wrapped in a condition block ???
+		itemData.entity = clonedItem;
 		itemData.unlockButton = clonedItem.find(".unlock").first();
 		itemData.unlockprice = itemData.unlockButton.find(".unlockprice").first();
 		// need to update to no dependencies or unlocked.
 		if(itemData.dependency === "none" || $.inArray(itemData.id, API.state.unlockedItems)>= 0) {
-			itemData.unlockButton.remove();
-			itemData.unlockButton = null;
-			clonedItem.removeClass('locked');
+			self.removeItemCover(itemData);
+			self.bindItemAction(itemData);
 		}else{
 			clonedItem.addClass("locked");
 			// display price.  		price.cash = itemData.unlockValue;
@@ -143,24 +143,6 @@ var MarketDialog = Dialog.extend({
 				self.unlockItemByCash(itemData);
 			});
 		}
-
-		clonedItem.click(function () {
-			ige.input.stopPropagation();
-
-			// Play the audio
-			// ige.client.audio.normClick.play();
-			vlg.sfx['select'].play();
-
-			// Hide the build dialog
-			self.hide();
-
-			// Switch to build mode
-			ige.client.fsm.enterState('build', {
-				classId: itemData.classId,
-				coins: itemData.coins,
-				cash: itemData.cash,
-			});
-		});
 
 		this._items.push(itemData);
 
@@ -196,6 +178,7 @@ var MarketDialog = Dialog.extend({
 				return;
 			}
 			self.removeItemCover(itemData);
+			self.bindItemAction(itemData);
 			self.showUnlockMessage(itemData.title);
 			API.addUnlockedItem(itemData.id);
 		}
@@ -210,7 +193,30 @@ var MarketDialog = Dialog.extend({
 		if(itemData.unlockButton){
 			itemData.unlockButton.remove();
 			itemData.unlockButton = null;
+			itemData.entity.removeClass('locked');
 		}
+	},
+
+	bindItemAction: function(itemData){
+		var self = this;
+
+		itemData.entity.click(function () {
+			ige.input.stopPropagation();
+
+			// Play the audio
+			// ige.client.audio.normClick.play();
+			vlg.sfx['select'].play();
+
+			// Hide the build dialog
+			self.hide();
+
+			// Switch to build mode
+			ige.client.fsm.enterState('build', {
+				classId: itemData.classId,
+				coins: itemData.coins,
+				cash: itemData.cash,
+			});
+		});
 	},
 
 	showUnlockMessage: function(itemName){
