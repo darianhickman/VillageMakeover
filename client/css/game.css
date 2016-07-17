@@ -201,6 +201,7 @@ body {
 #objectClickDialog {
     max-width: 300px;
     min-width: 100px;
+    opacity: 0.8;
 }
 
 #dropDownDialog {
@@ -407,6 +408,7 @@ body {
 
 .notifyIconWrapper {
     position: fixed;
+    opacity: .7;
 }
 
 .notifyIcon {
@@ -415,7 +417,7 @@ body {
     height: 20px;
     background-color: white;
     /* need control separate from coin itself */
-    opacity: .7;
+    opacity: 1.0;
     padding: 3px;
     border-radius: 3px;
 }

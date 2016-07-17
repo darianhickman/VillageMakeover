@@ -70,9 +70,9 @@ var Client = IgeClass.extend({
                         if (item) {
                             ClientHelpers.closeAllDialogsButThis('objectClickDialog');
 
-                            // $("#objectClickDialogPositionItem").css("position", "fixed");
-                            // $("#objectClickDialogPositionItem").css("top", item.screenPosition().y);
-                            // $("#objectClickDialogPositionItem").css("left", item.screenPosition().x);
+                            $("#objectClickDialogPositionItem").css("position", "fixed");
+                            $("#objectClickDialogPositionItem").css("top", item.screenPosition().y);
+                            $("#objectClickDialogPositionItem").css("left", item.screenPosition().x);
 
                             $("#objectClickDialog").dialog({
                                 resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar',
@@ -81,7 +81,7 @@ var Client = IgeClass.extend({
                             });
 
                             $("#objectClickDialog").dialog("open");
-                            // $("#objectClickDialog").css("min-height", "");
+                            $("#objectClickDialog").css("min-height", "");
 
                             $("#objectClickContent").html(' <li id="moveObjectButton">Move Object</li> ');
 

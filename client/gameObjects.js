@@ -160,8 +160,8 @@ var GameObjects = {
                 GameObject.prototype.update.call(this);
 
                 if(this.specialEventNotifyElement) {
-                    // this.specialEventNotifyElement.css("top", this.screenPosition().y - 100);
-                    // this.specialEventNotifyElement.css("left", this.screenPosition().x - 7);
+                    this.specialEventNotifyElement.css("top", this.screenPosition().y - 100);
+                    this.specialEventNotifyElement.css("left", this.screenPosition().x - 7);
                 }
 
                 if(this._buildProgressBar) {
@@ -270,8 +270,8 @@ var GameObjects = {
                 if(self.specialEvent !== "None" && self.specialEventNotifyIcon !== "None"){
                     self.specialEventNotifyElement = $("<span class='notifyIconWrapper'></span>")
                         .appendTo("#notifyIconContainer")
-                        // .css("top",self.screenPosition().y-100)
-                        // .css("left",self.screenPosition().x-7);
+                        .css("top",self.screenPosition().y-100)
+                        .css("left",self.screenPosition().x-7);
                     $("<img class='notifyIcon' src='" + ige.client.textures[self.specialEventNotifyIcon].url() + "'>")
                         .appendTo(self.specialEventNotifyElement)
                         .animate({ top: '+=50px' }, 1000, self.specialEventNotifyIconEasing);
