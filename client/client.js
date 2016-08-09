@@ -418,7 +418,7 @@ var Client = IgeClass.extend({
                 $("#savingDialog").dialog("open");
 
                 $("#savingContent")
-                    .html("<div style='padding-top:80px'><p>Loading village, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>");
+                    .html("<div><p>Loading village, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>");
 
                 $.ajax({
                     dataType: 'json',

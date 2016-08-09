@@ -15,7 +15,7 @@ var EditorManager = IgeEventingClass.extend({
             $( "#savingDialog" ).dialog( "open" );
 
             $( "#savingContent" )
-                .html( "<div style='padding-top:80px'><p>Processing, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
+                .html( "<div><p>Processing, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
         });
 
         $( document ).ajaxError(function(event, xhr, settings) {
@@ -23,7 +23,7 @@ var EditorManager = IgeEventingClass.extend({
                 return;
 
             $( "#savingContent" )
-                .html( "<div style='padding-top:80px'><p>There was an error contacting the server!<br />Please try again later.</p>" +
+                .html( "<div><p>There was an error contacting the server!<br />Please try again later.</p>" +
                 "<p><button id='closeSavingDialog'>Close</button></p></div>" );
 
             $('#closeSavingDialog').on('click', function(){

@@ -15,13 +15,13 @@ var EditorViews = IgeClass.extend({
     views: [
         {
             id: 'init',
-            view: '<div style="padding-top:80px"><p><button id="newVillageButton">New</button></p>' +
+            view: '<div><p><button id="newVillageButton">New</button></p>' +
             '<p><button id="loadVillagesButton">Load</button></p>' +
             '<p><button id="cancelEditorModeButton">Quit</button></p></div>'
         },
         {
             id: 'new',
-            view: '<div style="padding-top:65px"><p><form action="javascript:void(0);">' +
+            view: '<div><p><form action="javascript:void(0);">' +
             '<div><label style="display: inline-block;width: 220px;text-align: right;" for="newVillageTitle">Title:</label><input type="text" id="newVillageTitle" /></div>' +
             '<div id="newVillageErrorField" class="ui-state-error" style="display:none;font-size:14px;">Please fill in the "Title" field</div>' +
             '<div><label style="display: inline-block;width: 220px;text-align: right;" for="newVillageOrganization">Organization(optional):</label><input type="text" id="newVillageOrganization" /></div>' +
@@ -36,7 +36,7 @@ var EditorViews = IgeClass.extend({
         },
         {
             id: 'edit',
-            view: '<div style="padding-top:65px"><p><form action="javascript:void(0);">' +
+            view: '<div><p><form action="javascript:void(0);">' +
             '<div><label style="display: inline-block;width: 220px;text-align: right;" for="newVillageTitle">Title:</label><input type="text" id="editVillageTitle" /></div>' +
             '<div id="editVillageErrorField" class="ui-state-error" style="display:none;font-size:14px;">Please fill in the "Title" field</div>' +
             '<div><label style="display: inline-block;width: 220px;text-align: right;" for="editVillageOrganization">Organization(optional):</label><input type="text" id="editVillageOrganization" /></div>' +
@@ -46,14 +46,14 @@ var EditorViews = IgeClass.extend({
         },
         {
             id: 'warnBeforeQuit',
-            view: '<div style="padding-top:80px"><p>You have unsaved changes. Save before quit?</p>' +
+            view: '<div><p>You have unsaved changes. Save before quit?</p>' +
             '<p><button id="yesWarningButton">Yes</button></p>' +
             '<p><button id="noWarningButton">No</button></p>' +
             '<p><button id="cancelWarningButton">Cancel</button></p></div>'
         },
         {
             id: 'warnBeforeDelete',
-            view: '<div style="padding-top:40px"><p>You can\'t undo delete! Are you sure to delete:</p><p id="deleteVillageTitle"></p>' +
+            view: '<div><p>You can\'t undo delete! Are you sure to delete:</p><p id="deleteVillageTitle"></p>' +
             '<div><label style="display: inline-block;width: 220px;text-align: right;" for="deleteVillageTitleInput">Write the title here:</label><input type="text" id="deleteVillageTitleInput" />' +
             '<div id="deleteVillageErrorField" class="ui-state-error" style="display:none;font-size:14px;">Please fill in the "Title" field</div></div>' +
             '<p><button id="yesDeleteButton">Delete</button></p>' +
@@ -61,7 +61,7 @@ var EditorViews = IgeClass.extend({
         },
         {
             id: 'share',
-            view: '<div style="padding-top:20px"><p>Share Village:</p><p id="shareVillageTitle"></p><div><textarea id="shareTextArea" style="width:428px;"></textarea>' +
+            view: '<div><p>Share Village:</p><p id="shareVillageTitle"></p><div><textarea id="shareTextArea" style="width:428px;"></textarea>' +
             '<div id="shareVillageErrorField" class="ui-state-error" style="display:none;font-size:14px;">Your browser doesn\'t support copying. Please copy manually</div>' +
             '<button id="copyClipboardButton">Copy to Clipboard</button></div>' +
             '<p><button id="cancelShareButton">Back</button></p></div>'
