@@ -130,18 +130,6 @@ var GraphUi = IgeSceneGraph.extend({
             $("#editorLink").hide();
         }
 
-        var messageFontEntity = new IgeFontEntity()
-            .id('messageFontEntity')
-            .layer(500)
-            .colorOverlay('white')
-            .texture(ige.client.textures.pressStartFont)
-            .nativeStroke(4)
-            .nativeStrokeColor('#000000')
-            .textAlignX(0)
-            .width(500)
-            .mount(uiScene)
-            .hide();
-
 		new IgeParticleEmitter()
 			.id('coinEmitter')
 			.layer(10)

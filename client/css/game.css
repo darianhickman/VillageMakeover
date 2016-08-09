@@ -703,6 +703,16 @@ body {
     opacity: .5;
 }
 
+#notificationMessage{
+    position: fixed;
+    font-family: 'Verdana';
+    font-size: 26px;
+    color: white;
+    top: 0px;
+    left: 10px;
+    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
+
 @-moz-keyframes fadePulse {
     0% {
         opacity: 0.5;

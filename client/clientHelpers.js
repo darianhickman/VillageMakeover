@@ -89,23 +89,17 @@ var ClientHelpers = {
             this.messageTimeout.cancel();
             this.messageTimeout = null;
         }
-        ige.$('messageFontEntity').text(message)
-            .opacity(1)
+
+        $('#notificationMessage').text(message)
+            .stop()
+            .css("opacity", 1)
+            .css("left", 10)
+            .css("top", 150)
             .show()
-            .translateTo(ige.$('uiScene')._renderPos.x + 270, ige.$('uiScene')._renderPos.y + 150, 0)
-            ._translate.tween()
-            .stepTo({
-                y: (ige.$('uiScene')._renderPos.y + 80)
-            },500,'inOutSine')
-            .start();
+            .animate({ top: '-=100px' }, 1000, GameConfig.config['notificationMessageEasing']);
 
         this.messageTimeout = new IgeTimeout(function () {
-            ige.$('messageFontEntity').tween()
-                .properties({
-                    _opacity: 0
-                })
-                .duration(1000)
-                .start();
+            $('#notificationMessage').animate({ opacity: 0 }, {duration: 1000, complete: function(){$('#notificationMessage').hide()}});
         }, parseInt(GameConfig.config['message_fadeout']) * 1000);
     },
 
