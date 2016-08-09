@@ -94,7 +94,7 @@ var GameObjects = {
                 this.specialEventNotifyIconEasing = options.specialEventNotifyIconEasing;
 
                 this.mouseOver(function(){
-                    if(ige.client.fsm.currentStateName() === "select" && !ige.client.data('moveItem')){
+                    if((ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view") && !ige.client.data('moveItem')){
                         this.layer(1)
                             .highlight(true);
 

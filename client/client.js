@@ -438,6 +438,8 @@ var Client = IgeClass.extend({
                                 .html("<div style='padding-top:80px'><p>Village is not viewable, sorry.</p></div>");
                             return;
                         }
+                        $("#villageTitle").text(response.title)
+                            .show()
                         for (var i = 0; i < response.data.length; i++) {
                             ClientHelpers.addObject(response.data[i], "tileMapView")
                         }
