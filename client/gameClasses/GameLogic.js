@@ -82,8 +82,6 @@ var GameLogic = IgeObject.extend({
         })
 
         //on goal complete load next goal
-        // on goal complete this should trigger ige.fsm to enterstate goalDialog, which would then handle showing
-        // D
         self.goals.on("goalComplete",function(data){
             //add reward assets
             var rewardsArr = data.reward.split(","),
