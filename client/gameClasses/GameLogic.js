@@ -6,7 +6,8 @@ var GameLogic = IgeObject.extend({
 
         var self = this,
             currentGoalID,
-            marketDialog = ige.$('marketDialog');
+            marketDialog = ige.$('marketDialog'),
+            dialogList = [{id:"marketDialog", image:"Shop"}, {id:"goalDialog", image:"star"}, {id:"cashBuyDialog", image:"Banknotes"}, {id:"coinBuyDialog", image:"Coin1"}];
 
         //add unlocked market items based on user state
         for(var i in API.state.objects){
@@ -42,6 +43,15 @@ var GameLogic = IgeObject.extend({
                     },100);
                 })(item);
             }
+        }
+
+        //add icons for dialogs
+        for(var i = 0; i < dialogList.length; i++){
+            var item = dialogList[i];
+            $( "#" + item.id ).dialog();
+            $( "#" + item.id ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
+                .prepend("<img src='assets/textures/ui/" + item.image + ".png' class='dialogTitleImage'>");
+            $( "#" + item.id ).dialog('close');
         }
 
         self.goals = new Goals()
