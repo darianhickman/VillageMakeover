@@ -84,3 +84,8 @@
     border: none;
 
 }
+
+.ui-dialog-title {
+    width: 86% !important;
+    margin-top: 3px !important;
+}

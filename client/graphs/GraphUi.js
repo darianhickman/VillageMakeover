@@ -195,12 +195,7 @@ var GraphUi = IgeSceneGraph.extend({
         })
 
         $('#feedbackLink').on('click',function(){
-            mixpanel.track("Send feedback");
-            window.open(
-                GameConfig.config['feedbackButtonURL'],
-                "GoogleGroupPage",
-                "resizable,scrollbars,status"
-            );
+            ige.client.fsm.enterState('feedbackDialog');
         })
 
         $('#editorLink').on('click',function(){

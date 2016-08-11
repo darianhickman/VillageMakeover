@@ -7,7 +7,7 @@ var ClientHelpers = {
     
     hideDialogs: function(){
         // not sure how to iterate over all dialogs hard code for now. Change to class select at some point.
-        var dialogList = ["goalDialog","marketDialog","editorMarketDialog","cashBuyDialog","coinBuyDialog","tutorialDialog","newsFeedDialog","shareMyVillageDialog","dropDownDialog","savingDialog","buyConfirmDialog"];
+        var dialogList = ["goalDialog","marketDialog","editorMarketDialog","cashBuyDialog","coinBuyDialog","tutorialDialog","newsFeedDialog","shareMyVillageDialog","dropDownDialog","savingDialog","buyConfirmDialog","feedBackDialog"];
         for(var i = 0; i < dialogList.length; i++){
             $("#" + dialogList[i]).dialog();
             $("#" + dialogList[i]).dialog("close");
@@ -104,7 +104,7 @@ var ClientHelpers = {
     },
 
     closeAllDialogsButThis: function(dialogID){
-        var dialogList = ["dropDownDialog","marketDialog","goalDialog","cashBuyDialog","coinBuyDialog","mouseOverDialog","objectClickDialog","shareMyVillageDialog"];
+        var dialogList = ["dropDownDialog","marketDialog","goalDialog","cashBuyDialog","coinBuyDialog","mouseOverDialog","objectClickDialog","shareMyVillageDialog","feedBackDialog"];
         for(var i = 0; i < dialogList.length; i++){
             if(dialogList[i] === dialogID)
                 continue;
