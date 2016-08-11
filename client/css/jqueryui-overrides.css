@@ -52,13 +52,15 @@
 
 .ui-dialog-titlebar {
     height: 30px;
-
+    position: relative;
 }
 
-.ui-dialog-title{
-    /*position: absolute;*/
-    /*margin: 0px;*/
+.ui-dialog-title {
+    width: 86% !important;
+    margin-top: 3px !important;
+    /* float: left; */
 }
+
 
 /*.ui-dialog-titlebar-close {*/
     /*position: absolute;*/
@@ -85,7 +87,3 @@
 
 }
 
-.ui-dialog-title {
-    width: 86% !important;
-    margin-top: 3px !important;
-}
