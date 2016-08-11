@@ -408,14 +408,16 @@ body {
 
 .notifyIconWrapper {
     position: fixed;
-    opacity: .7;
+    background-color: rgba(255, 255, 255, .7);
+
 }
 
 .notifyIcon {
     position: absolute;
     width: 20px;
     height: 20px;
-    background-color: white;
+    background-color: rgba(255, 255, 255, .7);
+
     /* need control separate from coin itself */
     opacity: 1.0;
     padding: 3px;
@@ -567,20 +569,6 @@ body {
     margin: auto;
     min-width: 200px;
     max-width: 300px;
-}
-
-.notifyIconWrapper{
-    position: fixed;
-}
-.notifyIcon {
-    position: absolute;
-    width: 20px;
-    height: 20px;
-    background-color: white;
-    /* need control separate from coin itself */
-    opacity: .7;
-    padding: 3px;
-    border-radius: 3px;
 }
 
 .newGoalNotification {
