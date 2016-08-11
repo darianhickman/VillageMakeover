@@ -12,6 +12,7 @@ import config as config_module
 from .app_common import config
 from .config import get_config, get_catalog, get_news_feed, get_secret_key, get_config_assets, get_config_earnings, get_goals_data, get_goals_tasks, get_goals_settings, get_dropdown_menu
 from . import models
+from google.appengine.api import mail, app_identity
 
 root = flask.Flask(__name__)
 
@@ -169,3 +170,18 @@ def scan_config_all():
 def scan_config_by_key(config_key):
     found_dict = scan_config(config_key)
     return render_template('single_key_scan_results.html', results=found_dict)
+
+@root.route('/sendfeedback', methods=['POST'])
+def send_feedback():
+    json_data = flask.request.get_json(True)
+    name = json_data['name']
+    email = json_data['email']
+    message = json_data['message']
+    sheet_config = get_config()
+    receiver = sheet_config['feedBackEmailReceiver']
+    sent_message = sheet_config['feedBackSentMessage']
+    mail.send_mail(sender = "feedback@" + app_identity.get_application_id() + ".appspotmail.com",
+                       to = receiver,
+                       subject = app_identity.get_application_id() + " Feedback Form",
+                       body = "Email: " + email + " Name: " + name + " Message: " + message)
+    return flask.Response(json.dumps({'message' : sent_message}), content_type='application/json')

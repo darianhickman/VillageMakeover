@@ -197,6 +197,40 @@
         <button id="buyConfirmYes">Yes</button>
         <button id="buyConfirmNo">No</button>
     </div>
+    <div id="feedBackDialog" title="Send Feedback" style="display:none;">
+        <div>
+            <!-- Form -->
+            <form id="contact-form" action="javascript:void(0);">
+                <div>
+                    <label>
+                        <span>Name: (required)</span>
+                        <input id="contactName" placeholder="Please enter your name" type="text" tabindex="1" required autofocus>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <span>Email: (required)</span>
+                        <input id="contactEmail" placeholder="Please enter your email address" type="email" tabindex="2" required>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <span>Message: (required)</span>
+                        <textarea id="contactMessage" placeholder="Include all the details you can" tabindex="5" required></textarea>
+                    </label>
+                </div>
+                <div>
+                    <button name="submit" type="submit" id="contact-submit">Send</button>
+                </div>
+                <div id="contactSending" style="display:none;">
+                    <label>
+                        <span>Sending...</span>
+                    </label>
+                </div>
+            </form>
+            <!-- /Form -->
+        </div>
+    </div>
     <div class="notifyIconContainer" id="notifyIconContainer"></div>
 </div> <!-- End hudcontainer -->
 <!-- start Mixpanel -->

@@ -583,6 +583,55 @@ var Client = IgeClass.extend({
             }
         });
 
+        this.fsm.defineState('feedbackDialog', {
+            enter: function (data, completeCallback) {
+                vlg.log.info('entering state this.fsm.feedbackDialog');
+                mixpanel.track("Send feedback");
+
+                ClientHelpers.closeAllDialogsButThis('feedBackDialog');
+
+                $( "#feedBackDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 600, height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {ige.client.fsm.enterState('select');} });
+                $( "#feedBackDialog" ).dialog( "open" );
+
+                $( "#contact-submit" ).click(function(){
+                    if(!$('#contactName')[0].checkValidity() || !$('#contactEmail')[0].checkValidity() || !$('#contactMessage')[0].checkValidity())
+                        return;
+                    $( this ).hide();
+                    $( "#contactSending").show();
+                    $.ajax({
+                        url: '/sendfeedback',
+                        dataType: 'json',
+                        method: 'POST',
+                        async: true,
+                        data: JSON.stringify({name: $( "#contactName").val(),
+                            email: $( "#contactEmail").val(),
+                            message: $( "#contactMessage").val()}),
+                        success: function(result){
+                            ige.client.fsm.enterState('select');
+                            new BuyConfirm(result.message,null,true)
+                                .layer(1)
+                                .show()
+                                .mount(ige.$('uiScene'));
+                        }
+                    })
+                })
+                completeCallback();
+            },
+            exit: function (data, completeCallback) {
+                vlg.log.info('exiting state this.fsm.feedbackDialog');
+
+                $( "#feedBackDialog" ).dialog( "close" );
+                $( "#contactName" ).val("");
+                $( "#contactEmail" ).val("");
+                $( "#contactMessage" ).val("");
+                $( "#contactSending" ).hide();
+                $( "#contact-submit" ).show()
+                    .unbind("click");
+
+                completeCallback();
+            }
+        });
+
         var clientSelf = this;
 
         this.fsm.defineState('build', {
