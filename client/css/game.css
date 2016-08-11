@@ -730,10 +730,7 @@ body {
     width: 25px;
     height: 25px;
     float: left;
-}
-
-.ui-dialog-title {
-    width: 88% !important;
+    margin-right: 5px;
 }
 
 @-moz-keyframes fadePulse {
