@@ -24,13 +24,7 @@
 
 /*}*/
 
-/*.ui-dialog-titlebar {*/
-    /*position:relative;*/
-    /*!*background-image: none;*!*/
-    /*border: none;*/
-    /*font-size: 20px;*/
-    /*overflow: visible;*/
-/*}*/
+
 /*.ui-dialog .ui-dialog-content {*/
     /*padding: 0;*/
 /*}*/
@@ -56,11 +50,15 @@
 
 /*}*/
 
-/*.ui-dialog-titlebar {*/
-    /*!*margin-top:10px;*!*/
-    /*!*margin-left:5px;*!*/
-    /*!*margin-bottom: 5px;*!*/
-/*}*/
+.ui-dialog-titlebar {
+    height: 30px;
+
+}
+
+.ui-dialog-title{
+    /*position: absolute;*/
+    /*margin: 0px;*/
+}
 
 /*.ui-dialog-titlebar-close {*/
     /*position: absolute;*/
@@ -80,12 +78,6 @@
     /*visibility: hidden;*/
 /*}*/
 
-/*.ui-dialog-titlebar-close{*/
-    /*background-size: 100%;*/
-    /*width:30px;*/
-    /*height:30px;*/
-    /*background-image: url(/client/assets/textures/ui/Cancel.png);*/
-/*}*/
 
 .ui-state-focus{
     outline: none;
