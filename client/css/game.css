@@ -351,7 +351,7 @@ body {
 
 .goalTaskImage {
     display: inline-block;
-    width:80px;
+    width:100px;
     /*height:40px;*/
     min-width: 100px;
     min-height: 40px;
@@ -361,16 +361,16 @@ body {
 }
 
 .goalTaskTitle{
- display:inline-block;
+    display:inline-block;
     min-width:100px;
-
 }
 
 .goalTaskPercent{
     display: inline-block;
+    text-align: right;
     min-width:30px;
     float:right;
-    margin:3px auto;
+    margin:0px;
 }
 
 #taskList{
@@ -382,6 +382,7 @@ body {
 
 #taskList li{
     display: block;
+    margin: 0px 5px 0px 5px;
 }
 
 #taskList li span{
@@ -389,6 +390,7 @@ body {
     min-width: 60px;
     min-height: 40px;
     margin-top: 5px;
+    vertical-align: middle;
     /*position: relative;*/
     /*top: 50%;*/
     /*transform: translateY(-50%);*/
