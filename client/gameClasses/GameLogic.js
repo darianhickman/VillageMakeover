@@ -54,6 +54,9 @@ var GameLogic = IgeObject.extend({
             $( "#" + item.id ).dialog('close');
         }
 
+        //implement tooltip
+        $( "#topToolbar" ).tooltip();
+
         self.goals = new Goals()
 
         $('#goalDialogContent').html("There is no active goal at the moment!");

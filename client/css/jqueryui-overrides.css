@@ -87,3 +87,7 @@
 
 }
 
+.ui-tooltip {
+    background: green;
+    color: black;
+}
