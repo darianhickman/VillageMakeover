@@ -12,8 +12,11 @@ var BuyConfirm = Dialog.extend({
             $("#buyConfirmOK")
                 .click(function() {
                     mixpanel.track("Confirm dialog");
+                    $("#buyConfirmOK").unbind("click");
                     $( "#buyConfirmDialog" ).dialog( "close" );
                     self.closeMe();
+                    if(callback !== null && callback !== undefined)
+                        callback();
                 })
                 .show();
         }else{
@@ -39,7 +42,7 @@ var BuyConfirm = Dialog.extend({
                 .show();
         }
 
-        $( "#buyConfirmDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {$("#buyConfirmYes").unbind("click");self.closeMe();} });
+        $( "#buyConfirmDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {$("#buyConfirmYes").unbind("click");$("#buyConfirmOK").unbind("click");self.closeMe();} });
         $( "#buyConfirmDialog" ).dialog( "open" );
 
         this.closeButton.hide();

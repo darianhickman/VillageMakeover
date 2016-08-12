@@ -3,39 +3,35 @@ var BuyStatus = Dialog.extend({
     init: function () {
         Dialog.prototype.init.call(this);
 
-        var base = new IgeUiLabel()
-            .width(300)
-            .height(100)
-            .applyStyle({backgroundColor: '#000'})
-            .mount(this);
-
-        this.label =
-            new IgeFontEntity()
-            .colorOverlay('white')
-            .texture(ige.client.textures.pressStartFont)
-            .width(300)
-            .mount(base);
-
-        this.closeButton.translateTo(150,-50,0);
+        this.closeButton.hide();
+        this._underlay.hide();
     },
 
     startTransaction: function() {
-        this.label.text(GameConfig.config['buyingString']);
-        this.show();
+        var self = this;
+        self.infoDialog = new BuyConfirm(GameConfig.config['buyingString'],null,true)
+            .layer(1)
+            .show()
+            .mount(ige.$('uiScene'));
     },
 
     transactionSuccess: function() {
         var self = this;
         mixpanel.track("Transaction success");
-        this.label.text(GameConfig.config['transactionSuccessString']);
-        new IgeInterval(function () { self.hide()  }, 1000);
+        self.infoDialog.closeMe();
+        new BuyConfirm(GameConfig.config['transactionSuccessString'],null,true)
+            .layer(1)
+            .show()
+            .mount(ige.$('uiScene'));
     },
 
     transactionFailed: function(callback) {
         var self = this;
         mixpanel.track("Transaction fail");
-        this.label.text(GameConfig.config['transactionFailString']);
-        this.label.nativeFont('20px Times New Roman')
-        new IgeInterval(callback, 2000);
+        self.infoDialog.closeMe();
+        new BuyConfirm(GameConfig.config['transactionFailString'],callback,true)
+            .layer(1)
+            .show()
+            .mount(ige.$('uiScene'));
     }
 })
