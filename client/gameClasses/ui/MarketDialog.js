@@ -66,9 +66,6 @@ var MarketDialog = Dialog.extend({
 				$( "#marketDialog" ).dialog({ resizable: true, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
 				$( "#marketDialog" ).dialog( "open" );
 				Dialog.prototype.show.call(self);
-				// ige.client.audio.normClick.play();
-				vlg.sfx['select'].play();
-
 			}
 		});
 

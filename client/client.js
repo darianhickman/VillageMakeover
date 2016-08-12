@@ -26,7 +26,6 @@ var Client = IgeClass.extend({
                 // ClientHelpers.hideDialogs();
                 vlg.log.info('entering state this.fsm.loaded');
                 vlg.bindSounds();
-                $('#volume').click(vlg.toggleSound);
                 // start Level Music.
                 vlg.music['welcome'].fadeOut(0, 2000);
                 vlg.music['levelfull1'].fadeIn(1.0, 2000);

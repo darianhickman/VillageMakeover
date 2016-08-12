@@ -85,13 +85,9 @@ function bindSounds() {
         vlg.log.debug(' toolbar children click .', e);
         vlg.sfx['select'].play(afterplay);
     });
-    $('#topToolbar.li').children().click(function (e) {
-        vlg.log.debug(' toolbar children click .', e);
-        vlg.sfx['select'].play(afterplay);
-    });
 
     // bind sfx to all the close buttons.
-    $('.ui-icon-closethick').click(function () {
+    $('.ui-dialog-titlebar-close').click(function () {
         vlg.log.debug('binding cancel sound to cancel buttons.');
         vlg.sfx['cancel'].play();
     });
@@ -121,7 +117,7 @@ vlg.toggleSound = toggleSound;
 $(document).ready(function (){
     vlg.log.info('Enabling sound and mute');
     vlg.soundinit();
-    $('#volume').children().click( vlg.toggleSound); // enable mute button right away\
+    $('#volume').click(vlg.toggleSound); // enable mute button right away\
     vlg.log.debug('#volume', $('#volume'));
     vlg.log.debug('#volume kids', $('#volume').children());
     vlg.log.debug('toogleSound ', vlg.toggleSound);

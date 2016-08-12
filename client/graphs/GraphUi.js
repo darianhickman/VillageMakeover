@@ -266,7 +266,6 @@ var GraphUi = IgeSceneGraph.extend({
                 ige.client.fsm.enterState('goalDialog', null, function (err) {
                     if (!err) {
                         $( "#goalDialog" ).dialog( "open" );
-                        vlg.sfx['select'].play();
                     }
                 });
             });
