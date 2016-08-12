@@ -167,6 +167,7 @@ var GraphUi = IgeSceneGraph.extend({
 
         $('#fullscreenIcon').on('click',function(){
             mixpanel.track("Go fullscreen");
+            $( "#fullscreenIcon" ).find('img').toggle();
             if($.FullScreen.isFullScreen()){
                 $.FullScreen.cancelFullScreen();
             }else{
