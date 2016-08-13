@@ -161,11 +161,6 @@ body {
 	position: relative;
 	right: 0px;
 }
-#objectClickDialog {
-	max-width: 300px;
-	min-width: 100px;
-	opacity: 0.8;
-}
 #dropDownDialog {
 	position: relative;
 	right: 0px;
@@ -210,17 +205,6 @@ body {
 	list-style-type: none;
 }
 #cashAssetList li:hover {
-	background-color: #2187e7;
-	color: white;
-}
-#objectClickContent {
-	text-align: center;
-	margin: 0px;
-	padding: 0px;
-	list-style-type: none;
-	min-width: 100px;
-}
-#objectClickContent li:hover {
 	background-color: #2187e7;
 	color: white;
 }
