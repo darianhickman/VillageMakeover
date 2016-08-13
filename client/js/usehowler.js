@@ -117,7 +117,11 @@ vlg.toggleSound = toggleSound;
 $(document).ready(function (){
     vlg.log.info('Enabling sound and mute');
     vlg.soundinit();
-    $('#volume').click(vlg.toggleSound); // enable mute button right away\
+    // enable mute button right away
+    $('#volume').click(function(){
+        vlg.toggleSound();
+        $( "#volume" ).find('img').toggle();
+    });
     vlg.log.debug('#volume', $('#volume'));
     vlg.log.debug('#volume kids', $('#volume').children());
     vlg.log.debug('toogleSound ', vlg.toggleSound);
