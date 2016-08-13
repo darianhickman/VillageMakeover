@@ -548,6 +548,14 @@ body {
 	color: white;
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
+#objectDescription {
+	display: none;
+	text-align: center;
+	font-family: 'Verdana';
+	font-size: 26px;
+	color: white;
+	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+}
 .dialogTitleImage {
 	position: relative;
 	left: -30px;

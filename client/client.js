@@ -98,6 +98,9 @@ var Client = IgeClass.extend({
 
                 tileMap.off('mouseUp', self.mouseUpHandle);
 
+                $( '#objectDescription').html('')
+                    .hide();
+
                 completeCallback();
             }
         });
@@ -263,8 +266,6 @@ var Client = IgeClass.extend({
 
                 $("#topToolbar").hide();
                 $("#notifyIconContainer").hide();
-                $("#mouseOverDialog").dialog();
-                $("#mouseOverDialog").dialog("close");
 
                 ige.$('vp1')
                     .mousePan.enabled(true)

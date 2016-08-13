@@ -104,7 +104,7 @@ var ClientHelpers = {
     },
 
     closeAllDialogsButThis: function(dialogID){
-        var dialogList = ["dropDownDialog","marketDialog","goalDialog","cashBuyDialog","coinBuyDialog","mouseOverDialog","shareMyVillageDialog","feedBackDialog"];
+        var dialogList = ["dropDownDialog","marketDialog","goalDialog","cashBuyDialog","coinBuyDialog","shareMyVillageDialog","feedBackDialog"];
         for(var i = 0; i < dialogList.length; i++){
             if(dialogList[i] === dialogID)
                 continue;
