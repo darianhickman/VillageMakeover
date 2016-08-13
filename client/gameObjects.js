@@ -146,7 +146,7 @@ var GameObjects = {
 
                 this._buildProgressTime = new IgeFontEntity()
                     .colorOverlay('white')
-                    .nativeFont('25px Times New Roman')
+                    .nativeFont(GameConfig.config['gameFont'])
                     .nativeStroke(4)
                     .nativeStrokeColor('#000000')
                     .width(200)
