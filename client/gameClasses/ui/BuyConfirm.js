@@ -26,6 +26,7 @@ var BuyConfirm = Dialog.extend({
                 .click(function() {
                     mixpanel.track("Confirm buy");
                     $("#buyConfirmYes").unbind("click");
+                    $("#buyConfirmNo").unbind("click");
                     $( "#buyConfirmDialog" ).dialog( "close" );
                     self.closeMe();
                     callback();
@@ -36,13 +37,14 @@ var BuyConfirm = Dialog.extend({
                 .click(function() {
                     mixpanel.track("Cancel buy");
                     $("#buyConfirmYes").unbind("click");
+                    $("#buyConfirmNo").unbind("click");
                     $( "#buyConfirmDialog" ).dialog( "close" );
                     self.closeMe();
                 })
                 .show();
         }
 
-        $( "#buyConfirmDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {$("#buyConfirmYes").unbind("click");$("#buyConfirmOK").unbind("click");self.closeMe();} });
+        $( "#buyConfirmDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {$("#buyConfirmYes").unbind("click");$("#buyConfirmNo").unbind("click");$("#buyConfirmOK").unbind("click");self.closeMe();} });
         $( "#buyConfirmDialog" ).dialog( "open" );
 
         this.closeButton.hide();

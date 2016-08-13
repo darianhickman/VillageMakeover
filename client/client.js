@@ -57,7 +57,74 @@ var Client = IgeClass.extend({
                     .mousePan.enabled(true)
                     .scrollZoom.enabled(true)
 
-                ige.$('outlineEntity').mount(ige.$('tileMap1'));
+                self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+                    //check if the user
+                    // just clicked on a building
+                    var tile = tileMap.mouseToTile(),
+                        item = ige.client.itemAt('tileMap1', tile.x, tile.y);
+
+                    if (item) {
+                        if (item.specialEvent !== "None" && API.stateObjectsLookup[item.id()].buildCompleted) {
+                            ige.client.eventEmitter.emit(item.specialEvent, {
+                                "id": item.classId(),
+                                "type": item.type,
+                                "positionX": item.screenPosition().x,
+                                "positionY": (item.screenPosition().y - 30),
+                                "itemRef": item
+                            });
+                            item._buildStarted = Date.now();
+                            API.resetBuildTimes(item, item._buildStarted);
+                            item.currentState = "waitingSpecialEvent";
+                            API.saveObjectState(item, item.currentState);
+                            item.place();
+                            item.removeNotifyIcon();
+                        }
+                        else if (!API.stateObjectsLookup[item.id()].buildCompleted) {
+                            item.speedProgress();
+                        }
+                    } else {
+                        ige.$('bob').walkToTile(tile.x, tile.y);
+                    }
+                });
+
+                completeCallback();
+            },
+            exit: function (data, completeCallback) {
+                // Un-hook mouse events
+                vlg.log.info('exiting state this.fsm.select');
+
+                var self = this,
+                    tileMap = ige.$('tileMap1');
+
+                tileMap.off('mouseUp', self.mouseUpHandle);
+
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('move', {
+            enter: function (data, completeCallback) {
+                var self = this,
+                    tileMap = ige.$('tileMap1');
+
+                mixpanel.track("Move state enter");
+
+                ige.client.showGrid('tileMap1');
+
+                ige.$('vp1')
+                    .mousePan.enabled(true)
+                    .scrollZoom.enabled(true)
+
+                ige.$('outlineEntity').mount(ige.$('tileMap1'))
+                    .hide();
+                ige.$('vp1').mousePan.off('panStart', clientSelf.mousePanStartHandler);
+                ige.$('vp1').mousePan.off('panEnd', clientSelf.mousePanEndHandler);
+
+                $('#moveButton').unbind("click")
+                    .click(function(){
+                        clientSelf.fsm.enterState('select');
+                    })
+                $('#endMove').show()
 
                 self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
                     if (!ige.client.data('moveItem')) {
@@ -67,80 +134,21 @@ var Client = IgeClass.extend({
                             item = ige.client.itemAt('tileMap1', tile.x, tile.y);
 
                         if (item) {
-                            ClientHelpers.closeAllDialogsButThis('objectClickDialog');
+                            // The user clicked on a building so set this as the
+                            // building we are moving.
+                            ige.client.data('moveItem', item);
+                            ige.client.data('moveItemX', item.data('tileX'));
+                            ige.client.data('moveItemY', item.data('tileY'));
 
-                            $("#objectClickDialogPositionItem").css("position", "fixed");
-                            $("#objectClickDialogPositionItem").css("top", item.screenPosition().y);
-                            $("#objectClickDialogPositionItem").css("left", item.screenPosition().x);
+                            //set initial position to lastmoveX-Y data
+                            item.data('lastMoveX', item.data('tileX'));
+                            item.data('lastMoveY', item.data('tileY'));
 
-                            $("#objectClickDialog").dialog({
-                                resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar',
-                                position: {my: "center", at: "center", of: "#objectClickDialogPositionItem"},
-                                closeOnEscape: false, width: 'auto', height: 'auto', modal: false, autoOpen: false
-                            });
-
-                            $("#objectClickDialog").dialog("open");
-                            $("#objectClickDialog").css("min-height", "");
-
-                            $("#objectClickContent").html(' <li id="moveObjectButton">Move Object</li> ');
-
-                            if (item.specialEvent !== "None" && API.stateObjectsLookup[item.id()].buildCompleted) {
-                                $("#objectClickContent").append(' <li id="specialEventButton">' + item.specialEventDisplayName + '</li> ');
-                            }
-
-                            if (!API.stateObjectsLookup[item.id()].buildCompleted) {
-                                $("#objectClickContent").append(' <li id="speedProgressButton">Speed Progress</li> ');
-                            }
-
-                            $("#objectClickContent").append(' <li id="cancelObjectClickButton">Cancel</li> ');
-
-                            $('#moveObjectButton').on('click', function () {
-                                $("#objectClickDialog").dialog("close");
-                                // The user clicked on a building so set this as the
-                                // building we are moving.
-                                ige.client.data('moveItem', item);
-                                ige.client.data('moveItemX', item.data('tileX'));
-                                ige.client.data('moveItemY', item.data('tileY'));
-
-                                //set initial position to lastmoveX-Y data
-                                item.data('lastMoveX', item.data('tileX'));
-                                item.data('lastMoveY', item.data('tileY'));
-
-                                ige.$('outlineEntity').tileWidth = item.data('tileWidth');
-                                ige.$('outlineEntity').tileHeight = item.data('tileHeight');
-                                ige.$('outlineEntity').isFeasible = true;
-                                ige.$('outlineEntity').translateToTile(item.data('tileX'), item.data('tileY'));
-
-                                ige.client.showGrid('tileMap1');
-                            });
-
-                            $('#specialEventButton').on('click', function () {
-                                $("#objectClickDialog").dialog("close");
-                                ige.client.eventEmitter.emit(item.specialEvent, {
-                                    "id": item.classId(),
-                                    "type": item.type,
-                                    "positionX": item.screenPosition().x,
-                                    "positionY": (item.screenPosition().y - 30),
-                                    "itemRef": item
-                                });
-                                item._buildStarted = Date.now();
-                                API.resetBuildTimes(item, item._buildStarted);
-                                item.currentState = "waitingSpecialEvent";
-                                API.saveObjectState(item, item.currentState);
-                                item.place();
-                                item.removeNotifyIcon();
-                            });
-
-                            $('#speedProgressButton').on('click', function () {
-                                item.speedProgress();
-                                $("#objectClickDialog").dialog("close");
-                            });
-
-                            $('#cancelObjectClickButton').on('click', function () {
-                                $("#objectClickDialog").dialog("close");
-                            });
-                        } else {
-                            ige.$('bob').walkToTile(tile.x, tile.y);
+                            ige.$('outlineEntity').tileWidth = item.data('tileWidth');
+                            ige.$('outlineEntity').tileHeight = item.data('tileHeight');
+                            ige.$('outlineEntity').isFeasible = true;
+                            ige.$('outlineEntity').translateToTile(item.data('tileX'), item.data('tileY'));
+                            ige.$('outlineEntity').show();
                         }
                     } else {
                         // We are already moving a building, place this building
@@ -152,8 +160,7 @@ var Client = IgeClass.extend({
                         item.moveTo(moveX, moveY);
                         // Clear the data
                         ige.client.data('moveItem', '');
-
-                        ige.client.hideGrid('tileMap1');
+                        ige.$('outlineEntity').hide();
 
                         API.updateObject(item, moveX, moveY)
                     }
@@ -196,15 +203,30 @@ var Client = IgeClass.extend({
                     }
                 });
 
-
                 completeCallback();
             },
             exit: function (data, completeCallback) {
-                // Un-hook mouse events
-                vlg.log.info('exiting state this.fsm.select');
-
                 var self = this,
                     tileMap = ige.$('tileMap1');
+
+                ige.client.hideGrid('tileMap1');
+                ige.$('outlineEntity').hide();
+
+                $('#moveButton').unbind("click")
+                    .click(function(){
+                        clientSelf.fsm.enterState('move');
+                    })
+                $('#endMove').hide()
+
+                clientSelf.mousePanStartHandler = ige.$('vp1').mousePan.on('panStart', function () {
+                    clientSelf.fsm.enterState('pan');
+                });
+                clientSelf.mousePanEndHandler = ige.$('vp1').mousePan.on('panEnd', function () {
+                    if (ige.client.isEditorOn !== undefined && ige.client.isEditorOn === true)
+                        ige.client.fsm.enterState('editor');
+                    else
+                        clientSelf.fsm.enterState('select');
+                });
 
                 tileMap.off('mouseUp', self.mouseUpHandle);
                 tileMap.off('mouseMove', self.mouseMoveHandle);
@@ -1241,10 +1263,10 @@ var Client = IgeClass.extend({
                         .scene(ige.$('baseScene'))
                         .mount(ige);
 
-                    ige.$('vp1').mousePan.on('panStart', function () {
+                    clientSelf.mousePanStartHandler = ige.$('vp1').mousePan.on('panStart', function () {
                         clientSelf.fsm.enterState('pan');
                     });
-                    ige.$('vp1').mousePan.on('panEnd', function () {
+                    clientSelf.mousePanEndHandler = ige.$('vp1').mousePan.on('panEnd', function () {
                         if (ige.client.isEditorOn !== undefined && ige.client.isEditorOn === true)
                             ige.client.fsm.enterState('editor');
                         else

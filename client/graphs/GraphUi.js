@@ -81,6 +81,7 @@ var GraphUi = IgeSceneGraph.extend({
         $("#topToolbar").show();
         $("#notifyIconContainer").show();
         $("#newGoalNotification").hide();
+        $("#endMove").hide();
 
         $("#dropDownDialog").dialog({
             resizable: false,
@@ -280,6 +281,11 @@ var GraphUi = IgeSceneGraph.extend({
             .click(function() {
                 mixpanel.track("Open coin dialog");
                 ige.$('coinDialog').show();
+            });
+
+        $('#moveButton')
+            .click(function () {
+                ige.client.fsm.enterState('move');
             });
 	},
 

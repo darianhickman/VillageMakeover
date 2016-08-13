@@ -231,6 +231,13 @@ body {
 	float: left;
 	display: table-cell;
 }
+#moveButton {
+	display: table;
+}
+#moveButton * {
+	float: left;
+	display: table-cell;
+}
 #cashbar {
 	display: table;
 }
