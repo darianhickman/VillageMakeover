@@ -194,8 +194,14 @@ var API = {
         API.saveState()
     },
 
-    saveObjectState: function(obj, state) {
-        API.stateObjectsLookup[obj.id()].currentState = state
+    saveObjectStateProperties: function(obj, props) {
+        for (var key in props) {
+            if (props.hasOwnProperty(key)){
+                API.stateObjectsLookup[obj.id()][key] = props[key]
+                console.log(API.stateObjectsLookup[obj.id()][key]);
+                console.log(props[key]);
+            }
+        }
         API.saveState()
     },
 

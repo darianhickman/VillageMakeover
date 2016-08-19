@@ -65,19 +65,20 @@ var Client = IgeClass.extend({
 
                     if (item) {
                         if (item.specialEvent !== "None" && API.stateObjectsLookup[item.id()].buildCompleted) {
-                            ige.client.eventEmitter.emit(item.specialEvent, {
+                            item._buildStarted = Date.now();
+                            API.resetBuildTimes(item, item._buildStarted);
+                            item.currentState = "waitingSpecialEvent";
+                            item.currentSpecialEvent = item.getCurrentSpecialEvent();
+                            API.saveObjectStateProperties(item, {"currentState" : item.currentState, "currentSpecialEvent" : item.currentSpecialEvent});
+                            item.place();
+                            item.removeNotifyIcon();
+                            ige.client.eventEmitter.emit(item.currentSpecialEvent, {
                                 "id": item.classId(),
                                 "type": item.type,
                                 "positionX": item.screenPosition().x,
                                 "positionY": (item.screenPosition().y - 30),
                                 "itemRef": item
                             });
-                            item._buildStarted = Date.now();
-                            API.resetBuildTimes(item, item._buildStarted);
-                            item.currentState = "waitingSpecialEvent";
-                            API.saveObjectState(item, item.currentState);
-                            item.place();
-                            item.removeNotifyIcon();
                         }
                         else if (!API.stateObjectsLookup[item.id()].buildCompleted) {
                             item.speedProgress();
@@ -1156,9 +1157,9 @@ var Client = IgeClass.extend({
             callback(false);
         });
 
-        var combinedPromise = $.when(getGameCatalog(), getGameEarnings(), getGameGoals(), getGameAssets(), getDropDownMenu())
+        var combinedPromise = $.when(getGameCatalog(), getGameEarnings(), getGameGoals(), getGameAssets(), getDropDownMenu(), getSpecialEvents())
         // function will be called when getGameCatalog, getGameEarnings, getGameGoals and getGameAssets resolve
-        combinedPromise.done(function (gameCatalogData, gameEarningsData, gameGoalsData, gameAssetsData, gameDropDownMenuData) {
+        combinedPromise.done(function (gameCatalogData, gameEarningsData, gameGoalsData, gameAssetsData, gameDropDownMenuData, gameSpecialEvents) {
             // Load game audio and textures
             for (var i = 0; i < GameAssets.assets.length; i++) {
                 if (GameAssets.assets[i].enabled === "FALSE")

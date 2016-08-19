@@ -85,13 +85,7 @@ var GameObjects = {
                 this.buildTimeMilliseconds = convertTimeFormatToMilliseconds(this.buildTime);
                 this.buildTimeSpeedValue = parseInt(options.buildTimeSpeedValue);
                 this.specialEvent = options.specialEvent;
-                this.specialEventDisplayName = options.specialEventDisplayName;
-                this.specialEventTime = options.specialEventTime;
-                this.specialEventTimeMilliseconds = convertTimeFormatToMilliseconds(this.specialEventTime);
-                this.specialEventStartCell = parseInt(options.specialEventStartCell);
-                this.specialEventSpeedValue = parseInt(options.specialEventSpeedValue);
-                this.specialEventNotifyIcon = options.specialEventNotifyIcon;
-                this.specialEventNotifyIconEasing = options.specialEventNotifyIconEasing;
+                this.specialEvents = options.specialEvent.split(",");
 
                 this.mouseOver(function(){
                     if((ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view") && !ige.client.data('moveItem')){
@@ -220,16 +214,22 @@ var GameObjects = {
                     case 'building':
                         return this.buildTimeMilliseconds;
                     case 'waitingSpecialEvent':
-                        return this.specialEventTimeMilliseconds;
+                        return convertTimeFormatToMilliseconds(SpecialEvents.events[this.getCurrentSpecialEvent()].time);
                 }
             },
 
             getCurrentStateCellNo: function(progress){
                 switch(this.currentState){
                     case 'building':
-                        return Math.ceil(progress / 100 * (options.cell - 1));
+                        return Math.ceil(progress / 100 * (options.builtCell - 1));
                     case 'waitingSpecialEvent':
-                        return Math.floor(progress / 100 * (options.cell - this.specialEventStartCell)) + this.specialEventStartCell;
+                        var startCell = parseInt(SpecialEvents.events[this.getCurrentSpecialEvent()].startCell),
+                            endCell = parseInt(SpecialEvents.events[this.getCurrentSpecialEvent()].endCell);
+                        if(isNaN(startCell))
+                            return options.cell;
+                        if(isNaN(endCell))
+                            endCell = options.cell;
+                        return Math.floor(progress / 100 * (endCell - startCell)) + startCell;
                 }
             },
 
@@ -238,36 +238,79 @@ var GameObjects = {
                     case 'building':
                         return this.buildTimeSpeedValue;
                     case 'waitingSpecialEvent':
-                        return this.specialEventSpeedValue;
+                        return parseInt(SpecialEvents.events[this.getCurrentSpecialEvent()].speedValue);
                     case 'ready':
                         return -1;
                 }
             },
 
+            getCurrentSpecialEvent: function(){
+                if(this.currentSpecialEvent === null || this.currentSpecialEvent === undefined)
+                    this.currentSpecialEvent = this.specialEvents[0];
+                return this.currentSpecialEvent;
+            },
+
+            getNextSpecialEvent: function(){
+                var next, currentIndex, current = this.getCurrentSpecialEvent();
+                currentIndex = this.specialEvents.indexOf(current);
+
+                if(this.specialEvents.length === 1)
+                    return current;
+
+                return (++currentIndex >= this.specialEvents.length) ? this.specialEvents[0] : this.specialEvents[currentIndex];
+            },
+
+            getPrevSpecialEvent: function(){
+                var prev, currentIndex, current = this.getCurrentSpecialEvent();
+                currentIndex = this.specialEvents.indexOf(current);
+
+                if(this.specialEvents.length === 1)
+                    return current;
+
+                return (--currentIndex < 0) ? this.specialEvents[this.specialEvents.length - 1] : this.specialEvents[currentIndex];
+            },
+
             finishProgress: function(){
+                var endCell;
                 API.saveObjectBuiltDate(this, Date.now())
-                if(this.currentState === "building")
+                if(this.currentState === "building"){
                     ige.client.eventEmitter.emit('buildCompleted', {"id":classId, "type":this.type})
+                    endCell = options.builtCell;
+                }else if(this.currentState === "waitingSpecialEvent"){
+                    endCell = parseInt(SpecialEvents.events[this.getCurrentSpecialEvent()].endCell);
+                    if(isNaN(endCell))
+                        endCell = options.cell;
+                    this.currentSpecialEvent = this.getNextSpecialEvent();
+                }
                 this.currentState = "ready";
-                API.saveObjectState(this, this.currentState);
+                API.saveObjectStateProperties(this, {"currentState" : this.currentState, "currentSpecialEvent": this.currentSpecialEvent});
                 this._buildProgressBar.destroy()
                 this._buildProgressBar = null
                 this._buildProgressTime.destroy()
                 this._buildProgressTime = null
-                this.cell(options.cell)
+                this.cell(endCell);
                 this.notifySpecialEvent();
+            },
+
+            setEndCell: function(){
+                var endCell;
+                if(this.specialEvent !== "None")
+                    endCell = parseInt(SpecialEvents.events[this.getPrevSpecialEvent()].endCell);
+                if(isNaN(endCell))
+                    endCell = options.cell;
+                this.cell(endCell);
             },
 
             notifySpecialEvent: function(){
                 var self = this;
-                if(self.specialEvent !== "None" && self.specialEventNotifyIcon !== "None"){
+                if(self.specialEvent !== "None" && SpecialEvents.events[this.getCurrentSpecialEvent()].notifyIcon !== "None"){
                     self.specialEventNotifyElement = $("<span class='notifyIconWrapper'></span>")
                         .appendTo("#notifyIconContainer")
                         .css("top",self.screenPosition().y-100)
                         .css("left",self.screenPosition().x-7);
-                    $("<img class='notifyIcon' src='" + ige.client.textures[self.specialEventNotifyIcon].url() + "'>")
+                    $("<img class='notifyIcon' src='" + ige.client.textures[SpecialEvents.events[this.getCurrentSpecialEvent()].notifyIcon].url() + "'>")
                         .appendTo(self.specialEventNotifyElement)
-                        .animate({ top: '+=50px' }, 1000, self.specialEventNotifyIconEasing);
+                        .animate({ top: '+=50px' }, 1000, SpecialEvents.events[this.getCurrentSpecialEvent()].notifyIconEasing);
                 }
             },
 

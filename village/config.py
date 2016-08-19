@@ -163,6 +163,18 @@ def get_dropdown_menu():
             items.append(dict(zip(headers, row)))
     return items
 
+@memcached('special_events')
+def get_special_events():
+    sheet_config = get_config()
+    special_events_docid = sheet_config['special_events_docid']
+    data = get_sheet(special_events_docid)
+    headers = data[0]
+    items = []
+    for row in data[2:]:
+        if row and row[0]:
+            items.append(dict(zip(headers, row)))
+    return items
+
 @memcached('config_assets')
 def get_config_assets():
     conf = local_config['spreadsheet']

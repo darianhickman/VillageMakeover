@@ -42,6 +42,7 @@ var ClientHelpers = {
         var obj = new ige.newClassInstance(data.name)
         obj.id(data.id)
         obj.currentState = data.currentState;
+        obj.currentSpecialEvent = data.currentSpecialEvent;
 	    obj.mount(ige.$(tileMap))
         vlg.log.debug("create", data, obj)
         obj.occupyTile(
@@ -61,6 +62,7 @@ var ClientHelpers = {
             obj.place()
         }else{
             obj.place(true)
+            obj.setEndCell();
         }
     },
 
