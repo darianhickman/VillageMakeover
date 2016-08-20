@@ -606,6 +606,20 @@ var Client = IgeClass.extend({
             }
         });
 
+        this.fsm.defineState('waterDialog', {
+            enter: function (data, completeCallback) {
+                vlg.log.info('entering state this.fsm.waterDialog');
+
+                ClientHelpers.closeAllDialogsButThis('waterBuyDialog');
+                completeCallback();
+            },
+            exit: function (data, completeCallback) {
+                vlg.log.info('exiting state this.fsm.waterDialog');
+
+                completeCallback();
+            }
+        });
+
         this.fsm.defineState('goalDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.goalDialog');

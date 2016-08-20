@@ -29,6 +29,12 @@ var GraphUi = IgeSceneGraph.extend({
             .hide()
             .mount(uiScene);
 
+        var waterDialog = new WaterDialog()
+            .id('waterDialog')
+            .layer(1)
+            .hide()
+            .mount(uiScene);
+
         var buyStatus = new BuyStatus()
 			.id('buyStatus')
 			.layer(1)
@@ -287,6 +293,12 @@ var GraphUi = IgeSceneGraph.extend({
             .click(function() {
                 mixpanel.track("Open coin dialog");
                 ige.$('coinDialog').show();
+            });
+
+        $('#waterbar')
+            .click(function() {
+                mixpanel.track("Open water dialog");
+                ige.$('waterDialog').show();
             });
 
         $('#moveButton')

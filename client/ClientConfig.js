@@ -13,6 +13,7 @@ var igeClientConfig = {
 		'./gameClasses/ui/CoinParticle.js',
         './gameClasses/ui/CashDialog.js',
         './gameClasses/ui/CoinDialog.js',
+        './gameClasses/ui/WaterDialog.js',
         './gameClasses/ui/BuyStatus.js',
         './gameClasses/ui/BuyConfirm.js',
 		'./gameClasses/ui/TutorialViews.js',

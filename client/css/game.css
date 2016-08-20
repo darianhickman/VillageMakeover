@@ -187,6 +187,13 @@ body {
 	background-color: #2187e7;
 	color: white;
 }
+#waterAssetList {
+	list-style-type: none;
+}
+#waterAssetList li:hover {
+	background-color: #2187e7;
+	color: white;
+}
 .editorTopNavBar ul {
 	font-family: 'Press Start 2P', cursive;
 	font-size: 14px;
@@ -235,6 +242,11 @@ body {
 	background-color: #F8D2B7;
 }
 #coinBuyDialog {
+	margin: 0px;
+	padding: 0px;
+	background-color: #F8D2B7;
+}
+#waterBuyDialog {
 	margin: 0px;
 	padding: 0px;
 	background-color: #F8D2B7;

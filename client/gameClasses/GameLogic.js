@@ -7,7 +7,7 @@ var GameLogic = IgeObject.extend({
         var self = this,
             currentGoalID,
             marketDialog = ige.$('marketDialog'),
-            dialogList = [{id:"marketDialog", image:"Shop"}, {id:"goalDialog", image:"star"}, {id:"cashBuyDialog", image:"Banknotes"}, {id:"coinBuyDialog", image:"Coin1"}];
+            dialogList = [{id:"marketDialog", image:"Shop"}, {id:"goalDialog", image:"star"}, {id:"cashBuyDialog", image:"Banknotes"}, {id:"coinBuyDialog", image:"Coin1"}, {id:"waterBuyDialog", image:"Water-48"}];
 
         //add unlocked market items based on user state
         for(var i in API.state.objects){
