@@ -65,20 +65,34 @@ var Client = IgeClass.extend({
 
                     if (item) {
                         if (item.specialEvent !== "None" && API.stateObjectsLookup[item.id()].buildCompleted) {
-                            item._buildStarted = Date.now();
-                            API.resetBuildTimes(item, item._buildStarted);
-                            item.currentState = "waitingSpecialEvent";
                             item.currentSpecialEvent = item.getCurrentSpecialEvent();
-                            API.saveObjectStateProperties(item, {"currentState" : item.currentState, "currentSpecialEvent" : item.currentSpecialEvent});
-                            item.place();
-                            item.removeNotifyIcon();
-                            ige.client.eventEmitter.emit(item.currentSpecialEvent, {
-                                "id": item.classId(),
-                                "type": item.type,
-                                "positionX": item.screenPosition().x,
-                                "positionY": (item.screenPosition().y - 30),
-                                "itemRef": item
-                            });
+                            var costs = SpecialEvents.events[item.currentSpecialEvent].cost.split(",");
+                            var price = ClientHelpers.convertToPrice(costs);
+                            if(!API.reduceAssets(
+                                    {coins: parseInt(price.coins, 10),
+                                        cash: parseInt(price.cash, 10),
+                                        water: parseInt(price.water, 10)})) {
+                                // Not enough assets?
+                                mixpanel.track("Not enough assets");
+                                new BuyConfirm("You don't have enough assets.",null,true)
+                                    .layer(1)
+                                    .show()
+                                    .mount(ige.$('uiScene'));
+                            }else{
+                                item._buildStarted = Date.now();
+                                API.resetBuildTimes(item, item._buildStarted);
+                                item.currentState = "waitingSpecialEvent";
+                                API.saveObjectStateProperties(item, {"currentState" : item.currentState, "currentSpecialEvent" : item.currentSpecialEvent});
+                                item.place();
+                                item.removeNotifyIcon();
+                                ige.client.eventEmitter.emit(item.currentSpecialEvent, {
+                                    "id": item.classId(),
+                                    "type": item.type,
+                                    "positionX": item.screenPosition().x,
+                                    "positionY": (item.screenPosition().y - 30),
+                                    "itemRef": item
+                                });
+                            }
                         }
                         else if (!API.stateObjectsLookup[item.id()].buildCompleted) {
                             item.speedProgress();

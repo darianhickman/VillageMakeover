@@ -10,7 +10,8 @@ sheet_config = get_config()
 INIT_STATE = {
     'first': 'true',
     'coins': int(sheet_config['startCoins']),
-    'cash': int(sheet_config['startCash'])
+    'cash': int(sheet_config['startCash']),
+    'water': int(sheet_config['startWater'])
 }
 
 class State(ndb.Model):

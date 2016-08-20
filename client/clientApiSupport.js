@@ -95,6 +95,12 @@ var API = {
             return false
         if(assets.cash > API.state.cash)
             return false
+        if(assets.water && assets.water > API.state.water)
+            return false
+        if(assets.water){
+            ClientHelpers.guiAnimateWater(API.state.water, -assets.water)
+            API.state.water -= assets.water
+        }
 
         ClientHelpers.guiAnimateCoins(API.state.coins, -assets.coins)
         ClientHelpers.guiAnimateCash(API.state.cash, -assets.cash)
@@ -116,6 +122,14 @@ var API = {
         mixpanel.track("Add Cash");
         ClientHelpers.guiAnimateCash(API.state.cash, by)
         API.state.cash += by
+        API.saveState()
+        return true
+    },
+
+    addWater: function(by){
+        mixpanel.track("Add Cash");
+        ClientHelpers.guiAnimateWater(API.state.water, by)
+        API.state.water += by
         API.saveState()
         return true
     },
@@ -160,8 +174,11 @@ var API = {
             API.state.coins = 0
         if(!API.state.cash)
             API.state.cash = 0
+        if(!API.state.water)
+            API.state.water = 0
         ClientHelpers.guiSetCoins(API.state.coins)
         ClientHelpers.guiSetCash(API.state.cash)
+        ClientHelpers.guiSetWater(API.state.water)
     },
 
     createObject: function(obj) {
@@ -260,7 +277,7 @@ var API = {
             return API.state.unlockedItems[index];
     },
 
-    state: {coins: parseInt(GameConfig.config['startCoins']), cash: parseInt(GameConfig.config['startCash']) },
+    state: {coins: parseInt(GameConfig.config['startCoins']), cash: parseInt(GameConfig.config['startCash']), water: parseInt(GameConfig.config['startWater']) },
     stateObjectsLookup: {},
     stateGoalsLookup: {},
     user: null,

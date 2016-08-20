@@ -45,7 +45,13 @@ var GraphUi = IgeSceneGraph.extend({
             value: 0
         });
 
-		if(GameConfig.config['xpFeature'] === "on"){
+        $( "#waterbarProgress" ).progressbar({
+            max:1000000,
+            value: 0
+        });
+
+
+        if(GameConfig.config['xpFeature'] === "on"){
             var xpBar = new IgeUiElement()
                 .id('xpBar')
                 .texture(ige.client.textures.xpBar)

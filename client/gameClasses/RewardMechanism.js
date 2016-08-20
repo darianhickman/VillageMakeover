@@ -30,6 +30,9 @@ var RewardMechanism = IgeEventingClass.extend({
             case "cash":
                 API.addCash(parseInt(amount))
                 break;
+            case "water":
+                API.addWater(parseInt(amount))
+                break;
         }
 
         self.showVillageDashFont(self.textureListLookup[assetName].mount, amount, parseInt(self.textureListLookup[assetName].fontAnchorX), parseInt(self.textureListLookup[assetName].fontAnchorY));

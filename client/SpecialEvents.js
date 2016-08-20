@@ -10,6 +10,7 @@ var getSpecialEvents = function(){
                 var item = data[i]
                 SpecialEvents.events[item.ID] = {'id': item.ID,
                     'displayName': item.DisplayName,
+                    'cost': item.Cost,
                     'time': item.Time,
                     'startCell': item.StartCell,
                     'endCell': item.EndCell,

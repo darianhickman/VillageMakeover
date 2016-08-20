@@ -266,6 +266,23 @@ body {
 	max-height: 19px;
 	border: none;
 }
+.waterIcon {
+	width: 20px;
+	height: 20px;
+}
+#waterbar {
+	display: table;
+}
+#waterbar * {
+	float: left;
+	display: table-cell;
+}
+.waterbarProgress {
+	margin: 3px;
+	min-width: 40px;
+	max-height: 19px;
+	border: none;
+}
 .goalTaskImage {
 	display: inline-block;
 	width: 80px;

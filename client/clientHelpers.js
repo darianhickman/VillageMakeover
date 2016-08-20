@@ -19,6 +19,11 @@ var ClientHelpers = {
         $('#cashbarProgress').text(value);
     },
 
+    guiSetWater: function(value) {
+        $('#waterbarProgress').progressbar("value",value);
+        $('#waterbarProgress').text(value);
+    },
+
     guiAnimateCoins: function(startValue, addValue) {
         $('#coinbarProgress').prop('number', startValue)
             .animateNumber(
@@ -30,6 +35,15 @@ var ClientHelpers = {
 
     guiAnimateCash: function(startValue, addValue) {
         $('#cashbarProgress').prop('number', startValue)
+            .animateNumber(
+            {
+                number: (startValue + addValue)
+            }
+        );
+    },
+
+    guiAnimateWater: function(startValue, addValue) {
+        $('#waterbarProgress').prop('number', startValue)
             .animateNumber(
             {
                 number: (startValue + addValue)
@@ -115,5 +129,24 @@ var ClientHelpers = {
                 $("#" + dialogList[i]).dialog("close");
             }
         }
+    },
+
+    convertToPrice: function(costs){
+        var item, price = {coins:0,cash:0,water:0};
+        for (var i = 0; i < costs.length; i++) {
+            item = costs[i];
+            switch((item.match(/[a-zA-Z]/) || []).pop()){
+                case 'c':
+                    price.coins = parseInt(item, 10);
+                    break;
+                case 'b':
+                    price.cash = parseInt(item, 10);
+                    break;
+                case 'w':
+                    price.water = parseInt(item, 10);
+                    break;
+            }
+        }
+        return price;
     }
 }
