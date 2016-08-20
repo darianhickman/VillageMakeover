@@ -598,6 +598,10 @@ body {
 	height: 50px;
 	float: left;
 }
+.tooltipImage{
+	width: 15px;
+	height: 15px;
+}
 .ui-dialog-title {
 	width: 88% !important;
 	margin: 0px;

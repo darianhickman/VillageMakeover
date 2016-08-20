@@ -90,4 +90,6 @@
 .ui-tooltip {
     background: green;
     color: black;
+    width: auto;
+    max-width: 800px;
 }

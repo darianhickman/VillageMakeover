@@ -94,6 +94,40 @@ var GameObjects = {
 
                         $( '#objectDescription').html(this.mouseOverText)
                             .show();
+
+                        if(ige.client.fsm.currentStateName() === "select" && !ige.client.data('moveItem')){
+                            if (this.specialEvent !== "None" && API.stateObjectsLookup[this.id()].buildCompleted) {
+                                this.currentSpecialEvent = this.getCurrentSpecialEvent();
+                                var costs = SpecialEvents.events[this.currentSpecialEvent].cost.split(",");
+                                var price = ClientHelpers.convertToPrice(costs);
+                                var message = "Click to " + SpecialEvents.events[this.currentSpecialEvent].displayName;
+                                if(price.coins > 0 || price.cash > 0 || price.water > 0)
+                                    message += " for ";
+                                if(price.coins > 0)
+                                    message += price.coins + "<img class='tooltipImage' src='assets/textures/ui/Coin1.png'> ";
+                                if(price.cash > 0)
+                                    message += price.cash + "<img class='tooltipImage' src='assets/textures/ui/Banknotes.png'> ";
+                                if(price.water > 0)
+                                    message += price.water + "<img class='tooltipImage' src='assets/textures/ui/Water-48.png'>";
+                                $( '#igeFrontBuffer' ).tooltip({
+                                    show: {delay:300},
+                                    items: document,
+                                    content: message,
+                                    track: true
+                                });
+                                $('#igeFrontBuffer').trigger('mouseover')
+                                $( '#igeFrontBuffer' ).tooltip("open");
+                            }else if (!API.stateObjectsLookup[this.id()].buildCompleted) {
+                                $( '#igeFrontBuffer' ).tooltip({
+                                    show: {delay:300},
+                                    items: document,
+                                    content: "Click to speed progress",
+                                    track: true
+                                });
+                                $('#igeFrontBuffer').trigger('mouseover')
+                                $( '#igeFrontBuffer' ).tooltip("open");
+                            }
+                        }
                     }
                 })
 
@@ -102,6 +136,7 @@ var GameObjects = {
                         .highlight(false);
                     $( '#objectDescription').html('')
                         .hide();
+                    $('#igeFrontBuffer').tooltip().tooltip('destroy')
                 })
 
                 this.mouseMove(function(){

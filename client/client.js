@@ -64,6 +64,7 @@ var Client = IgeClass.extend({
                         item = ige.client.itemAt('tileMap1', tile.x, tile.y);
 
                     if (item) {
+                        $('#igeFrontBuffer').tooltip().tooltip('destroy')
                         if (item.specialEvent !== "None" && API.stateObjectsLookup[item.id()].buildCompleted) {
                             item.currentSpecialEvent = item.getCurrentSpecialEvent();
                             var costs = SpecialEvents.events[item.currentSpecialEvent].cost.split(",");
@@ -115,6 +116,7 @@ var Client = IgeClass.extend({
 
                 $( '#objectDescription').html('')
                     .hide();
+                $('#igeFrontBuffer').tooltip().tooltip('destroy')
 
                 completeCallback();
             }
