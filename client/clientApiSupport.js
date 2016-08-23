@@ -152,6 +152,12 @@ var API = {
         var objects = API.state.objects || [],
             goals = API.state.goals || [],
             isIDMissing = false;
+        if(GameConfig.config['syncGameObjectDimensions'] === "TRUE"){
+            for(var i in objects) {
+                objects[i].w = GameObjects.catalogLookup[objects[i].name].xTiles;
+                objects[i].h = GameObjects.catalogLookup[objects[i].name].yTiles;
+            }
+        }
         for(var i in objects) {
             if (objects[i].id === undefined){
                 objects[i].id = ige.newIdHex()
