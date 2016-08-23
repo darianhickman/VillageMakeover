@@ -1191,26 +1191,84 @@ var Client = IgeClass.extend({
         // function will be called when getGameCatalog, getGameEarnings, getGameGoals and getGameAssets resolve
         combinedPromise.done(function (gameCatalogData, gameEarningsData, gameGoalsData, gameAssetsData, gameDropDownMenuData, gameSpecialEvents) {
             // Load game audio and textures
-            for (var i = 0; i < GameAssets.assets.length; i++) {
-                if (GameAssets.assets[i].enabled === "FALSE")
-                    continue;
-                var asset = GameAssets.assets[i]
-                if (asset.type === "CellSheet")
-                    self[asset.attachTo][asset.name] = new IgeCellSheet(asset.url, parseInt(asset.horizontalCells), parseInt(asset.verticalCells));
-                else if (asset.type === "Audio")
-                    continue;
-                // working through moving Audio to outside Ige entirely.
-                //self[asset.attachTo][asset.name] = new IgeAudio(asset.url);
-                else if (asset.type === "Texture")
-                    self[asset.attachTo][asset.name] = new IgeTexture(asset.url);
-                else if (asset.type === "FontSheet")
-                    self[asset.attachTo][asset.name] = new IgeFontSheet(asset.url);
-            }
+            var checkAssetImages, checkGameObjectImages, createTextures,
+                assetIndex = 0, gameObjectIndex = 0,
+                gameObjectTexturesKeys = [];
 
             for (var key in GameObjects.gameObjectTextures) {
-                var tex = GameObjects.gameObjectTextures[key]
-                self.textures[key] = new IgeCellSheet(tex[0], tex[1], 1)
+                gameObjectTexturesKeys.push(key);
             }
+
+            checkAssetImages = function(assetIndex){
+                $.ajax({
+                    type: "HEAD",
+                    async: true,
+                    url: GameAssets.assets[assetIndex].url
+                }).done(function(message,text,jqXHR){
+                    assetIndex++;
+                    if(assetIndex === GameAssets.assets.length){
+                        checkGameObjectImages(gameObjectIndex);
+                        return;
+                    }
+                    checkAssetImages(assetIndex);
+                }).fail(function(message,text,jqXHR){
+                    if(GameAssets.assets[assetIndex].type !== "Audio")
+                        GameAssets.assets[assetIndex].url = GameConfig.config['notFoundImageURL'];
+                    assetIndex++;
+                    if(assetIndex === GameAssets.assets.length){
+                        checkGameObjectImages(gameObjectIndex);
+                        return;
+                    }
+                    checkAssetImages(assetIndex);
+                });
+            }
+
+            checkGameObjectImages = function(gameObjectIndex){
+                $.ajax({
+                    type: "HEAD",
+                    async: true,
+                    url: GameObjects.gameObjectTextures[gameObjectTexturesKeys[gameObjectIndex]][0]
+                }).done(function(message,text,jqXHR){
+                    gameObjectIndex++;
+                    if(gameObjectIndex === gameObjectTexturesKeys.length){
+                        createTextures();
+                        return;
+                    }
+                    checkGameObjectImages(gameObjectIndex);
+                }).fail(function(message,text,jqXHR){
+                    GameObjects.gameObjectTextures[gameObjectTexturesKeys[gameObjectIndex]][0] = GameConfig.config['notFoundImageURL'];
+                    gameObjectIndex++;
+                    if(gameObjectIndex === gameObjectTexturesKeys.length){
+                        createTextures();
+                        return;
+                    }
+                    checkGameObjectImages(gameObjectIndex);
+                });
+            }
+
+            createTextures = function(){
+                for (var i = 0; i < GameAssets.assets.length; i++) {
+                    if (GameAssets.assets[i].enabled === "FALSE")
+                        continue;
+                    var asset = GameAssets.assets[i]
+                    if (asset.type === "CellSheet")
+                        self[asset.attachTo][asset.name] = new IgeCellSheet(asset.url, parseInt(asset.horizontalCells), parseInt(asset.verticalCells));
+                    else if (asset.type === "Audio")
+                        continue;
+                    // working through moving Audio to outside Ige entirely.
+                    //self[asset.attachTo][asset.name] = new IgeAudio(asset.url);
+                    else if (asset.type === "Texture")
+                        self[asset.attachTo][asset.name] = new IgeTexture(asset.url);
+                    else if (asset.type === "FontSheet")
+                        self[asset.attachTo][asset.name] = new IgeFontSheet(asset.url);
+                }
+                for (var key in GameObjects.gameObjectTextures) {
+                    var tex = GameObjects.gameObjectTextures[key]
+                    self.textures[key] = new IgeCellSheet(tex[0], tex[1], 1)
+                }
+            }
+
+            checkAssetImages(assetIndex);
         });
 
         ige.ui.style('.dialog', {
