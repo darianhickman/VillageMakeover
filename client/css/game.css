@@ -297,7 +297,7 @@ body {
 }
 .goalTaskImage {
 	display: inline-block;
-	width: 80px;
+	width: 100px;
 	min-width: 100px;
 	min-height: 40px;
 	background-repeat: no-repeat;
@@ -309,9 +309,10 @@ body {
 }
 .goalTaskPercent {
 	display: inline-block;
+	text-align: right;
 	min-width: 30px;
 	float: right;
-	margin: 3px auto;
+	margin:0px;
 }
 #taskList {
 	display: block;
@@ -321,12 +322,14 @@ body {
 }
 #taskList li {
 	display: block;
+	margin: 0px 5px 0px 5px;
 }
 #taskList li span {
 	display: inline-block;
 	min-width: 60px;
 	min-height: 40px;
 	margin-top: 5px;
+	vertical-align: middle;
 }
 #goalDialog {
 	padding: 0px;
@@ -586,25 +589,20 @@ body {
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 .dialogTitleImage {
-	position: relative;
-	left: -30px;
-	top: -20px;
+	display: block;
 	background-image: url('/client/assets/textures/ui/beigefade.png');
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 	border: 2px solid #99ccff;
 	border-radius: 5px;
-	width: 50px;
-	height: 50px;
+	width: 25px;
+	height: 25px;
 	float: left;
+	margin-right: 5px;
 }
 .tooltipImage{
 	width: 15px;
 	height: 15px;
-}
-.ui-dialog-title {
-	width: 88% !important;
-	margin: 0px;
 }
 
 @keyframes fadePulse {
