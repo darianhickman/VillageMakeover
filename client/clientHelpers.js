@@ -72,9 +72,13 @@ var ClientHelpers = {
            .data('tileWidth', parseInt(data.w))
            .data('tileHeight', parseInt(data.h));
         if(data.buildStarted && !data.buildCompleted){
+            if(!data.currentState)
+                obj.currentState = "building"
             obj._buildStarted=data.buildStarted
             obj.place()
         }else{
+            if(!data.currentState)
+                obj.currentState = "ready"
             obj.place(true)
             obj.setEndCell();
         }
