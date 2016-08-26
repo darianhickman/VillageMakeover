@@ -1271,6 +1271,10 @@ var Client = IgeClass.extend({
             checkAssetImages(assetIndex);
         });
 
+        combinedPromise.fail(function () {
+            alert('Game does not load at the moment. Please try again later.')
+        });
+
         ige.ui.style('.dialog', {
             left: 0,
             right: 0,
