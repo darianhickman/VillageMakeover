@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset=utf-8>
-  <link href="login.css" rel=stylesheet>
+  <link href="css/login.css" rel=stylesheet>
 </head>
 <body>
   <div class=front>
@@ -18,6 +18,7 @@
         <div id="notloading">
           <input type=checkbox name="remember" id=remember checked>
           <label for=remember>Remember my payment data</label>
+          <div id="amount">You will be charged for</div>
           <div id=paybutton>
             <button type="submit">Pay</button>
           </div>
@@ -44,6 +45,7 @@
         $('#param').val(getParameterByName(location.search, 'param'));
         $('#loginStatus').val(getParameterByName(location.search, 'loginStatus'));
         $('#userID').val(getParameterByName(location.search, 'userID'));
+        $('#amount').append(" $" + getParameterByName(location.search, 'amount'));
     });
 
     $.ajax({
