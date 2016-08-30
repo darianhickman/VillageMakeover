@@ -4,13 +4,13 @@ var Buy = {
     // need some details on how this works.
     buy: function(assets) {
         ige.$('buyStatus').startTransaction()
-        Buy.pay(assets, function(amount) {
+        Buy.pay(assets, function(amount, vbucks) {
             mixpanel.track("Cash buy");
             Buy._addAssets(assets);
-            ige.$('buyStatus').transactionSuccess(amount)
-        }, function(amount) {
+            ige.$('buyStatus').transactionSuccess(amount, vbucks)
+        }, function(amount, vbucks) {
             ige.$('buyStatus').transactionFailed(function() {
-                location.href = 'pay.html?param=' + Buy.createReason(assets) + '&loginStatus=' + API.loginStatus + '&userID=' + API.user.id + '&amount=' + amount;
+                location.href = 'pay.html?param=' + Buy.createReason(assets) + '&loginStatus=' + API.loginStatus + '&userID=' + API.user.id + '&amount=' + amount + '&vbucks=' + vbucks;
             })
         });
     },
@@ -37,11 +37,11 @@ var Buy = {
             success: function(ret) {
                 console.log('pay -> ', ret);
                 if(ret.status == 'register')
-                    location.href = 'pay.html?param=' + Buy.createReason(assets) + '&loginStatus=' + API.loginStatus + '&userID=' + API.user.id + '&amount=' + ret.amount;
+                    location.href = 'pay.html?param=' + Buy.createReason(assets) + '&loginStatus=' + API.loginStatus + '&userID=' + API.user.id + '&amount=' + ret.amount + '&vbucks=' + ret.vbucks;
                 else if(ret.status == 'ok')
-                    success(ret.amount)
+                    success(ret.amount, ret.vbucks)
                 else
-                    fail(ret.amount)
+                    fail(ret.amount, ret.vbucks)
             }
         })
     },

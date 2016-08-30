@@ -183,16 +183,17 @@ def pay():
         userid = flask.request.form['id']
     model = models.get_state_model(userid)
     customer_id = model.customer_id
+    assets = json.loads(flask.request.form['amount'])
     amount = calculate_amount(flask.request.form['amount'])
 
+    assert amount > 0 and amount < 100 # sanity check
+
     if not customer_id:
-        return JSONResponse({'status': 'register', 'amount': amount})
+        return JSONResponse({'status': 'register', 'vbucks': assets['cash'], 'amount': amount})
 
     if model.customer_id_once:
         model.customer_id = None
         model.put()
-
-    assert amount > 0 and amount < 100 # sanity check
 
     result = braintree.Transaction.sale({
         "customer_id": customer_id,
@@ -201,7 +202,7 @@ def pay():
             "submit_for_settlement": True,
         },
     })
-    return JSONResponse({'status': 'ok' if result.is_success else 'fail', 'amount': amount})
+    return JSONResponse({'status': 'ok' if result.is_success else 'fail', 'vbucks': assets['cash'], 'amount': amount})
 
 @root.before_request
 def get_current_user():

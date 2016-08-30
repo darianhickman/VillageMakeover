@@ -18,6 +18,7 @@
         <div id="notloading">
           <input type=checkbox name="remember" id=remember checked>
           <label for=remember>Remember my payment data</label>
+          <div id="vbucks">You are buying </div>
           <div id="amount">You will be charged for</div>
           <div id=paybutton>
             <button type="submit">Pay</button>
@@ -45,7 +46,8 @@
         $('#param').val(getParameterByName(location.search, 'param'));
         $('#loginStatus').val(getParameterByName(location.search, 'loginStatus'));
         $('#userID').val(getParameterByName(location.search, 'userID'));
-        $('#amount').append(" $" + getParameterByName(location.search, 'amount'));
+        $('#vbucks').append(getParameterByName(location.search, 'vbucks') + " VBucks");
+        $('#amount').append(" $" + getParameterByName(location.search, 'amount') + " USD");
     });
 
     $.ajax({

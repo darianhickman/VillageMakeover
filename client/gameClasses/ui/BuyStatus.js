@@ -15,11 +15,15 @@ var BuyStatus = Dialog.extend({
             .mount(ige.$('uiScene'));
     },
 
-    transactionSuccess: function(amount) {
-        var self = this;
+    transactionSuccess: function(amount, vbucks) {
+        var self = this,
+            message;
         mixpanel.track("Transaction success");
         self.infoDialog.closeMe();
-        new BuyConfirm(GameConfig.config['transactionSuccessString'] + amount,null,true)
+        message = GameConfig.config['transactionSuccessString'];
+        message = message.replace(/\{amount\}/g, amount);
+        message = message.replace(/\{vbucks\}/g, vbucks);
+        new BuyConfirm(message, null, true)
             .layer(1)
             .show()
             .mount(ige.$('uiScene'));
