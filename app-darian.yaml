@@ -1,0 +1,58 @@
+application: villagegamedev2
+version: darian
+runtime: python27
+api_version: 1
+threadsafe: true
+
+handlers:
+- url: /client/assets
+  static_dir: assets
+
+- url: /assets
+  static_dir: assets
+
+- url: /client/$
+  static_files: client/index_deploy.html
+  upload: client/index_deploy.html
+
+- url: /client/dev$
+  static_files: client/index.html
+  upload: client/index.html
+
+- url: /favicon.ico
+  static_files: assets/textures/ui/faviconlogo.svg
+  upload: assets/textures/ui/faviconlogo.svg
+
+- url: /js
+  static_dir: client/js
+
+- url: /client/
+  static_dir: client
+
+- url: /client/mailchimp/.*
+  static_dir: client/mailchimp
+
+- url: /ige
+  static_dir: ige
+
+- url: /api/.*
+  script: village.api.root
+
+- url: /.*
+  script: village.main.root
+
+libraries:
+- name: pycrypto
+  version: latest
+
+skip_files:
+- .venv/
+- libs/Crypto/
+- (.*).pyc$
+- /.git/
+- (.*).pack$
+- \(
+- ^ige/
+- (.*)/.DS_Store
+- (.*)/.meta$
+- (.*).tmpl
