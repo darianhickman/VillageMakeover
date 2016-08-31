@@ -63,27 +63,27 @@
     </li>
 </ul>
 <div id="hudcontainer">
-    <ul id="topToolbar">
-        <li id="cashbar" title="Buy VBucks"><img src="assets/textures/ui/Banknotes.png"/><span class="cashbarProgress"
+    <ul class="nonePointerEvents" id="topToolbar">
+        <li class="allPointerEvents" id="cashbar" title="Buy VBucks"><img src="assets/textures/ui/Banknotes.png"/><span class="cashbarProgress"
                                                                             id="cashbarProgress"></span></li>
-        <li id="coinbar" title="Buy Coins"><img src="assets/textures/ui/Coin1.png"/><span class="coinbarProgress"
+        <li class="allPointerEvents" id="coinbar" title="Buy Coins"><img src="assets/textures/ui/Coin1.png"/><span class="coinbarProgress"
                                                                         id="coinbarProgress"></span></li>
-        <li id="waterbar" title="Buy Water"><img src="assets/textures/ui/Water-48.png"/><span class="waterbarProgress"
+        <li class="allPointerEvents" id="waterbar" title="Buy Water"><img src="assets/textures/ui/Water-48.png"/><span class="waterbarProgress"
                                                                                               id="waterbarProgress"></span></li>
-        <li id="fullscreenIcon" title="Toggle Fullscreen Mode"><img src="assets/textures/ui/Expand_2.png"/><img src="assets/textures/ui/Collapse_2.png" style="display:none;"></li>
-        <li id="volume" title="Toggle Sound"><img src="/client/assets/textures/ui/Speaker-48.png"/><img src="/client/assets/textures/ui/Mute-48.png" style="display:none;"/></li>
-        <li id="marketButton" title="Buy New Items"><img src="assets/textures/ui/Shop.png"/></li>
+        <li class="allPointerEvents" id="fullscreenIcon" title="Toggle Fullscreen Mode"><img src="assets/textures/ui/Expand_2.png"/><img src="assets/textures/ui/Collapse_2.png" style="display:none;"></li>
+        <li class="allPointerEvents" id="volume" title="Toggle Sound"><img src="/client/assets/textures/ui/Speaker-48.png"/><img src="/client/assets/textures/ui/Mute-48.png" style="display:none;"/></li>
+        <li class="allPointerEvents" id="marketButton" title="Buy New Items"><img src="assets/textures/ui/Shop.png"/></li>
 
-        <li id="goalButton" title="Current Goals"><img src="assets/textures/ui/star.png"/><span class="newGoalNotification"
+        <li class="allPointerEvents" id="goalButton" title="Current Goals"><img src="assets/textures/ui/star.png"/><span class="newGoalNotification"
                                                                           id="newGoalNotification">New Goal!</span>
         </li>
-        <li id="moveButton" title="Move Items"><img src="assets/textures/ui/FourDirections52.png"/><span class="newGoalNotification"
+        <li class="allPointerEvents" id="moveButton" title="Move Items"><img src="assets/textures/ui/FourDirections52.png"/><span class="newGoalNotification"
                                                                                                          id="endMove">End Move</span></li>
-        <li id="dropDownIcon" title="Player Menu" class="rightli"><img src="assets/textures/ui/Menu.png"/></li>
+        <li class="allPointerEvents" id="dropDownIcon" title="Player Menu" class="rightli"><img src="assets/textures/ui/Menu.png"/></li>
     </ul>
     <span id="notificationMessage"></span>
     <div id="villageTitle"></div>
-    <div id="objectDescription"></div>
+    <div class="nonePointerEvents" id="objectDescription"></div>
     <div id="marketDialog" title="Market" style="display:none">
         <!--Pages are created based on this template-->
         <div class="marketDialogPage" id="marketDialogPageTemplate">

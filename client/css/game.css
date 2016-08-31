@@ -115,6 +115,7 @@ body {
 	top: 5px;
 	z-index: 10;
 	width: 98%;
+	height: 0px;
 }
 #igeFrontBuffer {
 	background-color: #8EAEEE;
@@ -556,6 +557,12 @@ body {
 .disabled {
 	cursor: default;
 	opacity: .5;
+}
+.allPointerEvents {
+	pointer-events: all;
+}
+.nonePointerEvents {
+	pointer-events: none;
 }
 #notificationMessage {
 	position: fixed;
