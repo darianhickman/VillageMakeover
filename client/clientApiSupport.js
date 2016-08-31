@@ -91,12 +91,17 @@ var API = {
 
     reduceAssets: function(assets) {
         console.log('reduce assets', assets)
+        var result = {status:true,coins:true,cash:true,water:true};
         if(assets.coins > API.state.coins)
-            return false
+            result.coins = false
         if(assets.cash > API.state.cash)
-            return false
+            result.cash = false
         if(assets.water && assets.water > API.state.water)
-            return false
+            result.water = false
+        if(!result.coins || !result.cash || !result.water){
+            result.status = false;
+            return result;
+        }
         if(assets.water){
             ClientHelpers.guiAnimateWater(API.state.water, -assets.water)
             API.state.water -= assets.water
@@ -107,7 +112,7 @@ var API = {
         API.state.cash -= assets.cash
         API.state.coins -= assets.coins
         API.saveState()
-        return true
+        return result;
     },
 
     addCoins: function(by) {

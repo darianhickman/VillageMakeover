@@ -69,13 +69,21 @@ var Client = IgeClass.extend({
                             item.currentSpecialEvent = item.getCurrentSpecialEvent();
                             var costs = SpecialEvents.events[item.currentSpecialEvent].cost.split(",");
                             var price = ClientHelpers.convertToPrice(costs);
-                            if(!API.reduceAssets(
-                                    {coins: parseInt(price.coins, 10),
-                                        cash: parseInt(price.cash, 10),
-                                        water: parseInt(price.water, 10)})) {
+                            var result = API.reduceAssets(
+                                {coins: parseInt(price.coins, 10),
+                                    cash: parseInt(price.cash, 10),
+                                    water: parseInt(price.water, 10)});
+                            if(!result.status) {
                                 // Not enough assets?
                                 mixpanel.track("Not enough assets");
-                                new BuyConfirm("You don't have enough assets.",null,true)
+                                var message = "You don't have enough ";
+                                if(!result.coins)
+                                    message += "Coins "
+                                if(!result.cash)
+                                    message += "VBucks "
+                                if(!result.water)
+                                    message += "Water"
+                                new BuyConfirm(message, null, true)
                                     .layer(1)
                                     .show()
                                     .mount(ige.$('uiScene'));
@@ -788,7 +796,7 @@ var Client = IgeClass.extend({
                             {
                                 coins: parseInt(ige.client.cursorObjectData.coins, 10),
                                 cash: parseInt(ige.client.cursorObjectData.cash, 10)
-                            })) {
+                            }).status) {
                         // Not enough money?
                         mixpanel.track("Not enough money");
                         ige.client.cursorObject.destroy();

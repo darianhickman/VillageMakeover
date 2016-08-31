@@ -167,10 +167,16 @@ var MarketDialog = Dialog.extend({
 		callBack = function() {
 			if(!API.reduceAssets(
 					{coins: parseInt(price.coins, 10),
-						cash: parseInt(price.cash, 10)})) {
+						cash: parseInt(price.cash, 10)}).status) {
 				// Not enough money?
 				mixpanel.track("Not enough money");
-				ige.$('cashDialog').show();
+				new BuyConfirm(GameConfig.config['notEnoughCashString'],
+					function () {
+						ige.$('cashDialog').show();
+					})
+					.layer(1)
+					.show()
+					.mount(ige.$('uiScene'));
 				self.hide();
 				return;
 			}

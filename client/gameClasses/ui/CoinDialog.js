@@ -34,7 +34,7 @@ var CoinDialog = Dialog.extend({
                     var callBack = function() {
                         if(!API.reduceAssets(
                             {coins: parseInt(price.coins, 10),
-                                cash: parseInt(price.cash, 10)})) {
+                                cash: parseInt(price.cash, 10)}).status) {
                             // Not enough money?
                             mixpanel.track("Not enough money");
                             ige.$('cashDialog').show();
