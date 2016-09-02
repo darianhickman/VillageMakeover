@@ -162,25 +162,6 @@ body {
 	position: relative;
 	right: 0px;
 }
-#dropDownDialog {
-	position: relative;
-	right: 0px;
-	max-width: 300px;
-	min-width: 100px;
-}
-#dropDownDialog ul li {
-	cursor: pointer;
-	font-size: 14px;
-	padding: 10px;
-	border-bottom: 1px solid #ddd;
-}
-#dropDownLinksList {
-	list-style-type: none;
-}
-#dropDownLinksList li:hover {
-	background-color: #2187e7;
-	color: white;
-}
 #coinAssetList {
 	list-style-type: none;
 }

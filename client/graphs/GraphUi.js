@@ -95,34 +95,15 @@ var GraphUi = IgeSceneGraph.extend({
         $("#newGoalNotification").hide();
         $("#endMove").hide();
 
-        $("#dropDownDialog").dialog({
-            resizable: false,
-            draggable: true,
-            closeOnEscape: false,
-            width: parseInt(DropDownMenu.width),
-            height: parseInt(DropDownMenu.height),
-            modal: false,
-            autoOpen: false,
-            position: { my: "left top", at: "left bottom", of: "#dropDownIcon" },
-            open: function(event, ui) {
-                // $(this).dialog('widget').find('div.ui-dialog-titlebar').css('padding','4px');
-                // $(this).css('height','auto');
-            }
-        });
-
         $("#dropDownContent")
             .html(DropDownMenu.dropDownContent);
 
-        $("#dropDownLinksList")
+        $(".c-menu__items")
             .html(DropDownMenu.dropDownLinksList);
 
         for(var i = 0; i < DropDownMenu.links.length; i++){
             $('#' + DropDownMenu.links[i].id).html(DropDownMenu.links[i].string);
         }
-
-        $(window).resize(function() {
-            $("#dropDownDialog").dialog("option", "position", { my: "left top", at: "left bottom", of: "#dropDownIcon" });
-        });
 
         if(API.user.picture_url === 'no-picture'){
             $("#loginPicture").attr("src", DropDownMenu.offlinePictureURL);
@@ -163,20 +144,24 @@ var GraphUi = IgeSceneGraph.extend({
 			.top(20)
 			.left(380);
 
+        self.slideRight = new Menu({
+            wrapper: '#o-wrapper',
+            type: 'slide-right',
+            menuOpenerClass: '.c-button',
+            maskId: '#c-mask'
+        });
+
 		this.addActions();
 
 	},
 
 	addActions: function () {
-        var self = this;
+        var self = ige.client;
 
         $('#dropDownIcon').on('click',function(){
-            ClientHelpers.closeAllDialogsButThis('dropDownDialog');
-            self.toggleDropDownMenu();
+            ClientHelpers.hideDialogs();
+            self.slideRight.open();
         })
-
-
-
 
         $('#fullscreenIcon').on('click',function(){
             mixpanel.track("Go fullscreen");
@@ -204,7 +189,6 @@ var GraphUi = IgeSceneGraph.extend({
         })
 
         $('#helpLink').on('click',function(){
-            $("#dropDownDialog").dialog("close");
             ige.client.fsm.enterState('tutorial');
         })
 
@@ -213,7 +197,7 @@ var GraphUi = IgeSceneGraph.extend({
         })
 
         $('#editorLink').on('click',function(){
-            $("#dropDownDialog").dialog("close");
+            ige.client.slideRight.close();
 
             ige.client.editorManager = new EditorManager();
             ige.client.editorManager.gotoStep('init');
@@ -316,13 +300,5 @@ var GraphUi = IgeSceneGraph.extend({
 		// 'scene1' entity, destroying it will remove everything we
 		// added to it.
 		ige.$('scene1').destroy();
-	},
-
-    toggleDropDownMenu: function(){
-        if($("#dropDownDialog").dialog("isOpen")){
-            $("#dropDownDialog").dialog("close");
-        }else{
-            $("#dropDownDialog").dialog("open");
-        }
-    }
+	}
 });

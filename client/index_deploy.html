@@ -30,11 +30,11 @@
     <script src="/js/jquery.jqpagination.js"></script>
     <script src="/js/jquery.animateNumber.min.js"></script>
     <script src="/js/jQueryRotate.js"></script>
-
+    <script src="/js/menu.js"></script>
 
     <link href="/client/css/jqueryui-overrides.css" rel="stylesheet" type="text/css" />
     <link href="/client/css/game.css" rel="stylesheet" type="text/css"/>
-
+    <link href="/client/css/menustyle.css" rel="stylesheet" type="text/css"/>
 
     <link rel="shortcut icon" href="/favicon.ico?v=2">
     <!-- Isogenic Loader -->
@@ -84,6 +84,12 @@
     <span id="notificationMessage"></span>
     <div id="villageTitle"></div>
     <div class="nonePointerEvents" id="objectDescription"></div>
+    <div id="o-wrapper" class="o-wrapper"></div>
+    <nav id="c-menu--slide-right" class="c-menu c-menu--slide-right">
+        <button class="c-menu__close">Close Menu &rarr;</button>
+        <div id="dropDownContent"></div>
+    </nav><!-- /c-menu slide-right -->
+    <div id="c-mask" class="c-mask"></div><!-- /c-mask -->
     <div id="marketDialog" title="Market" style="display:none">
         <!--Pages are created based on this template-->
         <div class="marketDialogPage" id="marketDialogPageTemplate">
@@ -183,9 +189,6 @@
     </div>
     <div id="shareMyVillageDialog" title="Share Village" style="display:none">
         <div id="shareMyVillageContent"></div>
-    </div>
-    <div id="dropDownDialog" title="" style="display:none">
-        <div id="dropDownContent"></div>
     </div>
     <div id="savingDialog" title="Processing" style="display:none">
         <div id="savingContent"></div>
