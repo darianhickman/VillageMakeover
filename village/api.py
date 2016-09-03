@@ -289,9 +289,8 @@ def logout():
     if flask.g.user:
         flask.session.pop('user', None)
         flask.session.pop('credentials', None)
-        return flask.redirect('/client/logout.html')
-    else:
-        return flask.redirect('/')
+
+    return flask.redirect('/')
 
 def calculate_amount(amount):
     assets = json.loads(amount)

@@ -180,12 +180,19 @@ var GraphUi = IgeSceneGraph.extend({
 
         $('#loginLink').on('click',function(){
             mixpanel.track("Click login");
-            location.href = '/client/login.html'
+
+            $( "#savingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+            $( "#savingDialog" ).dialog( "open" );
+
+            $( "#savingContent" )
+                .html( "<div><p>Signing in, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
+
+            ige.client.gameLogic.loginManager.login();
         })
 
         $('#logoutLink').on('click',function(){
             mixpanel.track("Logout");
-            location.href = '/api/logout'
+            ige.client.gameLogic.loginManager.logout();
         })
 
         $('#helpLink').on('click',function(){

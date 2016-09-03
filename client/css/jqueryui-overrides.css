@@ -80,11 +80,8 @@
     /*visibility: hidden;*/
 /*}*/
 
-
-.ui-state-focus{
+.ui-button:focus{
     outline: none;
-    border: none;
-
 }
 
 .ui-tooltip {
@@ -92,4 +89,9 @@
     color: black;
     width: auto;
     max-width: 800px;
+}
+
+.ui-widget-shadow {
+    -webkit-box-shadow: none;
+    box-shadow: none;
 }

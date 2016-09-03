@@ -237,7 +237,7 @@ body {
 	margin: 3px;
 	min-width: 40px;
 	max-height: 19px;
-	border: none;
+	border: none !important;
 }
 .coinIcon {
 	width: 20px;
@@ -258,7 +258,7 @@ body {
 	margin: 3px;
 	min-width: 40px;
 	max-height: 19px;
-	border: none;
+	border: none !important;
 }
 .waterIcon {
 	width: 20px;
@@ -275,7 +275,7 @@ body {
 	margin: 3px;
 	min-width: 40px;
 	max-height: 19px;
-	border: none;
+	border: none !important;
 }
 .goalTaskImage {
 	display: inline-block;

@@ -80,13 +80,13 @@
 .c-menu--slide-right .c-menu__item:first-child,
 .c-menu--push-left .c-menu__item:first-child,
 .c-menu--push-right .c-menu__item:first-child {
-  border-top: none;
+  /*border-top: none;*/
 }
 .c-menu--slide-left .c-menu__item:last-child,
 .c-menu--slide-right .c-menu__item:last-child,
 .c-menu--push-left .c-menu__item:last-child,
 .c-menu--push-right .c-menu__item:last-child {
-  border-bottom: none;
+  /*border-bottom: none;*/
 }
 
 .c-menu--slide-left .c-menu__link,
