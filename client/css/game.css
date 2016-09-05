@@ -445,6 +445,15 @@ body {
 	width: 100%;
 	height: 100%;
 }
+.marketItemInfo {
+	cursor: pointer;
+	text-align: center;
+	width: 59px;
+}
+.marketItemInfoIcon{
+	width: 30px;
+	height: 30px;
+}
 #marketDialogPagination {
 	margin: auto;
 	min-width: 200px;

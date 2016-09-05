@@ -126,6 +126,7 @@ var MarketDialog = Dialog.extend({
 		itemData.entity = clonedItem;
 		itemData.unlockButton = clonedItem.find(".unlock").first();
 		itemData.unlockprice = itemData.unlockButton.find(".unlockprice").first();
+		itemData.unlockInfo = clonedItem.find(".marketItemInfo").first();
 		// need to update to no dependencies or unlocked.
 		if(itemData.dependency === "none" || $.inArray(itemData.id, API.state.unlockedItems)>= 0) {
 			self.removeItemCover(itemData);
@@ -138,6 +139,10 @@ var MarketDialog = Dialog.extend({
 				event.stopPropagation();
 				self.hide();
 				self.unlockItemByCash(itemData);
+			});
+			itemData.unlockInfo.attr("title","Unlocked by Building " + GameObjects.catalogLookup[itemData.dependency].name);
+			itemData.unlockInfo.tooltip({
+				position: { my: "right center", at: "left center" }
 			});
 		}
 
@@ -196,6 +201,8 @@ var MarketDialog = Dialog.extend({
 		if(itemData.unlockButton){
 			itemData.unlockButton.remove();
 			itemData.unlockButton = null;
+			itemData.unlockInfo.remove();
+			itemData.unlockInfo = null;
 			itemData.entity.removeClass('locked');
 		}
 	},
