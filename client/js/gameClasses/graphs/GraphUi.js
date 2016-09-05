@@ -255,6 +255,27 @@ var GraphUi = IgeSceneGraph.extend({
             });
         })
 
+        $('#toggleSFXLink').append("<span id='toggleSFXStatus'> - On</span>")
+        $('#toggleSFXLink').on('click',function(){
+            vlg.isSFXOn = !vlg.isSFXOn;
+            if(vlg.isSFXOn){
+                $('#toggleSFXStatus').html(" - On");
+            }else{
+                $('#toggleSFXStatus').html(" - Off");
+            }
+        })
+
+        $('#toggleMusicLink').append("<span id='toggleMusicStatus'> - On</span>")
+        $('#toggleMusicLink').on('click',function(){
+            vlg.isMusicOn = !vlg.isMusicOn;
+            if(vlg.isMusicOn){
+                $('#toggleMusicStatus').html(" - On");
+            }else{
+                $('#toggleMusicStatus').html(" - Off");
+            }
+            toggleMusic();
+        })
+
 		$('#marketButton')
 			.click(function () {
 				// Open the build menu

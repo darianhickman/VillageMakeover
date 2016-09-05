@@ -15,8 +15,26 @@ function soundinit() {
     vlg.sfx = {};  // sound effects
     vlg.music = {};  // sound tracks or music to play at stages of gameplay.
     vlg.muted = false;
+    vlg.isSFXOn = true;
+    vlg.isMusicOn = true;
     //ideal design is that events in the game know the sounds that go with their trigger.
 
+
+    (function(play){
+        Howl.prototype.play = function(sprite, callback){
+            var self = this;
+            if(self.audioType === "SFX" && !vlg.isSFXOn){
+                return self;
+            }
+            else if(self.audioType === "MUSIC" && !vlg.isMusicOn){
+                return self;
+            }
+            else{
+                play.call(self, sprite, callback);
+            }
+            return self;
+        }
+    }(Howl.prototype.play));
 
     // after 5 minutes milestones rewrite all of this to dynamically load sound from config sheet of events
     if (GameConfig.config['defaultClickSound'] !== undefined) {
@@ -42,6 +60,11 @@ function soundinit() {
             volume: 1.0
         });
 
+        vlg.sfx['select'].audioType = "SFX";
+        vlg.sfx['build'].audioType = "SFX";
+        vlg.sfx['cancel'].audioType = "SFX";
+        vlg.music['welcome'].audioType = "Music";
+        vlg.music['levelfull1'].audioType = "Music";
 
     } else {
         // use hardcoded sound if config sheet sound not ready.
@@ -107,6 +130,13 @@ function toggleSound(){
     return vlg.muted;
 }
 
+function toggleMusic(){
+    if (vlg.isMusicOn){
+        vlg.music['levelfull1'].volume(1);
+    } else{
+        vlg.music['levelfull1'].volume(0);
+    }
+}
 
 vlg.soundinit = soundinit;
 vlg.bindSounds = bindSounds;
@@ -116,7 +146,7 @@ vlg.toggleSound = toggleSound;
 // call sound init on first load.
 $(document).ready(function (){
     vlg.log.info('Enabling sound and mute');
-    vlg.soundinit();
+    //vlg.soundinit();
     // enable mute button right away
     $('#volume').click(function(){
         vlg.toggleSound();
