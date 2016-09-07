@@ -47,6 +47,7 @@ libraries:
 
 skip_files:
 - .venv/
+- .git/
 - libs/Crypto/
 - (.*).pyc$
 - /.git/
