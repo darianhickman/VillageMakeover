@@ -316,7 +316,7 @@ body {
 #goalDialog {
 	padding: 0px;
 	margin: 0px;
-	width: 500px;
+	min-width: 400px;
 }
 #goalDialogContent {
 	margin: 0px;

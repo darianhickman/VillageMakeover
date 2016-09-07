@@ -61,9 +61,9 @@ var GameLogic = IgeObject.extend({
 
         self.goals = new Goals()
 
-        $('#goalDialogContent').html("There is no active goal at the moment!");
+        $('#goalDialogContent').html("<p style='text-align:center;'>" + GameConfig.config['noActiveGoalString'] + "</p>");
         //jquery prepare dialog
-        $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: "Goals", close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 400, height: 250, modal: true, autoOpen: false });
+        $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: "Goals", close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 'auto', height: 'auto', modal: true, autoOpen: false });
 
         //on goal load prepare ui
         self.goals.on("goalLoaded",function(data){
@@ -90,7 +90,7 @@ var GameLogic = IgeObject.extend({
             });
             $('#goalDialogContent').html("<ul id='taskList'>" + items.join('') + "</ul>");
             //jquery prepare dialog
-            $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: data.gameGoalObj.goalTitle, close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 400, height: 250, modal: true, autoOpen: false });
+            $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: data.gameGoalObj.goalTitle, close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 'auto', height: 'auto', modal: true, autoOpen: false });
             //ui show goal button
             if(data.isNewGoal)
                 $('#newGoalNotification').show()
@@ -116,11 +116,11 @@ var GameLogic = IgeObject.extend({
             API.setGoalAsComplete(data.goalID)
 
             //popup congrats message
-            $('#goalDialogContent').html("<p>" + data.message + "</p>");
+            $('#goalDialogContent').html("<p style='text-align:center;'>" + data.message + "</p>");
 
             ige.client.fsm.enterState('goalDialog', null, function (err) {
                 if (!err) {
-                    $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: data.title, close: function( event, ui ) {self.goals.loadNextGoal(data.goalID)}, width: 400, height: 250, modal: true, autoOpen: false });
+                    $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: data.title, close: function( event, ui ) {self.goals.loadNextGoal(data.goalID)}, width: 'auto', height: 'auto', modal: true, autoOpen: false });
                     $( "#goalDialog" ).dialog( "open" );
                 }
             });
