@@ -140,7 +140,7 @@ var GameObjects = {
                 })
 
                 this.mouseMove(function(){
-                    if(ige.client.fsm.currentStateName() === "select" && !ige.client.data('moveItem'))
+                    if((ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view") && !ige.client.data('moveItem'))
                         ige.input.stopPropagation();
                 })
 	        },

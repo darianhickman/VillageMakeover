@@ -76,7 +76,10 @@ var ClientHelpers = {
             if(!data.currentState)
                 obj.currentState = "building"
             obj._buildStarted=data.buildStarted
-            obj.place()
+            if(ige.client.fsm.currentStateName() === "view")
+                obj.place(true)
+            else
+                obj.place()
         }else{
             if(!data.currentState)
                 obj.currentState = "ready"
