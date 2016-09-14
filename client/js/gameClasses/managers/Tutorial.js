@@ -379,11 +379,11 @@ var Tutorial = IgeEventingClass.extend({
                         $('#dialogButton').on('click', function(){
                             self.fillScreenWithObjects(3);
                             $( "#tutorialDialog" ).dialog( "close" );
-                            self.gotoStep('showGoalButton');
+                            self.gotoStep('showGoalScreen');
                         });
                         break;
                     case 4:
-                        self.gotoStep('showGoalButton');
+                        self.gotoStep('showGoalScreen');
                         break;
                 }
                 self.currentBuildStep++;
