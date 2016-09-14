@@ -143,10 +143,10 @@ var Tutorial = IgeEventingClass.extend({
                     else if (self.currentBuildStep === 4 && self.isMoneyAdded){
                         $('#cashbarProgressTutorial').progressbar("value",250);
                         $('#cashbarProgressTutorial').text(250);
-                        self.gotoStep('buildHouse');
+                        self.gotoStep('placeHouse');
                     }
                     else
-                        self.gotoStep('buildHouse');
+                        self.gotoStep('placeHouse');
                 });
 
 
@@ -159,31 +159,28 @@ var Tutorial = IgeEventingClass.extend({
             }
         }
 
-        self.steps['buildHouse'] = {
+        self.steps['placeHouse'] = {
             enter: function(){
-                var step = 1,
-                    objectTileWidth,
+                var objectTileWidth,
                     objectTileHeight,
                     objinfo,
                     catalogItem = GameObjects.catalogLookup[self.items['item'+self.currentBuildStep].name];
 
+                $("#tutorialArrowSpan").hide();
+
+                tileMap.drawGrid(true);
+                tileMap.highlightOccupied(true);
+
                 self.mapItemButton = new ige.newClassInstance(self.items['item'+self.currentBuildStep].name)
-                    .id("tutorialTilemapItem" + self.currentBuildStep)
+                    .id("tutorialTilemapItem2" + self.currentBuildStep)
                     .layer(1)
                     .mount(tileMap)
-                    .cell(step)
+                    .cell(catalogItem.cell)
                     .mouseOver(function(){})
                     .mouseOut(function(){})
                     .mouseMove(function(){})
                     .mouseUp(function(){
-                        if(catalogItem.cell == step){
-                            self.gotoStep('HouseIsBuilt')
-                        }
-                        else{
-                            step++;
-                            this.cell(step)
-                            this.buildProgressBar.progress(this.buildProgressBar.progress() + 50)
-                        }
+                        self.gotoStep('showSpeedProgressInfo')
                     });
 
                 self.mapItemButton.translateToTile(self.items['item'+self.currentBuildStep].mapX+self.mapItemButton._tileAdjustX,self.items['item'+self.currentBuildStep].mapY+self.mapItemButton._tileAdjustY)
@@ -205,6 +202,21 @@ var Tutorial = IgeEventingClass.extend({
 
                 self.tutorialObjects.push(objinfo)
 
+                new IgeTimeout(function () {
+                    $("#tutorialArrowSpan").css("top", self.mapItemButton.screenPosition().y);
+                    $("#tutorialArrowSpan").css("left", self.mapItemButton.screenPosition().x - 100);
+                    $("#tutorialArrowSpan").show();
+                }, 100);
+            },
+            exit: function(){
+                var catalogItem = GameObjects.catalogLookup[self.items['item'+self.currentBuildStep].name];
+
+                tileMap.drawGrid(false);
+                tileMap.highlightOccupied(true);
+
+                self.mapItemButton.cell(1)
+                    .mouseUp(function(){});
+
                 self.mapItemButton.buildProgressBar = new IgeUiProgressBar()
                     .barBackColor('#f2b982')
                     .barColor('#69f22f')
@@ -214,15 +226,114 @@ var Tutorial = IgeEventingClass.extend({
                     .progress(0)
                     .width(50)
                     .height(10)
-                    .translateTo(0,-60,0)
+                    .translateTo(0,-40,0)
                     .mount(self.mapItemButton);
+
+                self.mapItemButton.buildProgressTime = new IgeFontEntity()
+                    .colorOverlay('white')
+                    .nativeFont(GameConfig.config['gameFont'])
+                    .nativeStroke(4)
+                    .nativeStrokeColor('#000000')
+                    .width(200)
+                    .height(100)
+                    .mount(self.mapItemButton)
+                    .translateTo(0,-60,0)
+                    .text(catalogItem.buildTime)
+            }
+        }
+
+        self.steps['showSpeedProgressInfo'] = {
+            enter: function(){
+                $( "#tutorialDialog" ).dialog( "open" );
+                $("#tutorialArrowSpan").hide();
+
+                $( "#tutorialContent" )
+                    .html( self.tutorialViews.getViewByID('speedProgressInfoScreen').view );
+
+                $('#dialogButton').on('click', function(){
+                    $( "#tutorialDialog" ).dialog( "close" );
+                    self.gotoStep('buildHouse')
+                });
+            },
+            exit: function(){
+                self.mapItemButton.buildProgressBar.unMount();
+                self.mapItemButton.buildProgressTime.unMount();
+                self.mapItemButton.mouseUp(function () {});
+                self.mapItemButton.destroy();
+                self.mapItemButton = null;
+            }
+        }
+
+        self.steps['showSpeedProgress'] = {
+            enter: function(){
+                $( "#tutorialDialog" ).dialog( "open" );
+                $("#tutorialArrowSpan").hide();
+
+                $( "#tutorialContent" )
+                    .html( self.tutorialViews.getViewByID('speedProgressScreen').view );
+
+                $('#dialogButton').on('click', function(){
+                    $( "#tutorialDialog" ).dialog( "close" );
+                    self.gotoStep('HouseIsBuilt')
+                });
+            },
+            exit: function(){
+                var catalogItem = GameObjects.catalogLookup[self.items['item'+self.currentBuildStep].name];
+                self.mapItemButton.cell(catalogItem.cell)
+                self.mapItemButton.buildProgressBar.unMount();
+                self.mapItemButton.buildProgressTime.unMount();
+                self.mapItemButton.mouseUp(function () {});
+            }
+        }
+
+        self.steps['buildHouse'] = {
+            enter: function(){
+                var catalogItem = GameObjects.catalogLookup[self.items['item'+self.currentBuildStep].name];
+
+                $("#tutorialArrowSpan").show();
+
+                self.mapItemButton = new ige.newClassInstance(self.items['item'+self.currentBuildStep].name)
+                    .id("tutorialTilemapItem" + self.currentBuildStep)
+                    .layer(1)
+                    .mount(tileMap)
+                    .cell(1)
+                    .mouseOver(function(){})
+                    .mouseOut(function(){})
+                    .mouseMove(function(){})
+                    .mouseUp(function(){
+                        self.gotoStep('showSpeedProgress')
+                    });
+
+                self.mapItemButton.translateToTile(self.items['item'+self.currentBuildStep].mapX+self.mapItemButton._tileAdjustX,self.items['item'+self.currentBuildStep].mapY+self.mapItemButton._tileAdjustY)
+
+                self.mapItemButton.buildProgressBar = new IgeUiProgressBar()
+                    .barBackColor('#f2b982')
+                    .barColor('#69f22f')
+                    .barBorderColor('#3a9bc5')
+                    .min(0)
+                    .max(100)
+                    .progress(0)
+                    .width(50)
+                    .height(10)
+                    .translateTo(0,-40,0)
+                    .mount(self.mapItemButton);
+
+                self.mapItemButton.buildProgressTime = new IgeFontEntity()
+                    .colorOverlay('white')
+                    .nativeFont(GameConfig.config['gameFont'])
+                    .nativeStroke(4)
+                    .nativeStrokeColor('#000000')
+                    .width(200)
+                    .height(100)
+                    .mount(self.mapItemButton)
+                    .translateTo(0,-60,0)
+                    .text(catalogItem.buildTime)
 
                 $("#tutorialArrowSpan").css("top", self.mapItemButton.screenPosition().y + ige.$('tileMapTutorial')._renderPos.y);
                 $("#tutorialArrowSpan").css("left", self.mapItemButton.screenPosition().x - 100);
 
             },
             exit: function(){
-                self.mapItemButton.buildProgressBar.unMount();
                 self.mapItemButton.mouseUp(function () {});
             }
         }

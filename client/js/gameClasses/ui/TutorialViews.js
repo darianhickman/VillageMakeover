@@ -18,6 +18,14 @@ var TutorialViews = IgeClass.extend({
             view: '<div><p>' + GameConfig.config['welcomeScreen'] + '</p><button id="dialogButton">Play</button></div>'
         },
         {
+            id: 'speedProgressInfoScreen',
+            view: '<div><p>' + GameConfig.config['speedProgressInfoScreen'] + '</p><button id="dialogButton">Continue</button></div>'
+        },
+        {
+            id: 'speedProgressScreen',
+            view: '<div><p>' + GameConfig.config['speedProgressScreen'] + '</p><button id="dialogButton">Yes</button></div>'
+        },
+        {
             id: 'firstHomeBuiltScreen',
             view: '<div><p>' + GameConfig.config['firstHomeBuiltScreen'] + '</p><button id="dialogButton">Continue</button></div>'
         },
