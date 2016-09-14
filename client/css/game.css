@@ -520,6 +520,13 @@ body {
 	float: left;
 	display: table-cell;
 }
+#waterbarTutorial {
+	display: table;
+}
+#waterbarTutorial * {
+	float: left;
+	display: table-cell;
+}
 .tutorialMarketDialogItem {
 	height: 50px;
 	position: relative;

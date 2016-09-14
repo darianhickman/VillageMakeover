@@ -559,13 +559,50 @@ var Tutorial = IgeEventingClass.extend({
                     $('#cashbarProgressTutorial').text(496);
                     $('#coinbarProgressTutorial').progressbar("value",1100);
                     $('#coinbarProgressTutorial').text(1100);
-                    self.gotoStep('completeMessage');
+                    self.gotoStep('showWaterButton');
                 })
 
                 self.setTutorialArrow("body", "#tutorialCoinButton", 130, 'marginLeft');
             },
             exit: function(){
                 $( "#tutorialCoinButton").unbind("click");
+                $( "#tutorialDialog" ).dialog( "close" );
+            }
+        }
+
+        self.steps['showWaterButton'] = {
+            enter: function(){
+                $('#waterbarTutorial').show()
+                    .click(function () {
+                        self.gotoStep('showAddWaterScreen')
+                    });
+
+                self.setTutorialArrow("#hudcontainer", "#waterbarTutorial", 40, 'marginTop');
+            },
+            exit: function(){
+                $('#waterbarTutorial').unbind('click');
+            }
+        }
+
+        self.steps['showAddWaterScreen'] = {
+            enter: function(){
+                $( "#tutorialDialog" ).dialog( "open" );
+
+                $( "#tutorialContent" )
+                    .html( "<ul><li id='tutorialWaterButton'>" + GameConfig.config['tutorialBuyWaterString'] + "</li></ul>" );
+
+                $( "#tutorialWaterButton").click(function(){
+                    $('#cashbarProgressTutorial').progressbar("value",495);
+                    $('#cashbarProgressTutorial').text(495);
+                    $('#waterbarProgressTutorial').progressbar("value",1100);
+                    $('#waterbarProgressTutorial').text(1100);
+                    self.gotoStep('completeMessage');
+                })
+
+                self.setTutorialArrow("body", "#tutorialWaterButton", 130, 'marginLeft');
+            },
+            exit: function(){
+                $( "#tutorialWaterButton").unbind("click");
             }
         }
 

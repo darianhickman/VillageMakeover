@@ -536,6 +536,8 @@ var Client = IgeClass.extend({
                 $('#cashbarProgressTutorial').text(0);
                 $('#coinbarProgressTutorial').progressbar("value",1000);
                 $('#coinbarProgressTutorial').text(1000);
+                $('#waterbarProgressTutorial').progressbar("value",1000);
+                $('#waterbarProgressTutorial').text(1000);
 
                 self.tutorial = new Tutorial();
                 self.tutorial.gotoStep('initialStep');
