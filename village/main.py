@@ -78,6 +78,7 @@ def get_fixed_catalog():
 
     for item in catalog:
         item['cell'] = int(item['cell'])
+        item['builtCell'] = int(item['builtCell'])
         item['coins'] = int(item['coins'])
         item['cash'] = int(item['cash'])
         item['cellCount'] = item['cell']
