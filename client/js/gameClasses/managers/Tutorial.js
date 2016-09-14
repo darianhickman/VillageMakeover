@@ -114,9 +114,6 @@ var Tutorial = IgeEventingClass.extend({
 
                 if(self.marketItems.find("#tutorialMarket" + itemID)[0] === undefined) {
                     self.newItem = $("<li class='tutorialMarketDialogItem' id='tutorialMarket" + itemID + "'></li>");
-                    if(self.currentBuildStep === 4){
-                        self.newItem.html(GameConfig.config['tutorialVBString']);
-                    }
                     self.newItem.append($("<span class='tutorialMarketImage'></span>"))
 
                     options = GameObjects.catalogLookup[itemID]
@@ -138,15 +135,7 @@ var Tutorial = IgeEventingClass.extend({
                     .html( self.marketItems );
 
                 $("#tutorialMarket" + self.items['item'+self.currentBuildStep].name).click(function(){
-                    if(self.currentBuildStep === 4 && !self.isMoneyAdded)
-                        self.gotoStep('showPaymentInfo');
-                    else if (self.currentBuildStep === 4 && self.isMoneyAdded){
-                        $('#cashbarProgressTutorial').progressbar("value",250);
-                        $('#cashbarProgressTutorial').text(250);
-                        self.gotoStep('placeHouse');
-                    }
-                    else
-                        self.gotoStep('placeHouse');
+                    self.gotoStep('placeHouse');
                 });
 
 
@@ -266,23 +255,35 @@ var Tutorial = IgeEventingClass.extend({
 
         self.steps['showSpeedProgress'] = {
             enter: function(){
+                var catalogItem = GameObjects.catalogLookup[self.items['item'+self.currentBuildStep].name];
+
                 $( "#tutorialDialog" ).dialog( "open" );
                 $("#tutorialArrowSpan").hide();
 
                 $( "#tutorialContent" )
                     .html( self.tutorialViews.getViewByID('speedProgressScreen').view );
 
+                if(self.currentBuildStep === 4){
+                    $( "#tutorialContent div p" ).append(" for " + catalogItem.buildTimeSpeedValue + " VBucks");
+                }else{
+                    $( "#tutorialContent div p" ).append(" for FREE");
+                }
+
                 $('#dialogButton').on('click', function(){
                     $( "#tutorialDialog" ).dialog( "close" );
-                    self.gotoStep('HouseIsBuilt')
+                    if(self.currentBuildStep === 4 && !self.isMoneyAdded){
+                        self.gotoStep('showPaymentInfo')
+                    }else if(self.currentBuildStep === 4 && self.isMoneyAdded){
+                        $('#cashbarProgressTutorial').progressbar("value",497);
+                        $('#cashbarProgressTutorial').text(497);
+                        self.gotoStep('HouseIsBuilt')
+                    }else {
+                        self.gotoStep('HouseIsBuilt')
+                    }
                 });
             },
             exit: function(){
-                var catalogItem = GameObjects.catalogLookup[self.items['item'+self.currentBuildStep].name];
-                self.mapItemButton.cell(catalogItem.cell)
-                self.mapItemButton.buildProgressBar.unMount();
-                self.mapItemButton.buildProgressTime.unMount();
-                self.mapItemButton.mouseUp(function () {});
+
             }
         }
 
@@ -292,6 +293,10 @@ var Tutorial = IgeEventingClass.extend({
 
                 $("#tutorialArrowSpan").show();
 
+                if(ige.$('tutorialTilemapItem' + self.currentBuildStep)){
+                    self.mapItemButton.destroy();
+                    self.mapItemButton = null;
+                }
                 self.mapItemButton = new ige.newClassInstance(self.items['item'+self.currentBuildStep].name)
                     .id("tutorialTilemapItem" + self.currentBuildStep)
                     .layer(1)
@@ -340,6 +345,12 @@ var Tutorial = IgeEventingClass.extend({
 
         self.steps['HouseIsBuilt'] = {
             enter: function(){
+                var catalogItem = GameObjects.catalogLookup[self.items['item'+self.currentBuildStep].name];
+                self.mapItemButton.cell(catalogItem.cell)
+                self.mapItemButton.buildProgressBar.unMount();
+                self.mapItemButton.buildProgressTime.unMount();
+                self.mapItemButton.mouseUp(function () {});
+
                 switch (self.currentBuildStep){
                     case 1:
                         $("#tutorialArrowSpan").hide();
@@ -514,7 +525,7 @@ var Tutorial = IgeEventingClass.extend({
                     self.isMoneyAdded = true;
                     $('#cashbarProgressTutorial').progressbar("value",500);
                     $('#cashbarProgressTutorial').text(500);
-                    self.gotoStep('showmarketButton')
+                    self.gotoStep('buildHouse')
                 });
             },
             exit: function(){
@@ -544,8 +555,8 @@ var Tutorial = IgeEventingClass.extend({
                     .html( "<ul><li id='tutorialCoinButton'>" + GameConfig.config['tutorialBuyCoinsString'] + "</li></ul>" );
 
                 $( "#tutorialCoinButton").click(function(){
-                    $('#cashbarProgressTutorial').progressbar("value",249);
-                    $('#cashbarProgressTutorial').text(249);
+                    $('#cashbarProgressTutorial').progressbar("value",496);
+                    $('#cashbarProgressTutorial').text(496);
                     $('#coinbarProgressTutorial').progressbar("value",1100);
                     $('#coinbarProgressTutorial').text(1100);
                     self.gotoStep('completeMessage');
