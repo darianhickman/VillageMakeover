@@ -118,10 +118,15 @@ var GameObjects = {
                                 $('#igeFrontBuffer').trigger('mouseover')
                                 $( '#igeFrontBuffer' ).tooltip("open");
                             }else if (!API.stateObjectsLookup[this.id()].buildCompleted) {
+                                var _content = "Click to speed progress "
+                                if (this.specialEvent !== "None")
+                                    _content += SpecialEvents.events[this.currentSpecialEvent].speedText
+                                else
+                                    _content += "on construction";
                                 $( '#igeFrontBuffer' ).tooltip({
                                     show: {delay:300},
                                     items: document,
-                                    content: "Click to speed progress",
+                                    content: _content,
                                     track: true
                                 });
                                 $('#igeFrontBuffer').trigger('mouseover')

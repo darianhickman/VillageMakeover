@@ -20,6 +20,7 @@ var getSpecialEvents = function(){
                         'startCell': item.StartCell,
                         'endCell': item.EndCell,
                         'speedValue': item.SpeedValue,
+                        'speedText': item.SpeedText,
                         'notifyIcon': item.NotifyIcon,
                         'notifyIconEasing': item.NotifyIconEasing
                     };
