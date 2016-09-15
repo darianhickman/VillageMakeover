@@ -223,6 +223,18 @@ body {
 	padding: 0px;
 	background-color: #F8D2B7;
 }
+.cashBuyDialogHeader{
+	background: #599E58;
+}
+.coinBuyDialogHeader{
+	background: #FFC107;
+}
+.marketDialogHeader{
+	background: #97C9FD;
+}
+.waterBuyDialogHeader{
+	background: #64B5F6;
+}
 #coinBuyDialog {
 	margin: 0px;
 	padding: 0px;

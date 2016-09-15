@@ -584,7 +584,8 @@ var Client = IgeClass.extend({
             enter: function (data, completeCallback) {
                 ClientHelpers.closeAllDialogsButThis('marketDialog');
                 vlg.log.info('entering state this.fsm.marketDialog');
-
+                $( "#marketDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
+                    .addClass("marketDialogHeader");
                 completeCallback();
             },
             exit: function (data, completeCallback) {
@@ -611,7 +612,9 @@ var Client = IgeClass.extend({
         this.fsm.defineState('cashDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.cashDialog');
-                 ClientHelpers.closeAllDialogsButThis('cashBuyDialog');
+                ClientHelpers.closeAllDialogsButThis('cashBuyDialog');
+                $( "#cashBuyDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
+                    .addClass("cashBuyDialogHeader");
                 completeCallback();
             },
             exit: function (data, completeCallback) {
@@ -624,8 +627,9 @@ var Client = IgeClass.extend({
         this.fsm.defineState('coinDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.coinDialog');
-
                 ClientHelpers.closeAllDialogsButThis('coinBuyDialog');
+                $( "#coinBuyDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
+                    .addClass("coinBuyDialogHeader");
                 completeCallback();
             },
             exit: function (data, completeCallback) {
@@ -638,8 +642,9 @@ var Client = IgeClass.extend({
         this.fsm.defineState('waterDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.waterDialog');
-
                 ClientHelpers.closeAllDialogsButThis('waterBuyDialog');
+                $( "#waterBuyDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
+                    .addClass("waterBuyDialogHeader");
                 completeCallback();
             },
             exit: function (data, completeCallback) {
