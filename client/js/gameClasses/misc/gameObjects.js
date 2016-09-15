@@ -119,10 +119,12 @@ var GameObjects = {
                                 $( '#igeFrontBuffer' ).tooltip("open");
                             }else if (!API.stateObjectsLookup[this.id()].buildCompleted) {
                                 var _content = "Click to speed progress "
-                                if (this.specialEvent !== "None")
-                                    _content += SpecialEvents.events[this.currentSpecialEvent].speedText
-                                else
+                                if(this.currentState === "building")
                                     _content += "on construction";
+                                else if(this.currentState === "waitingSpecialEvent"){
+                                    this.currentSpecialEvent = this.getCurrentSpecialEvent();
+                                    _content += SpecialEvents.events[this.currentSpecialEvent].speedText;
+                                }
                                 $( '#igeFrontBuffer' ).tooltip({
                                     show: {delay:300},
                                     items: document,
