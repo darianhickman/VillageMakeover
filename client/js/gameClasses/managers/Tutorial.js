@@ -274,8 +274,8 @@ var Tutorial = IgeEventingClass.extend({
                     if(self.currentBuildStep === 4 && !self.isMoneyAdded){
                         self.gotoStep('showPaymentInfo')
                     }else if(self.currentBuildStep === 4 && self.isMoneyAdded){
-                        $('#cashbarProgressTutorial').progressbar("value",497);
-                        $('#cashbarProgressTutorial').text(497);
+                        $('#cashbarProgressTutorial').progressbar("value",$('#cashbarProgressTutorial').text() - catalogItem.buildTimeSpeedValue);
+                        $('#cashbarProgressTutorial').text($('#cashbarProgressTutorial').text() - catalogItem.buildTimeSpeedValue);
                         self.gotoStep('HouseIsBuilt')
                     }else {
                         self.gotoStep('HouseIsBuilt')
@@ -555,10 +555,10 @@ var Tutorial = IgeEventingClass.extend({
                     .html( "<ul><li id='tutorialCoinButton'>" + GameConfig.config['tutorialBuyCoinsString'] + "</li></ul>" );
 
                 $( "#tutorialCoinButton").click(function(){
-                    $('#cashbarProgressTutorial').progressbar("value",496);
-                    $('#cashbarProgressTutorial').text(496);
-                    $('#coinbarProgressTutorial').progressbar("value",1100);
-                    $('#coinbarProgressTutorial').text(1100);
+                    $('#cashbarProgressTutorial').progressbar("value", $('#cashbarProgressTutorial').text() - 1);
+                    $('#cashbarProgressTutorial').text($('#cashbarProgressTutorial').text() - 1);
+                    $('#coinbarProgressTutorial').progressbar("value", parseInt($('#coinbarProgressTutorial').text()) + 100);
+                    $('#coinbarProgressTutorial').text(parseInt($('#coinbarProgressTutorial').text()) + 100);
                     self.gotoStep('showWaterButton');
                 })
 
@@ -592,10 +592,10 @@ var Tutorial = IgeEventingClass.extend({
                     .html( "<ul><li id='tutorialWaterButton'>" + GameConfig.config['tutorialBuyWaterString'] + "</li></ul>" );
 
                 $( "#tutorialWaterButton").click(function(){
-                    $('#cashbarProgressTutorial').progressbar("value",495);
-                    $('#cashbarProgressTutorial').text(495);
-                    $('#waterbarProgressTutorial').progressbar("value",1100);
-                    $('#waterbarProgressTutorial').text(1100);
+                    $('#cashbarProgressTutorial').progressbar("value", $('#cashbarProgressTutorial').text() - 1);
+                    $('#cashbarProgressTutorial').text($('#cashbarProgressTutorial').text() - 1);
+                    $('#waterbarProgressTutorial').progressbar("value", parseInt($('#waterbarProgressTutorial').text()) + 100);
+                    $('#waterbarProgressTutorial').text(parseInt($('#waterbarProgressTutorial').text()) + 100);
                     self.gotoStep('completeMessage');
                 })
 

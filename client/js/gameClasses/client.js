@@ -551,10 +551,10 @@ var Client = IgeClass.extend({
 
                 $('#cashbarProgressTutorial').progressbar("value",0);
                 $('#cashbarProgressTutorial').text(0);
-                $('#coinbarProgressTutorial').progressbar("value",1000);
-                $('#coinbarProgressTutorial').text(1000);
-                $('#waterbarProgressTutorial').progressbar("value",1000);
-                $('#waterbarProgressTutorial').text(1000);
+                $('#coinbarProgressTutorial').progressbar("value",parseInt(GameConfig.config['startCoins']));
+                $('#coinbarProgressTutorial').text(parseInt(GameConfig.config['startCoins']));
+                $('#waterbarProgressTutorial').progressbar("value",parseInt(GameConfig.config['startWater']));
+                $('#waterbarProgressTutorial').text(parseInt(GameConfig.config['startWater']));
 
                 self.tutorial = new Tutorial();
                 self.tutorial.gotoStep('initialStep');
