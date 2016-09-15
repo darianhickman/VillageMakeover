@@ -13,7 +13,7 @@ var WaterDialog = Dialog.extend({
         for(var i=0; i < 5; i ++) {
             clonedItem = $('#waterAssetList li').first().clone();
             clonedItem.find(".assetAmount").first().text(water[i] + " Water for ");
-            clonedItem.find(".assetPay").first().text(pay[i] + " VBucks");
+            clonedItem.find(".assetPay").first().text(pay[i] + " VBuck" + ((pay[i] > 1) ? "s" : ""));
 
             (function(i) {
                 clonedItem.click(function() {
@@ -29,7 +29,7 @@ var WaterDialog = Dialog.extend({
                         coins: 0
                     };
 
-                    var message = 'Buy ' + water[i] + ' water for ' + pay[i] + ' VBucks?';
+                    var message = 'Buy ' + water[i] + ' water for ' + pay[i] + ' VBuck' + ((pay[i] > 1) ? "s" : "") + '?';
 
                     var callBack = function() {
                         if(!API.reduceAssets(

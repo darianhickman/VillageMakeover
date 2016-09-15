@@ -167,7 +167,7 @@ var MarketDialog = Dialog.extend({
 		price.cash = itemData.unlockValue;
 
 		//show are you sure and reduce assets
-		message  = 'Unlock ' + itemData.title + ' for ' + price.cash + ' VBucks?';
+		message  = 'Unlock ' + itemData.title + ' for ' + price.cash + ' VBuck' + ((price.cash > 1) ? "s" : "") + '?';
 
 		callBack = function() {
 			if(!API.reduceAssets(

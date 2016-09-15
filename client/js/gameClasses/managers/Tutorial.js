@@ -264,7 +264,7 @@ var Tutorial = IgeEventingClass.extend({
                     .html( self.tutorialViews.getViewByID('speedProgressScreen').view );
 
                 if(self.currentBuildStep === 4){
-                    $( "#tutorialContent div p" ).append(" for " + catalogItem.buildTimeSpeedValue + " VBucks");
+                    $( "#tutorialContent div p" ).append(" for " + catalogItem.buildTimeSpeedValue + " VBuck" + ((catalogItem.buildTimeSpeedValue > 1) ? "s" : ""));
                 }else{
                     $( "#tutorialContent div p" ).append(" for FREE");
                 }
