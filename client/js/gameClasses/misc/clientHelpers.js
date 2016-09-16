@@ -7,7 +7,7 @@ var ClientHelpers = {
     
     hideDialogs: function(){
         // not sure how to iterate over all dialogs hard code for now. Change to class select at some point.
-        var dialogList = ["goalDialog","marketDialog","editorMarketDialog","cashBuyDialog","coinBuyDialog","tutorialDialog","newsFeedDialog","shareMyVillageDialog","savingDialog","buyConfirmDialog","feedBackDialog","waterBuyDialog"];
+        var dialogList = ["goalDialog","marketDialog","editorMarketDialog","cashBuyDialog","coinBuyDialog","newsFeedDialog","shareMyVillageDialog","savingDialog","buyConfirmDialog","feedBackDialog","waterBuyDialog"];
         ige.client.slideRight.close();
         for(var i = 0; i < dialogList.length; i++){
             $("#" + dialogList[i]).dialog();
