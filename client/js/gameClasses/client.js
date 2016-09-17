@@ -181,9 +181,14 @@ var Client = IgeClass.extend({
                     } else {
                         // We are already moving a building, place this building
                         // down now
-                        var item = ige.client.data('moveItem'),
+                        var map = tileMap.map,
+                            item = ige.client.data('moveItem'),
                             moveX = item.data('lastMoveX'),
                             moveY = item.data('lastMoveY');
+
+                        if (map.collision(moveX, moveY, item.data('tileWidth'), item.data('tileHeight')) && !map.collisionWithOnly(moveX, moveY, item.data('tileWidth'), item.data('tileHeight'), item)) {
+                            return;
+                        }
 
                         item.moveTo(moveX, moveY);
                         // Clear the data
@@ -225,18 +230,23 @@ var Client = IgeClass.extend({
 
                         // Check if the current tile is occupied or not
                         if (!map.collision(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight')) || map.collisionWithOnly(tile.x, tile.y, item.data('tileWidth'), item.data('tileHeight'), item)) {
-                            // We are currently moving an item so update it's
-                            // translation
-                            var tx = tile.x + item._tileAdjustX;
-                            var ty = tile.y + item._tileAdjustY;
-
-                            item.translateToTile(tx, ty);
-                            ige.$('outlineEntity').translateToTile(tile.x, tile.y);
-
-                            // Store the last position we accepted
-                            item.data('lastMoveX', tile.x);
-                            item.data('lastMoveY', tile.y);
+                            item.opacity(1);
+                            ige.$('outlineEntity').isFeasible = true;
+                        }else{
+                            item.opacity(0.5);
+                            ige.$('outlineEntity').isFeasible = false;
                         }
+                        // We are currently moving an item so update it's
+                        // translation
+                        var tx = tile.x + item._tileAdjustX;
+                        var ty = tile.y + item._tileAdjustY;
+
+                        item.translateToTile(tx, ty);
+                        ige.$('outlineEntity').translateToTile(tile.x, tile.y);
+
+                        // Store the last position we accepted
+                        item.data('lastMoveX', tile.x);
+                        item.data('lastMoveY', tile.y);
                     }
                 });
 
