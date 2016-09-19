@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
 html {
 	margin: 0;
 	padding: 0;
-	font-family: 'Verdana', cursive;
+	font-family: 'Press Start 2P', cursive;
 }
 body {
 	background: #000;
@@ -28,7 +30,7 @@ body {
 	padding: 5px;
 }
 .loadingTitle {
-	font-family: 'Verdana', cursive;
+	font-family: 'Press Start 2P', cursive;
 	color: #fff;
 	font-size: 28px;
 }
@@ -74,8 +76,8 @@ body {
 }
 .loadingText {
 	color: white;
-	font-family: 'Verdana', cursive;
-	font-size: 14px;
+	font-family: 'Press Start 2P', cursive;
+	font-size: 16pt;
 	text-align: center;
 	font-variant: small-caps;
 	-moz-animation: fadePulse 1s infinite linear;
@@ -99,8 +101,8 @@ body {
 	right: 10px;
 	bottom: 10px;
 	color: white;
-	font-family: 'Verdana', cursive;
-	font-size: 12px;
+	font-family: 'Press Start 2P', cursive;
+	font-size: 16px;
 	font-variant: small-caps;
 	width: 250px;
 	text-align: right;
@@ -178,7 +180,7 @@ body {
 }
 .editorTopNavBar ul {
 	font-family: 'Press Start 2P', cursive;
-	font-size: 14px;
+	font-size: 16pt;
 	color: white;
 }
 .editorTopNavBar ul li {
@@ -583,7 +585,7 @@ body {
 }
 #notificationMessage {
 	position: fixed;
-	font-family: 'Verdana';
+	font-family: 'Press Start 2P', cursive;
 	font-size: 26px;
 	color: white;
 	top: 0px;
@@ -599,7 +601,7 @@ body {
 #villageTitle {
 	display: none;
 	text-align: center;
-	font-family: 'Verdana';
+	font-family: 'Press Start 2P', cursive;
 	font-size: 26px;
 	color: white;
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
@@ -607,7 +609,7 @@ body {
 #objectDescription {
 	display: none;
 	text-align: center;
-	font-family: 'Verdana';
+	font-family: 'Press Start 2P', cursive;
 	font-size: 26px;
 	color: white;
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
@@ -744,7 +746,6 @@ body {
 	width: 300px;
 	height: 200px;
 	background-color: rgba(7, 20, 25, 0.9);
-	font-family: 'Verdana', cursive;
 	font-size: 11px;
 	color: #ffffff;
 	text-shadow: 1px 1px 3px #000000;
@@ -780,7 +781,6 @@ body {
 	top: 4px;
 	padding: 5px;
 	background-color: rgba(66, 66, 66, 0.9);
-	font-family: 'Verdana', cursive;
 	font-size: 12px;
 	color: #ffffff;
 }
@@ -809,7 +809,6 @@ body {
 	bottom: 30px;
 	width: 400px;
 	background-color: rgba(7, 20, 25, 0.9);
-	font-family: 'Verdana', cursive;
 	font-size: 11px;
 	color: #ffffff;
 	text-shadow: 1px 1px 3px #000000;
@@ -884,7 +883,6 @@ body {
 	font-weight: bold;
 }
 .igeEditorGroup {
-	font-family: 'Verdana', cursive;
 	font-size: 12px;
 	color: #ffffff;
 	position: relative;
