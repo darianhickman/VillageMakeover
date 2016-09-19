@@ -16,6 +16,9 @@ body {
 	background-size: 100%;
 	background-repeat: no-repeat;
 }
+button, input, textarea {
+	font-family: "Press Start 2P" !important;
+}
 .loadingFloat {
 	padding: 20px;
 	border-radius: 15px;
@@ -77,7 +80,7 @@ body {
 .loadingText {
 	color: white;
 	font-family: 'Press Start 2P', cursive;
-	font-size: 16pt;
+	font-size: 16px;
 	text-align: center;
 	font-variant: small-caps;
 	-moz-animation: fadePulse 1s infinite linear;
@@ -180,7 +183,7 @@ body {
 }
 .editorTopNavBar ul {
 	font-family: 'Press Start 2P', cursive;
-	font-size: 16pt;
+	font-size: 16px;
 	color: white;
 }
 .editorTopNavBar ul li {
@@ -586,7 +589,7 @@ body {
 #notificationMessage {
 	position: fixed;
 	font-family: 'Press Start 2P', cursive;
-	font-size: 26px;
+	font-size: 16px;
 	color: white;
 	top: 0px;
 	left: 10px;
@@ -602,7 +605,7 @@ body {
 	display: none;
 	text-align: center;
 	font-family: 'Press Start 2P', cursive;
-	font-size: 26px;
+	font-size: 20px;
 	color: white;
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
@@ -610,7 +613,7 @@ body {
 	display: none;
 	text-align: center;
 	font-family: 'Press Start 2P', cursive;
-	font-size: 26px;
+	font-size: 20px;
 	color: white;
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }

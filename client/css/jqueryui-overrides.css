@@ -95,3 +95,8 @@
     -webkit-box-shadow: none;
     box-shadow: none;
 }
+
+.ui-widget {
+    font-family: "Press Start 2P" !important;
+    font-size: 1em !important;
+}
