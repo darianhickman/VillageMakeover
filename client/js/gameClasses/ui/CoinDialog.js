@@ -20,10 +20,6 @@ var CoinDialog = Dialog.extend({
                     ige.input.stopPropagation();
                     vlg.sfx['select'].play();
 
-                    self.hide();
-                    $( "#coinBuyDialog" ).dialog( "close" );
-                    self.closeMe();
-
                     var price = {
                         cash: pay[i],
                         coins: 0
@@ -77,6 +73,16 @@ var CoinDialog = Dialog.extend({
                 Dialog.prototype.show.call(self);
             }
         });
+
+        return this;
+    },
+
+    hide: function () {
+        var self = this;
+
+        $( "#coinBuyDialog" ).dialog({close: function( event, ui ) {}});
+        $( "#coinBuyDialog" ).dialog( "close" );
+        Dialog.prototype.hide.call(self);
 
         return this;
     }

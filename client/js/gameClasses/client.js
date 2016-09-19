@@ -536,8 +536,6 @@ var Client = IgeClass.extend({
 
                 mixpanel.track("Open tutorial");
 
-                ClientHelpers.closeAllDialogsButThis('');
-
                 ige.$('vp1')
                     .mousePan.enabled(false)
                     .scrollZoom.enabled(false)
@@ -592,7 +590,6 @@ var Client = IgeClass.extend({
 
         this.fsm.defineState('marketDialog', {
             enter: function (data, completeCallback) {
-                ClientHelpers.closeAllDialogsButThis('marketDialog');
                 vlg.log.info('entering state this.fsm.marketDialog');
                 $( "#marketDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
                     .addClass("marketDialogHeader");
@@ -600,7 +597,7 @@ var Client = IgeClass.extend({
             },
             exit: function (data, completeCallback) {
                 vlg.log.info('exiting state this.fsm.marketDialog');
-
+                ige.$("marketDialog").hide()
                 completeCallback();
             }
         });
@@ -608,7 +605,6 @@ var Client = IgeClass.extend({
         this.fsm.defineState('editorMarketDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editorMarketDialog');
-                // ClientHelpers.hideDialogs();
 
                 completeCallback();
             },
@@ -622,14 +618,13 @@ var Client = IgeClass.extend({
         this.fsm.defineState('cashDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.cashDialog');
-                ClientHelpers.closeAllDialogsButThis('cashBuyDialog');
                 $( "#cashBuyDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
                     .addClass("cashBuyDialogHeader");
                 completeCallback();
             },
             exit: function (data, completeCallback) {
                 vlg.log.info('exiting state this.fsm.cashDialog');
-
+                ige.$("cashDialog").hide()
                 completeCallback();
             }
         });
@@ -637,14 +632,13 @@ var Client = IgeClass.extend({
         this.fsm.defineState('coinDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.coinDialog');
-                ClientHelpers.closeAllDialogsButThis('coinBuyDialog');
                 $( "#coinBuyDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
                     .addClass("coinBuyDialogHeader");
                 completeCallback();
             },
             exit: function (data, completeCallback) {
-                vlg.log.info('exiting state this.fsm.cashDialog');
-
+                vlg.log.info('exiting state this.fsm.coinDialog');
+                ige.$("coinDialog").hide()
                 completeCallback();
             }
         });
@@ -652,14 +646,13 @@ var Client = IgeClass.extend({
         this.fsm.defineState('waterDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.waterDialog');
-                ClientHelpers.closeAllDialogsButThis('waterBuyDialog');
                 $( "#waterBuyDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
                     .addClass("waterBuyDialogHeader");
                 completeCallback();
             },
             exit: function (data, completeCallback) {
                 vlg.log.info('exiting state this.fsm.waterDialog');
-
+                ige.$("waterDialog").hide()
                 completeCallback();
             }
         });
@@ -668,12 +661,88 @@ var Client = IgeClass.extend({
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.goalDialog');
 
-                ClientHelpers.closeAllDialogsButThis('goalDialog');
                 completeCallback();
             },
             exit: function (data, completeCallback) {
                 vlg.log.info('exiting state this.fsm.goalDialog');
+                $( "#goalDialog" ).dialog({close: function( event, ui ) {}});
+                $( "#goalDialog" ).dialog( "close" );
+                completeCallback();
+            }
+        });
 
+        this.fsm.defineState('buyConfirmDialog', {
+            enter: function (data, completeCallback) {
+                vlg.log.info('entering state this.fsm.buyConfirmDialog');
+
+                completeCallback();
+            },
+            exit: function (data, completeCallback) {
+                vlg.log.info('exiting state this.fsm.buyConfirmDialog');
+                $("#buyConfirmYes").unbind("click");
+                $("#buyConfirmNo").unbind("click");
+                $("#buyConfirmOK").unbind("click");
+                $( "#buyConfirmDialog" ).dialog({close: function( event, ui ) {}});
+                $( "#buyConfirmDialog" ).dialog( "close" );
+                if(ige.client.newBuyConfirm){
+                    ige.client.newBuyConfirm.destroy();
+                    ige.client.newBuyConfirm = null;
+                }
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('playerMenu', {
+            enter: function (data, completeCallback) {
+                vlg.log.info('entering state this.fsm.playerMenu');
+                self.slideRight.open();
+                completeCallback();
+            },
+            exit: function (data, completeCallback) {
+                vlg.log.info('exiting state this.fsm.playerMenu');
+                self.slideRight.close();
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('shareMyVillage', {
+            enter: function (data, completeCallback) {
+                vlg.log.info('entering state this.fsm.shareMyVillage');
+                $( "#shareMyVillageDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 500, height: 300, modal: true, autoOpen: false });
+                $( "#shareMyVillageDialog" ).dialog( "open" );
+
+                $( "#shareMyVillageContent" )
+                    .html( '<div style="padding-top:45px"><p>Share My Village:</p><div><textarea id="shareMyVillageTextArea" style="width:428px;"></textarea>' +
+                    '<div id="shareMyVillageErrorField" class="ui-state-error" style="display:none;font-size:14px;">Your browser doesn\'t support copying. Please copy manually</div>' +
+                    '<button id="copyMyVillageClipboardButton">Copy to Clipboard</button></div></div>' );
+
+                var url = window.location.href;
+                var arr = url.split("/");
+                var result = arr[0] + "//" + arr[2]
+                $('#shareMyVillageTextArea').val(result + '/view/' + API.user.key_id);
+
+                $('#copyMyVillageClipboardButton').on('click', function(){
+                    var copyTextarea = $('#shareMyVillageTextArea');
+                    copyTextarea.select();
+
+                    try {
+                        var successful = document.execCommand('copy');
+                        var msg = successful ? 'successful' : 'unsuccessful';
+                        console.log('Copying text command was ' + msg);
+                        if(!successful){
+                            $('#shareMyVillageErrorField').css('display','')
+                        }
+                    } catch (err) {
+                        console.log('Oops, unable to copy');
+                        $('#shareMyVillageErrorField').css('display','')
+                    }
+                });
+                completeCallback();
+            },
+            exit: function (data, completeCallback) {
+                vlg.log.info('exiting state this.fsm.shareMyVillage');
+                $( "#shareMyVillageDialog" ).dialog({close: function( event, ui ) {}});
+                $( "#shareMyVillageDialog" ).dialog( "close" );
                 completeCallback();
             }
         });
@@ -682,8 +751,6 @@ var Client = IgeClass.extend({
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.feedbackDialog');
                 mixpanel.track("Send feedback");
-
-                ClientHelpers.closeAllDialogsButThis('feedBackDialog');
 
                 $( "#feedBackDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 600, height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {ige.client.fsm.enterState('select');} });
                 $( "#feedBackDialog" ).dialog( "open" );
@@ -714,7 +781,7 @@ var Client = IgeClass.extend({
             },
             exit: function (data, completeCallback) {
                 vlg.log.info('exiting state this.fsm.feedbackDialog');
-
+                $( "#feedBackDialog" ).dialog({close: function( event, ui ) {}});
                 $( "#feedBackDialog" ).dialog( "close" );
                 $( "#contactName" ).val("");
                 $( "#contactEmail" ).val("");
@@ -732,7 +799,6 @@ var Client = IgeClass.extend({
         this.fsm.defineState('build', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.build');
-                // ClientHelpers.hideDialogs();
 
                 var self = this,
                     tileMap = ige.$('tileMap1');
@@ -751,6 +817,7 @@ var Client = IgeClass.extend({
                 ige.client.cursorObject.data('tileWidth', objectTileWidth)
                     .data('tileHeight', objectTileHeight);
 
+                ige.$('outlineEntity').mount(ige.$('tileMap1'))
                 ige.$('outlineEntity').tileWidth = objectTileWidth;
                 ige.$('outlineEntity').tileHeight = objectTileHeight;
 
