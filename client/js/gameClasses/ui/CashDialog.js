@@ -21,10 +21,6 @@ var CashDialog = Dialog.extend({
                     // ige.client.audio.normClick.play();
                     vlg.sfx['select'].play();
 
-                    self.hide();
-                    $( "#cashBuyDialog" ).dialog( "close" );
-                    self.closeMe();
-
                     var price = {
                         cash: bucks[i],
                         coins: 0
@@ -61,6 +57,16 @@ var CashDialog = Dialog.extend({
                 Dialog.prototype.show.call(self);
             }
         });
+
+        return this;
+    },
+
+    hide: function () {
+        var self = this;
+
+        $( "#cashBuyDialog" ).dialog({close: function( event, ui ) {}});
+        $( "#cashBuyDialog" ).dialog( "close" );
+        Dialog.prototype.hide.call(self);
 
         return this;
     }

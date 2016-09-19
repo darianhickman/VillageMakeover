@@ -75,19 +75,9 @@ var MarketDialog = Dialog.extend({
 	hide: function () {
 		var self = this;
 
-		if (ige.client.fsm.currentStateName === 'marketDialog') {
-			ige.client.fsm.exitState(function (err) {
-				if (!err) {
-					$("#marketDialog").dialog();
-					$( "#marketDialog" ).dialog( "close" );
-					Dialog.prototype.hide.call(self);
-				}
-			});
-		} else {
-			$("#marketDialog").dialog();
-			$( "#marketDialog" ).dialog( "close" );
-			Dialog.prototype.hide.call(self);
-		}
+		$( "#marketDialog" ).dialog({close: function( event, ui ) {}});
+		$( "#marketDialog" ).dialog( "close" );
+		Dialog.prototype.hide.call(self);
 
 		return this;
 	},
@@ -216,9 +206,6 @@ var MarketDialog = Dialog.extend({
 			// Play the audio
 			// ige.client.audio.normClick.play();
 			vlg.sfx['select'].play();
-
-			// Hide the build dialog
-			self.hide();
 
 			// Switch to build mode
 			ige.client.fsm.enterState('build', {

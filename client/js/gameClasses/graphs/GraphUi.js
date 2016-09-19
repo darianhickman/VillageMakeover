@@ -6,7 +6,8 @@ var GraphUi = IgeSceneGraph.extend({
 	 * @param options
 	 */
 	addGraph: function (options) {
-		var self = ige.client,
+		var self = this,
+            clientself = ige.client;
 			uiScene = ige.$('uiScene');
 
 		var marketDialog = new MarketDialog()
@@ -144,7 +145,7 @@ var GraphUi = IgeSceneGraph.extend({
 			.top(20)
 			.left(380);
 
-        self.slideRight = new Menu({
+        clientself.slideRight = new Menu({
             wrapper: '#o-wrapper',
             type: 'slide-right',
             menuOpenerClass: '.c-button',
@@ -156,11 +157,19 @@ var GraphUi = IgeSceneGraph.extend({
 	},
 
 	addActions: function () {
-        var self = ige.client;
+        var self = this,
+            clientself = ige.client;
 
         $('#dropDownIcon').on('click',function(){
-            ClientHelpers.hideDialogs();
-            self.slideRight.open();
+            ige.client.fsm.enterState('playerMenu');
+        })
+
+        $(".c-menu__close").on('click',function(){
+            ige.client.fsm.enterState('select');
+        })
+
+        $(".c-mask").on('click',function(){
+            ige.client.fsm.enterState('select');
         })
 
         $('#fullscreenIcon').on('click',function(){
@@ -223,36 +232,7 @@ var GraphUi = IgeSceneGraph.extend({
         })
 
         $('#shareMyVillageLink').on('click',function(){
-            ClientHelpers.closeAllDialogsButThis('shareMyVillageDialog');
-            $( "#shareMyVillageDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
-            $( "#shareMyVillageDialog" ).dialog( "open" );
-
-            $( "#shareMyVillageContent" )
-                .html( '<div style="padding-top:45px"><p>Share My Village:</p><div><textarea id="shareMyVillageTextArea" style="width:428px;"></textarea>' +
-                '<div id="shareMyVillageErrorField" class="ui-state-error" style="display:none;font-size:14px;">Your browser doesn\'t support copying. Please copy manually</div>' +
-                '<button id="copyMyVillageClipboardButton">Copy to Clipboard</button></div></div>' );
-
-            var url = window.location.href;
-            var arr = url.split("/");
-            var result = arr[0] + "//" + arr[2]
-            $('#shareMyVillageTextArea').val(result + '/view/' + API.user.key_id);
-
-            $('#copyMyVillageClipboardButton').on('click', function(){
-                var copyTextarea = $('#shareMyVillageTextArea');
-                copyTextarea.select();
-
-                try {
-                    var successful = document.execCommand('copy');
-                    var msg = successful ? 'successful' : 'unsuccessful';
-                    console.log('Copying text command was ' + msg);
-                    if(!successful){
-                        $('#shareMyVillageErrorField').css('display','')
-                    }
-                } catch (err) {
-                    console.log('Oops, unable to copy');
-                    $('#shareMyVillageErrorField').css('display','')
-                }
-            });
+            ige.client.fsm.enterState('shareMyVillage');
         })
 
         $('#toggleSFXLink').append("<span id='toggleSFXStatus'> - On</span>")
@@ -280,44 +260,62 @@ var GraphUi = IgeSceneGraph.extend({
 			.click(function () {
 				// Open the build menu
                 mixpanel.track("Open market dialog");
-				ige.$('marketDialog').show();
+                self.toggleDialog('marketDialog');
 			});
 
         $('#goalButton')
             .click(function () {
-                // Open the goal dialog
-                mixpanel.track("Open goal dialog");
-                $('#newGoalNotification').hide();
-                ige.client.fsm.enterState('goalDialog', null, function (err) {
-                    if (!err) {
-                        $( "#goalDialog" ).dialog( "open" );
-                    }
-                });
+                self.toggleGoalDialog();
             });
 
         $('#cashbar')
             .click(function() {
                 mixpanel.track("Open cash dialog");
-                ige.$('cashDialog').show();
+                self.toggleDialog('cashDialog');
             });
 
         $('#coinbar')
             .click(function() {
                 mixpanel.track("Open coin dialog");
-                ige.$('coinDialog').show();
+                self.toggleDialog('coinDialog');
             });
 
         $('#waterbar')
             .click(function() {
                 mixpanel.track("Open water dialog");
-                ige.$('waterDialog').show();
+                self.toggleDialog('waterDialog');
             });
 
         $('#moveButton')
             .click(function () {
                 ige.client.fsm.enterState('move');
             });
-	},
+    },
+
+	toggleDialog: function(name){
+        if(ige.$(name).isVisible())
+            ige.$(name).closeMe();
+        else
+            ige.$(name).show();
+
+    },
+
+    toggleGoalDialog: function(name){
+        if(ige.client.fsm.currentStateName() === "goalDialog"){
+            ige.client.fsm.enterState('select');
+        }
+        else{
+            // Open the goal dialog
+            mixpanel.track("Open goal dialog");
+            $('#newGoalNotification').hide();
+            ige.client.fsm.enterState('goalDialog', null, function (err) {
+                if (!err) {
+                    $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 'auto', height: 'auto', modal: true, autoOpen: false });
+                    $( "#goalDialog" ).dialog( "open" );
+                }
+            });
+        }
+    },
 
 	/**
 	 * The method called when the graph items are to be removed from the
