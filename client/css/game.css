@@ -398,6 +398,10 @@ body {
 	display: block;
 	padding: 0px;
 }
+.marketDialogItem:hover {
+	background-color: #97C9FD
+}
+
 .marketDialogItem span {
 	max-height: 40px;
 	min-height: 25px;
