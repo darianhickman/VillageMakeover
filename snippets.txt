@@ -1,0 +1,12 @@
+find . -name ‘*.pyc' -type f -delete
+
+find . -type f | wc -l
+
+http://stackoverflow.com/jobs/121598/devops-engineer-fintech-aspiration?med=clc&ref=large-sidebar-blue-looking
+
+so fix the .git exclusion
+
+
+Thursday this coming week.  
+
+Neils at Thursday 11:30am. 

@@ -4,8 +4,10 @@ from google.appengine.ext import ndb
 from .config import get_config
 
 import json
+import logging
 
 sheet_config = get_config()
+logging.info('Config %s', sheet_config)
 
 INIT_STATE = {
     'first': 'true',
