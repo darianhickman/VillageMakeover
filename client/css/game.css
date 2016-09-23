@@ -427,7 +427,6 @@ button, input, textarea {
 }
 .marketDialogList table {
 	table-layout: fixed;
-	width: 600px;
 }
 .marketItemImage {
 	background-repeat: no-repeat;
@@ -478,7 +477,7 @@ button, input, textarea {
 #marketDialogPagination {
 	margin: auto;
 	min-width: 200px;
-	max-width: 300px;
+	text-align: center;
 }
 .newGoalNotification {
 	margin: 3px;
