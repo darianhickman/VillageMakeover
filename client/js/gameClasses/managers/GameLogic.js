@@ -118,9 +118,10 @@ var GameLogic = IgeObject.extend({
             //popup congrats message
             $('#goalDialogContent').html("<p style='text-align:center;'>" + data.message + "</p>");
 
+            self.goals.loadNextOnExit = true;
             ige.client.fsm.enterState('goalDialog', null, function (err) {
                 if (!err) {
-                    $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: data.title, close: function( event, ui ) {self.goals.loadNextGoal(data.goalID)}, width: 'auto', height: 'auto', modal: true, autoOpen: false });
+                    $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, title: data.title, close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 'auto', height: 'auto', modal: true, autoOpen: false });
                     $( "#goalDialog" ).dialog( "open" );
                 }
             });

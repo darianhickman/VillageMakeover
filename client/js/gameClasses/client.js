@@ -667,6 +667,10 @@ var Client = IgeClass.extend({
                 vlg.log.info('exiting state this.fsm.goalDialog');
                 $( "#goalDialog" ).dialog({close: function( event, ui ) {}});
                 $( "#goalDialog" ).dialog( "close" );
+                if(ige.client.gameLogic.goals.loadNextOnExit === true){
+                    ige.client.gameLogic.goals.loadNextGoal(API.state.currentGoalID);
+                    ige.client.gameLogic.goals.loadNextOnExit = false;
+                }
                 completeCallback();
             }
         });
