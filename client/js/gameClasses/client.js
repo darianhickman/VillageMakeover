@@ -769,7 +769,6 @@ var Client = IgeClass.extend({
                             email: $( "#contactEmail").val(),
                             message: $( "#contactMessage").val()}),
                         success: function(result){
-                            ige.client.fsm.enterState('select');
                             new BuyConfirm(result.message,null,true)
                                 .layer(1)
                                 .show()
@@ -934,7 +933,6 @@ var Client = IgeClass.extend({
                             .show()
                             .mount(ige.$('uiScene'));
 
-                        clientSelf.fsm.enterState('select')
                         return;
                     }
 
@@ -1064,6 +1062,8 @@ var Client = IgeClass.extend({
                 completeCallback();
             },
             exit: function (data, completeCallback) {
+                vlg.log.info('exiting state this.fsm.build');
+
                 // Clear our mouse listeners
                 var self = this,
                     tileMap = ige.$('tileMap1');

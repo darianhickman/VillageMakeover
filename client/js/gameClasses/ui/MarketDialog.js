@@ -172,7 +172,6 @@ var MarketDialog = Dialog.extend({
 					.layer(1)
 					.show()
 					.mount(ige.$('uiScene'));
-				self.hide();
 				return;
 			}
 			self.removeItemCover(itemData);
