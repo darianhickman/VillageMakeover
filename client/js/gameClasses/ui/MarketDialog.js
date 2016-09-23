@@ -199,20 +199,23 @@ var MarketDialog = Dialog.extend({
 	bindItemAction: function(itemData){
 		var self = this;
 
-		itemData.entity.click(function () {
-			ige.input.stopPropagation();
+		if(itemData.isActionBound === undefined || itemData.isActionBound === null){
+			itemData.entity.click(function () {
+				ige.input.stopPropagation();
 
-			// Play the audio
-			// ige.client.audio.normClick.play();
-			vlg.sfx['select'].play();
+				// Play the audio
+				// ige.client.audio.normClick.play();
+				vlg.sfx['select'].play();
 
-			// Switch to build mode
-			ige.client.fsm.enterState('build', {
-				classId: itemData.classId,
-				coins: itemData.coins,
-				cash: itemData.cash,
+				// Switch to build mode
+				ige.client.fsm.enterState('build', {
+					classId: itemData.classId,
+					coins: itemData.coins,
+					cash: itemData.cash,
+				});
 			});
-		});
+		}
+		itemData.isActionBound = true;
 	},
 
 	showUnlockMessage: function(itemName){
