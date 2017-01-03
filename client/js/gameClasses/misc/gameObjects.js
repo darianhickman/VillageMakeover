@@ -63,6 +63,8 @@ var GameObjects = {
 	        init: function () {
 		        GameObject.prototype.init.call(this);
 
+                var self = this;
+
 		        this.texture(ige.client.textures[classId])
 			        .dimensionsFromCell()
 			        .bounds3d(options.bounds3d[0], options.bounds3d[1], options.bounds3d[2])
@@ -87,15 +89,29 @@ var GameObjects = {
                 this.specialEvent = options.specialEvent;
                 this.specialEvents = options.specialEvent.split(",");
 
+                this.mouseDown(function(){
+                    self.mouseMove(function(){
+                        if(ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view")
+                            ;
+                    })
+                });
+
+                this.mouseUp(function(){
+                    self.mouseMove(function(){
+                        if(ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view")
+                            ige.input.stopPropagation();
+                    })
+                });
+
                 this.mouseOver(function(){
-                    if((ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view") && !ige.client.data('moveItem')){
+                    if(ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view"){
                         this.layer(1)
                             .highlight(true);
 
                         $( '#objectDescription').html(this.mouseOverText)
                             .show();
 
-                        if(ige.client.fsm.currentStateName() === "select" && !ige.client.data('moveItem')){
+                        if(ige.client.fsm.currentStateName() === "select"){
                             if (this.specialEvent !== "None" && API.stateObjectsLookup[this.id()].buildCompleted) {
                                 this.currentSpecialEvent = this.getCurrentSpecialEvent();
                                 var costs = SpecialEvents.events[this.currentSpecialEvent].cost.split(",");
@@ -141,13 +157,19 @@ var GameObjects = {
                 this.mouseOut(function(){
                     this.layer(0)
                         .highlight(false);
+
+                    self.mouseMove(function(){
+                        if(ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view")
+                            ige.input.stopPropagation();
+                    })
+
                     $( '#objectDescription').html('')
                         .hide();
                     $('#igeFrontBuffer').tooltip().tooltip('destroy')
                 })
 
                 this.mouseMove(function(){
-                    if((ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view") && !ige.client.data('moveItem'))
+                    if(ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view")
                         ige.input.stopPropagation();
                 })
 	        },
