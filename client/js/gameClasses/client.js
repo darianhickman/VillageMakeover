@@ -154,7 +154,8 @@ var Client = IgeClass.extend({
                     })
                 $('#endMove').show()
 
-                self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+                self.isMouseMoved = false;
+                self.mouseDownHandle = tileMap.on('mouseDown', function (event, evc, data) {
                     if (!ige.client.data('moveItem')) {
                         // We're not already moving an item so check if the user
                         // just clicked on a building
@@ -162,6 +163,10 @@ var Client = IgeClass.extend({
                             item = ige.client.itemAt('tileMap1', tile.x, tile.y);
 
                         if (item) {
+                            ige.$('vp1')
+                                .mousePan.enabled(false)
+                            self.isMouseMoved = false;
+
                             // The user clicked on a building so set this as the
                             // building we are moving.
                             ige.client.data('moveItem', item);
@@ -190,6 +195,36 @@ var Client = IgeClass.extend({
                             return;
                         }
 
+                        self.isMouseMoved = false;
+                        ige.$('vp1')
+                            .mousePan.enabled(true)
+
+                        item.moveTo(moveX, moveY);
+                        // Clear the data
+                        ige.client.data('moveItem', '');
+                        ige.$('outlineEntity').hide();
+
+                        API.updateObject(item, moveX, moveY)
+                    }
+                });
+
+                self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
+                    if(self.isMouseMoved === true && ige.client.data('moveItem')){
+                        // We are already moving a building, place this building
+                        // down now
+                        var map = tileMap.map,
+                            item = ige.client.data('moveItem'),
+                            moveX = item.data('lastMoveX'),
+                            moveY = item.data('lastMoveY');
+
+                        if (map.collision(moveX, moveY, item.data('tileWidth'), item.data('tileHeight')) && !map.collisionWithOnly(moveX, moveY, item.data('tileWidth'), item.data('tileHeight'), item)) {
+                            return;
+                        }
+
+                        self.isMouseMoved = false;
+                        ige.$('vp1')
+                            .mousePan.enabled(true)
+
                         item.moveTo(moveX, moveY);
                         // Clear the data
                         ige.client.data('moveItem', '');
@@ -200,6 +235,8 @@ var Client = IgeClass.extend({
                 });
 
                 self.mouseMoveHandle = ige.$('vp1').on('mouseMove', function (event, evc, data) {
+                    self.isMouseMoved = true;
+
                     var item = ige.client.data('moveItem'),
                         map = tileMap.map,
                         tile = tileMap.mouseToTile();
@@ -275,6 +312,7 @@ var Client = IgeClass.extend({
                         clientSelf.fsm.enterState('select');
                 });
 
+                tileMap.off('mouseDown', self.mouseDownHandle);
                 tileMap.off('mouseUp', self.mouseUpHandle);
                 ige.$('vp1').off('mouseMove', self.mouseMoveHandle);
 
