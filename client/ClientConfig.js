@@ -17,6 +17,7 @@ var igeClientConfig = {
         '/js/gameClasses/ui/WaterDialog.js',
         '/js/gameClasses/ui/BuyStatus.js',
         '/js/gameClasses/ui/BuyConfirm.js',
+        '/js/gameClasses/ui/MessageDialog.js',
 		'/js/gameClasses/ui/TutorialViews.js',
 		'/js/gameClasses/ui/EditorViews.js',
 		'/js/gameClasses/managers/Tutorial.js',

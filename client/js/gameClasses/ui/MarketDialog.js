@@ -219,7 +219,12 @@ var MarketDialog = Dialog.extend({
 	},
 
 	showUnlockMessage: function(itemName){
-		ClientHelpers.showMessage(itemName + ' is unlocked!');
+		var message = GameConfig.config['itemUnlockMessageString'];
+		message = message.replace("{itemName}", itemName);
+		ige.client.eventEmitter.emit('showMessage', {
+			"title" : GameConfig.config['itemUnlockTitleString'],
+			"message" : message
+		});
 	},
 
 	getItemByID: function(id){

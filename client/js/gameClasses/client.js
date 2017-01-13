@@ -734,6 +734,40 @@ var Client = IgeClass.extend({
             }
         });
 
+        this.fsm.defineState('showMessage', {
+            enter: function (data, completeCallback) {
+                var self = this;
+
+                vlg.log.info('entering state this.fsm.showMessage');
+
+                self.messageDialog = new MessageDialog(data.title, data.message, data.callback)
+                    .layer(1)
+                    .show()
+                    .mount(ige.$('uiScene'));
+
+                completeCallback();
+            },
+            exit: function (data, completeCallback) {
+                var self = this;
+
+                vlg.log.info('exiting state this.fsm.showMessage');
+
+                $("#messageDialogOK").unbind("click");
+                if(self.messageDialog){
+                    if(!self.messageDialog.isHidden())
+                        self.messageDialog.hide();
+                    if(self.messageDialog.callback !== null && self.messageDialog.callback !== undefined){
+                        self.messageDialog.callback();
+                        self.messageDialog.callback = null;
+                    }
+                    self.messageDialog.destroy();
+                    self.messageDialog = null;
+                }
+
+                completeCallback();
+            }
+        });
+
         this.fsm.defineState('playerMenu', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.playerMenu');
@@ -1081,15 +1115,13 @@ var Client = IgeClass.extend({
                     ige.client.eventEmitter.emit('build', {
                         "id": cursorClassId,
                         "type": ige.client.cursorObject.type,
-                        "unlocks": ige.client.cursorObject.unlocks
+                        "unlocks": ige.client.cursorObject.unlocks,
+                        "callback" : function(){
+                            // Remove reference to the object
+                            ige.client.cursorObject = null;
+                            ige.client.cursorObjectData = null;
+                        }
                     })
-
-                    // Remove reference to the object
-                    ige.client.cursorObject = null;
-                    ige.client.cursorObjectData = null;
-
-                    // Enter the select state
-                    ige.client.fsm.enterState('select');
 
                     // Check if the tile we are standing on is occupied now
                     if (ige.$('tileMap1').isTileOccupied(playerTile.x, playerTile.y, 1, 1)) {

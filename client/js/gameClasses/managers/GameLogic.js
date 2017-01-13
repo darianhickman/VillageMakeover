@@ -176,9 +176,24 @@ var GameLogic = IgeObject.extend({
                 var options = GameObjects.catalogLookup[data.unlocks]
                 if(options.enabled && options.dependency !== "none"){
                     self.unlockMarketDialogItem(marketDialog.getItemByID(data.unlocks));
-                    marketDialog.showUnlockMessage(options.name);
+                    data.callback();
+                    var message = GameConfig.config['itemUnlockMessageString'];
+                    message = message.replace("{itemName}", options.name);
+                    ige.client.eventEmitter.emit('showMessage', {
+                        "title" : GameConfig.config['itemUnlockTitleString'],
+                        "message" : message
+                    });
                 }
+            }else{
+                data.callback();
+                // Enter the select state
+                ige.client.fsm.enterState('select');
             }
+        })
+
+        //on message broadcast transition to message state
+        ige.client.eventEmitter.on('showMessage', function(data){
+            ige.client.fsm.enterState('showMessage', data, null);
         })
     },
 
