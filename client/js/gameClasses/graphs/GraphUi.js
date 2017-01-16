@@ -186,6 +186,19 @@ var GraphUi = IgeSceneGraph.extend({
             ige.client.fsm.enterState('select');
         })
 
+        document.addEventListener("fullscreenchange", onFullScreenChange, false);
+        document.addEventListener("webkitfullscreenchange", onFullScreenChange, false);
+        document.addEventListener("mozfullscreenchange", onFullScreenChange, false);
+
+        function onFullScreenChange() {
+            var fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement;
+
+            // if in fullscreen mode fullscreenElement won't be null
+            if(!fullscreenElement){
+                $( "#fullscreenIcon img:first-child").show();
+                $( "#fullscreenIcon img:nth-child(2)").hide();
+            }
+        }
         $('#fullscreenIcon').on('click',function(){
             mixpanel.track("Go fullscreen");
             $( "#fullscreenIcon" ).find('img').toggle();
