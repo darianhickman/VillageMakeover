@@ -574,6 +574,12 @@ var Client = IgeClass.extend({
 
                 mixpanel.track("Open tutorial");
 
+                if(API.state.isTutorialShown !== true){
+                    // start Level Music.
+                    vlg.music['welcome'].fadeOut(0, 2000);
+                    vlg.music['levelfull1'].fadeIn(1.0, 2000);
+                }
+
                 ige.$('vp1')
                     .mousePan.enabled(false)
                     .scrollZoom.enabled(false)
