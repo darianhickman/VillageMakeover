@@ -17,19 +17,19 @@ var LoginManager = IgeEventingClass.extend({
                         if (jqXHR.status === 401) {
                             $( "#savingContent" )
                                 .html( "<div><p>Not authorized to log in!</p>" +
-                                "<p><button id='closeSavingDialog'>Close</button></p></div>" );
+                                "<p><button id='closeProcessingDialog'>Close</button></p></div>" );
 
-                            $('#closeSavingDialog').on('click', function(){
-                                $( "#savingDialog" ).dialog( "close" );
+                            $('#closeProcessingDialog').on('click', function(){
+                                $( "#processingDialog" ).dialog( "close" );
                             });
                         }
                         else {
                             $( "#savingContent" )
                                 .html( "<div><p>There was an error contacting the server!<br />Please try again later.</p>" +
-                                "<p><button id='closeSavingDialog'>Close</button></p></div>" );
+                                "<p><button id='closeProcessingDialog'>Close</button></p></div>" );
 
-                            $('#closeSavingDialog').on('click', function(){
-                                $( "#savingDialog" ).dialog( "close" );
+                            $('#closeProcessingDialog').on('click', function(){
+                                $( "#processingDialog" ).dialog( "close" );
                             });
                         }
                     },
@@ -41,10 +41,10 @@ var LoginManager = IgeEventingClass.extend({
             } else {
                 $( "#savingContent" )
                     .html( "<div><p>There was an error contacting the server!<br />Please try again later.</p>" +
-                    "<p><button id='closeSavingDialog'>Close</button></p></div>" );
+                    "<p><button id='closeProcessingDialog'>Close</button></p></div>" );
 
-                $('#closeSavingDialog').on('click', function(){
-                    $( "#savingDialog" ).dialog( "close" );
+                $('#closeProcessingDialog').on('click', function(){
+                    $( "#processingDialog" ).dialog( "close" );
                 });
             }
         }
@@ -69,10 +69,10 @@ var LoginManager = IgeEventingClass.extend({
                 error: function (jqXHR, textStatus, errorThrown) {
                     $( "#savingContent" )
                         .html( "<div><p>There was an error contacting the server!<br />Please try again later.</p>" +
-                        "<p><button id='closeSavingDialog'>Close</button></p></div>" );
+                        "<p><button id='closeProcessingDialog'>Close</button></p></div>" );
 
-                    $('#closeSavingDialog').on('click', function(){
-                        $( "#savingDialog" ).dialog( "close" );
+                    $('#closeProcessingDialog').on('click', function(){
+                        $( "#processingDialog" ).dialog( "close" );
                     });
                 },
                 success: function (result) {

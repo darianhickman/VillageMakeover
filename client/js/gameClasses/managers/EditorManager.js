@@ -11,9 +11,9 @@ var EditorManager = IgeEventingClass.extend({
             if(settings.sentFrom !== "editor")
                 return;
 
-            $( "#savingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
-            $( "#savingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
-            $( "#savingDialog" ).dialog( "open" );
+            $( "#processingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+            $( "#processingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
+            $( "#processingDialog" ).dialog( "open" );
 
             $( "#savingContent" )
                 .html( "<div><p>Processing, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
@@ -25,10 +25,10 @@ var EditorManager = IgeEventingClass.extend({
 
             $( "#savingContent" )
                 .html( "<div><p>There was an error contacting the server!<br />Please try again later.</p>" +
-                "<p><button id='closeSavingDialog'>Close</button></p></div>" );
+                "<p><button id='closeProcessingDialog'>Close</button></p></div>" );
 
-            $('#closeSavingDialog').on('click', function(){
-                $( "#savingDialog" ).dialog( "close" );
+            $('#closeProcessingDialog').on('click', function(){
+                $( "#processingDialog" ).dialog( "close" );
             });
 
         });
@@ -37,7 +37,7 @@ var EditorManager = IgeEventingClass.extend({
             if(settings.sentFrom !== "editor")
                 return;
 
-            $( "#savingDialog" ).dialog( "close" );
+            $( "#processingDialog" ).dialog( "close" );
         });
 
         self.editorObjects = [];

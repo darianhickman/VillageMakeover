@@ -517,7 +517,7 @@ var Client = IgeClass.extend({
                 $("#topToolbar").hide();
                 $("#notifyIconContainer").hide();
 
-                $("#savingDialog").dialog({
+                $("#processingDialog").dialog({
                     resizable: false,
                     draggable: true,
                     dialogClass: 'ui-dialog-no-titlebar',
@@ -527,7 +527,7 @@ var Client = IgeClass.extend({
                     modal: true,
                     autoOpen: false
                 });
-                $("#savingDialog").dialog("open");
+                $("#processingDialog").dialog("open");
 
                 $("#savingContent")
                     .html("<div><p>Loading village, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>");
@@ -555,7 +555,7 @@ var Client = IgeClass.extend({
                         for (var i = 0; i < response.data.length; i++) {
                             ClientHelpers.addObject(response.data[i], "tileMapView")
                         }
-                        $("#savingDialog").dialog("close");
+                        $("#processingDialog").dialog("close");
                     }
                 })
                 completeCallback();
@@ -880,9 +880,9 @@ var Client = IgeClass.extend({
         this.fsm.defineState('login', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.login');
-                $( "#savingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
-                $( "#savingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
-                $( "#savingDialog" ).dialog( "open" );
+                $( "#processingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+                $( "#processingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
+                $( "#processingDialog" ).dialog( "open" );
 
                 $( "#savingContent" )
                     .html( "<div><p>Signing in, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
@@ -892,7 +892,7 @@ var Client = IgeClass.extend({
             },
             exit: function (data, completeCallback) {
                 vlg.log.info('exiting state this.fsm.login');
-                $( "#savingDialog" ).dialog( "close" );
+                $( "#processingDialog" ).dialog( "close" );
                 completeCallback();
             }
         });
@@ -900,9 +900,9 @@ var Client = IgeClass.extend({
         this.fsm.defineState('logout', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.logout');
-                $( "#savingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
-                $( "#savingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
-                $( "#savingDialog" ).dialog( "open" );
+                $( "#processingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+                $( "#processingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
+                $( "#processingDialog" ).dialog( "open" );
 
                 $( "#savingContent" )
                     .html( "<div><p>Signing out, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
@@ -912,7 +912,7 @@ var Client = IgeClass.extend({
             },
             exit: function (data, completeCallback) {
                 vlg.log.info('exiting state this.fsm.logout');
-                $( "#savingDialog" ).dialog( "close" );
+                $( "#processingDialog" ).dialog( "close" );
                 completeCallback();
             }
         });
@@ -920,9 +920,9 @@ var Client = IgeClass.extend({
         this.fsm.defineState('reloadGame', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.reloadGame');
-                $( "#savingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
-                $( "#savingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
-                $( "#savingDialog" ).dialog( "open" );
+                $( "#processingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+                $( "#processingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
+                $( "#processingDialog" ).dialog( "open" );
 
                 $( "#savingContent" )
                     .html( "<div><p>Loading village, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
@@ -968,7 +968,7 @@ var Client = IgeClass.extend({
             },
             exit: function (data, completeCallback) {
                 vlg.log.info('exiting state this.fsm.reloadGame');
-                $( "#savingDialog" ).dialog( "close" );
+                $( "#processingDialog" ).dialog( "close" );
                 completeCallback();
             }
         });
