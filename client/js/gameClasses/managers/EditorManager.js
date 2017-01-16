@@ -15,7 +15,7 @@ var EditorManager = IgeEventingClass.extend({
             $( "#processingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
             $( "#processingDialog" ).dialog( "open" );
 
-            $( "#savingContent" )
+            $( "#processingContent" )
                 .html( "<div><p>Processing, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
         });
 
@@ -23,7 +23,7 @@ var EditorManager = IgeEventingClass.extend({
             if(settings.sentFrom !== "editor")
                 return;
 
-            $( "#savingContent" )
+            $( "#processingContent" )
                 .html( "<div><p>There was an error contacting the server!<br />Please try again later.</p>" +
                 "<p><button id='closeProcessingDialog'>Close</button></p></div>" );
 

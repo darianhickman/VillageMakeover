@@ -15,7 +15,7 @@ var LoginManager = IgeEventingClass.extend({
                     data: JSON.stringify({code: authResult['code']}),
                     error: function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status === 401) {
-                            $( "#savingContent" )
+                            $( "#processingContent" )
                                 .html( "<div><p>Not authorized to log in!</p>" +
                                 "<p><button id='closeProcessingDialog'>Close</button></p></div>" );
 
@@ -24,7 +24,7 @@ var LoginManager = IgeEventingClass.extend({
                             });
                         }
                         else {
-                            $( "#savingContent" )
+                            $( "#processingContent" )
                                 .html( "<div><p>There was an error contacting the server!<br />Please try again later.</p>" +
                                 "<p><button id='closeProcessingDialog'>Close</button></p></div>" );
 
@@ -39,7 +39,7 @@ var LoginManager = IgeEventingClass.extend({
                     processData: false,
                 });
             } else {
-                $( "#savingContent" )
+                $( "#processingContent" )
                     .html( "<div><p>There was an error contacting the server!<br />Please try again later.</p>" +
                     "<p><button id='closeProcessingDialog'>Close</button></p></div>" );
 
@@ -67,7 +67,7 @@ var LoginManager = IgeEventingClass.extend({
             $.ajax({
                 url: '/api/logout',
                 error: function (jqXHR, textStatus, errorThrown) {
-                    $( "#savingContent" )
+                    $( "#processingContent" )
                         .html( "<div><p>There was an error contacting the server!<br />Please try again later.</p>" +
                         "<p><button id='closeProcessingDialog'>Close</button></p></div>" );
 

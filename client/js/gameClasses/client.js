@@ -529,14 +529,14 @@ var Client = IgeClass.extend({
                 });
                 $("#processingDialog").dialog("open");
 
-                $("#savingContent")
+                $("#processingContent")
                     .html("<div><p>Loading village, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>");
 
                 $.ajax({
                     dataType: 'json',
                     url: '/api/village/' + ige.client.viewVillageID,
                     error: function (response) {
-                        $("#savingContent")
+                        $("#processingContent")
                             .html("<div style='padding-top:80px'><p>There was an error contacting the server!<br />Please try again.</p>" +
                                 "<p><button id='refreshPageButton'>Refresh</button></p></div>");
 
@@ -546,7 +546,7 @@ var Client = IgeClass.extend({
                     },
                     success: function (response) {
                         if (response.viewable === "false") {
-                            $("#savingContent")
+                            $("#processingContent")
                                 .html("<div style='padding-top:80px'><p>Village is not viewable, sorry.</p></div>");
                             return;
                         }
@@ -884,7 +884,7 @@ var Client = IgeClass.extend({
                 $( "#processingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
                 $( "#processingDialog" ).dialog( "open" );
 
-                $( "#savingContent" )
+                $( "#processingContent" )
                     .html( "<div><p>Signing in, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
 
                 ige.client.gameLogic.loginManager.login();
@@ -904,7 +904,7 @@ var Client = IgeClass.extend({
                 $( "#processingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
                 $( "#processingDialog" ).dialog( "open" );
 
-                $( "#savingContent" )
+                $( "#processingContent" )
                     .html( "<div><p>Signing out, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
 
                 ige.client.gameLogic.loginManager.logout();
@@ -924,7 +924,7 @@ var Client = IgeClass.extend({
                 $( "#processingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
                 $( "#processingDialog" ).dialog( "open" );
 
-                $( "#savingContent" )
+                $( "#processingContent" )
                     .html( "<div><p>Loading village, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
 
                 for(var i = 1; i <= ige.$('marketDialog')._pageCount; i++){
