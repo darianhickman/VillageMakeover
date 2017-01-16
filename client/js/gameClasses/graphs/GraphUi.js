@@ -7,8 +7,9 @@ var GraphUi = IgeSceneGraph.extend({
 	 */
 	addGraph: function (options) {
 		var self = this,
-            clientself = ige.client;
-			uiScene = ige.$('uiScene');
+            clientself = ige.client,
+			uiScene = ige.$('uiScene'),
+            dialogList = [{id:"marketDialog", image:"Shop"}, {id:"goalDialog", image:"star"}, {id:"cashBuyDialog", image:"Banknotes"}, {id:"coinBuyDialog", image:"Coin1"}, {id:"waterBuyDialog", image:"Water-48"}];
 
 		var marketDialog = new MarketDialog()
 			.id('marketDialog')
@@ -91,6 +92,19 @@ var GraphUi = IgeSceneGraph.extend({
                 .mount(topNav);
         }
 
+        //add icons for dialogs
+        if(ige.client.isFirstLoadFinished !== true){
+            for(var i = 0; i < dialogList.length; i++){
+                var item = dialogList[i];
+                $( "#" + item.id ).dialog();
+                $( "#" + item.id ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
+                    .prepend("<img src='assets/textures/ui/" + item.image + ".png' class='dialogTitleImage'>");
+                $( "#" + item.id ).dialog('close');
+            }
+        }
+
+        //implement tooltip
+        $("#topToolbar").tooltip();
         $("#topToolbar").show();
         $("#notifyIconContainer").show();
         $("#newGoalNotification").hide();
@@ -189,19 +203,12 @@ var GraphUi = IgeSceneGraph.extend({
 
         $('#loginLink').on('click',function(){
             mixpanel.track("Click login");
-
-            $( "#savingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
-            $( "#savingDialog" ).dialog( "open" );
-
-            $( "#savingContent" )
-                .html( "<div><p>Signing in, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
-
-            ige.client.gameLogic.loginManager.login();
+            ige.client.fsm.enterState('login');
         })
 
         $('#logoutLink').on('click',function(){
             mixpanel.track("Logout");
-            ige.client.gameLogic.loginManager.logout();
+            ige.client.fsm.enterState('logout');
         })
 
         $('#helpLink').on('click',function(){
@@ -235,7 +242,11 @@ var GraphUi = IgeSceneGraph.extend({
             ige.client.fsm.enterState('shareMyVillage');
         })
 
-        $('#toggleSFXLink').append("<span id='toggleSFXStatus'> - On</span>")
+        if(vlg.isSFXOn){
+            $('#toggleSFXLink').append("<span id='toggleSFXStatus'> - On</span>")
+        }else{
+            $('#toggleSFXLink').append("<span id='toggleSFXStatus'> - Off</span>")
+        }
         $('#toggleSFXLink').on('click',function(){
             vlg.isSFXOn = !vlg.isSFXOn;
             if(vlg.isSFXOn){
@@ -245,7 +256,11 @@ var GraphUi = IgeSceneGraph.extend({
             }
         })
 
-        $('#toggleMusicLink').append("<span id='toggleMusicStatus'> - On</span>")
+        if(vlg.isMusicOn){
+            $('#toggleMusicLink').append("<span id='toggleMusicStatus'> - On</span>")
+        }else{
+            $('#toggleMusicLink').append("<span id='toggleMusicStatus'> - Off</span>")
+        }
         $('#toggleMusicLink').on('click',function(){
             vlg.isMusicOn = !vlg.isMusicOn;
             if(vlg.isMusicOn){
@@ -292,6 +307,27 @@ var GraphUi = IgeSceneGraph.extend({
             });
     },
 
+    removeActions: function () {
+        $("#dropDownIcon").unbind("click");
+        $(".c-menu__close").unbind("click");
+        $(".c-mask").unbind("click");
+        $("#fullscreenIcon").unbind("click");
+        $("#loginLink").unbind("click");
+        $("#logoutLink").unbind("click");
+        $("#helpLink").unbind("click");
+        $("#feedbackLink").unbind("click");
+        $("#editorLink").unbind("click");
+        $("#shareMyVillageLink").unbind("click");
+        $("#toggleSFXLink").unbind("click");
+        $("#toggleMusicLink").unbind("click");
+        $("#marketButton").unbind("click");
+        $("#goalButton").unbind("click");
+        $("#cashbar").unbind("click");
+        $("#coinbar").unbind("click");
+        $("#waterbar").unbind("click");
+        $("#moveButton").unbind("click");
+    },
+
 	toggleDialog: function(name){
         if(ige.$(name).isVisible())
             ige.$(name).closeMe();
@@ -325,6 +361,6 @@ var GraphUi = IgeSceneGraph.extend({
 		// Since all our objects in addGraph() were mounted to the
 		// 'scene1' entity, destroying it will remove everything we
 		// added to it.
-		ige.$('scene1').destroy();
+        this.removeActions();
 	}
 });

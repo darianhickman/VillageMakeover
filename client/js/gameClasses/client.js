@@ -622,6 +622,8 @@ var Client = IgeClass.extend({
                 self.eventEmitter = self.eventEmitter || new EventEmitter()
                 self.gameLogic = self.gameLogic || new GameLogic()
 
+                API.setTutorialAsShown();
+
                 completeCallback();
             }
         });
@@ -865,6 +867,102 @@ var Client = IgeClass.extend({
                 $( "#contact-submit" ).show()
                     .unbind("click");
 
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('login', {
+            enter: function (data, completeCallback) {
+                vlg.log.info('entering state this.fsm.login');
+                $( "#savingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+                $( "#savingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
+                $( "#savingDialog" ).dialog( "open" );
+
+                $( "#savingContent" )
+                    .html( "<div><p>Signing in, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
+
+                ige.client.gameLogic.loginManager.login();
+                completeCallback();
+            },
+            exit: function (data, completeCallback) {
+                vlg.log.info('exiting state this.fsm.login');
+                $( "#savingDialog" ).dialog( "close" );
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('logout', {
+            enter: function (data, completeCallback) {
+                vlg.log.info('entering state this.fsm.logout');
+                $( "#savingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+                $( "#savingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
+                $( "#savingDialog" ).dialog( "open" );
+
+                $( "#savingContent" )
+                    .html( "<div><p>Signing out, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
+
+                ige.client.gameLogic.loginManager.logout();
+                completeCallback();
+            },
+            exit: function (data, completeCallback) {
+                vlg.log.info('exiting state this.fsm.logout');
+                $( "#savingDialog" ).dialog( "close" );
+                completeCallback();
+            }
+        });
+
+        this.fsm.defineState('reloadGame', {
+            enter: function (data, completeCallback) {
+                vlg.log.info('entering state this.fsm.reloadGame');
+                $( "#savingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+                $( "#savingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
+                $( "#savingDialog" ).dialog( "open" );
+
+                $( "#savingContent" )
+                    .html( "<div><p>Loading village, please wait!</p><p><img src='assets/textures/ui/loading_spinner.gif'></p></div>" );
+
+                for(var i = 1; i <= ige.$('marketDialog')._pageCount; i++){
+                    $('#marketDialogPage' + i).remove();
+                }
+                $('#marketDialogPagination').jqPagination('destroy');
+                $('#marketDialogPagination').find('input').data('current-page',1);
+                $('.notifyIconContainer').empty();
+                history.replaceState({'villageID':'none'},"load_village",location.href.split("?")[0]);
+
+                ige.client.viewVillageID = null;
+                ige.client.eventEmitter = null;
+                ige.client.gameLogic = null;
+                ige.removeGraph('GraphLevel1');
+                ige.removeGraph('GraphUi');
+
+                API.state = {coins: parseInt(GameConfig.config['startCoins']), cash: parseInt(GameConfig.config['startCash']), water: parseInt(GameConfig.config['startWater']), isTutorialShown: true };
+                API.stateObjectsLookup = {};
+                API.stateGoalsLookup = {};
+                API.user = null;
+                API.loginStatus = "offline";
+
+                function postinit(){
+                    // Add level1 graph
+                    ige.addGraph('GraphLevel1');
+                    ige.client.currentTileMap = ige.$("tileMap1");
+
+                    // Add ui graph
+                    ige.addGraph('GraphUi');
+
+                    new Villager()
+                        .id('bob')
+                        .mount(ige.$('tileMap1'))
+
+                    ige.client.fsm.enterState('select');
+                }
+
+                API.init(postinit);
+
+                completeCallback();
+            },
+            exit: function (data, completeCallback) {
+                vlg.log.info('exiting state this.fsm.reloadGame');
+                $( "#savingDialog" ).dialog( "close" );
                 completeCallback();
             }
         });

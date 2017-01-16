@@ -290,7 +290,7 @@ def logout():
         flask.session.pop('user', None)
         flask.session.pop('credentials', None)
 
-    return flask.redirect('/')
+    return JSONResponse({'status': 'ok'})
 
 def calculate_amount(amount):
     assets = json.loads(amount)

@@ -90,6 +90,6 @@ var GraphLevel1 = IgeSceneGraph.extend({
 		// Since all our objects in addGraph() were mounted to the
 		// 'scene1' entity, destroying it will remove everything we
 		// added to it.
-		ige.$('scene1').destroy();
+		ige.$('level1').destroy();
 	}
 });

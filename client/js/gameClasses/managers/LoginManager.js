@@ -16,7 +16,7 @@ var LoginManager = IgeEventingClass.extend({
                     error: function (jqXHR, textStatus, errorThrown) {
                         if (jqXHR.status === 401) {
                             $( "#savingContent" )
-                                .html( "<div><p style='font-size: 16px;font-family: verdana;'>Not authorized to log in!</p>" +
+                                .html( "<div><p>Not authorized to log in!</p>" +
                                 "<p><button id='closeSavingDialog'>Close</button></p></div>" );
 
                             $('#closeSavingDialog').on('click', function(){
@@ -34,7 +34,7 @@ var LoginManager = IgeEventingClass.extend({
                         }
                     },
                     success: function (result) {
-                        location.href = '/';
+                        ige.client.fsm.enterState('reloadGame');
                     },
                     processData: false,
                 });
@@ -64,7 +64,21 @@ var LoginManager = IgeEventingClass.extend({
 
     logout: function () {
         auth2.signOut().then(function () {
-            location.href = '/api/logout'
+            $.ajax({
+                url: '/api/logout',
+                error: function (jqXHR, textStatus, errorThrown) {
+                    $( "#savingContent" )
+                        .html( "<div><p>There was an error contacting the server!<br />Please try again later.</p>" +
+                        "<p><button id='closeSavingDialog'>Close</button></p></div>" );
+
+                    $('#closeSavingDialog').on('click', function(){
+                        $( "#savingDialog" ).dialog( "close" );
+                    });
+                },
+                success: function (result) {
+                    ige.client.fsm.enterState('reloadGame');
+                }
+            });
         });
     },
 

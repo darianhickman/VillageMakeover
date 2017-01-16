@@ -630,7 +630,7 @@ var Tutorial = IgeEventingClass.extend({
                 $('#skipTutorial').remove();
                 $('#tutorialArrowSpan').remove();
                 ige.client.setGameBoardPostTutorial(self.tutorialObjects);
-                API.setTutorialAsShown()
+
                 ige.client.fsm.enterState('select')
             },
             exit: function(){

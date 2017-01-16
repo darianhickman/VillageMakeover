@@ -53,6 +53,7 @@ var API = {
                 ige.client.eventEmitter = ige.client.eventEmitter || new EventEmitter()
                 ige.client.gameLogic = ige.client.gameLogic || new GameLogic()
             }
+            ige.client.isFirstLoadFinished = true;
         }else if(API.loginStatus === "online"){
             $.ajax({
                 url: '/api/get_state',
@@ -84,6 +85,7 @@ var API = {
                         ige.client.eventEmitter = new EventEmitter()
                         ige.client.gameLogic = new GameLogic()
                     }
+                    ige.client.isFirstLoadFinished = true;
                 }
             })
         }

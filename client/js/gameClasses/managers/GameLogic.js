@@ -6,8 +6,7 @@ var GameLogic = IgeObject.extend({
 
         var self = this,
             currentGoalID,
-            marketDialog = ige.$('marketDialog'),
-            dialogList = [{id:"marketDialog", image:"Shop"}, {id:"goalDialog", image:"star"}, {id:"cashBuyDialog", image:"Banknotes"}, {id:"coinBuyDialog", image:"Coin1"}, {id:"waterBuyDialog", image:"Water-48"}];
+            marketDialog = ige.$('marketDialog');
 
         self.loginManager = new LoginManager();
 
@@ -46,18 +45,6 @@ var GameLogic = IgeObject.extend({
                 })(item);
             }
         }
-
-        //add icons for dialogs
-        for(var i = 0; i < dialogList.length; i++){
-            var item = dialogList[i];
-            $( "#" + item.id ).dialog();
-            $( "#" + item.id ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
-                .prepend("<img src='assets/textures/ui/" + item.image + ".png' class='dialogTitleImage'>");
-            $( "#" + item.id ).dialog('close');
-        }
-
-        //implement tooltip
-        $( "#topToolbar" ).tooltip();
 
         self.goals = new Goals()
 

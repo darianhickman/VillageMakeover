@@ -61,8 +61,6 @@ var MarketDialog = Dialog.extend({
 
 		ige.client.fsm.enterState('marketDialog', null, function (err) {
 			if (!err) {
-				$('#marketDialogPageTemplate').remove();
-
 				$( "#marketDialog" ).dialog({ resizable: true, draggable: true, closeOnEscape: false, width: 'auto', height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {self.closeMe();} });
 				$( "#marketDialog" ).dialog( "open" );
 				Dialog.prototype.show.call(self);

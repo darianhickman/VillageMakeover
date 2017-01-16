@@ -12,6 +12,7 @@ var EditorManager = IgeEventingClass.extend({
                 return;
 
             $( "#savingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
+            $( "#savingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
             $( "#savingDialog" ).dialog( "open" );
 
             $( "#savingContent" )
@@ -451,6 +452,7 @@ var EditorManager = IgeEventingClass.extend({
         ige.$('level1').show();
         ige.$('outlineEntity').hide();
         ige.$('outlineEntity').unMount();
+        ige.$('outlineEntity').mount(ige.$('tileMap1'));
         ige.removeGraph('GraphEditor');
 
         if (ige.client.data('moveItem')) {
