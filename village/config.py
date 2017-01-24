@@ -199,6 +199,18 @@ def get_config_earnings():
             items.append(dict(zip(headers, row)))
     return items
 
+@memcached('problems')
+def get_problems():
+    sheet_config = get_config()
+    problems_docid = sheet_config['problems_docid']
+    data = get_sheet(problems_docid)
+    headers = data[0]
+    items = []
+    for row in data[2:]:
+        if row and row[0]:
+            items.append(dict(zip(headers, row)))
+    return items
+
 @memcached('goals_data')
 def get_goals_data():
     sheet_config = get_config()

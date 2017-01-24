@@ -272,6 +272,19 @@ var API = {
         API.saveState()
     },
 
+    setGoalRewardsAsCollected: function(goalID) {
+        API.stateGoalsLookup[goalID].isRewardsCollected = true
+        API.saveState()
+    },
+
+    setProblemAsShown: function(problemID) {
+        if(!API.state.problems)
+            API.state.problems = [];
+        if(API.state.problems.indexOf(problemID) === -1)
+            API.state.problems.push(problemID);
+        API.saveState()
+    },
+
     addUnlockedItem: function(itemID){
         API.state.unlockedItems = API.state.unlockedItems || [];
         if(API.state.unlockedItems.indexOf(itemID) === -1){

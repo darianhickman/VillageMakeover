@@ -88,7 +88,7 @@
     background: green;
     color: black;
     width: auto;
-    max-width: 800px;
+    max-width: 500px;
 }
 
 .ui-widget-shadow {
@@ -99,4 +99,8 @@
 .ui-widget {
     font-family: "Press Start 2P" !important;
     font-size: 1em !important;
+}
+
+.ui-progressbar-value {
+    background: forestgreen;
 }

@@ -108,6 +108,7 @@ var GraphUi = IgeSceneGraph.extend({
         $("#topToolbar").show();
         $("#notifyIconContainer").show();
         $("#newGoalNotification").hide();
+        $("#goalCompleteNotification").hide();
         $("#endMove").hide();
 
         $("#dropDownContent")
@@ -357,6 +358,7 @@ var GraphUi = IgeSceneGraph.extend({
             // Open the goal dialog
             mixpanel.track("Open goal dialog");
             $('#newGoalNotification').hide();
+            $('#goalCompleteNotification').hide();
             ige.client.fsm.enterState('goalDialog', null, function (err) {
                 if (!err) {
                     $( "#goalDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: true, close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 'auto', height: 'auto', modal: true, autoOpen: false });

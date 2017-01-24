@@ -75,11 +75,15 @@
         <li class="allPointerEvents" id="volume" title="Toggle Sound"><img src="/client/assets/textures/ui/Speaker-48.png"/><img src="/client/assets/textures/ui/Mute-48.png" style="display:none;"/></li>
         <li class="allPointerEvents" id="marketButton" title="Buy New Items"><img src="assets/textures/ui/Shop.png"/></li>
 
-        <li class="allPointerEvents" id="goalButton" title="Current Goals"><img src="assets/textures/ui/star.png"/><span class="newGoalNotification"
-                                                                          id="newGoalNotification">New Goal!</span>
+        <li class="allPointerEvents" id="goalButton" title="Current Goals">
+            <img src="assets/textures/ui/star.png"/>
+            <span class="toolbarNotification" id="newGoalNotification">New Goal!</span>
+            <span class="toolbarNotification" id="goalCompleteNotification">Goal Complete!</span>
         </li>
-        <li class="allPointerEvents" id="moveButton" title="Move Items"><img src="assets/textures/ui/FourDirections52.png"/><span class="newGoalNotification"
-                                                                                                         id="endMove">End Move</span></li>
+        <li class="allPointerEvents" id="moveButton" title="Move Items">
+            <img src="assets/textures/ui/FourDirections52.png"/>
+            <span class="toolbarNotification" id="endMove">End Move</span>
+        </li>
         <li class="allPointerEvents" id="dropDownIcon" title="Player Menu" class="rightli"><img src="assets/textures/ui/Menu.png"/></li>
     </ul>
     <span id="notificationMessage"></span>
@@ -196,13 +200,13 @@
         <div id="processingContent"></div>
     </div>
     <div id="buyConfirmDialog" title="Confirm" style="display:none">
-        <span id="buyConfirmMessage"></span>
+        <p id="buyConfirmMessage"></p>
         <button id="buyConfirmOK">OK</button>
         <button id="buyConfirmYes">Yes</button>
         <button id="buyConfirmNo">No</button>
     </div>
     <div id="messageDialog" title="Message from Game" style="display:none">
-        <span id="messageDialogMessage"></span>
+        <p id="messageDialogMessage"></p>
         <button id="messageDialogOK">OK</button>
     </div>
     <div id="feedBackDialog" title="Send Feedback" style="display:none;">

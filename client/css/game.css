@@ -207,14 +207,12 @@ button, input, textarea {
 }
 #goalButton * {
 	float: left;
-	display: table-cell;
 }
 #moveButton {
 	display: table;
 }
 #moveButton * {
 	float: left;
-	display: table-cell;
 }
 #cashbar {
 	display: table;
@@ -307,11 +305,12 @@ button, input, textarea {
 	min-width: 100px;
 }
 .goalTaskPercent {
-	display: inline-block;
-	text-align: right;
-	min-width: 30px;
-	float: right;
-	margin:0px;
+	position: relative;
+	width: 80%;
+	height: 1.7em;
+	text-align: center;
+	left: 10%;
+	margin: 5px 0px 5px 0px;
 }
 #taskList {
 	display: block;
@@ -321,7 +320,9 @@ button, input, textarea {
 }
 #taskList li {
 	display: block;
-	margin: 0px 5px 0px 5px;
+	margin: 5px 5px 5px 5px;
+	border: 2px solid;
+	border-radius: 5px;
 }
 #taskList li span {
 	display: inline-block;
@@ -334,10 +335,38 @@ button, input, textarea {
 	padding: 0px;
 	margin: 0px;
 	min-width: 400px;
+	max-width: 900px;
 }
 #goalDialogContent {
 	margin: 0px;
 	padding: 0px;
+}
+.goalDialogInfo{
+	margin: 15px;
+	text-align: center;
+}
+.progressLabel {
+	position: absolute;
+	width: 100%;
+	margin-top: 7px;
+	font-size: 14px;
+}
+.problemDetails {
+	cursor: pointer;
+	text-align: center;
+	width: 59px;
+}
+.problemDetailsIcon{
+	width: 30px;
+	height: 30px;
+}
+#messageDialog{
+	max-width: 800px;
+	text-align: center;
+}
+#buyConfirmDialog{
+	max-width: 800px;
+	text-align: center;
 }
 .notifyIconWrapper {
 	position: fixed;
@@ -479,7 +508,8 @@ button, input, textarea {
 	min-width: 200px;
 	text-align: center;
 }
-.newGoalNotification {
+.toolbarNotification {
+	display: none;
 	margin: 3px;
 	min-width: 40px;
 	vertical-align: middle;

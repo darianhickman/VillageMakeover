@@ -24,6 +24,8 @@ var Goals = IgeEventingClass.extend({
         }
 
         gameGoalObj.goalTitle = goal.Title;
+        gameGoalObj.goalMessage = goal.Congrats_Message;
+        gameGoalObj.goalReward = goal.Reward;
         gameGoalObj.tasks = [];
 
         questRef = new IgeQuest();
@@ -67,12 +69,15 @@ var Goals = IgeEventingClass.extend({
         for(var i = 0; i < tasksArray.length; i++){
             var task = self.getTask(tasksArray[i]),
                 taskObj,
+                value= 0,
                 percent = 0;
 
-            if(goalStateLookup[tasksArray[i]])
+            if(goalStateLookup[tasksArray[i]]){
+                value = goalStateLookup[tasksArray[i]].value;
                 percent = Math.floor(goalStateLookup[tasksArray[i]].value * 100 / task.Task_Value)
+            }
 
-            gameGoalObj.tasks.push({"taskID":tasksArray[i],"targetOBJ":task.Target_Object,"title":task.Title,"percent":percent})
+            gameGoalObj.tasks.push({"taskID":tasksArray[i],"targetOBJ":task.Target_Object,"title":task.Title,"currentValue":value,"totalValue":task.Task_Value,"percent":percent})
 
             if(goalStateLookup[tasksArray[i]] && goalStateLookup[tasksArray[i]].value === parseInt(task.Task_Value))
                 continue;
@@ -122,6 +127,9 @@ var Goals = IgeEventingClass.extend({
 
         if(goalState)
             isNewGoal = false;
+        else
+            API.createGoal(goalID);
+
         this.emit('goalLoaded',{"id":goalID,"gameGoalObj":gameGoalObj,"isNewGoal": isNewGoal});
     },
 

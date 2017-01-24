@@ -110,7 +110,8 @@ var Client = IgeClass.extend({
                         ige.$('bob').walkToTile(tile.x, tile.y);
                     }
                 });
-
+                if(ige.client.eventEmitter)
+                    ige.client.eventEmitter.emit('executePendingAction', null);
                 completeCallback();
             },
             exit: function (data, completeCallback) {
@@ -713,10 +714,7 @@ var Client = IgeClass.extend({
                 vlg.log.info('exiting state this.fsm.goalDialog');
                 $( "#goalDialog" ).dialog({close: function( event, ui ) {}});
                 $( "#goalDialog" ).dialog( "close" );
-                if(ige.client.gameLogic.goals.loadNextOnExit === true){
-                    ige.client.gameLogic.goals.loadNextGoal(API.state.currentGoalID);
-                    ige.client.gameLogic.goals.loadNextOnExit = false;
-                }
+
                 completeCallback();
             }
         });
@@ -958,8 +956,6 @@ var Client = IgeClass.extend({
                     new Villager()
                         .id('bob')
                         .mount(ige.$('tileMap1'))
-
-                    ige.client.fsm.enterState('select');
                 }
 
                 API.init(postinit);
@@ -1513,9 +1509,9 @@ var Client = IgeClass.extend({
             callback(false);
         });
 
-        var combinedPromise = $.when(getGameCatalog(), getGameEarnings(), getGameGoals(), getGameAssets(), getDropDownMenu(), getSpecialEvents())
+        var combinedPromise = $.when(getGameCatalog(), getGameEarnings(), getGameProblems(), getGameGoals(), getGameAssets(), getDropDownMenu(), getSpecialEvents())
         // function will be called when getGameCatalog, getGameEarnings, getGameGoals and getGameAssets resolve
-        combinedPromise.done(function (gameCatalogData, gameEarningsData, gameGoalsData, gameAssetsData, gameDropDownMenuData, gameSpecialEvents) {
+        combinedPromise.done(function (gameCatalogData, gameEarningsData, gameProblemsData, gameGoalsData, gameAssetsData, gameDropDownMenuData, gameSpecialEvents) {
             // Load game audio and textures
             var checkAssetImages, checkGameObjectImages, createTextures,
                 assetIndex = 0, gameObjectIndex = 0,
