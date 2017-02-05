@@ -88,7 +88,6 @@
     </ul>
     <span id="notificationMessage"></span>
     <div id="villageTitle"></div>
-    <div class="nonePointerEvents" id="objectDescription"></div>
     <div id="o-wrapper" class="o-wrapper"></div>
     <nav id="c-menu--slide-right" class="c-menu c-menu--slide-right">
         <button class="c-menu__close">Close Menu &rarr;</button>
@@ -244,6 +243,38 @@
         </div>
     </div>
     <div class="notifyIconContainer nonePointerEvents" id="notifyIconContainer"></div>
+    <div id="objectInfoContainer">
+        <div id="objectInfoPanelTemplate" class="objectInfoPanelWrapper">
+            <div class="ui-widget-content ui-corner-all objectInfoPanel">
+                <h3 class="ui-widget-header ui-corner-all">Object Title
+                    <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close objectInfoPanelCloseButton" title="Close"">
+                        <span class="ui-button-icon ui-icon ui-icon-closethick"></span>
+                        <span class="ui-button-icon-space"> </span>Close
+                    </button>
+                </h3>
+                <div class="objectInfoDetails">
+                    <div class="objectInfoDetailsIcon">
+                        <img src="" height="60px">
+                    </div>
+                    <div>
+                        <p>
+                            Description
+                        </p>
+                    </div>
+                </div>
+                <div class="objectInfoFooter">
+                    <div class="currentStateName objectInfoColumn"><img src="" width="48" height="48"></div>
+                    <div class="currentStateCountdown objectInfoColumn"></div>
+                    <div class="currentStateAction objectInfoColumn">
+                        <img src="" width="25" height="25"><br>
+                        <span class="currentStateSpeedValue"></span>
+                        <img src="" width="25" height="25"></div>
+                    <div class="currentStateInactiveInfo">Not active</div>
+                </div>
+            </div>
+            <div class="arrow arrow-down"></div>
+        </div>
+    </div>
 </div> <!-- End hudcontainer -->
 <!-- start Mixpanel -->
 <script type="text/javascript">

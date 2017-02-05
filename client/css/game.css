@@ -638,14 +638,6 @@ button, input, textarea {
 	color: white;
 	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
-#objectDescription {
-	display: none;
-	text-align: center;
-	font-family: 'Press Start 2P', cursive;
-	font-size: 20px;
-	color: white;
-	text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-}
 .dialogTitleImage {
 	display: block;
 	background-image: url('/client/assets/textures/ui/beigefade.png');
@@ -661,6 +653,89 @@ button, input, textarea {
 .tooltipImage{
 	width: 15px;
 	height: 15px;
+}
+.objectInfoPanelWrapper {
+	display: none;
+	position: fixed;
+}
+.objectInfoPanel {
+	text-align: center;
+	font-size: 14px;
+	width: 500px;
+	padding: 0.4em;
+	border: 2px solid;
+	border-radius: 10px;
+}
+.objectInfoPanel h3 {
+	margin: 0;
+	padding: 0.4em;
+}
+.objectInfoPanelCloseButton{
+	float: right;
+	top: -2px;
+	font-size: 0.6em !important;
+}
+.objectInfoDetails{
+	min-height: 55px;
+}
+.objectInfoDetailsIcon{
+	float: left;
+}
+.objectInfoFooter{
+	background-color: cadetblue;
+	height: 50px;
+	border: 2px solid forestgreen;
+	border-radius: 6px;
+	padding: 5px;
+	margin: 5px;
+	width: calc(100% - 22px);
+	display: table;
+}
+.currentStateName{
+	width: 20%;
+}
+.currentStateCountdown{
+	width: 40%;
+}
+.currentStateAction{
+	width: 40%;
+	border: 2px solid forestgreen;
+	border-radius: 5px;
+	padding: 0px 5px 0px 5px;
+	background-color: bisque;
+	font-size: 11px;
+	cursor: pointer;
+}
+.currentStateInactiveInfo{
+	display: none;
+	font-size: 12px;
+	width: 80%;
+	vertical-align: middle;
+}
+.objectInfoColumn{
+	vertical-align: middle;
+	display: table-cell;
+}
+.arrow-up {
+	position: fixed;
+	top: -500px;
+	left: 250px;
+	width: 0;
+	height: 0;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-bottom: 20px solid black;
+}
+
+.arrow-down {
+	position: fixed;
+	top: 0px;
+	left: 250px;
+	width: 0;
+	height: 0;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 20px solid black;
 }
 
 @keyframes fadePulse {

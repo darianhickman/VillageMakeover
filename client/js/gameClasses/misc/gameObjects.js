@@ -89,68 +89,70 @@ var GameObjects = {
                 this.specialEvent = options.specialEvent;
                 this.specialEvents = options.specialEvent.split(",");
 
+                //prepare mouseover panel contents
+                this.mouseOverPanel = $('#objectInfoPanelTemplate').clone().prop({ id: "objectInfoPanel" + self.id()});
+                this.mouseOverPanel.find("h3").contents()[0].textContent = options.name;
+                this.mouseOverPanel.find("p").first().html(this.mouseOverText);
+                this.mouseOverPanel.find("img").first().attr("src", options.iconUrl);
+                this.mouseOverPanel.find(".currentStateInactiveInfo").first().html(GameConfig.config['objectInactiveString']);
+                this.mouseOverPanel.find("h3 button").first().click(function() {
+                    self.hideMouseOverPanel();
+                });
+                this.mouseOverPanel.mouseover(function(){
+                    self.cancelTimeouts("Off");
+                });
+                this.mouseOverPanel.mouseout(function(){
+                    self.cancelTimeouts("Off");
+                    //add a timeout before hiding panel
+                    self.mouseOverPanelOffTimeout = new IgeTimeout(function () {
+                        self.hideMouseOverPanel();
+                    }, parseInt(GameConfig.config['mouseOverPanelOffTimeout']));
+                });
+                this.mouseOverPanel.find(".currentStateAction").first().click(function(){
+                    if(ige.client.fsm.currentStateName() === "select"){
+                        self.handleMouseClick();
+                    }
+                })
+                //add mouseover panel to main container
+                $("#objectInfoContainer").append(this.mouseOverPanel);
+
                 this.mouseDown(function(){
-                    self.mouseMove(function(){
-                        if(ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view")
-                            ;
-                    })
+                    if(ige.client.fsm.currentStateName() === "select"){
+                        ige.input.stopPropagation();
+                    }
                 });
 
                 this.mouseUp(function(){
-                    self.mouseMove(function(){
-                        if(ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view")
-                            ige.input.stopPropagation();
-                    })
+                    if(ige.client.fsm.currentStateName() === "select"){
+                        ige.input.stopPropagation();
+                        self.handleMouseClick();
+                    }
                 });
 
                 this.mouseOver(function(){
+                    var self = this;
                     if(ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view"){
                         this.layer(1)
                             .highlight(true);
 
-                        $( '#objectDescription').html(this.mouseOverText)
-                            .show();
-
                         if(ige.client.fsm.currentStateName() === "select"){
-                            if (this.specialEvent !== "None" && API.stateObjectsLookup[this.id()].buildCompleted) {
-                                this.currentSpecialEvent = this.getCurrentSpecialEvent();
-                                var costs = SpecialEvents.events[this.currentSpecialEvent].cost.split(",");
-                                var price = ClientHelpers.convertToPrice(costs);
-                                var message = "Click to " + SpecialEvents.events[this.currentSpecialEvent].displayName;
-                                if(price.coins > 0 || price.cash > 0 || price.water > 0)
-                                    message += " for ";
-                                if(price.coins > 0)
-                                    message += price.coins + "<img class='tooltipImage' src='assets/textures/ui/Coin1.png'> ";
-                                if(price.cash > 0)
-                                    message += price.cash + "<img class='tooltipImage' src='assets/textures/ui/Banknotes.png'> ";
-                                if(price.water > 0)
-                                    message += price.water + "<img class='tooltipImage' src='assets/textures/ui/Water-48.png'>";
-                                $( '#igeFrontBuffer' ).tooltip({
-                                    show: {delay:300},
-                                    items: document,
-                                    content: message,
-                                    track: true
-                                });
-                                $('#igeFrontBuffer').trigger('mouseover')
-                                $( '#igeFrontBuffer' ).tooltip("open");
-                            }else if (!API.stateObjectsLookup[this.id()].buildCompleted) {
-                                var _content = "Click to speed progress "
-                                if(this.currentState === "building")
-                                    _content += "on construction";
-                                else if(this.currentState === "waitingSpecialEvent"){
-                                    this.currentSpecialEvent = this.getCurrentSpecialEvent();
-                                    _content += SpecialEvents.events[this.currentSpecialEvent].speedText;
-                                }
-                                $( '#igeFrontBuffer' ).tooltip({
-                                    show: {delay:300},
-                                    items: document,
-                                    content: _content,
-                                    track: true
-                                });
-                                $('#igeFrontBuffer').trigger('mouseover')
-                                $( '#igeFrontBuffer' ).tooltip("open");
-                            }
+                            self.updateMouseOverPanelContents();
                         }
+
+                        self.updateMouseOverPanelPosition(true);
+
+                        if(ige.client.currentMouseOverPanelOwner && ige.client.currentMouseOverPanelOwner !== self){
+                            ige.client.currentMouseOverPanelOwner.cancelTimeouts();
+                            ige.client.currentMouseOverPanelOwner.hideMouseOverPanel();
+                        }
+
+                        ige.client.currentMouseOverPanelOwner = self;
+
+                        self.cancelTimeouts("Off");
+                        //add a timeout before showing panel
+                        self.mouseOverPanelOnTimeout = new IgeTimeout(function () {
+                            self.showMouseOverPanel();
+                        }, parseInt(GameConfig.config['mouseOverPanelOnTimeout']));
                     }
                 })
 
@@ -158,17 +160,15 @@ var GameObjects = {
                     this.layer(0)
                         .highlight(false);
 
-                    self.mouseMove(function(){
-                        if(ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view")
-                            ige.input.stopPropagation();
-                    })
-
-                    $( '#objectDescription').html('')
-                        .hide();
-                    $('#igeFrontBuffer').tooltip().tooltip('destroy')
+                    self.cancelTimeouts();
+                    //add a timeout before hiding panel
+                    self.mouseOverPanelOffTimeout = new IgeTimeout(function () {
+                        self.hideMouseOverPanel();
+                    }, parseInt(GameConfig.config['mouseOverPanelOffTimeout']));
                 })
 
                 this.mouseMove(function(){
+                    self.cancelTimeouts("Off");
                     if(ige.client.fsm.currentStateName() === "select" || ige.client.fsm.currentStateName() === "view")
                         ige.input.stopPropagation();
                 })
@@ -209,6 +209,8 @@ var GameObjects = {
 
             update: function() {
                 GameObject.prototype.update.call(this);
+
+                this.updateMouseOverPanelPosition();
 
                 if(this.specialEventNotifyElement) {
                     this.specialEventNotifyElement.css("top", this.screenPosition().y - 100);
@@ -261,6 +263,7 @@ var GameObjects = {
 
                     this._buildProgressBar.progress(progress);
                     this._buildProgressTime.text(progressText);
+                    this.mouseOverPanel.find(".currentStateCountdown").first().html(progressText);
 
                     if(progress >= 100) {
                         this.finishProgress();
@@ -354,6 +357,7 @@ var GameObjects = {
                 this._buildProgressTime = null
                 this.cell(endCell);
                 this.notifySpecialEvent();
+                this.updateMouseOverPanelContents();
             },
 
             setEndCell: function(){
@@ -424,6 +428,168 @@ var GameObjects = {
                     .layer(1)
                     .show()
                     .mount(ige.$('uiScene'));
+            },
+
+            showMouseOverPanel: function(){
+                var self = this;
+                self.isMouseOverPanelOn = true;
+                self.mouseOverPanel.show(GameConfig.config['mouseOverPanelShowEffect'], parseInt(GameConfig.config['mouseOverPanelShowDuration']));
+            },
+
+            hideMouseOverPanel: function(){
+                var self = this;
+                self.mouseOverPanel.hide(GameConfig.config['mouseOverPanelHideEffect'], parseInt(GameConfig.config['mouseOverPanelHideDuration']), function(){
+                    self.isMouseOverPanelOn = false;
+                });
+            },
+
+            cancelTimeouts: function(whichOne){
+                var self = this;
+
+                if(self.mouseOverPanelOnTimeout && whichOne !== "Off"){
+                    self.mouseOverPanelOnTimeout.cancel();
+                    self.mouseOverPanelOnTimeout = null;
+                }
+                if(self.mouseOverPanelOffTimeout && whichOne !== "On"){
+                    self.mouseOverPanelOffTimeout.cancel();
+                    self.mouseOverPanelOffTimeout = null;
+                }
+            },
+
+            handleMouseClick: function(){
+                var self = this;
+
+                if (self.specialEvent !== "None" && API.stateObjectsLookup[self.id()].buildCompleted) {
+                    self.currentSpecialEvent = self.getCurrentSpecialEvent();
+                    var costs = SpecialEvents.events[self.currentSpecialEvent].cost.split(",");
+                    var price = ClientHelpers.convertToPrice(costs);
+                    var result = API.reduceAssets(
+                        {coins: parseInt(price.coins, 10),
+                            cash: parseInt(price.cash, 10),
+                            water: parseInt(price.water, 10)});
+                    if(!result.status) {
+                        // Not enough assets?
+                        mixpanel.track("Not enough assets");
+                        var message = "You don't have enough ";
+                        if(!result.coins)
+                            message += "Coins "
+                        if(!result.cash)
+                            message += "VBucks "
+                        if(!result.water)
+                            message += "Water"
+                        new BuyConfirm(message, null, true)
+                            .layer(1)
+                            .show()
+                            .mount(ige.$('uiScene'));
+                    }else{
+                        self._buildStarted = Date.now();
+                        API.resetBuildTimes(self, self._buildStarted);
+                        self.currentState = "waitingSpecialEvent";
+                        API.saveObjectStateProperties(self, {"currentState" : self.currentState, "currentSpecialEvent" : self.currentSpecialEvent});
+                        self.place();
+                        self.removeNotifyIcon();
+                        ige.client.eventEmitter.emit(self.currentSpecialEvent, {
+                            "id": self.classId(),
+                            "type": self.type,
+                            "positionX": self.screenPosition().x,
+                            "positionY": (self.screenPosition().y - 30),
+                            "itemRef": self
+                        });
+                    }
+                    self.updateMouseOverPanelContents();
+                }
+                else if (!API.stateObjectsLookup[self.id()].buildCompleted) {
+                    self.speedProgress();
+                    self.updateMouseOverPanelContents();
+                }
+            },
+
+            updateMouseOverPanelContents: function(){
+                var self = this,
+                    iconTooltipContent, countDownTooltipContent, speedProgressTooltipContent;
+
+                if (this.specialEvent !== "None" && API.stateObjectsLookup[this.id()].buildCompleted) {
+                    this.currentSpecialEvent = this.getCurrentSpecialEvent();
+                    var costs = SpecialEvents.events[this.currentSpecialEvent].cost.split(",");
+                    var price = ClientHelpers.convertToPrice(costs);
+                    var message = SpecialEvents.events[this.currentSpecialEvent].displayName;
+                    iconTooltipContent = SpecialEvents.events[this.currentSpecialEvent].description;
+                    if(price.coins > 0 || price.cash > 0 || price.water > 0)
+                        message += " for ";
+                    if(price.coins > 0)
+                        message += price.coins + "<img class='tooltipImage' src='assets/textures/ui/Coin1.png'> ";
+                    if(price.cash > 0)
+                        message += price.cash + "<img class='tooltipImage' src='assets/textures/ui/Banknotes.png'> ";
+                    if(price.water > 0)
+                        message += price.water + "<img class='tooltipImage' src='assets/textures/ui/Water-48.png'>";
+
+                    self.mouseOverPanel.find(".currentStateName img").first().attr("src",ige.client.textures[SpecialEvents.events[self.getCurrentSpecialEvent()].notifyIcon].url());
+                    self.mouseOverPanel.find(".currentStateCountdown").first().html("Ready!").attr("title","").tooltip().tooltip('destroy').css("display","table-cell");
+                    self.mouseOverPanel.find(".currentStateAction").first().html(message).attr("title","").tooltip().tooltip('destroy').css("display","table-cell");
+                }else if (!API.stateObjectsLookup[this.id()].buildCompleted) {
+                    countDownTooltipContent = "Waiting ";
+                    speedProgressTooltipContent = "Click to speed progress ";
+                    if(this.currentState === "building"){
+                        self.mouseOverPanel.find(".currentStateName img").first().attr("src","assets/textures/ui/Under-Construction-48.png");
+                        countDownTooltipContent += "on construction";
+                        speedProgressTooltipContent += "on construction";
+                        iconTooltipContent = GameConfig.config['underConstructionString'];
+                    } else if(this.currentState === "waitingSpecialEvent"){
+                        self.mouseOverPanel.find(".currentStateName img").first().attr("src",ige.client.textures[SpecialEvents.events[self.getCurrentSpecialEvent()].notifyIcon].url());
+                        this.currentSpecialEvent = this.getCurrentSpecialEvent();
+                        countDownTooltipContent += SpecialEvents.events[this.currentSpecialEvent].speedText;
+                        speedProgressTooltipContent += SpecialEvents.events[this.currentSpecialEvent].speedText;
+                        iconTooltipContent = SpecialEvents.events[this.currentSpecialEvent].description;
+                    }
+                    self.mouseOverPanel.find(".currentStateCountdown").first().attr("title",countDownTooltipContent).tooltip().css("display","table-cell");
+                    self.mouseOverPanel.find(".currentStateAction").first().html("<img src='assets/textures/ui/Fast-Forward-48.png' width='25' height='25'><br>" +
+                        "<span class='currentStateSpeedValue'>" + self.getCurrentStateSpeedValue() + "</span>" +
+                        "<img src='assets/textures/ui/Banknotes.png' width='15' height='15'>").attr("title",speedProgressTooltipContent).tooltip().css("display","table-cell");
+                }else{
+                    iconTooltipContent = GameConfig.config['comingSoonString'];
+                    self.mouseOverPanel.find(".currentStateName img").first().attr("src","assets/textures/ui/Error-48.png");
+                    self.mouseOverPanel.find(".currentStateCountdown").first().css("display","none");
+                    self.mouseOverPanel.find(".currentStateAction").first().css("display","none");
+                    self.mouseOverPanel.find(".currentStateInactiveInfo").first().css("display","table-cell");
+                }
+                self.mouseOverPanel.find(".currentStateName img").first().attr("title",iconTooltipContent).tooltip();
+            },
+
+            updateMouseOverPanelPosition: function(force){
+                var self = this;
+
+                if(self.isMouseOverPanelOn === true || force === true){
+                    var topCSS = this.screenPosition().y - self.mouseOverPanel.height() - (this.height() / 4),
+                        leftCSS = this.screenPosition().x - (self.mouseOverPanel.width() / 2),
+                        arrowDiv = self.mouseOverPanel.find(".arrow").first(),
+                        arrowTopCSS, arrowLeftCSS;
+
+                    if(topCSS < 0){
+                        topCSS = this.screenPosition().y + (this.height() / 2);
+                        arrowDiv.attr("class", "arrow arrow-up");
+                        arrowTopCSS = topCSS - 20;
+                    }else{
+                        arrowDiv.attr("class", "arrow arrow-down");
+                        arrowTopCSS = topCSS + self.mouseOverPanel.height();
+                    }
+
+                    if(leftCSS < 0)
+                        leftCSS = 0;
+                    else if(this.screenPosition().x + (self.mouseOverPanel.width() / 2) > $(window).width())
+                        leftCSS = $(window).width() - self.mouseOverPanel.width();
+
+                    if(leftCSS <= 0 && this.screenPosition().x <= 0)
+                        arrowLeftCSS = 10;
+                    else if(this.screenPosition().x + (self.mouseOverPanel.width() / 2) >= $(window).width() && this.screenPosition().x >= $(window).width())
+                        arrowLeftCSS = $(window).width() - 50;
+                    else
+                        arrowLeftCSS = this.screenPosition().x - 20;
+
+                    self.mouseOverPanel.css("top", topCSS);
+                    self.mouseOverPanel.css("left", leftCSS);
+                    arrowDiv.css("top", arrowTopCSS);
+                    arrowDiv.css("left", arrowLeftCSS);
+                }
             }
         });
     }

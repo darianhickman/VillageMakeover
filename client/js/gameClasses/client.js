@@ -58,57 +58,9 @@ var Client = IgeClass.extend({
                     .scrollZoom.enabled(true)
 
                 self.mouseUpHandle = tileMap.on('mouseUp', function (event, evc, data) {
-                    //check if the user
-                    // just clicked on a building
-                    var tile = tileMap.mouseToTile(),
-                        item = ige.client.itemAt('tileMap1', tile.x, tile.y);
+                    var tile = tileMap.mouseToTile();
 
-                    if (item) {
-                        $('#igeFrontBuffer').tooltip().tooltip('destroy')
-                        if (item.specialEvent !== "None" && API.stateObjectsLookup[item.id()].buildCompleted) {
-                            item.currentSpecialEvent = item.getCurrentSpecialEvent();
-                            var costs = SpecialEvents.events[item.currentSpecialEvent].cost.split(",");
-                            var price = ClientHelpers.convertToPrice(costs);
-                            var result = API.reduceAssets(
-                                {coins: parseInt(price.coins, 10),
-                                    cash: parseInt(price.cash, 10),
-                                    water: parseInt(price.water, 10)});
-                            if(!result.status) {
-                                // Not enough assets?
-                                mixpanel.track("Not enough assets");
-                                var message = "You don't have enough ";
-                                if(!result.coins)
-                                    message += "Coins "
-                                if(!result.cash)
-                                    message += "VBucks "
-                                if(!result.water)
-                                    message += "Water"
-                                new BuyConfirm(message, null, true)
-                                    .layer(1)
-                                    .show()
-                                    .mount(ige.$('uiScene'));
-                            }else{
-                                item._buildStarted = Date.now();
-                                API.resetBuildTimes(item, item._buildStarted);
-                                item.currentState = "waitingSpecialEvent";
-                                API.saveObjectStateProperties(item, {"currentState" : item.currentState, "currentSpecialEvent" : item.currentSpecialEvent});
-                                item.place();
-                                item.removeNotifyIcon();
-                                ige.client.eventEmitter.emit(item.currentSpecialEvent, {
-                                    "id": item.classId(),
-                                    "type": item.type,
-                                    "positionX": item.screenPosition().x,
-                                    "positionY": (item.screenPosition().y - 30),
-                                    "itemRef": item
-                                });
-                            }
-                        }
-                        else if (!API.stateObjectsLookup[item.id()].buildCompleted) {
-                            item.speedProgress();
-                        }
-                    } else {
-                        ige.$('bob').walkToTile(tile.x, tile.y);
-                    }
+                    ige.$('bob').walkToTile(tile.x, tile.y);
                 });
                 if(ige.client.eventEmitter)
                     ige.client.eventEmitter.emit('executePendingAction', null);
@@ -123,9 +75,10 @@ var Client = IgeClass.extend({
 
                 tileMap.off('mouseUp', self.mouseUpHandle);
 
-                $( '#objectDescription').html('')
-                    .hide();
-                $('#igeFrontBuffer').tooltip().tooltip('destroy')
+                if(ige.client.currentMouseOverPanelOwner){
+                    ige.client.currentMouseOverPanelOwner.cancelTimeouts();
+                    ige.client.currentMouseOverPanelOwner.hideMouseOverPanel();
+                }
 
                 completeCallback();
             }
@@ -555,6 +508,7 @@ var Client = IgeClass.extend({
                             .show()
                         for (var i = 0; i < response.data.length; i++) {
                             ClientHelpers.addObject(response.data[i], "tileMapView")
+                            ige.$(response.data[i].id).mouseOverPanel.find(".objectInfoFooter").first().hide();
                         }
                         $("#processingDialog").dialog("close");
                     }
@@ -931,6 +885,10 @@ var Client = IgeClass.extend({
                 $('#marketDialogPagination').jqPagination('destroy');
                 $('#marketDialogPagination').find('input').data('current-page',1);
                 $('.notifyIconContainer').empty();
+                var tempElem = $('#objectInfoPanelTemplate');
+                $('#objectInfoContainer').empty();
+                $('#objectInfoContainer').append(tempElem);
+
                 history.replaceState({'villageID':'none'},"load_village",location.href.split("?")[0]);
 
                 ige.client.viewVillageID = null;
