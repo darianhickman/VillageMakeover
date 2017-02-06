@@ -914,6 +914,8 @@ var Client = IgeClass.extend({
                     new Villager()
                         .id('bob')
                         .mount(ige.$('tileMap1'))
+
+                    dataLayer.push({'event': 'gameReload'});
                 }
 
                 API.init(postinit);
@@ -1658,6 +1660,8 @@ var Client = IgeClass.extend({
                         // Set the initial fsm state
                         self.fsm.initialState('tutorial');
                     }
+
+                    dataLayer.push({'event': 'gameStart'});
                 }
 
                 if (success) {

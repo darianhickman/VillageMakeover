@@ -34,6 +34,8 @@ var LoginManager = IgeEventingClass.extend({
                         }
                     },
                     success: function (result) {
+                        dataLayer.push({'userEmail': result.email});
+                        dataLayer.push({'event': 'userLogin'});
                         ige.client.fsm.enterState('reloadGame');
                     },
                     processData: false,
@@ -76,6 +78,7 @@ var LoginManager = IgeEventingClass.extend({
                     });
                 },
                 success: function (result) {
+                    dataLayer.push({'event': 'userLogout'});
                     ige.client.fsm.enterState('reloadGame');
                 }
             });

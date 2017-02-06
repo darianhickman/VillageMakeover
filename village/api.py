@@ -224,7 +224,7 @@ def get_current_user():
 @root.route('/api/login', methods=['POST'])
 def login_post_route():
     if flask.g.user:
-        return JSONResponse({'status': 'ok'})
+        return JSONResponse({'email': flask.g.user.email})
 
     if 'credentials' not in flask.session:
         json_data = flask.request.get_json(True)
@@ -277,7 +277,7 @@ def login_post_route():
     image_url = user['image'].get('url')
     flask.session['user'] = dict(key_id=str(state.key.id()),id=user['id'],name=user['displayName'],email=email,provider='google',editor_enabled=editor_enabled,image_url=image_url)
 
-    return JSONResponse({'status': 'ok'})
+    return JSONResponse({'email': email})
 
 @root.route('/api/logout')
 def logout():

@@ -12,6 +12,7 @@ var API = {
                 }
                 if(result.status === 'ok') {
                     mixpanel.track("Online user");
+                    dataLayer.push({'userEmail': API.user.email});
                     API.loginStatus = "online"
                     history.replaceState({'villageID':API.user.key_id},"load_village",'?v='+API.user.key_id+location.hash);
                 } else if(result.status === 'fail'){
@@ -19,6 +20,7 @@ var API = {
                 } else {
                     API.loginStatus = "offline"
                     mixpanel.track("Offline user");
+                    dataLayer.push({'userEmail': "offline"});
                     if(localStorage.getItem('id') === null){
                         localStorage.setItem('id',ige.newIdHex())
                     }
