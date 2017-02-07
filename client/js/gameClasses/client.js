@@ -25,6 +25,7 @@ var Client = IgeClass.extend({
             enter: function (data, completeCallback) {
                 // ClientHelpers.hideDialogs();
                 vlg.log.info('entering state this.fsm.loaded');
+                dataLayer.push({'event': 'loaded'});
                 vlg.bindSounds();
                 // start Level Music.
                 vlg.music['welcome'].fadeOut(0, 2000);
@@ -49,6 +50,7 @@ var Client = IgeClass.extend({
 
                 // Hook mouse events
                 vlg.log.info('entering state this.fsm.select');
+                dataLayer.push({'event': 'select'});
 
                 var self = this,
                     tileMap = ige.$('tileMap1');
@@ -89,7 +91,7 @@ var Client = IgeClass.extend({
                 var self = this,
                     tileMap = ige.$('tileMap1');
 
-                mixpanel.track("Move state enter");
+                dataLayer.push({'event': 'move'});
 
                 ige.client.showGrid('tileMap1');
 
@@ -294,7 +296,7 @@ var Client = IgeClass.extend({
                 vlg.log.info('entering state this.fsm.editor');
                 // ClientHelpers.hideDialogs();
 
-                mixpanel.track("Open editor");
+                dataLayer.push({'event': 'editor'});
 
                 // Hook mouse events
                 var self = this,
@@ -440,7 +442,7 @@ var Client = IgeClass.extend({
                 vlg.log.info('entering state this.fsm.view');
                 // ClientHelpers.hideDialogs();
 
-                mixpanel.track("View village");
+                dataLayer.push({'event': 'view'});
 
                 // Add base scene data
                 ige.addGraph('IgeBaseScene');
@@ -527,7 +529,7 @@ var Client = IgeClass.extend({
                 vlg.log.info('entering state this.fsm.tutorial');
                 // ClientHelpers.hideDialogs();
 
-                mixpanel.track("Open tutorial");
+                dataLayer.push({'event': 'tutorial'});
 
                 if(API.state.isTutorialShown !== true){
                     // start Level Music.
@@ -592,6 +594,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('marketDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.marketDialog');
+                dataLayer.push({'event': 'marketDialog'});
                 $( "#marketDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
                     .addClass("marketDialogHeader");
                 completeCallback();
@@ -606,7 +609,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('editorMarketDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editorMarketDialog');
-
+                dataLayer.push({'event': 'editorMarketDialog'});
                 completeCallback();
             },
             exit: function (data, completeCallback) {
@@ -619,6 +622,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('cashDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.cashDialog');
+                dataLayer.push({'event': 'cashDialog'});
                 $( "#cashBuyDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
                     .addClass("cashBuyDialogHeader");
                 completeCallback();
@@ -633,6 +637,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('coinDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.coinDialog');
+                dataLayer.push({'event': 'coinDialog'});
                 $( "#coinBuyDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
                     .addClass("coinBuyDialogHeader");
                 completeCallback();
@@ -647,6 +652,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('waterDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.waterDialog');
+                dataLayer.push({'event': 'waterDialog'});
                 $( "#waterBuyDialog" ).closest('div.ui-dialog').find('div.ui-dialog-titlebar')
                     .addClass("waterBuyDialogHeader");
                 completeCallback();
@@ -661,7 +667,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('goalDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.goalDialog');
-
+                dataLayer.push({'event': 'goalDialog'});
                 completeCallback();
             },
             exit: function (data, completeCallback) {
@@ -676,7 +682,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('buyConfirmDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.buyConfirmDialog');
-
+                dataLayer.push({'event': 'buyConfirmDialog'});
                 completeCallback();
             },
             exit: function (data, completeCallback) {
@@ -697,7 +703,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('showMessage', {
             enter: function (data, completeCallback) {
                 var self = this;
-
+                dataLayer.push({'event': 'showMessage'});
                 vlg.log.info('entering state this.fsm.showMessage');
 
                 self.messageDialog = new MessageDialog(data.title, data.message, data.callback)
@@ -731,6 +737,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('playerMenu', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.playerMenu');
+                dataLayer.push({'event': 'playerMenu'});
                 self.slideRight.open();
                 completeCallback();
             },
@@ -744,6 +751,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('shareMyVillage', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.shareMyVillage');
+                dataLayer.push({'event': 'shareMyVillage'});
                 $( "#shareMyVillageDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, close: function( event, ui ) {ige.client.fsm.enterState('select')}, width: 500, height: 300, modal: true, autoOpen: false });
                 $( "#shareMyVillageDialog" ).dialog( "open" );
 
@@ -786,7 +794,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('feedbackDialog', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.feedbackDialog');
-                mixpanel.track("Send feedback");
+                dataLayer.push({'event': 'feedbackDialog'});
 
                 $( "#feedBackDialog" ).dialog({ resizable: false, draggable: true, closeOnEscape: false, width: 600, height: 'auto', modal: true, autoOpen: false, close: function( event, ui ) {ige.client.fsm.enterState('select');} });
                 $( "#feedBackDialog" ).dialog( "open" );
@@ -832,6 +840,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('login', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.login');
+                dataLayer.push({'event': 'login'});
                 $( "#processingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
                 $( "#processingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
                 $( "#processingDialog" ).dialog( "open" );
@@ -852,6 +861,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('logout', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.logout');
+                dataLayer.push({'event': 'logout'});
                 $( "#processingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
                 $( "#processingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
                 $( "#processingDialog" ).dialog( "open" );
@@ -872,6 +882,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('reloadGame', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.reloadGame');
+                dataLayer.push({'event': 'reloadGame'});
                 $( "#processingDialog" ).dialog({ resizable: false, draggable: true, dialogClass: 'ui-dialog-no-titlebar', closeOnEscape: false, width: 500, height: 300, modal: true, autoOpen: false });
                 $( "#processingDialog" ).closest('div.ui-dialog').find('button.ui-dialog-titlebar-close').hide();
                 $( "#processingDialog" ).dialog( "open" );
@@ -934,7 +945,7 @@ var Client = IgeClass.extend({
         this.fsm.defineState('build', {
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.build');
-
+                dataLayer.push({'event': 'build'});
                 var self = this,
                     tileMap = ige.$('tileMap1');
 
@@ -1220,7 +1231,7 @@ var Client = IgeClass.extend({
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editorBuild');
                 // ClientHelpers.hideDialogs();
-
+                dataLayer.push({'event': 'editorBuild'});
                 var self = this,
                     tileMap = ige.$('tileMapEditor'),
                     cursorClassId = data.classId,
@@ -1382,7 +1393,7 @@ var Client = IgeClass.extend({
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.editorDelete');
                 // ClientHelpers.hideDialogs();
-
+                dataLayer.push({'event': 'editorDelete'});
                 // Hook mouse events
                 var self = this,
                     tileMap = ige.$('tileMapEditor');
@@ -1447,7 +1458,7 @@ var Client = IgeClass.extend({
             enter: function (data, completeCallback) {
                 vlg.log.info('entering state this.fsm.pan');
                 // ClientHelpers.hideDialogs();
-
+                dataLayer.push({'event': 'pan'});
                 completeCallback();
             },
             exit: function (data, completeCallback) {
