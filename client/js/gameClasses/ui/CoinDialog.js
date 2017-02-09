@@ -36,6 +36,8 @@ var CoinDialog = Dialog.extend({
                             ige.$('cashDialog').show();
                             return;
                         }
+                        dataLayer.push({'assetBuyActionName': "Coin Buy"});
+                        dataLayer.push({'event': 'assetBuy'});
                         API.addCoins(parseInt(coins[i], 10));
                     }
 

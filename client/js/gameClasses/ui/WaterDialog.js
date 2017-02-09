@@ -36,6 +36,8 @@ var WaterDialog = Dialog.extend({
                             ige.$('cashDialog').show();
                             return;
                         }
+                        dataLayer.push({'assetBuyActionName': "Water Buy"});
+                        dataLayer.push({'event': 'assetBuy'});
                         API.addWater(parseInt(water[i], 10));
                     }
 

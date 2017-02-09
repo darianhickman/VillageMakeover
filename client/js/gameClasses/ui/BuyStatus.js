@@ -18,7 +18,7 @@ var BuyStatus = Dialog.extend({
     transactionSuccess: function(amount, vbucks) {
         var self = this,
             message;
-        mixpanel.track("Transaction success");
+        dataLayer.push({'event': 'transactionSuccess'});
         self.infoDialog.closeMe();
         message = GameConfig.config['transactionSuccessString'];
         message = message.replace(/\{amount\}/g, amount);
@@ -31,7 +31,7 @@ var BuyStatus = Dialog.extend({
 
     transactionFailed: function(callback) {
         var self = this;
-        mixpanel.track("Transaction fail");
+        dataLayer.push({'event': 'transactionFail'});
         self.infoDialog.closeMe();
         new BuyConfirm(GameConfig.config['transactionFailString'],callback,true)
             .layer(1)

@@ -421,6 +421,7 @@ var GameObjects = {
                                 .mount(ige.$('uiScene'));
                             return;
                         }
+                        dataLayer.push({'event': 'gameObjectSpeedProgress'});
                         self.finishProgress();
                     }
                 }
@@ -482,6 +483,8 @@ var GameObjects = {
                             .show()
                             .mount(ige.$('uiScene'));
                     }else{
+                        dataLayer.push({'gameObjectClickActionName': self.currentSpecialEvent});
+                        dataLayer.push({'event': 'gameObjectClick'});
                         self._buildStarted = Date.now();
                         API.resetBuildTimes(self, self._buildStarted);
                         self.currentState = "waitingSpecialEvent";

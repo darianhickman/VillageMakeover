@@ -172,6 +172,7 @@ var MarketDialog = Dialog.extend({
 					.mount(ige.$('uiScene'));
 				return;
 			}
+			dataLayer.push({'event': 'unlockItemByCash'});
 			self.removeItemCover(itemData);
 			self.bindItemAction(itemData);
 			self.showUnlockMessage(itemData.title);

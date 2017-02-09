@@ -1083,7 +1083,7 @@ var Client = IgeClass.extend({
                         return;
                     }
 
-
+                    dataLayer.push({'event': 'gameObjectBuild'});
                     // Play the audio
                     // ige.client.audio.monster_footstep.play();
                     vlg.sfx['build'].play();

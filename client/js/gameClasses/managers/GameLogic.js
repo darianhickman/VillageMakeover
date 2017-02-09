@@ -136,6 +136,7 @@ var GameLogic = IgeObject.extend({
 
         //on goal complete add 'collect rewards' button into dialog, and show 'goal complete' in ui
         self.goals.on("goalComplete",function(data) {
+            dataLayer.push({'event': 'goalComplete'});
             API.setGoalAsComplete(data.goalID);
             //add 'collect rewards' button
             $('#goalDialogContent').append("<div class='goalDialogInfo'><button id='collectRewardsGoal" + data.goalID + "'>Collect Rewards</button></div>");

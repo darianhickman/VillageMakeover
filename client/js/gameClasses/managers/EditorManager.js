@@ -370,7 +370,7 @@ var EditorManager = IgeEventingClass.extend({
                 self.villageIsViewable =  response.viewable;
                 self.gotoStep('editModeOn')
                 self.isSaved = true;
-
+                dataLayer.push({'event': 'loadVillage'});
                 history.replaceState({'villageID':villageID},"load_village",'?v='+villageID);
             }
         })
@@ -387,6 +387,7 @@ var EditorManager = IgeEventingClass.extend({
             data: JSON.stringify({title: data.title, organization: data.organization, viewable: data.viewable}),
             url: '/api/village/' + data.id,
             success: function(response) {
+                dataLayer.push({'event': 'editVillage'});
                 self.gotoStep('init');
             }
         })
@@ -400,6 +401,7 @@ var EditorManager = IgeEventingClass.extend({
             url: '/api/village/' + villageID ,
             sentFrom: "editor",
             success: function(response) {
+                dataLayer.push({'event': 'deleteVillage'});
                 self.gotoStep('init');
             }
         })
@@ -416,6 +418,7 @@ var EditorManager = IgeEventingClass.extend({
             data: JSON.stringify({mode: 'new', title: self.villageTitle, organization: self.villageOrganization, viewable: self.villageIsViewable}),
             url: '/api/village/' + self.villageID,
             success: function(response) {
+                dataLayer.push({'event': 'createVillage'});
                 self.isSaved = true;
                 if(callback)
                     callback();
@@ -434,6 +437,7 @@ var EditorManager = IgeEventingClass.extend({
             data: JSON.stringify({mode: 'data', title: self.villageTitle, data: self.editorObjects}),
             url: '/api/village/' + self.villageID,
             success: function(response) {
+                dataLayer.push({'event': 'saveVillage'});
                 self.isSaved = true;
                 if(callback)
                     callback();
