@@ -15,7 +15,7 @@ pipelines:
           # Install Google App Engine SDK
           - GAE_PYTHONPATH=${HOME}/google_appengine
           - export PYTHONPATH=${PYTHONPATH}:${GAE_PYTHONPATH}
-          - python scripts/fetch_gae_sdk.py $(dirname "${GAE_PYTHONPATH}")
+          - python fetch_gae_sdk.py $(dirname "${GAE_PYTHONPATH}")
           - echo "${PYTHONPATH}" && ls ${GAE_PYTHONPATH}
           # Install app & dev dependencies, deploy
           - pip --quiet install -r requirements.txt -t libs/
