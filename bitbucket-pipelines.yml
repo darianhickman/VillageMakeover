@@ -19,6 +19,7 @@ pipelines:
           - echo "${PYTHONPATH}" && ls ${GAE_PYTHONPATH}
           # Install app & dev dependencies, deploy
           - pip --quiet install -r requirements.txt -t libs/
+          - echo ${CONFIG_YAML} > config.yaml
           - echo "key = '${GOOGLE_API_KEY}'" > api_key.py
           - echo ${GOOGLE_CLIENT_SECRET} > client-secret.json
           - gcloud auth activate-service-account --key-file client-secret.json
