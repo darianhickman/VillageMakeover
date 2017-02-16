@@ -15,6 +15,7 @@ pipelines:
           # install ige
           - curl -OL https://github.com/Irrelon/ige/archive/v1.5.5@2014-09-29-merge.tar.gz
           - tar -zxvf v1.5.5@2014-09-29-merge.tar.gz
+          - mv ige-1.5.5-2014-09-29-merge ige
           # Install Google App Engine SDK
           - GAE_PYTHONPATH=${HOME}/google_appengine
           - export PYTHONPATH=${PYTHONPATH}:${GAE_PYTHONPATH}
