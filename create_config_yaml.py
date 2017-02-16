@@ -6,7 +6,7 @@ config_docid_name = sys.argv[1]
 with open('client-secret.json') as client_secret_file:
     client_secret_data = json.load(client_secret_file)
 
-with open('config2.yaml', 'w') as outfile:
+with open('config.yaml', 'w') as outfile:
     outfile.write('spreadsheet:\n')
     outfile.write('  config_docid: "' + config_docid_name + '"\n')
     outfile.write('  private_key_id: ' + json.dumps(client_secret_data["private_key_id"]) + '\n')
