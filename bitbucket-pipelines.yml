@@ -13,8 +13,8 @@ pipelines:
           - tar -zxvf ${SDK_FILENAME} --directory ${HOME}
           - export PATH=${PATH}:${HOME}/google-cloud-sdk/bin
           # install ige
-          - curl -O -J https://github.com/Irrelon/ige/archive/v1.5.5@2014-09-29-merge.tar.gz
-          - tar xvf v1.5.5@2014-09-29-merge.tar.gz
+          - curl -O -J https://github.com/Irrelon/ige/archive/v1.5.5@2014-09-29-merge.zip
+          - unzip v1.5.5@2014-09-29-merge.zip
           # Install Google App Engine SDK
           - GAE_PYTHONPATH=${HOME}/google_appengine
           - export PYTHONPATH=${PYTHONPATH}:${GAE_PYTHONPATH}
