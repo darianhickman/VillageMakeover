@@ -16,7 +16,7 @@ pipelines:
           - curl -OL https://github.com/Irrelon/ige/archive/v1.5.5@2014-09-29-merge.tar.gz
           - tar -zxvf v1.5.5@2014-09-29-merge.tar.gz
           - mv ige-1.5.5-2014-09-29-merge ige
-          - cd /ige/server
+          - cd ige/server
           - npm install
           - cd ../..
           # Install Google App Engine SDK
