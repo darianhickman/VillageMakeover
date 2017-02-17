@@ -12,10 +12,13 @@ pipelines:
           - curl -O -J https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/${SDK_FILENAME}
           - tar -zxvf ${SDK_FILENAME} --directory ${HOME}
           - export PATH=${PATH}:${HOME}/google-cloud-sdk/bin
-          # install ige
+          # Install ige
           - curl -OL https://github.com/Irrelon/ige/archive/v1.5.5@2014-09-29-merge.tar.gz
           - tar -zxvf v1.5.5@2014-09-29-merge.tar.gz
           - mv ige-1.5.5-2014-09-29-merge ige
+          - cd /ige/server
+          - npm install
+          - cd ../..
           # Install Google App Engine SDK
           - GAE_PYTHONPATH=${HOME}/google_appengine
           - export PYTHONPATH=${PYTHONPATH}:${GAE_PYTHONPATH}
@@ -28,5 +31,6 @@ pipelines:
           - python create_config_yaml.py ${CONFIG_DOCID}
           - cd ige
           - node server/ige.js -deploy ../client
+          - cd ..
           - gcloud auth activate-service-account --key-file client-secret.json
           - gcloud --quiet --verbosity=error app deploy app-pipelines.yaml --promote
